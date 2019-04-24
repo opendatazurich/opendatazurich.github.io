@@ -1,0 +1,1227 @@
+---
+swagger: "2.0"
+info:
+  description: API for requesting GRZ data. Includes members, deals, protocols and council mail
+  version: "1"
+  title: GRZ API
+host: www.gemeinderat-zuerich.ch
+basePath: /api
+tags:
+- name: Mitglieder
+  description: member functions
+- name: Geschaeft
+  description: deal functions
+- name: Protokoll
+  description: protocol functions
+- name: Ratspost
+  description: council mail functions
+schemes:
+- http
+paths:
+  /Mitglieder:
+    get:
+      tags:
+      - Mitglieder
+      description: Fetching memberlist of GRZ
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+      - name: name
+        in: query
+        description: Query for a specific name
+        required: false
+        type: string
+      - name: parteiId
+        in: query
+        description: GUID of party
+        required: false
+        type: string
+      - name: fraktionId
+        in: query
+        description: GUID of fraction
+        required: false
+        type: string
+      - name: wahlkreisId
+        in: query
+        description: GUID of wahlkreis
+        required: false
+        type: string
+      - name: wohnkreisId
+        in: query
+        description: GUID of wohnkreis
+        required: false
+        type: string
+      - name: kommissionId
+        in: query
+        description: GUID of kommission
+        required: false
+        type: string
+      - name: includeInactive
+        in: query
+        description: Inclusive inactive members
+        required: false
+        type: boolean
+      - name: orderBy
+        in: query
+        description: orderBy
+        required: false
+        type: string
+      - name: orderDir
+        in: query
+        description: orderDir
+        required: false
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Mitglied'
+  /Mitglieder/suchen:
+    get:
+      tags:
+      - Mitglieder
+      description: Fetching memberlist of GRZ
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+      - name: name
+        in: query
+        description: Query for a specific name
+        required: false
+        type: string
+      - name: parteiId
+        in: query
+        description: GUID of party
+        required: false
+        type: string
+      - name: fraktionId
+        in: query
+        description: GUID of fraction
+        required: false
+        type: string
+      - name: wahlkreisId
+        in: query
+        description: GUID of wahlkreis
+        required: false
+        type: string
+      - name: wohnkreisId
+        in: query
+        description: GUID of wohnkreis
+        required: false
+        type: string
+      - name: kommissionId
+        in: query
+        description: GUID of kommission
+        required: false
+        type: string
+      - name: includeInactive
+        in: query
+        description: GUID of kommission
+        required: false
+        type: boolean
+      - name: orderBy
+        in: query
+        description: orderBy
+        required: false
+        type: string
+      - name: orderDir
+        in: query
+        description: orderDir
+        required: false
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Mitglied'
+  /Mitglieder/suchenGruppiert:
+    get:
+      tags:
+      - Mitglieder
+      description: Fetching memberlist of GRZ
+      produces:
+      - application/json
+      parameters:
+      - name: name
+        in: query
+        description: Query for a specific name
+        required: false
+        type: string
+      - name: parteiId
+        in: query
+        description: GUID of party
+        required: false
+        type: string
+      - name: fraktionId
+        in: query
+        description: GUID of fraction
+        required: false
+        type: string
+      - name: wahlkreisId
+        in: query
+        description: GUID of wahlkreis
+        required: false
+        type: string
+      - name: wohnkreisId
+        in: query
+        description: GUID of wohnkreis
+        required: false
+        type: string
+      - name: kommissionId
+        in: query
+        description: GUID of kommission
+        required: false
+        type: string
+      - name: includeInactive
+        in: query
+        description: Includes inactive members
+        required: false
+        type: boolean
+      - name: orderBy
+        in: query
+        description: Order by a criteria. Partei, Wahlkreis
+        required: false
+        type: string
+      - name: orderDir
+        in: query
+        description: Sorts the output by the name. asc, desc
+        required: false
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/MitgliederGruppen'
+  /Mitglieder/parameter:
+    get:
+      tags:
+      - Mitglieder
+      description: Fetching memberlist of GRZ
+      produces:
+      - application/xml
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/MitgliederSucheParameter'
+  /Mitglieder/mitgliederKommissionDetails:
+    get:
+      tags:
+      - Mitglieder
+      description: Fetching memberlist of GRZ
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+      - name: mid
+        in: query
+        description: Query for a specific name
+        required: true
+        type: string
+      - name: orderKommissionBy
+        in: query
+        description: Query for a specific name
+        required: false
+        type: string
+      - name: orderKommissionDir
+        in: query
+        description: Query for a specific name
+        required: false
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/MitgliederKommissionDetails'
+  /Mitglieder/details:
+    get:
+      tags:
+      - Mitglieder
+      description: Delivers Metadata of registered goverment member
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+      - name: mid
+        in: query
+        required: true
+        type: string
+      responses:
+        200:
+          description: Ok
+          schema:
+            $ref: '#/definitions/MitgliedDetails'
+  /Geschaeft:
+    get:
+      tags:
+      - Geschaeft
+      description: Fetching memberlist of GRZ
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+      - name: suchBegriff
+        in: query
+        description: searching terms filter criteria to find fitting deals
+        required: false
+        type: string
+      - name: grNummer
+        in: query
+        description: deal number criteria, ex. '2013/1'
+        required: false
+        type: string
+      - name: geschaeftsartId
+        in: query
+        description: id of deal sort. Defined in RIS.
+        required: false
+        type: integer
+      - name: jahr
+        in: query
+        description: deal year
+        required: false
+        type: integer
+      - name: departementId
+        in: query
+        description: id of department. Defined in RIS.
+        required: false
+        type: integer
+      - name: personId
+        in: query
+        description: GUID of creator. Defined in RIS.
+        required: false
+        type: string
+      - name: parteiId
+        in: query
+        description: GUID of party. Defined in RIS.
+        required: false
+        type: string
+      - name: geschaeftAuswahl
+        in: query
+        description: closed or pendent deals. "true" means closed.
+        required: false
+        type: boolean
+      - name: fraktionId
+        in: query
+        description: GUID of fraction. Defined in RIS.
+        required: false
+        type: string
+      - name: kommissionEinrId
+        in: query
+        description: GUID of commission. Defined in RIS.
+        required: false
+        type: string
+      - name: referendumId
+        in: query
+        description: Id of referendum. Defined in RIS.
+        required: false
+        type: integer
+      - name: ablaufschrittId
+        in: query
+        description: Id of session step. Defined in RIS.
+        required: false
+        type: integer
+      - name: kommissionId
+        in: query
+        description: GUID of leading commission. Defined in RIS.
+        required: false
+        type: string
+      - name: pendentBeiId
+        in: query
+        description: Id of pending group. Defined in RIS.
+        required: false
+        type: integer
+      - name: sitzungsNummer
+        in: query
+        description: Session number, ex. 116
+        required: false
+        type: integer
+      - name: datumVon
+        in: query
+        description: session date min, ex. '2015-03-04T00:00:00.000Z'
+        required: false
+        type: string
+      - name: datumBis
+        in: query
+        description: session date max, ex. '2015-03-04T00:00:00.000Z'
+        required: false
+        type: string
+      - name: beschlussNrGR
+        in: query
+        description: Resolution number, ex. 4569
+        required: false
+        type: integer
+      - name: includeInactive
+        in: query
+        description: Includes inactive members
+        required: false
+        type: boolean
+      - name: orderBy
+        in: query
+        description: Order by a criteria. By title = "geschaeftstitel", by deal = "geschaeftsart"
+        required: false
+        type: string
+      - name: orderDir
+        in: query
+        description: Sorts the output by the deal number. None or "asc"
+        required: false
+        type: string
+      - name: activePage
+        in: query
+        description: page of all the paginated result list
+        required: false
+        type: integer
+      - name: pageSize
+        in: query
+        description: size of a paginated list site
+        required: false
+        type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Geschaefte'
+  /Geschaeft/suchen:
+    get:
+      tags:
+      - Geschaeft
+      description: Fetching memberlist of GRZ
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+      - name: suchBegriff
+        in: query
+        description: searching terms filter criteria to find fitting deals
+        required: false
+        type: string
+      - name: grNummer
+        in: query
+        description: deal number criteria, ex. '2013/1'
+        required: false
+        type: string
+      - name: geschaeftsartId
+        in: query
+        description: id of deal sort. Defined in RIS.
+        required: false
+        type: integer
+      - name: jahr
+        in: query
+        description: deal year
+        required: false
+        type: integer
+      - name: departementId
+        in: query
+        description: id of department. Defined in RIS.
+        required: false
+        type: integer
+      - name: personId
+        in: query
+        description: GUID of creator. Defined in RIS.
+        required: false
+        type: string
+      - name: parteiId
+        in: query
+        description: GUID of party. Defined in RIS.
+        required: false
+        type: string
+      - name: geschaeftAuswahl
+        in: query
+        description: closed or pendent deals. "true" means closed.
+        required: false
+        type: boolean
+      - name: fraktionId
+        in: query
+        description: GUID of fraction. Defined in RIS.
+        required: false
+        type: string
+      - name: kommissionEinrId
+        in: query
+        description: GUID of commission. Defined in RIS.
+        required: false
+        type: string
+      - name: referendumId
+        in: query
+        description: Id of referendum. Defined in RIS.
+        required: false
+        type: integer
+      - name: ablaufschrittId
+        in: query
+        description: Id of session step. Defined in RIS.
+        required: false
+        type: integer
+      - name: kommissionId
+        in: query
+        description: GUID of leading commission. Defined in RIS.
+        required: false
+        type: string
+      - name: pendentBeiId
+        in: query
+        description: Id of pending group. Defined in RIS.
+        required: false
+        type: integer
+      - name: sitzungsNummer
+        in: query
+        description: Session number, ex. 116
+        required: false
+        type: integer
+      - name: datumVon
+        in: query
+        description: session date min, ex. '2015-03-04T00:00:00.000Z'
+        required: false
+        type: string
+      - name: datumBis
+        in: query
+        description: session date max, ex. '2015-03-04T00:00:00.000Z'
+        required: false
+        type: string
+      - name: beschlussNrGR
+        in: query
+        description: Resolution number, ex. 4569
+        required: false
+        type: integer
+      - name: includeInactive
+        in: query
+        description: Includes inactive members
+        required: false
+        type: boolean
+      - name: orderBy
+        in: query
+        description: Order by a criteria. By title = "geschaeftstitel", by deal = "geschaeftsart"
+        required: false
+        type: string
+      - name: orderDir
+        in: query
+        description: Sorts the output by the deal number. None or "asc"
+        required: false
+        type: string
+      - name: activePage
+        in: query
+        description: page of all the paginated result list
+        required: false
+        type: integer
+      - name: pageSize
+        in: query
+        description: size of a paginated list site
+        required: false
+        type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Geschaefte'
+  /Geschaeft/parameter:
+    get:
+      tags:
+      - Geschaeft
+      description: Fetching all parameters (GUID, ID) saved in the RIS.
+      produces:
+      - application/xml
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Geschaeftsucheparameter'
+  /Geschaeft/mitgliederVorstoesseDetails:
+    get:
+      tags:
+      - Geschaeft
+      description: Fetching memberlist of GRZ
+      produces:
+      - application/json
+      parameters:
+      - name: mid
+        in: query
+        description: GUID of a member. Saved in RIS
+        required: true
+        type: string
+      - name: orderVorstoesseBy
+        in: query
+        description: order by advances. Title = "Geschaeftstitel", Sort of deal = "Geschaeftsart"
+        required: true
+        type: string
+      - name: orderVorstoesseDir
+        in: query
+        description: Order by deal number. "Asc", "Desc" or None
+        required: false
+        type: string
+      - name: pageSize
+        in: query
+        required: true
+        type: integer
+      - name: vorstossPage
+        in: query
+        required: true
+        type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Vorstoesse'
+  /Geschaeft/details:
+    get:
+      tags:
+      - Geschaeft
+      description: Delivers Metadata of an existing deal
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+      - name: gid
+        in: query
+        required: true
+        type: string
+      responses:
+        200:
+          description: Ok
+          schema:
+            $ref: '#/definitions/GeschaeftDetails'
+  /Protokoll:
+    get:
+      tags:
+      - Protokoll
+      description: Fetching protocol list of GRZ
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+      - name: sitzungsNummer
+        in: query
+        description: number of the meeting, integrated in the protocol name
+        required: false
+        type: integer
+      - name: suchBegriff
+        in: query
+        description: search term, included in the protocol
+        required: false
+        type: string
+        format: asdf
+      - name: datumVon
+        in: query
+        description: date begin, ex. '2015-03-04T00:00:00.000Z'
+        required: false
+        type: string
+      - name: datumBis
+        in: query
+        description: date end, ex. '2015-03-04T00:00:00.000Z'
+        required: false
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Protokoll'
+  /Protokoll/suchen:
+    get:
+      tags:
+      - Protokoll
+      description: Fetching protocol list of GRZ
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+      - name: sitzungsNummer
+        in: query
+        description: number of the meeting, integrated in the protocol name
+        required: false
+        type: integer
+      - name: suchBegriff
+        in: query
+        description: search term, included in the protocol
+        required: false
+        type: string
+      - name: datumVon
+        in: query
+        description: date begin, ex. "2015-03-04T00:00:00.000Z"
+        required: false
+        type: string
+      - name: datumBis
+        in: query
+        description: date end, ex. "2015-03-04T00:00:00.000Z"
+        required: false
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Protokoll'
+  /Ratspost:
+    get:
+      tags:
+      - Ratspost
+      description: Fetching ratspost list of GRZ
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+      - name: datumVon
+        in: query
+        description: date begin, ex. '2015-03-04T00:00:00.000Z'
+        required: false
+        type: string
+      - name: datumBis
+        in: query
+        description: date end, ex. '2015-03-04T00:00:00.000Z'
+        required: false
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Ratspost'
+  /Ratspost/suchen:
+    get:
+      tags:
+      - Ratspost
+      description: Fetching council mail list of GRZ
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+      - name: datumVon
+        in: query
+        description: date begin, ex. '2015-03-04T00:00:00.000Z'
+        required: false
+        type: string
+      - name: datumBis
+        in: query
+        description: date end, ex. '2015-03-04T00:00:00.000Z'
+        required: false
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Ratspost'
+definitions:
+  Mitglied:
+    xml:
+      name: ArrayOfMitgliedDto
+      wrapped: true
+    type: array
+    items:
+      $ref: '#/definitions/Mitglied_inner'
+  MitgliederGruppen:
+    type: object
+    properties:
+      Gruppen:
+        type: array
+        items:
+          $ref: '#/definitions/MitgliederGruppen_Gruppen'
+      GruppenNamen:
+        type: array
+        items:
+          type: string
+  MitgliederSucheParameter:
+    type: object
+    properties:
+      Parteien:
+        type: array
+        xml:
+          name: Parteien
+          wrapped: true
+        items:
+          $ref: '#/definitions/MitgliederSucheParameter_Parteien'
+      Fraktionen:
+        type: array
+        xml:
+          name: Fraktionen
+          wrapped: true
+        items:
+          $ref: '#/definitions/MitgliederSucheParameter_Parteien'
+      Kommissionen:
+        type: array
+        xml:
+          name: Kommissionen
+          wrapped: true
+        items:
+          $ref: '#/definitions/MitgliederSucheParameter_Parteien'
+      Wohnkreise:
+        type: array
+        xml:
+          name: Kommissionen
+          wrapped: true
+        items:
+          $ref: '#/definitions/MitgliederSucheParameter_Parteien'
+      Wahlkreise:
+        type: array
+        xml:
+          name: Wahlkreise
+          wrapped: true
+        items:
+          $ref: '#/definitions/MitgliederSucheParameter_Parteien'
+      PersonenNamen:
+        type: array
+        items:
+          type: string
+    xml:
+      name: MitgliederSucheDto
+  MitgliederKommissionDetails:
+    xml:
+      name: ArrayOfKommissionMitgliedschaftDto
+      wrapped: true
+    type: array
+    items:
+      $ref: '#/definitions/MitgliederKommissionDetails_inner'
+  MitgliedDetails:
+    type: object
+    properties:
+      Id:
+        type: string
+      Name:
+        type: string
+      Vorname:
+        type: string
+      Anrede:
+        type: string
+      Titel:
+        type: string
+      Geburtstag:
+        type: string
+      Wohnkreis:
+        type: string
+      Beruf:
+        type: string
+      Partei:
+        type: string
+      Fraktion:
+        type: string
+      Wahlkreis:
+        type: string
+      Sitznummer:
+        type: integer
+        description: Anonym, always null
+      GruppenMitgliedschaften:
+        type: array
+        xml:
+          name: GruppenMitgliedschaften
+          wrapped: true
+        items:
+          $ref: '#/definitions/MitgliedDetails_GruppenMitgliedschaften'
+      Adressen:
+        type: array
+        xml:
+          name: Adressen
+          wrapped: true
+        description: Always two items, Postadresse, Wohnadresse
+        items:
+          $ref: '#/definitions/MitgliedDetails_Adressen'
+      EmailPrivat:
+        type: string
+      EmailGeschaeftlich:
+        type: string
+      Mobiltelefon:
+        type: string
+      MobiletelefonGeschaeftlich:
+        type: string
+      TelefonGeschaeftlich:
+        type: string
+      TelefonPrivat:
+        type: string
+      Internetauftritt:
+        type: string
+      Interessenverbindungen:
+        type: string
+      NameInUrl:
+        type: string
+    xml:
+      name: MitgliedDetailDto
+  Geschaefte:
+    type: object
+    properties:
+      Geschaefte:
+        type: array
+        xml:
+          name: Geschaefte
+          wrapped: true
+        items:
+          $ref: '#/definitions/Geschaefte_Geschaefte'
+      AnzahlResultate:
+        type: integer
+    xml:
+      name: GeschaefteDto
+      wrapped: true
+  Geschaeftsucheparameter:
+    type: object
+    properties:
+      Ablaufschritte:
+        type: array
+        xml:
+          name: Ablaufschritte
+          wrapped: true
+        items:
+          $ref: '#/definitions/Geschaeftsucheparameter_Ablaufschritte'
+      Departements:
+        type: array
+        xml:
+          name: Departements
+          wrapped: true
+        items:
+          $ref: '#/definitions/Geschaeftsucheparameter_Departements'
+      Fraktionen:
+        type: array
+        xml:
+          name: Fraktionen
+          wrapped: true
+        items:
+          $ref: '#/definitions/MitgliederSucheParameter_Parteien'
+      Geschaefte:
+        type: array
+        xml:
+          name: Geschaefte
+          wrapped: true
+        items:
+          $ref: '#/definitions/Geschaeftsucheparameter_Geschaefte'
+      Geschaeftsarten:
+        type: array
+        xml:
+          name: Geschaeftsarten
+          wrapped: true
+        items:
+          $ref: '#/definitions/Geschaeftsucheparameter_Geschaeftsarten'
+      IncludeInactive:
+        type: boolean
+      Jahre:
+        type: array
+        xml:
+          name: Jahre
+          wrapped: true
+        items:
+          type: string
+          xml:
+            name: d2p1:string
+      Kommissionen:
+        type: array
+        xml:
+          name: Kommissionen
+          wrapped: true
+        items:
+          $ref: '#/definitions/MitgliederSucheParameter_Parteien'
+      KommissionenEinr:
+        type: array
+        xml:
+          name: KommissionenEinr
+          wrapped: true
+        items:
+          $ref: '#/definitions/MitgliederSucheParameter_Parteien'
+      Parteien:
+        type: array
+        xml:
+          name: Parteien
+          wrapped: true
+        items:
+          $ref: '#/definitions/MitgliederSucheParameter_Parteien'
+      PendentBeiOptionen:
+        type: array
+        xml:
+          name: PendentBeiOptionen
+          wrapped: true
+        items:
+          $ref: '#/definitions/Geschaeftsucheparameter_PendentBeiOptionen'
+      Personen:
+        type: array
+        xml:
+          name: Personen
+          wrapped: true
+        items:
+          $ref: '#/definitions/Geschaeftsucheparameter_Personen'
+      Referenden:
+        type: array
+        xml:
+          name: Referenden
+          wrapped: true
+        items:
+          $ref: '#/definitions/Geschaeftsucheparameter_Referenden'
+    xml:
+      name: GeschaeftSucheParameterDto
+  GeschaeftDetails:
+    type: object
+    properties:
+      GeschaeftTitel:
+        type: string
+      GeschaeftsJahr:
+        type: string
+      GeschaeftsNummer:
+        type: string
+      GeschaeftsArt:
+        type: string
+      Erstunterzeichnender:
+        $ref: '#/definitions/Mitglied'
+      ZweiterErstunterzeichnender:
+        $ref: '#/definitions/Mitglied'
+      EinreichendeGruppe:
+        type: array
+        xml:
+          name: EinreichendeGruppe
+          wrapped: true
+        items:
+          $ref: '#/definitions/GeschaeftDetails_EinreichendeGruppe'
+      PendentBei:
+        type: string
+      FristBis:
+        type: string
+      Departemente:
+        type: array
+        xml:
+          name: Departemente
+          wrapped: true
+        items:
+          $ref: '#/definitions/Geschaeftsucheparameter_Departements'
+      Ablaufschritte:
+        type: array
+        xml:
+          name: Ablaufschritte
+          wrapped: true
+        items:
+          $ref: '#/definitions/GeschaeftDetails_Ablaufschritte'
+      VerknuepfteGeschaefte:
+        type: array
+        xml:
+          name: VerknuepfteGeschaefte
+          wrapped: true
+        items:
+          $ref: '#/definitions/Geschaefte_Geschaefte'
+    xml:
+      name: GeschaeftDetailDto
+  Vorstoesse:
+    type: object
+    properties:
+      AnzahlResultate:
+        type: integer
+      Vorstoesse:
+        type: array
+        items:
+          $ref: '#/definitions/Vorstoesse_Vorstoesse'
+  Ratspost:
+    xml:
+      name: ArrayOfRatspostDto
+      wrapped: true
+    type: array
+    items:
+      $ref: '#/definitions/Ratspost_inner'
+  Protokoll:
+    xml:
+      name: ArrayOfProtokollDto
+      wrapped: true
+    type: array
+    items:
+      $ref: '#/definitions/Protokoll_inner'
+  Mitglied_inner:
+    properties:
+      Id:
+        type: string
+        description: GUID
+      Name:
+        type: string
+      Vorname:
+        type: string
+      Partei:
+        type: string
+      Titel:
+        type: string
+      Wahlkreis:
+        type: string
+      WahlkreisOrderBy:
+        type: integer
+    xml:
+      name: MitgliedDto
+  MitgliederGruppen_Gruppen:
+    properties:
+      GruppenName:
+        type: string
+      GruppenMitglieder:
+        type: array
+        items:
+          $ref: '#/definitions/Mitglied'
+  MitgliederSucheParameter_Parteien:
+    properties:
+      Id:
+        type: string
+        description: GUID
+      Name:
+        type: string
+    xml:
+      name: GruppeDto
+  MitgliederKommissionDetails_inner:
+    properties:
+      FunktionBis:
+        type: string
+      FunktionName:
+        type: string
+      FunktionSeit:
+        type: string
+      KommissionName:
+        type: string
+    xml:
+      name: KommissionMitgliedschaftDto
+  MitgliedDetails_GruppenMitgliedschaften:
+    properties:
+      Von:
+        type: string
+      Bis:
+        type: string
+      Name:
+        type: string
+      Id:
+        type: string
+    xml:
+      name: GruppenMitgliedschaftDto
+  MitgliedDetails_Adressen:
+    properties:
+      Addressart:
+        type: string
+      Strasse1:
+        type: string
+      Strasse2:
+        type: string
+      Plz:
+        type: string
+      Ort:
+        type: string
+    xml:
+      name: AdressDto
+  Geschaefte_Geschaefte:
+    properties:
+      GeschaeftId:
+        type: string
+      Geschaeftsjahr:
+        type: integer
+      Geschaeftsnummer:
+        type: integer
+      Geschaeftstitel:
+        type: string
+      Geschaeftsart:
+        type: string
+    xml:
+      name: GeschaeftDto
+  Geschaeftsucheparameter_Ablaufschritte:
+    properties:
+      Id:
+        type: integer
+      Name:
+        type: string
+    xml:
+      name: AblaufschrittTypDto
+  Geschaeftsucheparameter_Departements:
+    properties:
+      Id:
+        type: integer
+      Name:
+        type: string
+    xml:
+      name: DepartementDto
+  Geschaeftsucheparameter_Geschaefte:
+    properties:
+      Id:
+        type: integer
+      Name:
+        type: string
+    xml:
+      name: GeschaeftAuswahlDto
+  Geschaeftsucheparameter_Geschaeftsarten:
+    properties:
+      Id:
+        type: integer
+      Name:
+        type: string
+    xml:
+      name: GeschaeftsArtDto
+  Geschaeftsucheparameter_PendentBeiOptionen:
+    properties:
+      Id:
+        type: integer
+      Name:
+        type: string
+    xml:
+      name: PendentBeiDto
+  Geschaeftsucheparameter_Personen:
+    properties:
+      Id:
+        type: string
+        description: GUID
+      Name:
+        type: string
+    xml:
+      name: NameGuidDto
+  Geschaeftsucheparameter_Referenden:
+    properties:
+      Id:
+        type: integer
+      Name:
+        type: string
+    xml:
+      name: ReferendumTypDto
+  GeschaeftDetails_EinreichendeGruppe:
+    properties:
+      id:
+        type: string
+      Name:
+        type: string
+    xml:
+      name: GruppeDto
+  GeschaeftDetails_AblaufschrittDokumente:
+    properties:
+      Dokumenttitel:
+        type: string
+      Id:
+        type: string
+      Size:
+        type: integer
+  GeschaeftDetails_Ablaufschritte:
+    properties:
+      Datum:
+        type: string
+      Created:
+        type: string
+      Titel:
+        type: string
+      Protokolleintrag:
+        type: string
+      AblaufschrittDokumente:
+        type: array
+        items:
+          $ref: '#/definitions/GeschaeftDetails_AblaufschrittDokumente'
+      BeschlussNrGR:
+        type: integer
+      SitzungsNr:
+        type: integer
+      AudioLink:
+        type: string
+      AudioLinkText:
+        type: string
+    xml:
+      name: AblaufschrittDto
+  Vorstoesse_Vorstoesse:
+    properties:
+      GeschaeftsArt:
+        type: string
+      GeschaeftsId:
+        type: string
+      Geschaeftsjahr:
+        type: integer
+      Geschaeftsnummer:
+        type: integer
+      Geschaeftstitel:
+        type: string
+  Ratspost_inner:
+    properties:
+      Id:
+        type: string
+        description: GUID
+      FileName:
+        type: string
+    xml:
+      name: RatspostDto
+  Protokoll_inner:
+    properties:
+      Id:
+        type: integer
+      FileName:
+        type: string
+    xml:
+      name: ProtokollDto
