@@ -27,6 +27,7 @@ This repository is based on this blogpost: https://peterevans.dev/posts/how-to-h
 5. Copy the YAML specification file for your API to the api directory.
 
 6. Edit index.html and change the `url` property to reference your local YAML file. 
+6. Edit index.html and change the `url` property to reference your local YAML file. 
     ```javascript
         const ui = SwaggerUIBundle({
             url: "swagger.yaml",
