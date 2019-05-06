@@ -13,6 +13,7 @@ Das komplette API ist als OpenAPI Spezifikation (Swagger) verfügbar. Dort sind 
 
 1. [Beispiele](#beispiele)
    1. [Mitglieder suchen](#mitglieder-suchen)
+   2. [Mitglieder-Details](#mitglieder-details)
 2. [Programmier-Beispiele](#programmier-beispiele)
 
 ## Beispiele
@@ -23,7 +24,9 @@ Das komplette API ist als OpenAPI Spezifikation (Swagger) verfügbar. Dort sind 
 
 `http://www.gemeinderat-zuerich.ch/api/Mitglieder?name={{name}}&parteiId={{parteiId}}&fraktionId={{fraktionId}}&wahlkreisId={{wahlkreisId}}&wohnkreisId={{wohnkreisId}}&kommissionId={{kommissionId}}&includeInactive={{includeInactive}}&orderBy={{orderBy}}&orderDir={{orderDir}}`
 
-Die IDs (`parteiId`, `fraktionId`, `wahlkreisId` etc.) können mit dem `/Mitglieder/parameter` Endpunkt gefunden werden.
+Die Wertlisten (`parteiId`, `fraktionId`, `wahlkreisId` etc.) können mit dem `/Mitglieder/parameter` Endpunkt gefunden werden.
+
+
 
 **Suche nach Name "Martin":**
 
@@ -197,6 +200,139 @@ Die IDs (`parteiId`, `fraktionId`, `wahlkreisId` etc.) können mit dem `/Mitglie
     }
 ]
 ```
+
+### Mitglieder-Details
+
+**Endpunkt:**
+
+`http://www.gemeinderat-zuerich.ch/api/Mitglieder/details?mid={{mid}}`
+
+Die `mid` entspricht der der `Id` vom `/Mitglieder/suchen` Endpunkt (siehe [Mitglieder suchen](#mitglieder-suchen))
+
+
+
+**Suche nach "Duri Beer":**
+
+`GET http://www.gemeinderat-zuerich.ch/api/Mitglieder/details?mid=ba439e1f-e568-4b4b-9816-9fa94a2fb3e5`
+
+```json
+{
+    "Id": "ba439e1f-e568-4b4b-9816-9fa94a2fb3e5",
+    "Name": "Beer",
+    "Vorname": "Duri",
+    "Anrede": "Herr",
+    "Titel": null,
+    "Geburtstag": "1974-05-29T00:00:00",
+    "Wohnkreis": " 3",
+    "Beruf": "Politischer Sekretär VPOD, Historiker",
+    "Partei": "SP",
+    "Fraktion": "SP",
+    "Wahlkreis": " 3",
+    "Sitznummer": null,
+    "GruppenMitgliedschaften": [
+        {
+            "Von": "2016-07-22T00:00:00",
+            "Bis": null,
+            "Name": "Gemeinderat",
+            "Id": "4211ff29-08c2-4ab7-9f4d-c3c460909c71"
+        },
+        {
+            "Von": "2012-12-20T00:00:00",
+            "Bis": "2014-05-06T00:00:00",
+            "Name": "Gemeinderat",
+            "Id": "4211ff29-08c2-4ab7-9f4d-c3c460909c71"
+        }
+    ],
+    "Adressen": [
+        {
+            "Addressart": "Postadresse",
+            "Strasse1": null,
+            "Strasse2": null,
+            "Plz": null,
+            "Ort": null
+        },
+        {
+            "Addressart": "Wohnadresse",
+            "Strasse1": "Gutstrasse 113",
+            "Strasse2": null,
+            "Plz": "8055",
+            "Ort": "Zürich"
+        }
+    ],
+    "EmailPrivat": "duribeer@hotmail.com",
+    "EmailGeschaeftlich": "duri.beer@vpod-zh.ch",
+    "Mobiltelefon": "",
+    "MobiltelefonGeschaeftlich": null,
+    "TelefonGeschaeftlich": "044 295 30 00",
+    "TelefonPrivat": "",
+    "Internetauftritt": null,
+    "Interessenverbindungen": "- Verband des Personals öffentlicher Dienste VPOD Zürich, Politischer Sekretär/Regionalsekretär\r- Stiftung Mosli (Kinderfreundehaus) Stallikon/Zürich, Stiftungsrat",
+    "NameInUrl": "Duri%20Beer"
+}
+```
+
+### Geschäft suchen
+
+**Endpunkt**:
+
+`http://www.gemeinderat-zuerich.ch/api/Geschaeft?suchBegriff={{suchBegriff}}&grNummer={{grNummer}}&geschaeftsartId={{geschaeftsartId}}&jahr={{jahr}}&departementId={{departementId}}&personId={{personId}}&parteiId={{parteiId}}&geschaeftAuswahl={{geschaeftAuswahl}}&fraktionId={{fraktionId}}&kommissionEinrId={{kommissionEinrId}}&referendumId={{referendumId}}&ablaufschrittId={{ablaufschrittId}}&kommissionId={{kommissionId}}&pendentBeiId={{pendentBeiId}}&sitzungsNummer={{sitzungsNummer}}&datumVon={{datumVon}}&datumBis={{datumBis}}&beschlussNrGR={{beschlussNrGR}}&includeInactive={{includeInactive}}&orderBy={{orderBy}}&orderDir={{orderDir}}&activePage={{activePage}}&pageSize={{pageSize}}`
+
+Die Wertlisten (`geschaeftsartId`, `kommissionEinrId`, `ablaufschrittId`etc.) können mit dem `/Geschaeft/parameter` Endpunkt gefunden werden.
+
+
+
+**Geschäfte von 2016 finden:**
+
+`GET http://www.gemeinderat-zuerich.ch/api/Geschaeft?jahr=2016&activePage=1&pageSize=5`
+
+**ACHTUNG:** Pagination beachten, mit `activePage` kann die Seite, die angefragt wird, angegeben werden. Mit Hilfe von `pageSize` und der im Resultat hinterlegten `AnzahlResultate` können so alle Ergebnisse seitenweise abgefragt werden.
+
+````json
+{
+    "Geschaefte": [
+        {
+            "GeschaeftId": "1a5920a8-3491-4343-9a76-5ed08278e288",
+            "Geschaeftsjahr": 2016,
+            "Geschaeftsnummer": 470,
+            "Geschaeftstitel": "Einrichtung einer Tempo-30-Zone an der Furttalstrasse innerhalb des Siedlungsgebiets",
+            "Geschaeftsart": "Postulat"
+        },
+        {
+            "GeschaeftId": "ffb6b86c-8ba2-42b4-8b29-014e2388e5e7",
+            "Geschaeftsjahr": 2016,
+            "Geschaeftsnummer": 469,
+            "Geschaeftstitel": "Haltestellen an der Wehntalerstrasse und Haltestelle Oberwiesenstrasse, Ausrüstung mit dem Züri-Bord",
+            "Geschaeftsart": "Postulat"
+        },
+        {
+            "GeschaeftId": "89bbe9bc-1e29-4dd9-83fc-aa9e7b0f2e42",
+            "Geschaeftsjahr": 2016,
+            "Geschaeftsnummer": 468,
+            "Geschaeftstitel": "Verlängerung der Haltestelle Glaubtenstrasse stadtauswärts an der Wehntalerstrasse",
+            "Geschaeftsart": "Postulat"
+        },
+        {
+            "GeschaeftId": "3d31a1d2-b565-432d-93e8-9f2703e86c20",
+            "Geschaeftsjahr": 2016,
+            "Geschaeftsnummer": 467,
+            "Geschaeftstitel": "Bewilligung von Sonntagsverkäufen, Angaben zu den Verfahren, den rechtlichen Grundlagen und zur Bewilligung von Ethno-Food-Märkten in Quartierzentren sowie zur Sonntagskultur im öffentlichen Leben der Stadt",
+            "Geschaeftsart": "Schriftliche Anfrage"
+        },
+        {
+            "GeschaeftId": "0be49c87-98d3-4f6b-96c8-94dc2f2d09bb",
+            "Geschaeftsjahr": 2016,
+            "Geschaeftsnummer": 466,
+            "Geschaeftstitel": "Verhinderung von energetischen Sanierungen aufgrund von Vorgaben der Denkmalpflege, Möglichkeiten für eine Entschädigung bauwilliger Eigentümerinnen und Eigentümer sowie für eine Klage gegen die Stadt",
+            "Geschaeftsart": "Schriftliche Anfrage"
+        }
+    ],
+    "AnzahlResultate": 469
+}
+````
+
+
+
+
 
 ## Programmier-Beispiele
 
