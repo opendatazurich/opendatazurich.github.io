@@ -9,6 +9,12 @@ Diese Dokumentation beschreibt die Programmierschnittstelle (API) des Ratshausin
 
 Das komplette API ist als OpenAPI Spezifikation (Swagger) verfügbar. Dort sind alle Endpunkte und deren Parameter im Detail erklärt.
 
+**Inhaltsverzeichnis**
+
+1. [Beispiele](#beispiele)
+   1. [Mitglieder suchen](#mitglieder-suchen)
+2. [Programmier-Beispiele](#programmier-beispiele)
+
 ## Beispiele
 
 ### Mitglieder suchen
@@ -17,7 +23,7 @@ Das komplette API ist als OpenAPI Spezifikation (Swagger) verfügbar. Dort sind 
 
 `http://www.gemeinderat-zuerich.ch/api/Mitglieder?name={{name}}&parteiId={{parteiId}}&fraktionId={{fraktionId}}&wahlkreisId={{wahlkreisId}}&wohnkreisId={{wohnkreisId}}&kommissionId={{kommissionId}}&includeInactive={{includeInactive}}&orderBy={{orderBy}}&orderDir={{orderDir}}`
 
-Die IDs (parteiId, fraktionId, wahlkreisId etc.) können mit dem `/Mitglieder/parameter` Endpunkt gefunden werden.
+Die IDs (`parteiId`, `fraktionId`, `wahlkreisId` etc.) können mit dem `/Mitglieder/parameter` Endpunkt gefunden werden.
 
 **Suche nach Name "Martin":**
 
@@ -197,4 +203,3 @@ Die IDs (parteiId, fraktionId, wahlkreisId etc.) können mit dem `/Mitglieder/pa
 Im Jupyter-Notebook "Examples.ipynb" sind einige Python-Beispiele im Umgang mit dem API beschrieben.
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=ris-api/examples/Examples.ipynb)
-
