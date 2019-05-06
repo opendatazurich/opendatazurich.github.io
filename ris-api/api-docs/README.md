@@ -200,7 +200,6 @@ Die IDs (`parteiId`, `fraktionId`, `wahlkreisId` etc.) können mit dem `/Mitglie
 
 ## Programmier-Beispiele
 
-Im [Jupyter-Notebook Examples.ipynb](Examples.ipynb) sind einige Python-Beispiele im Umgang mit dem API beschrieben.
+Im [Jupyter-Notebook RIS-API-Beispiele.ipynb](RIS-API-Beispiele.ipynb) sind einige Python-Beispiele im Umgang mit dem API beschrieben.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=ris-api/api-docs/Examples.ipynb)
-
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=ris-api/api-docs/RIS-API-Beispiele.ipynb)
