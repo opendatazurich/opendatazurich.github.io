@@ -340,4 +340,5 @@ Die Wertlisten (`geschaeftsartId`, `kommissionEinrId`, `ablaufschrittId`etc.) k√
 ## Programmier-Beispiele
 
 Im [Jupyter-Notebook RIS-API-Beispiele.ipynb](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/ris-api/RIS-API-Beispiele.ipynb) sind einige Python-Beispiele im Umgang mit dem API beschrieben.
+
 Mit Binder kann das Jupyter-Notebook interaktiv im Browser gestartet werden: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=ris-api/RIS-API-Beispiele.ipynb)
