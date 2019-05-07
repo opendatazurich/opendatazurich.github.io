@@ -16,7 +16,7 @@ tags:
 - name: Ratspost
   description: council mail functions
 schemes:
-- http
+- https
 paths:
   /Mitglieder:
     get:
