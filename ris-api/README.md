@@ -7,13 +7,14 @@ Diese Dokumentation beschreibt die Programmierschnittstelle (API) des Ratshausin
 * Protokolle
 * Ratspost
 
-Das komplette API ist als OpenAPI Spezifikation (Swagger) verf체gbar. Dort sind alle Endpunkte und deren Parameter im Detail erkl채rt.
+Das komplette API ist als [OpenAPI Spezifikation (Swagger)](/ris-api/swagger.yaml) verf체gbar. Basierend darauf gibt es eine [interaktive Dokumentation der Endpunkte und deren Parameter](https://opendatazurich.github.io/ris-api/) mit mehr Details.
 
 **Inhaltsverzeichnis**
 
 1. [Beispiele](#beispiele)
    1. [Mitglieder suchen](#mitglieder-suchen)
    2. [Mitglieder-Details](#mitglieder-details)
+   3. [Gesch채ft suchen](#gesch채ft-suchen)
 2. [Programmier-Beispiele](#programmier-beispiele)
 
 ## Beispiele
@@ -338,4 +339,5 @@ Die Wertlisten (`geschaeftsartId`, `kommissionEinrId`, `ablaufschrittId`etc.) k�
 
 Im [Jupyter-Notebook RIS-API-Beispiele.ipynb](RIS-API-Beispiele.ipynb) sind einige Python-Beispiele im Umgang mit dem API beschrieben.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=ris-api/api-docs/RIS-API-Beispiele.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=ris-api/RIS-API-Beispiele.ipynb)
+
