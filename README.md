@@ -2,7 +2,7 @@
 
 ## Available APIs
 
-1. [RIS-API](/ris-api/)
+1. [RIS-API (Ratshausinformationssystems), Gemeinderat Stadt Zürich (GRZ)](/ris-api/)
 
 ## Credits
 
