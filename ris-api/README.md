@@ -7,17 +7,19 @@ Diese Dokumentation beschreibt die Programmierschnittstelle (API) des Ratshausin
 * Protokolle
 * Ratspost
 
-Das komplette API ist als [OpenAPI Spezifikation (Swagger)](/ris-api/docs/swagger.yaml) verfügbar. Basierend darauf gibt es eine [interaktive Dokumentation der Endpunkte und deren Parameter](/ris-api/docs/) mit mehr Details.
+Für das API gibt es eine [interaktive Dokumentation der Endpunkte und deren Parameter](/ris-api/docs/) mit allen Details. Das komplette API ist auch als [OpenAPI Spezifikation (Swagger)](/ris-api/docs/swagger.yaml) verfügbar.
+
+Diese Seite gibt einen Schnelleinstieg in das API mit einigen Beispiel-Abfragen sowie Programmier-Beispielen in Python.
 
 **Inhaltsverzeichnis**
 
-1. [Beispiele](#beispiele)
+1. [Beispiel-Abfragen](#beispiel-abfragen)
    1. [Mitglieder suchen](#mitglieder-suchen)
    2. [Mitglieder-Details](#mitglieder-details)
    3. [Geschäft suchen](#geschäft-suchen)
 2. [Programmier-Beispiele](#programmier-beispiele)
 
-## Beispiele
+## Beispiel-Abfragen
 
 ### Mitglieder suchen
 
