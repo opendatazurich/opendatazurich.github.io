@@ -67,14 +67,14 @@ paths:
         in: query
         description: orderBy
         required: false
-        schema:
-           $ref: '#/definitions/schemas/mitgliederOrderBy'
+        type: string
+        enum: [Name, Partei, Wahlkreis]
       - name: orderDir
         in: query
         description: orderDir
         required: false
-        schema:
-           $ref: '#/definitions/schemas/orderDir'
+        type: string
+        enum: [asc, desc]
       responses:
         200:
           description: OK
@@ -129,14 +129,14 @@ paths:
         in: query
         description: orderBy
         required: false
-        schema:
-           $ref: '#/definitions/schemas/mitgliederOrderBy'
+        type: string
+        enum: [Name, Partei, Wahlkreis]
       - name: orderDir
         in: query
         description: orderDir
         required: false
-        schema:
-           $ref: '#/definitions/schemas/orderDir'
+        type: string
+        enum: [asc, desc]
       responses:
         200:
           description: OK
@@ -191,8 +191,9 @@ paths:
         in: query
         description: Order by a criteria. Partei, Wahlkreis
         required: false
-        schema:
-           $ref: '#/definitions/schemas/mitgliederGruppiertOrderBy'
+        type: string
+        enum: [Partei, Wahlkreis]
+        example: Partei
       - name: orderDir
         in: query
         description: Sorts the output by the name. asc, desc
@@ -238,14 +239,15 @@ paths:
         in: query
         description: Query for a specific name
         required: false
-        schema:
-           $ref: '#/definitions/schemas/kommissionOrderBy'
+        type: string
+        enum: [Partei, Wahlkreis]
+        example: Partei
       - name: orderKommissionDir
         in: query
         description: Query for a specific name
         required: false
-        schema:
-           $ref: '#/definitions/schemas/orderDir'
+        type: string
+        enum: [asc, desc]
       responses:
         200:
           description: OK
@@ -384,8 +386,8 @@ paths:
         in: query
         description: Sorts the output by the deal number. None or "asc"
         required: false
-        schema:
-           $ref: '#/definitions/schemas/orderDir'
+        type: string
+        enum: [asc, desc]
       - name: activePage
         in: query
         description: page of all the paginated result list
@@ -510,14 +512,15 @@ paths:
         in: query
         description: Order by a criteria. By title = "geschaeftstitel", by deal = "geschaeftsart"
         required: false
-        schema:
-           $ref: '#/definitions/schemas/geschaeftOrderBy'
+        type: string
+        enum: [geschaeftstitel, geschaeftsart]
+        example: geschaeftsart
       - name: orderDir
         in: query
         description: Sorts the output by the deal number. None or "asc"
         required: false
-        schema:
-           $ref: '#/definitions/schemas/orderDir'
+        type: string
+        enum: [asc, desc]
       - name: activePage
         in: query
         description: page of all the paginated result list
@@ -567,14 +570,15 @@ paths:
         in: query
         description: order by advances. Title = "Geschaeftstitel", Sort of deal = "Geschaeftsart"
         required: true
-        schema:
-           $ref: '#/definitions/schemas/orderVorstoesseBy'
+        type: string
+        default: Geschaeftsart
+        enum: [Geschaeftstitel, Geschaeftsart]
       - name: orderVorstoesseDir
         in: query
         description: Order by deal number. "asc", "desc" or None
         required: false
-        schema:
-           $ref: '#/definitions/schemas/orderDir'
+        type: string
+        enum: [asc, desc]
       - name: pageSize
         in: query
         required: true
@@ -1255,41 +1259,3 @@ definitions:
         type: string
     xml:
       name: ProtokollDto
-  schemas:
-    orderDir:
-      type: string
-      default: desc
-      enum:
-        - desc
-        - asc
-    mitgliederOrderBy:
-      type: string
-      enum:
-        - Name
-        - Partei
-        - Wahlkreis
-      example: Name
-    mitgliederGruppiertOrderBy:
-      type: string
-      enum:
-        - Partei
-        - Wahlkreis
-      example: Partei
-    kommissionOrderBy:
-      type: string
-      enum:
-        - Partei
-        - Wahlkreis
-      example: Partei
-    geschaeftOrderBy:
-      type: string
-      enum:
-        - geschaeftstitel
-        - geschaeftsart
-      example: geschaeftsart
-    orderVorstoesseBy:
-      type: string
-      default: Geschaeftsart
-      enum:
-        - Geschaeftstitel
-        - Geschaeftsart
