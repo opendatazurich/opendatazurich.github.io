@@ -1,9 +1,9 @@
 ---
 swagger: "2.0"
 info:
-  description: API for requesting GRZ data. Includes members, deals, protocols and council mail
-  version: "1"
-  title: GRZ API
+  description: The municipal council is the parliament of the City of Zurich. The Council is elected every four years by the voters of the City of Zurich. It is composed of 125 elected members. The Rathausinformationssystem (RIS) manages and documents all members and deals of the Municipal Council. This API allows requests on all public data of the RIS. It includes data on members (Mitglieder), deals (Geschäft), protocols (Protokoll) and council mails (Ratspost).
+  version: "2"
+  title: RIS-API, Gemeinderat Stadt Zürich (GRZ)
 host: www.gemeinderat-zuerich.ch
 basePath: /api
 tags:
@@ -16,16 +16,17 @@ tags:
 - name: Ratspost
   description: council mail functions
 schemes:
-- https
+- http
 paths:
   /Mitglieder:
     get:
+      summary: "/Mitglieder"
       tags:
       - Mitglieder
-      description: Fetching memberlist of GRZ
+      description: Retrieve GRZ member list based on various parameters
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters:
       - name: name
         in: query
@@ -66,12 +67,14 @@ paths:
         in: query
         description: orderBy
         required: false
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/mitgliederOrderBy'
       - name: orderDir
         in: query
         description: orderDir
         required: false
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/orderDir'
       responses:
         200:
           description: OK
@@ -79,12 +82,13 @@ paths:
             $ref: '#/definitions/Mitglied'
   /Mitglieder/suchen:
     get:
+      summary: /Mitglieder/suchen
       tags:
       - Mitglieder
-      description: Fetching memberlist of GRZ
+      description: Retrieve GRZ member list based on various parameters
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters:
       - name: name
         in: query
@@ -130,7 +134,8 @@ paths:
         in: query
         description: orderDir
         required: false
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/orderDir'
       responses:
         200:
           description: OK
@@ -138,11 +143,13 @@ paths:
             $ref: '#/definitions/Mitglied'
   /Mitglieder/suchenGruppiert:
     get:
+      summary: /Mitglieder/suchenGruppiert
       tags:
       - Mitglieder
-      description: Fetching memberlist of GRZ
+      description: Retrieve alphabetically grouped GRZ member list based on various parameters
       produces:
       - application/json
+      - application/xml
       parameters:
       - name: name
         in: query
@@ -183,12 +190,14 @@ paths:
         in: query
         description: Order by a criteria. Partei, Wahlkreis
         required: false
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/mitgliederGruppiertOrderBy'
       - name: orderDir
         in: query
         description: Sorts the output by the name. asc, desc
         required: false
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/orderDir'
       responses:
         200:
           description: OK
@@ -196,12 +205,13 @@ paths:
             $ref: '#/definitions/MitgliederGruppen'
   /Mitglieder/parameter:
     get:
+      summary: /Mitglieder/parameter
       tags:
       - Mitglieder
-      description: Fetching memberlist of GRZ
+      description: Get all parameters for the members of GRZ
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters: []
       responses:
         200:
@@ -210,12 +220,13 @@ paths:
             $ref: '#/definitions/MitgliederSucheParameter'
   /Mitglieder/mitgliederKommissionDetails:
     get:
+      summary: /Mitglieder/mitgliederKommissionDetails
       tags:
       - Mitglieder
-      description: Fetching memberlist of GRZ
+      description: Get information about which members were or still are in which commissions and when.
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters:
       - name: mid
         in: query
@@ -226,12 +237,14 @@ paths:
         in: query
         description: Query for a specific name
         required: false
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/kommissionOrderBy'
       - name: orderKommissionDir
         in: query
         description: Query for a specific name
         required: false
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/orderDir'
       responses:
         200:
           description: OK
@@ -239,12 +252,13 @@ paths:
             $ref: '#/definitions/MitgliederKommissionDetails'
   /Mitglieder/details:
     get:
+      summary: /Mitglieder/details
       tags:
       - Mitglieder
-      description: Delivers Metadata of registered goverment member
+      description: Delivers detailed information about GRZ members, e.g. the birth date, profession or interest groups
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters:
       - name: mid
         in: query
@@ -257,12 +271,13 @@ paths:
             $ref: '#/definitions/MitgliedDetails'
   /Geschaeft:
     get:
+      summary: /Geschaeft
       tags:
       - Geschaeft
-      description: Fetching memberlist of GRZ
+      description: Retrieve GRZ deals based on various parameters
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters:
       - name: suchBegriff
         in: query
@@ -341,12 +356,12 @@ paths:
         type: integer
       - name: datumVon
         in: query
-        description: session date min, ex. '2015-03-04T00:00:00.000Z'
+        description: session date min, ex. '2019-03-01'
         required: false
         type: string
       - name: datumBis
         in: query
-        description: session date max, ex. '2015-03-04T00:00:00.000Z'
+        description: session date max, ex. '2019-03-07'
         required: false
         type: string
       - name: beschlussNrGR
@@ -368,7 +383,8 @@ paths:
         in: query
         description: Sorts the output by the deal number. None or "asc"
         required: false
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/orderDir'
       - name: activePage
         in: query
         description: page of all the paginated result list
@@ -386,12 +402,13 @@ paths:
             $ref: '#/definitions/Geschaefte'
   /Geschaeft/suchen:
     get:
+      summary: /Geschaeft/suchen
       tags:
       - Geschaeft
-      description: Fetching memberlist of GRZ
+      description: Retrieve GRZ deals based on various parameters
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters:
       - name: suchBegriff
         in: query
@@ -470,12 +487,12 @@ paths:
         type: integer
       - name: datumVon
         in: query
-        description: session date min, ex. '2015-03-04T00:00:00.000Z'
+        description: session date min, ex. '2019-03-01'
         required: false
         type: string
       - name: datumBis
         in: query
-        description: session date max, ex. '2015-03-04T00:00:00.000Z'
+        description: session date max, ex. '2019-03-07'
         required: false
         type: string
       - name: beschlussNrGR
@@ -492,12 +509,14 @@ paths:
         in: query
         description: Order by a criteria. By title = "geschaeftstitel", by deal = "geschaeftsart"
         required: false
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/geschaeftOrderBy'
       - name: orderDir
         in: query
         description: Sorts the output by the deal number. None or "asc"
         required: false
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/orderDir'
       - name: activePage
         in: query
         description: page of all the paginated result list
@@ -515,12 +534,13 @@ paths:
             $ref: '#/definitions/Geschaefte'
   /Geschaeft/parameter:
     get:
+      summary: /Geschaeft/parameter
       tags:
       - Geschaeft
-      description: Fetching all parameters (GUID, ID) saved in the RIS.
+      description: Fetching very detailed deals parameters (e.g. GUID, ID, year, Departement, process steps) saved in the RIS.
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters: []
       responses:
         200:
@@ -529,11 +549,13 @@ paths:
             $ref: '#/definitions/Geschaeftsucheparameter'
   /Geschaeft/mitgliederVorstoesseDetails:
     get:
+      summary: /Geschaeft/mitgliederVorstoesseDetails
       tags:
       - Geschaeft
-      description: Fetching memberlist of GRZ
+      description: Get information about which members have made which proposals.
       produces:
       - application/json
+      - application/xml
       parameters:
       - name: mid
         in: query
@@ -544,12 +566,14 @@ paths:
         in: query
         description: order by advances. Title = "Geschaeftstitel", Sort of deal = "Geschaeftsart"
         required: true
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/orderVorstoesseBy'
       - name: orderVorstoesseDir
         in: query
-        description: Order by deal number. "Asc", "Desc" or None
+        description: Order by deal number. "asc", "desc" or None
         required: false
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/orderDir'
       - name: pageSize
         in: query
         required: true
@@ -565,12 +589,13 @@ paths:
             $ref: '#/definitions/Vorstoesse'
   /Geschaeft/details:
     get:
+      summary: /Geschaeft/details
       tags:
       - Geschaeft
-      description: Delivers Metadata of an existing deal
+      description: Fetching detailed information about GRZ deals, e.g. the type and status, the first signatory or the timeline of a deal
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters:
       - name: gid
         in: query
@@ -583,12 +608,13 @@ paths:
             $ref: '#/definitions/GeschaeftDetails'
   /Protokoll:
     get:
+      summary: /Protokoll
       tags:
       - Protokoll
-      description: Fetching protocol list of GRZ
+      description: Find protocols of the parlamentary meetings.
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters:
       - name: sitzungsNummer
         in: query
@@ -603,12 +629,12 @@ paths:
         format: asdf
       - name: datumVon
         in: query
-        description: date begin, ex. '2015-03-04T00:00:00.000Z'
+        description: date begin, ex. '2019-03-01'
         required: false
         type: string
       - name: datumBis
         in: query
-        description: date end, ex. '2015-03-04T00:00:00.000Z'
+        description: date end, ex. '2019-03-07'
         required: false
         type: string
       responses:
@@ -618,12 +644,13 @@ paths:
             $ref: '#/definitions/Protokoll'
   /Protokoll/suchen:
     get:
+      summary: /Protokoll/suchen
       tags:
       - Protokoll
-      description: Fetching protocol list of GRZ
+      description: Searching for protocols of the parlamentary meetings according to search terms.
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters:
       - name: sitzungsNummer
         in: query
@@ -637,12 +664,12 @@ paths:
         type: string
       - name: datumVon
         in: query
-        description: date begin, ex. "2015-03-04T00:00:00.000Z"
+        description: date begin, ex. "2019-03-04"
         required: false
         type: string
       - name: datumBis
         in: query
-        description: date end, ex. "2015-03-04T00:00:00.000Z"
+        description: date end, ex. "2019-03-04"
         required: false
         type: string
       responses:
@@ -652,21 +679,22 @@ paths:
             $ref: '#/definitions/Protokoll'
   /Ratspost:
     get:
+      summary: /Ratspost
       tags:
       - Ratspost
-      description: Fetching ratspost list of GRZ
+      description: Searching for council mail list of GRZ.
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters:
       - name: datumVon
         in: query
-        description: date begin, ex. '2015-03-04T00:00:00.000Z'
+        description: date begin, ex. '2019-03-01'
         required: false
         type: string
       - name: datumBis
         in: query
-        description: date end, ex. '2015-03-04T00:00:00.000Z'
+        description: date end, ex. '2019-03-07'
         required: false
         type: string
       responses:
@@ -676,21 +704,22 @@ paths:
             $ref: '#/definitions/Ratspost'
   /Ratspost/suchen:
     get:
+      summary: /Ratspost/suchen
       tags:
       - Ratspost
-      description: Fetching council mail list of GRZ
+      description: Searching for council mail list of GRZ according to search terms.
       produces:
-      - application/xml
       - application/json
+      - application/xml
       parameters:
       - name: datumVon
         in: query
-        description: date begin, ex. '2015-03-04T00:00:00.000Z'
+        description: date begin, ex. '2019-03-01'
         required: false
         type: string
       - name: datumBis
         in: query
-        description: date end, ex. '2015-03-04T00:00:00.000Z'
+        description: date end, ex. '2019-03-07'
         required: false
         type: string
       responses:
@@ -1225,3 +1254,35 @@ definitions:
         type: string
     xml:
       name: ProtokollDto
+  schemas:
+    sortDir:
+      type: string
+      enum:
+        - desc
+        - asc
+    mitgliederOrderBy:
+      type: string
+      enum:
+        - Name
+        - Partei
+        - Wahlkreis
+    mitgliederGruppiertOrderBy:
+      type: string
+      enum:
+        - Partei
+        - Wahlkreis
+    kommissionOrderBy:
+      type: string
+      enum:
+        - Partei
+        - Wahlkreis
+    geschaeftOrderBy:
+      type: string
+      enum:
+        - geschaeftstitel
+        - geschaeftsart
+    orderVorstoesseBy:
+      type: string
+      enum:
+        - Geschaeftstitel
+        - Geschaeftsart
