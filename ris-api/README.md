@@ -17,6 +17,7 @@ Diese Seite gibt einen Schnelleinstieg in das API mit einigen Beispiel-Abfragen 
    1. [Mitglieder suchen](#mitglieder-suchen)
    2. [Mitglieder-Details](#mitglieder-details)
    3. [Gesch채ft suchen](#gesch채ft-suchen)
+   4. [Protokolle suchen](#protokolle-suchen)
 2. [Programmier-Beispiele](#programmier-beispiele)
 
 ## Beispiel-Abfragen
@@ -335,7 +336,135 @@ Die Wertlisten (`geschaeftsartId`, `kommissionEinrId`, `ablaufschrittId`etc.) k�
 
 
 
+### Protokolle suchen
 
+**Endpunkt:**
+
+`http://www.gemeinderat-zuerich.ch/api/Protokoll?sitzungsNummer={{sitzungsNummer}}&suchBegriff={{suchBegriff}}&datumVon={{datumVon}}&datumBis={{datumBis}}`
+
+Die Felder `datumVon`und `datumBis` m체ssen im Format TT.MM.JJJJ (z.B. 31.01.2019) abgef체llt werden.
+
+**Protokolle vom Januar 2019 suchen:**
+
+`GET https://www.gemeinderat-zuerich.ch/api/Protokoll?datumVon=01.01.2019&datumBis=31.01.2019`
+
+```json
+[
+    {
+        "Id": 6221,
+        "FileName": "GR-Protokoll 20190130.037.pdf"
+    },
+    {
+        "Id": 6223,
+        "FileName": "GR-Protokoll 20190130.037 substanziell.pdf"
+    },
+    {
+        "Id": 6218,
+        "FileName": "GR-Protokoll 20190130.036.pdf"
+    },
+    {
+        "Id": 6222,
+        "FileName": "GR-Protokoll 20190130.036 substanziell.pdf"
+    },
+    {
+        "Id": 6216,
+        "FileName": "GR-Protokoll 20190123.035.pdf"
+    },
+    {
+        "Id": 6220,
+        "FileName": "GR-Protokoll 20190123.035 substanziell.pdf"
+    },
+    {
+        "Id": 6212,
+        "FileName": "GR-Protokoll 20190116.034.pdf"
+    },
+    {
+        "Id": 6217,
+        "FileName": "GR-Protokoll 20190116 034 substanziell.pdf"
+    },
+    {
+        "Id": 6208,
+        "FileName": "GR-Protokoll 20190109.033.pdf"
+    },
+    {
+        "Id": 6219,
+        "FileName": "GR-Protokoll 20190109.033 substanziell.pdf"
+    }
+]
+```
+
+Die Datei kann wie folgt bezogen werden:
+
+`https://www.gemeinderat-zuerich.ch/DocumentLoader.aspx?Typ=protokoll&ID={Id}&FileName={FileName}`
+
+Beispiel: https://www.gemeinderat-zuerich.ch/DocumentLoader.aspx?ID=6218&Typ=protokoll&FileName=GR-Protokoll+20190130.036.pdf
+
+### Ratspost suchen
+
+**Endpunkt:**
+
+`https://www.gemeinderat-zuerich.ch/api/Ratspost?datumVon={{datumVon}}&datumBis={{datumBis}}`
+
+Die Felder `datumVon`und `datumBis` m체ssen im Format TT.MM.JJJJ (z.B. 31.01.2019) abgef체llt werden.
+
+**Ratspost vom 1. Quartal 2019 suchen:**
+
+`GET https://www.gemeinderat-zuerich.ch/api/Ratspost?datumVon=01.01.2019&datumBis=31.03.2019`
+
+```json
+[
+    {
+        "Id": "6fbede90-4660-43d0-9429-ff836807b05b",
+        "FileName": "Ratspostversand20190328.html"
+    },
+    {
+        "Id": "107af3a0-f981-4208-8e69-4cdbd397fafc",
+        "FileName": "Ratspostversand20190321.html"
+    },
+    {
+        "Id": "424cd2ff-97d0-4255-a953-02fe7c15df56",
+        "FileName": "Ratspostversand20190314.html"
+    },
+    {
+        "Id": "479c2ba2-4124-4271-bc19-b0d7e01ec8ea",
+        "FileName": "Ratspostversand20190307.html"
+    },
+    {
+        "Id": "19ba52dc-b604-4412-9553-87c3722995e1",
+        "FileName": "Ratspostversand20190228.html"
+    },
+    {
+        "Id": "de6fd305-836a-4836-b41f-f9101bbc70bf",
+        "FileName": "Ratspostversand20190221.html"
+    },
+    {
+        "Id": "1c72707d-00b5-4b11-8213-8dc81d35c109",
+        "FileName": "Ratspostversand20190131.html"
+    },
+    {
+        "Id": "194ce486-eed7-4d92-8947-3c0767d0e2d6",
+        "FileName": "Ratspostversand20190124.html"
+    },
+    {
+        "Id": "86d8c3b4-24b7-4406-a45f-4ecf03aa11e3",
+        "FileName": "Ratspostversand20190117.html"
+    },
+    {
+        "Id": "3b0204f0-f9a4-4fc9-86cc-e66bbfd03a52",
+        "FileName": "Ratspostversand20190110.html"
+    },
+    {
+        "Id": "a84fb659-dd54-43df-8857-4142a3a2aaf7",
+        "FileName": "Ratspostversand20190103.html"
+    }
+]
+```
+
+Die Datei kann wie folgt bezogen werden:
+
+`https://www.gemeinderat-zuerich.ch/sitzungen/ratspost/?Id={Id}`
+
+Beispiel: https://www.gemeinderat-zuerich.ch/sitzungen/ratspost/?Id=3b0204f0-f9a4-4fc9-86cc-e66bbfd03a52
 
 ## Programmier-Beispiele
 
