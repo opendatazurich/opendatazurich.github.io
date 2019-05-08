@@ -55,6 +55,7 @@
         requestInterceptor: function(req) {
 			req.headers['User-Agent'] = 'swagger-ui';
             console.log(req.headers);
+            return req;
         }
       })
 
