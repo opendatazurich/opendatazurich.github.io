@@ -197,8 +197,8 @@ paths:
         in: query
         description: Sorts the output by the name. asc, desc
         required: false
-        schema:
-           $ref: '#/definitions/schemas/orderDir'
+        type: string
+        enum: [asc, desc]
       responses:
         200:
           description: OK
