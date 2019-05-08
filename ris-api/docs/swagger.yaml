@@ -129,7 +129,8 @@ paths:
         in: query
         description: orderBy
         required: false
-        type: string
+        schema:
+           $ref: '#/definitions/schemas/mitgliederOrderBy'
       - name: orderDir
         in: query
         description: orderDir
@@ -1255,7 +1256,7 @@ definitions:
     xml:
       name: ProtokollDto
   schemas:
-    sortDir:
+    orderDir:
       type: string
       enum:
         - desc
