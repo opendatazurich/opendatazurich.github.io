@@ -16,7 +16,7 @@ tags:
 - name: Ratspost
   description: council mail functions
 schemes:
-- http
+- https
 paths:
   /Mitglieder:
     get:
@@ -122,7 +122,7 @@ paths:
         type: string
       - name: includeInactive
         in: query
-        description: GUID of kommission
+        description: Includes inactive members
         required: false
         type: boolean
       - name: orderBy
