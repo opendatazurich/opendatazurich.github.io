@@ -51,7 +51,10 @@
         plugins: [
           SwaggerUIBundle.plugins.DownloadUrl
         ],
-        layout: "StandaloneLayout"
+        layout: "StandaloneLayout",
+        requestInterceptor: function(req) {
+			req.headers['User-Agent'] = 'swagger-ui';
+        }
       })
 
       window.ui = ui
