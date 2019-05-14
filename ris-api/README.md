@@ -7,7 +7,11 @@ Diese Dokumentation beschreibt die Programmierschnittstelle (API) des Ratshausin
 * Protokolle
 * Ratspost
 
-Für das API gibt es eine [interaktive Dokumentation der Endpunkte und deren Parameter](/ris-api/docs/), welche alle Details beschreibt. Das komplette API steht auch als [OpenAPI Spezifikation (Swagger-File)](/ris-api/docs/swagger.yaml) zum Downlaod zur Verfügung.
+Für das API gibt es eine [interaktive Dokumentation der Endpunkte und deren Parameter](/ris-api/docs/), welche alle Details beschreibt.
+
+![RIS-API Dokumentation](<https://opendatazurich.github.io/ris-api/pics/ris_api_swagger-ui_20190510.png>)
+
+Das komplette API steht auch als [OpenAPI Spezifikation (Swagger-File)](/ris-api/docs/swagger.yaml) zum Downlaod zur Verfügung.
 
 Diese Dokumentation bietet einen **Schnelleinstieg in das RIS-API**.
 Im Kapitel 1 werden pro Entität ein paar typische Beispiels-Abfragen erläutert. 
@@ -475,3 +479,5 @@ Beispiel: https://www.gemeinderat-zuerich.ch/sitzungen/ratspost/?Id=3b0204f0-f9a
 Im [Jupyter-Notebook RIS-API-Beispiele.ipynb](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/ris-api/RIS-API-Beispiele.ipynb) sind einige Python-Beispiele im Umgang mit dem API beschrieben.
 
 Mit Binder kann das Jupyter-Notebook interaktiv im Browser gestartet werden: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=ris-api/RIS-API-Beispiele.ipynb)
+
+![RIS-API Dokumentation](<https://opendatazurich.github.io/ris-api/pics/ris_api_binder.png>)
