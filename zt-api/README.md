@@ -1,7 +1,7 @@
 # Zürich Tourismus API
 
 Über das Zürich Tourismus API lassen sich Daten von Zürich Tourismus über Attraktionen, Unterkünfte, Restaurants und mehr abfragen.
-Zürich Tourismus hat das [API auf ihrer eigenen Seite dokumentiert](https://www.zuerich.com/de).
+Zürich Tourismus hat das [API auf ihrer eigenen Seite dokumentiert](https://zt.zuerich.com/de/open-data).
 
 ## Programmier-Beispiele
 
