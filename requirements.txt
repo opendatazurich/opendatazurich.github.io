@@ -4,3 +4,4 @@ matplotlib
 requests
 folium
 branca
+anytree
