@@ -1,8 +1,10 @@
 jupyter==1.0.0
 pandas
+geopandas
 matplotlib
 requests
 folium
 branca
 anytree
 pendulum
+beautifulsoup4
