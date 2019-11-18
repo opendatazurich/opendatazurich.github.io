@@ -11,11 +11,6 @@ Die App gibt es für verschiedene Städte, in Zürich basiert sie auf dem Open D
 **Inhaltsverzeichnis**
 
 1. [Beispiel-Abfragen](#beispiel-abfragen)
-   1. [Mitglieder suchen](#mitglieder-suchen)
-   2. [Mitglieder-Details](#mitglieder-details)
-   3. [Geschäft suchen](#geschäft-suchen)
-   4. [Protokolle suchen](#protokolle-suchen)
-   5. [Ratspost suchen](#ratspost-suchen)
 2. [Programmier-Beispiele](#programmier-beispiele)
 
 ## Beispiel-Abfragen
