@@ -1,6 +1,8 @@
 # Geoportal
 
-Diese Dokumentation beschreibt den Umgang mit Daten aus dem [Geoportal der Stadt Zürich](https://www.ogd.stadt-zuerich.ch/geodaten/).
+Diese Dokumentation beschreibt den Umgang mit Daten aus dem [Geoportal der Stadt Zürich](https://www.ogd.stadt-zuerich.ch/geodaten/) ohne GIS-Software.
+Die Verwendung von Geodaten mit GIS-Software ist in [unserer Werkstatt](https://www.stadt-zuerich.ch/portal/de/index/ogd/werkstatt.html) beschrieben.
+
 Insbesondere werden via Geoportal viele Datensätze als Geo-Webservices (z.B. WMS, WFS) angeboten.
 Auf dem Geoportal können die Datensätze manuell in vielen verschiedenen Formaten heruntergeladen werden (z.B. GeoJSON, GPKG, Shapefile, CSV).
 
@@ -15,13 +17,14 @@ Auf dem Geoportal können die Datensätze manuell in vielen verschiedenen Format
 
 Um Daten via WFS zu beziehen, muss zuerst die WFS-URL ausfindig gemacht werden.
 Dazu verwendet man am besten direkt das [Geoportal der Stadt Zürich](https://www.ogd.stadt-zuerich.ch/geodaten/).
-Auf dem OGD-Katalog gibt es jeweils Verweise auf die Datensätze des Geoportals.
+Auf dem [OGD-Katalog](https://data.stadt-zuerich.ch/dataset) gibt es auch jeweils Verweise auf die Datensätze des Geoportals.
 
 Wenn man einen Datensatz gefunden hat, dessen Daten man gerne verwenden möchte, findet man ganz unten auf dem Geoportal den Link zum WFS-Server:
 ![](wfs_link.gif)
 
 In diesem Beispiel wird der [Datensatz "Statistische Quartiere"](https://www.ogd.stadt-zuerich.ch/geodaten/Statistische_Quartiere) verwendet.
-Der zugehörige WFS-Link ist: https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Statistische_Quartiere
+
+Der zugehörige WFS-Link ist: [https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Statistische_Quartiere](https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Statistische_Quartiere)
 
 Über [Geocat](https://www.geocat.ch/geonetwork/srv/ger/md.viewer#/full_view/fd1a94fe-4bd4-4a40-99af-8b859dfe82a7) (Link "Komplette Metadaten ansehen" auf dem Geoportal) kann man eine Beschreibung der Metadaten anschauen.
 WFS liefert sogenannte Features, und die Features sind in verschiedene Typen ("Layer") gegliedert.
@@ -62,6 +65,8 @@ Mit `GetFeature` lassen sich Daten via WFS beziehen, z.B. die Statistischen Quar
 
 ## Programmier-Beispiele
 
-Im [Jupyter-Notebook Geoportal-Beispiele.ipynb](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/geoportal/Geoportal-Beispiele.ipynb) sind einige Python-Beispiele gezeigt, u.a. wie Daten via WFS bezogen werden können oder eine Karte via WMS angezeigt werden kann.
+[![](jupyter.png)](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/geoportal/Geoportal-Beispiele.ipynb)
+
+Im [Jupyter-Notebook Geoportal-Beispiele.ipynb](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/geoportal/Geoportal-Beispiele.ipynb) sind einige Python-Beispiele gezeigt, u.a. wie Daten via WFS bezogen werden können oder eine Karte via WMS angezeigt werden kann
 
 Mit Binder kann das Jupyter-Notebook interaktiv im Browser gestartet werden: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=geoportal/Geoportal-Beispiele.ipynb)
