@@ -44,7 +44,7 @@ Dies scheint für Visialisierungen der geeignete Layer zu sein.
 
 Die ganzen Informationen zum Server liefert beim WFS der `GetCapabilities`-Aufruf:
 
-https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Statistische_Quartiere?service=WFS&version=1.1.0&request=GetCapabilities
+[https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Statistische_Quartiere?service=WFS&version=1.1.0&request=GetCapabilities](https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Statistische_Quartiere?service=WFS&version=1.1.0&request=GetCapabilities)
 
 Das zurückgelieferte XML beinhaltet alle wichtigen Informationen:
 
@@ -57,7 +57,7 @@ Das zurückgelieferte XML beinhaltet alle wichtigen Informationen:
 
 Mit `GetFeature` lassen sich Daten via WFS beziehen, z.B. die Statistischen Quartiere als GeoJSON:
 
-https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Statistische_Quartiere?service=WFS&version=1.1.0&request=GetFeature&typename=adm_statistische_quartiere_map&outputFormat=GeoJSON
+[https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Statistische_Quartiere?service=WFS&version=1.1.0&request=GetFeature&typename=adm_statistische_quartiere_map&outputFormat=GeoJSON](https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Statistische_Quartiere?service=WFS&version=1.1.0&request=GetFeature&typename=adm_statistische_quartiere_map&outputFormat=GeoJSON)
 
 
 ## Programmier-Beispiele
