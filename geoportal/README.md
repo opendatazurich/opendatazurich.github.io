@@ -62,6 +62,6 @@ Mit `GetFeature` lassen sich Daten via WFS beziehen, z.B. die Statistischen Quar
 
 ## Programmier-Beispiele
 
-Im [Jupyter-Notebook Geoportal-Beispiele.ipynb](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/geoportal/Geoportal-WMS-WFS.ipynb) sind einige Python-Beispiele gezeigt, u.a. wie Daten via WFS bezogen werden können oder eine Karte via WMS angezeigt werden kann.
+Im [Jupyter-Notebook Geoportal-Beispiele.ipynb](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/geoportal/Geoportal-Beispiele.ipynb) sind einige Python-Beispiele gezeigt, u.a. wie Daten via WFS bezogen werden können oder eine Karte via WMS angezeigt werden kann.
 
 Mit Binder kann das Jupyter-Notebook interaktiv im Browser gestartet werden: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=geoportal/Geoportal-Beispiele.ipynb)
