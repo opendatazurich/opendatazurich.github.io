@@ -1,18 +1,3 @@
-# Open Data Zurich API documentation
-
-## Available APIs
-
-1. [RIS-API (Ratshausinformationssystems), Gemeinderat Stadt Zürich (GRZ)](/ris-api/)
-1. [Zürich Tourismus API](/zt-api/)
-1. [Geoportal](/geoportal/)
-
-
-## Credits
-
-This repository is based on this blogpost: https://peterevans.dev/posts/how-to-host-swagger-docs-with-github-pages/
-
----
-
 # Development notes
 
 The following notes help to setup a new API documentation project.
@@ -77,4 +62,9 @@ Run the jupyter notebook:
 ./pyenv/bin/jupyter notebook
 ```
 
-1. [ParkenDD API](/parkendd-api/)
+---
+
+## Credits
+
+This repository is based on this blogpost: https://peterevans.dev/posts/how-to-host-swagger-docs-with-github-pages/
+
