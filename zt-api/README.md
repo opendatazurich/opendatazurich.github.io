@@ -7,4 +7,8 @@ Zürich Tourismus hat das [API auf ihrer eigenen Seite dokumentiert](https://zt.
 
 Im [Jupyter-Notebook ZuerichTourismusAPI-Beispiele.ipynb](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/zt-api/ZuerichTourismusAPI-Beispiele.ipynb) sind einige Python-Beispiele im Umgang mit dem API beschrieben.
 
-Mit Binder kann das Jupyter-Notebook interaktiv im Browser gestartet werden: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=zt-api/ZuerichTourismusAPI-Beispiele.ipynb)
+Jupyter-Notebook interaktiv im Browser starten: 
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=zt-api/ZuerichTourismusAPI-Beispiele.ipynb)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/opendatazurich/opendatazurich.github.io/blob/master/zt-api/ZuerichTourismusAPI-Beispiele.ipynb)
