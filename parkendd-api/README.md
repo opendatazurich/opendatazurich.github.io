@@ -171,4 +171,9 @@ Es lassen sich jeweils 7 Tage pro Requests abfragen, Beispiel alle Werte der Par
 
 Im [Jupyter-Notebook ParkenDD-Beispiel](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/parkendd-api/ParkenDD-Beispiel.ipynb) sind einige Python-Beispiele gezeigt, u.a. wie Daten via API bezogen werden können.
 
-Mit Binder kann das Jupyter-Notebook interaktiv im Browser gestartet werden: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=parkendd-api/ParkenDD-Beispiel.ipynb)
+Jupyter-Notebook interaktiv im Browser starten:
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=parkendd-api/ParkenDD-Beispiel.ipynb)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/opendatazurich/opendatazurich.github.io/blob/master/parkendd-api/ParkenDD-Beispiel.ipynb)
+
