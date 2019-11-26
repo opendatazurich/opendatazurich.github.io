@@ -1,6 +1,6 @@
-# Open Data Zurich API documentation
+# Open Data Zurich API Dokumentation
 
-## Available APIs
+## Verfügbare Schnittstellen/APIs
 
 1. [RIS-API (Ratshausinformationssystems), Gemeinderat Stadt Zürich (GRZ)](/ris-api/)
 1. [Zürich Tourismus API](/zt-api/)
