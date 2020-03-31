@@ -392,7 +392,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstitutionRs'
+security:
+  - ApiKeyAuth: []
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: api-key
+
   schemas:
     BetragRs:
       type: object
