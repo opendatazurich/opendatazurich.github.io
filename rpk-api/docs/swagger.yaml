@@ -5,6 +5,9 @@ info:
   version: "1.0"
 servers:
   - url: https://api.integ.stadt-zuerich.ch/rpkk-rs
+    description: Integrationsumgebung (mit Testdaten)
+  - url: https://api.stadt-zuerich.ch/rpkk-rs
+    description: Produktionsumgebung
 paths:
   /v1/betragsreihen:
     get:
