@@ -1,0 +1,630 @@
+openapi: 3.0.1
+info:
+  title: RPK-API, Gemeinderat Stadt Zürich (GRZ)
+  description: Schnittstelle der RPK Applikation für den Zugriff auf öffentliche Finanzdaten.
+  version: "1.0"
+paths:
+  /v1/betragsreihen:
+    get:
+      summary: Liefert Betragsreihen.
+      description: Liefert die Betragsreihen für die angegebenen kontoIds und den
+        angegebenen Zeitraum.
+      operationId: getBetragsreihen
+      parameters:
+      - name: kontoId
+        in: query
+        description: kontoIds der Konten.
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+      - name: jahre
+        in: query
+        description: Jahr(e) für welche(s) die Betragsreihen gesucht werden. Wird
+          der Parameter nicht angegeben, so werden die Betragsreihen für alle verfügbaren
+          Jahre geliefert.
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+      responses:
+        default:
+          description: Liste von Konten.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultListKontoBetragsReiheRs'
+        "400":
+          description: Wenn die kontoId nicht angegeben wird oder keiner Nummer entspricht.
+  /v1/budgetbuch:
+    get:
+      summary: Liefert die BudgetBuch-Einträge.
+      description: Liefert die BudgetBuch-Einträge für die angegebene Organisation
+        (Institution/Departement) und das entsprechende Jahr.
+      operationId: getBudgetBuch
+      parameters:
+      - name: orgKey
+        in: query
+        description: Key des gewünschten Departements oder der Institution.
+        required: true
+        schema:
+          type: string
+      - name: jahr
+        in: query
+        description: Jahr für welches die BudgetBuch-Einträge gesucht werden.
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: BudgetBuch-Einträge für die angegebene Organisation und Jahr.
+            Wird kein entsprechendes Departement gefunden, so wird eine leere Antwort
+            geliefert.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultListBudgetBuchEntryRs'
+        "400":
+          description: Wenn der orgKey leer ist oder wenn Jahr leer oder keine Zahl
+            ist.
+  /v1/betragsreihe:
+    get:
+      summary: Liefert Betragsreihen.
+      description: Liefert die Betragsreihen für die angegebene kontoId und den angegebenen
+        Zeitraum.
+      operationId: getBetragsreihe
+      parameters:
+      - name: kontoId
+        in: query
+        description: kontoId des Kontos.
+        required: true
+        schema:
+          type: string
+      - name: jahre
+        in: query
+        description: Jahr(e) für welche(s) die Betragsreihen gesucht werden. Wird
+          der Parameter nicht angegeben, so werden die Betragsreihen für alle verfügbaren
+          Jahre geliefert.
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+      responses:
+        default:
+          description: Liste von Konten.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultListBetragsReiheRs'
+        "400":
+          description: Wenn die kontoId nicht angegeben wird oder keiner Nummer entspricht.
+  /v1/departemente:
+    get:
+      summary: Liefert alle Departemente.
+      description: Liefert alle existierenden Departemente zurück.
+      operationId: getDepartemente
+      responses:
+        default:
+          description: Liste von Departementen.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultListDepartementRs'
+  /v1/sachkonto2stellig:
+    get:
+      summary: Liefert die 2-stelligen Sachkonten mit ihren Beträgen.
+      description: Liefert die 2-stelligen Sachkonten entweder pro Institution oder
+        Departement für die angegebenen Jahre und Betragstyp. Das 2-stellige Sachkonto
+        entspricht den ersten 2 Stellen der Kontonummer. Der Betrag wird summiert
+        von allen Konten, welche das gleiche 2-stellige Sachkonto haben.
+      operationId: getSachkonten2Stellig
+      parameters:
+      - name: departement
+        in: query
+        description: Departement für welches die Sachkonten gesucht werden sollen.
+        schema:
+          type: integer
+          format: int32
+      - name: institution
+        in: query
+        description: Institution für welche die Sachkonten gesucht werden sollen.
+        schema:
+          type: integer
+          format: int32
+      - name: jahr
+        in: query
+        description: Jahr(e) für welche(s) die Sachkonten gesucht werden.
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+      - name: betragsTyp
+        in: query
+        description: Betragstyp der Sachkonten.
+        required: true
+        schema:
+          type: string
+          enum:
+          - NOVEMBER_BRIEF
+          - GEMEINDERAT_BESCHLUSS
+          - NACHTRAGSKREDIT11_ANTRAG
+          - NACHTRAGSKREDIT12_ANTRAG
+          - NACHTRAGSKREDIT13_ANTRAG
+          - NACHTRAGSKREDIT14_ANTRAG
+          - NACHTRAGSKREDIT11_BESCHLUSS
+          - NACHTRAGSKREDIT12_BESCHLUSS
+          - NACHTRAGSKREDIT13_BESCHLUSS
+          - NACHTRAGSKREDIT14_BESCHLUSS
+          - NACHTRAGSKREDIT21_ANTRAG
+          - NACHTRAGSKREDIT22_ANTRAG
+          - NACHTRAGSKREDIT23_ANTRAG
+          - NACHTRAGSKREDIT24_ANTRAG
+          - NACHTRAGSKREDIT21_BESCHLUSS
+          - NACHTRAGSKREDIT22_BESCHLUSS
+          - NACHTRAGSKREDIT23_BESCHLUSS
+          - NACHTRAGSKREDIT24_BESCHLUSS
+          - RECHNUNG
+          - STADTRAT_ANTRAG
+          - N3
+          - N4
+      responses:
+        default:
+          description: Liste von Sachkonten.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultListSachkontoRs'
+        "400":
+          description: Wenn kein Departement oder keine Institution, kein Jahr oder
+            kein Betragstyp angegeben wird.
+  /v1/rechnungsbuch:
+    get:
+      summary: Liefert die RechnungsBuch-Einträge.
+      description: Liefert die RechnungsBuch-Einträge für die angegebene Organisation
+        (Institution/Departement) und das entsprechende Jahr.
+      operationId: getRechnungsBuch
+      parameters:
+      - name: orgKey
+        in: query
+        description: Key des gewünschten Departements oder der Institution.
+        required: true
+        schema:
+          type: string
+      - name: jahr
+        in: query
+        description: Jahr für welches die RechnungsBuch-Einträge gesucht werden.
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: RechnungsBuch-Einträge für die angegebene Organisation und
+            Jahr. Wird kein entsprechendes Departement gefunden, so wird eine leere
+            Antwort geliefert.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultListRechnungsBuchEntryRs'
+        "400":
+          description: Wenn der Key leer ist oder wenn Jahr leer oder keine Zahl ist.
+  /v1/konten:
+    get:
+      summary: Liefert Konten.
+      description: Liefert alle Konten, welche den angeegebenen Kriterien entsprechen.
+        Nicht enthalten sind Konten deren Institutionen Produktgruppen enthalten und
+        die kontoNr mit 5,6,7 oder 8 beginnt.
+      operationId: getKonten
+      parameters:
+      - name: bezeichnung
+        in: query
+        description: Bezeichnung der Konten. Eine Suche mit Wildcards (*) ist möglich.
+        schema:
+          type: string
+      - name: kontoNr
+        in: query
+        description: KontoNr der Konten. Eine Suche mit Wildcards (*) ist möglich.
+        schema:
+          type: string
+      - name: orgKey
+        in: query
+        description: Key des Departements oder der Institution.
+        schema:
+          type: string
+      responses:
+        default:
+          description: Liste von Konten.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultListKontoRs'
+  /v1/sachkonto1stellig:
+    get:
+      summary: Liefert die 1-stelligen Sachkonten mit ihren Beträgen.
+      description: Liefert die 1-stelligen Sachkonten für das Departement für die
+        angegebenen Jahre und Betragstyp. Das 1-stellige Sachkonto entspricht der
+        ersten Stelle der Kontonummer. Der Betrag wird summiert von allen Konten,
+        welche das gleiche 1-stellige Sachkonto haben.
+      operationId: getSachkonten1Stellig
+      parameters:
+      - name: departement
+        in: query
+        description: Departement für welches die Sachkonten gesucht werden sollen.
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: jahr
+        in: query
+        description: Jahr(e) für welche(s) die Sachkonten gesucht werden.
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int32
+      - name: betragsTyp
+        in: query
+        description: Betragstyp der Sachkonten.
+        required: true
+        schema:
+          type: string
+          enum:
+          - NOVEMBER_BRIEF
+          - GEMEINDERAT_BESCHLUSS
+          - NACHTRAGSKREDIT11_ANTRAG
+          - NACHTRAGSKREDIT12_ANTRAG
+          - NACHTRAGSKREDIT13_ANTRAG
+          - NACHTRAGSKREDIT14_ANTRAG
+          - NACHTRAGSKREDIT11_BESCHLUSS
+          - NACHTRAGSKREDIT12_BESCHLUSS
+          - NACHTRAGSKREDIT13_BESCHLUSS
+          - NACHTRAGSKREDIT14_BESCHLUSS
+          - NACHTRAGSKREDIT21_ANTRAG
+          - NACHTRAGSKREDIT22_ANTRAG
+          - NACHTRAGSKREDIT23_ANTRAG
+          - NACHTRAGSKREDIT24_ANTRAG
+          - NACHTRAGSKREDIT21_BESCHLUSS
+          - NACHTRAGSKREDIT22_BESCHLUSS
+          - NACHTRAGSKREDIT23_BESCHLUSS
+          - NACHTRAGSKREDIT24_BESCHLUSS
+          - RECHNUNG
+          - STADTRAT_ANTRAG
+          - N3
+          - N4
+      responses:
+        default:
+          description: Liste von Sachkonten.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultListSachkontoRs'
+        "400":
+          description: Wenn kein Departement, Jahr oder Betragstyp angegeben wurde.
+  /v1/departemente/{orgKey}:
+    get:
+      summary: Liefert ein Departement.
+      description: Liefert das gewünschte Departement für den angegebenen orgKey.
+      operationId: getDepartement
+      parameters:
+      - name: orgKey
+        in: path
+        description: Key des gewünschten Departements.
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Departement mit dem angegebenen orgKey. Wird kein entsprechendes
+            Departement gefunden, so wird eine leere Antwort geliefert.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepartementRs'
+  /v1/konten/{kontoId}:
+    get:
+      summary: Liefert ein Konto.
+      description: Liefert ein gewünschtes Konto mit der angegebenen kontoId.
+      operationId: getKonto
+      parameters:
+      - name: kontoId
+        in: path
+        description: kontoId der Konten. Eine Suche mit Wildcards (*) ist möglich.
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Liste von Konten.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KontoRs'
+        "400":
+          description: Wenn die kontoId nicht angegeben wird oder keiner Nummer entspricht.
+  /v1/institutionen:
+    get:
+      summary: Liefert alle Institutionen.
+      description: Liefert alle existierenden Institutionen wenn kein orgKeyDepartement
+        angegeben wird. Falls ein orgKeyDepartement angegeben wird, so werden alle
+        Institutionen des entsprechenden Departements geliefert.
+      operationId: getInstitutionen
+      parameters:
+      - name: orgKeyDepartement
+        in: query
+        description: Key des Departements für welches die zugehörigen Institutionen
+          gesucht werden sollen. Wird kein Wert für orgKeyDepartement angegeben, so
+          werden sämtlich Institutionen zurückgegeben.
+        schema:
+          type: string
+      responses:
+        default:
+          description: Liste von Institutionen. Werden keine Institutionen für die
+            angegebene orgKeyDepartement gefunden, so wird ein leeres Resultat zurückgegeben.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultListInstitutionRs'
+  /v1/institutionen/{orgKey}:
+    get:
+      summary: Liefert eine Institution.
+      description: Liefert die gewünschte Institution für den angegebenen orgKey.
+        Falls ein orgKeyDepartement angegeben wird, so werden alle Institutionen des
+        entsprechenden Departements geliefert.
+      operationId: getInstitution
+      parameters:
+      - name: orgKey
+        in: path
+        description: Key der gewünschten Institution.
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Institutionen mit dem angegebenen orgKey. Wird keine entsprechende
+            Institution gefunden, so wird ein leeres Resultat zurückgegeben.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstitutionRs'
+components:
+  schemas:
+    BetragRs:
+      type: object
+      properties:
+        betragsTyp:
+          type: string
+          enum:
+          - NOVEMBER_BRIEF
+          - GEMEINDERAT_BESCHLUSS
+          - NACHTRAGSKREDIT11_ANTRAG
+          - NACHTRAGSKREDIT12_ANTRAG
+          - NACHTRAGSKREDIT13_ANTRAG
+          - NACHTRAGSKREDIT14_ANTRAG
+          - NACHTRAGSKREDIT11_BESCHLUSS
+          - NACHTRAGSKREDIT12_BESCHLUSS
+          - NACHTRAGSKREDIT13_BESCHLUSS
+          - NACHTRAGSKREDIT14_BESCHLUSS
+          - NACHTRAGSKREDIT21_ANTRAG
+          - NACHTRAGSKREDIT22_ANTRAG
+          - NACHTRAGSKREDIT23_ANTRAG
+          - NACHTRAGSKREDIT24_ANTRAG
+          - NACHTRAGSKREDIT21_BESCHLUSS
+          - NACHTRAGSKREDIT22_BESCHLUSS
+          - NACHTRAGSKREDIT23_BESCHLUSS
+          - NACHTRAGSKREDIT24_BESCHLUSS
+          - RECHNUNG
+          - STADTRAT_ANTRAG
+          - N3
+          - N4
+        wert:
+          type: number
+          format: double
+        begruendung:
+          type: string
+        betragInRappen:
+          type: integer
+          format: int64
+    KontoBetragsReiheRs:
+      type: object
+      properties:
+        jahr:
+          type: integer
+          format: int32
+        betraege:
+          type: array
+          items:
+            $ref: '#/components/schemas/BetragRs'
+        konto:
+          type: integer
+          format: int64
+    ResultListKontoBetragsReiheRs:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/KontoBetragsReiheRs'
+    BudgetBuchEntryRs:
+      type: object
+      properties:
+        konto:
+          $ref: '#/components/schemas/KontoRs'
+        budgetAktuell:
+          type: integer
+          format: int32
+        budgetFlag:
+          type: string
+        budgetVorjahr:
+          type: integer
+          format: int32
+        rechnungVorjahr:
+          type: integer
+          format: int32
+        abweichungVJCHF:
+          type: integer
+          format: int32
+        abweichungVJProz:
+          type: number
+        begruendung:
+          type: string
+    DepartementRs:
+      type: object
+      properties:
+        key:
+          type: string
+        bezeichnung:
+          type: string
+        kurzname:
+          type: string
+    InstitutionRs:
+      type: object
+      properties:
+        key:
+          type: string
+        bezeichnung:
+          type: string
+        kurzname:
+          type: string
+        departement:
+          $ref: '#/components/schemas/DepartementRs'
+    KontoRs:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        kontoNr:
+          type: string
+        bezeichnung:
+          type: string
+        institution:
+          $ref: '#/components/schemas/InstitutionRs'
+    ResultListBudgetBuchEntryRs:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/BudgetBuchEntryRs'
+    BetragsReiheRs:
+      type: object
+      properties:
+        jahr:
+          type: integer
+          format: int32
+        betraege:
+          type: array
+          items:
+            $ref: '#/components/schemas/BetragRs'
+    ResultListBetragsReiheRs:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/BetragsReiheRs'
+    ResultListDepartementRs:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/DepartementRs'
+    ResultListSachkontoRs:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/SachkontoRs'
+    SachkontoRs:
+      type: object
+      properties:
+        institution:
+          type: string
+        sachkonto:
+          type: string
+        betrag:
+          type: number
+          format: double
+        betragsTyp:
+          type: string
+          enum:
+          - NOVEMBER_BRIEF
+          - GEMEINDERAT_BESCHLUSS
+          - NACHTRAGSKREDIT11_ANTRAG
+          - NACHTRAGSKREDIT12_ANTRAG
+          - NACHTRAGSKREDIT13_ANTRAG
+          - NACHTRAGSKREDIT14_ANTRAG
+          - NACHTRAGSKREDIT11_BESCHLUSS
+          - NACHTRAGSKREDIT12_BESCHLUSS
+          - NACHTRAGSKREDIT13_BESCHLUSS
+          - NACHTRAGSKREDIT14_BESCHLUSS
+          - NACHTRAGSKREDIT21_ANTRAG
+          - NACHTRAGSKREDIT22_ANTRAG
+          - NACHTRAGSKREDIT23_ANTRAG
+          - NACHTRAGSKREDIT24_ANTRAG
+          - NACHTRAGSKREDIT21_BESCHLUSS
+          - NACHTRAGSKREDIT22_BESCHLUSS
+          - NACHTRAGSKREDIT23_BESCHLUSS
+          - NACHTRAGSKREDIT24_BESCHLUSS
+          - RECHNUNG
+          - STADTRAT_ANTRAG
+          - N3
+          - N4
+        jahr:
+          type: integer
+          format: int32
+    RechnungsBuchEntryRs:
+      type: object
+      properties:
+        konto:
+          $ref: '#/components/schemas/KontoRs'
+        rechnungVorjahr:
+          type: integer
+          format: int32
+        budgetAktuell:
+          type: integer
+          format: int32
+        zkAktuell:
+          type: integer
+          format: int32
+        zkFlag:
+          type: string
+        rechnungAktuell:
+          type: integer
+          format: int32
+        abweichungBudgetCHF:
+          type: integer
+          format: int32
+        abweichungBudgetProz:
+          type: number
+        begruendung:
+          type: string
+    ResultListRechnungsBuchEntryRs:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/RechnungsBuchEntryRs'
+    ResultListKontoRs:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/KontoRs'
+    ResultListInstitutionRs:
+      type: object
+      properties:
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstitutionRs'
