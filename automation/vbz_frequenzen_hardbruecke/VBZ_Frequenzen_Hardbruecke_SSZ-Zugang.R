@@ -12,8 +12,8 @@ library(jsonlite)
 
 startdatum<-as.Date("2020-01-01")
 # Wenn vorhanden bitte SSZ-Zugang verwenden
-usr<-'****'
-pw<-'*****'
+usr<-Sys.getenv("SSZ_USER")
+pw<-Sys.getenv("SSZ_PASS")
 
 
 ### get locations
