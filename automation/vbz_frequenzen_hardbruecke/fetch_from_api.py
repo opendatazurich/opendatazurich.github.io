@@ -7,7 +7,7 @@ import traceback
 from datetime import datetime, date, timedelta
 import requests
 from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv(), verbose=True)
+load_dotenv(find_dotenv())
 
 user = os.getenv('SSZ_USER')
 pw = os.getenv('SSZ_PASS')
@@ -35,7 +35,7 @@ try:
     for loc in locations:
         for day in range(total_days):
             current_date = (start_date + timedelta(days=day))
-            if current_date >= today:
+            if current_date > today:
                 break
             cr = requests.get(
                'https://vbz.diamondreports.ch:8012/api/location/counter/%s' % loc['Name'],

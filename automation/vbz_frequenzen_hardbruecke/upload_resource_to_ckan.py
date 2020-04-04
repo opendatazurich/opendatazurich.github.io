@@ -20,15 +20,9 @@ import traceback
 from docopt import docopt
 from ckanapi import RemoteCKAN, NotFound
 from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv(), verbose=True)
+load_dotenv(find_dotenv())
 arguments = docopt(__doc__, version='Upload resource to CKAN 1.0')
 
-__location__ = os.path.realpath(
-    os.path.join(
-        os.getcwd(),
-        os.path.dirname(__file__)
-    )
-)
 try:
     BASE_URL = os.getenv('CKAN_BASE_URL')
     API_KEY = os.getenv('CKAN_API_KEY')
