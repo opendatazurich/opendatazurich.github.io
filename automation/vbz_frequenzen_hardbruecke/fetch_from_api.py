@@ -13,20 +13,12 @@ user = os.getenv('SSZ_USER')
 pw = os.getenv('SSZ_PASS')
 
 # get locations
-r = requests.get(
-    'https://vbz.diamondreports.ch:8012/api/location',
-    auth=(user, pw))
+r = requests.get('https://vbz.diamondreports.ch:8012/api/location', auth=(user, pw))
 locations = r.json()
 
 try:
     field_names = ['In', 'Out', 'Timestamp', 'Name']
-    writer = csv.DictWriter(
-        sys.stdout, field_names,
-        delimiter=',',
-        quotechar='"',
-        lineterminator='\n',
-        quoting=csv.QUOTE_NONNUMERIC
-    )
+    writer = csv.DictWriter(sys.stdout, field_names, quoting=csv.QUOTE_NONNUMERIC)
     writer.writeheader()
 
     start_date = date(2020, 1, 1)
