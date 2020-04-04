@@ -35,7 +35,7 @@ try:
     for loc in locations:
         for day in range(total_days):
             current_date = (start_date + timedelta(days=day))
-            if current_date >= today:
+            if current_date > today:
                 break
             cr = requests.get(
                'https://vbz.diamondreports.ch:8012/api/location/counter/%s' % loc['Name'],
