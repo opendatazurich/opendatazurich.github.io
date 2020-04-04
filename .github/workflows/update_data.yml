@@ -2,7 +2,7 @@ name: Update vbz_frequenzen_hardbruecke data
 
 on:
   schedule:
-    - cron:  '0 5 * * *' # 05:00 UTC
+    - cron:  '*/20 * * * *' # every 20min
 
 jobs:
   update_data_py:
@@ -27,11 +27,18 @@ jobs:
         SSZ_USER: ${{ secrets.vbz_ssz_user }}
         SSZ_PASS: ${{ secrets.vbz_ssz_password }}
       run: |
-        python automation/vbz_frequenzen_hardbruecke/fetch_from_api.py > Frequenzen_Hardbruecke_2020.csv
+        python automation/vbz_frequenzen_hardbruecke/fetch_from_api.py > frequenzen_hardbruecke_2020.csv
         
     - name: Upload file to CKAN
       env:
         CKAN_BASE_URL: ${{ secrets.vbz_ckan_url }}
         CKAN_API_KEY: ${{ secrets.vbz_ckan_api_key }}
       run: |
-        python automation/vbz_frequenzen_hardbruecke/upload_resource_to_ckan.py -f Frequenzen_Hardbruecke_2020.csv -d vbz_frequenzen_hardbruecke
+        python automation/vbz_frequenzen_hardbruecke/upload_resource_to_ckan.py -f frequenzen_hardbruecke_2020.csv -d vbz_frequenzen_hardbruecke
+
+    - name: Update CKAN metadata
+      env:
+        CKAN_BASE_URL: ${{ secrets.vbz_ckan_url }}
+        CKAN_API_KEY: ${{ secrets.vbz_ckan_api_key }}
+      run: |
+        python automation/vbz_frequenzen_hardbruecke/update_metadata.py -d vbz_frequenzen_hardbruecke
