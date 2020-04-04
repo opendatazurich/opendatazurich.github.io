@@ -33,6 +33,7 @@ try:
 
     filename = os.path.basename(path).lower()
     try:
+        print("Getting dataset %s..." % dataset)
         ckan_dataset = ckan.call_action('package_show', {'id': dataset})
     except NotFound:
          print('Dataset %s not found!' % dataset, file=sys.stderr)
@@ -42,11 +43,13 @@ try:
     existing = list(filter(lambda r: r['name'].lower() == filename, resources))
     if existing:
         res = existing[0]
+        print("Updating existing resource %s" % res['name'])
         ckan.action.resource_update(
             id=res['id'],
             upload=open(path, "rb")
         )
     else:
+        print("Create new resource %s" % filenafilename)
         ckan.action.resource_create(
             package_id=ckan_dataset['id'],
             upload=open(path, "rb"),

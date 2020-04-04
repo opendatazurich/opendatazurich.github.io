@@ -27,7 +27,7 @@ jobs:
         SSZ_USER: ${{ secrets.vbz_ssz_user }}
         SSZ_PASS: ${{ secrets.vbz_ssz_password }}
       run: |
-        python automation/vbz_frequenzen_hardbruecke/fetch_from_api.py > frequenzen_hardbruecke_2020.csv
+        python automation/vbz_frequenzen_hardbruecke/fetch_from_api.py | tee frequenzen_hardbruecke_2020.csv
         
     - name: Upload file to CKAN
       env:

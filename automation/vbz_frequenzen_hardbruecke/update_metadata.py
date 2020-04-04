@@ -36,7 +36,7 @@ try:
         'id': dataset,
         'dateLastUpdated': now_cet.date().strftime('%d.%m.%Y')
     }
-    print(data)
+    print("Updating dateLastUpdated on dataset %s to %s" % (dataset, data['dateLastUpdated']))
     try:
         ckan.call_action('package_patch', data)
     except NotFound:
