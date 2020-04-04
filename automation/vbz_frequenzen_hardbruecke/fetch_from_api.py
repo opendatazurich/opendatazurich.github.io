@@ -7,7 +7,7 @@ import traceback
 from datetime import datetime, date, timedelta
 import requests
 from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv(), verbose=True)
+load_dotenv(find_dotenv())
 
 user = os.getenv('SSZ_USER')
 pw = os.getenv('SSZ_PASS')
