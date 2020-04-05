@@ -49,7 +49,7 @@ try:
             upload=open(path, "rb")
         )
     else:
-        print("Create new resource %s" % filenafilename)
+        print("Create new resource %s" % filename)
         ckan.action.resource_create(
             package_id=ckan_dataset['id'],
             upload=open(path, "rb"),
