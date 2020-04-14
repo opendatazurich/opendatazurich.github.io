@@ -1,0 +1,34 @@
+Sachkonto,Bezeichnung
+3,Aufwand
+30,Personalaufwand
+31,Sach- und übriger Betriebsaufwand
+33,Abschreibungen VV
+34,Finanzaufwand
+35,Einlagen in Fonds und Spezialfinanzierungen
+36,Transferaufwand
+37,Durchlaufende Beiträge
+39,Interne Verrechnungen
+4,Ertrag
+40,Fiskalertrag
+41,Regalien und Konzessionen
+42,Entgelte
+43,Verschiedene Erträge
+44,Finanzertrag
+45,Entnahmen aus Fonds und Spezialfinanzierungen
+46,Transferertrag
+47,Durchlaufende Beiträge
+48,Ausserordentlicher Ertrag
+49,Interne Verrechnungen
+5,Investitionsausgaben
+50,Sachanlagen
+51,Investitionen auf Rechnung Dritter
+52,Immaterielle Anlagen
+54,Darlehen
+55,Beteiligungen und Grundkapitalien
+56,Eigene Investitionsbeiträge
+57,Durchlaufende Investitionsbeiträge
+6,Investitionseinnahmen
+61,Rückerstattungen
+63,Investitionsbeiträge für eigene Rechnung
+64,Rückzahlung von Darlehen
+67,Durchlaufende Investitionsbeiträge
