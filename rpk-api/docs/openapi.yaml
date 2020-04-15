@@ -1,13 +1,15 @@
 openapi: 3.0.1
 info:
-  title: RPK-API, Gemeinderat Stadt Zürich (GRZ)
+  title: RPK-API, Finanzverwaltung
   description: Schnittstelle der RPK Applikation für den Zugriff auf öffentliche Finanzdaten.
   version: "1.0"
 servers:
-  - url: https://api.integ.stadt-zuerich.ch/rpkk-rs
-    description: Integrationsumgebung (mit Testdaten)
-  - url: https://api.stadt-zuerich.ch/rpkk-rs
-    description: Produktionsumgebung
+- url: https://api.stadt-zuerich.ch/rpkk-rs
+  variables: {}
+- url: https://api.integ.stadt-zuerich.ch/rpkk-rs
+  variables: {}
+security:
+- api-key: []
 paths:
   /v1/betragsreihen:
     get:
@@ -44,6 +46,8 @@ paths:
                 $ref: '#/components/schemas/ResultListKontoBetragsReiheRs'
         "400":
           description: Wenn die kontoId nicht angegeben wird oder keiner Nummer entspricht.
+      security:
+      - ApiKeyAuth: []
   /v1/budgetbuch:
     get:
       summary: Liefert die BudgetBuch-Einträge.
@@ -75,6 +79,8 @@ paths:
         "400":
           description: Wenn der orgKey leer ist oder wenn Jahr leer oder keine Zahl
             ist.
+      security:
+      - ApiKeyAuth: []
   /v1/betragsreihe:
     get:
       summary: Liefert Betragsreihen.
@@ -107,6 +113,8 @@ paths:
                 $ref: '#/components/schemas/ResultListBetragsReiheRs'
         "400":
           description: Wenn die kontoId nicht angegeben wird oder keiner Nummer entspricht.
+      security:
+      - ApiKeyAuth: []
   /v1/departemente:
     get:
       summary: Liefert alle Departemente.
@@ -119,6 +127,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResultListDepartementRs'
+      security:
+      - ApiKeyAuth: []
   /v1/sachkonto2stellig:
     get:
       summary: Liefert die 2-stelligen Sachkonten mit ihren Beträgen.
@@ -188,6 +198,8 @@ paths:
         "400":
           description: Wenn kein Departement oder keine Institution, kein Jahr oder
             kein Betragstyp angegeben wird.
+      security:
+      - ApiKeyAuth: []
   /v1/rechnungsbuch:
     get:
       summary: Liefert die RechnungsBuch-Einträge.
@@ -218,6 +230,8 @@ paths:
                 $ref: '#/components/schemas/ResultListRechnungsBuchEntryRs'
         "400":
           description: Wenn der Key leer ist oder wenn Jahr leer oder keine Zahl ist.
+      security:
+      - ApiKeyAuth: []
   /v1/konten:
     get:
       summary: Liefert Konten.
@@ -248,6 +262,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResultListKontoRs'
+      security:
+      - ApiKeyAuth: []
   /v1/sachkonto1stellig:
     get:
       summary: Liefert die 1-stelligen Sachkonten mit ihren Beträgen.
@@ -311,6 +327,8 @@ paths:
                 $ref: '#/components/schemas/ResultListSachkontoRs'
         "400":
           description: Wenn kein Departement, Jahr oder Betragstyp angegeben wurde.
+      security:
+      - ApiKeyAuth: []
   /v1/departemente/{orgKey}:
     get:
       summary: Liefert ein Departement.
@@ -331,6 +349,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DepartementRs'
+      security:
+      - ApiKeyAuth: []
   /v1/konten/{kontoId}:
     get:
       summary: Liefert ein Konto.
@@ -352,6 +372,8 @@ paths:
                 $ref: '#/components/schemas/KontoRs'
         "400":
           description: Wenn die kontoId nicht angegeben wird oder keiner Nummer entspricht.
+      security:
+      - ApiKeyAuth: []
   /v1/institutionen:
     get:
       summary: Liefert alle Institutionen.
@@ -375,6 +397,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResultListInstitutionRs'
+      security:
+      - ApiKeyAuth: []
   /v1/institutionen/{orgKey}:
     get:
       summary: Liefert eine Institution.
@@ -397,15 +421,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InstitutionRs'
-security:
-  - ApiKeyAuth: []
+      security:
+      - ApiKeyAuth: []
 components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: api-key
-
   schemas:
     BetragRs:
       type: object
@@ -641,3 +659,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/InstitutionRs'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: api-key
+      in: header
