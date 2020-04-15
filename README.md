@@ -6,3 +6,4 @@
 1. [Zürich Tourismus API](/zt-api/)
 1. [ParkenDD API](/parkendd-api/)
 1. [Geoportal der Stadt Zürich](/geoportal/)
+1. [RPK-API (Finanzdaten der Stadt Zürich), Finanzverwaltung](/rpk-api/)
