@@ -2,17 +2,6 @@
 
 Diese Dokumentation beschreibt die Programmierschnittstelle (API) der Finanzdaten der Finanzverwaltung.
 
-Für das API gibt es eine [interaktive Dokumentation der Endpunkte und deren Parameter](/rpk-api/docs/), welche alle Details beschreibt.
-
-![RPK-API-API Dokumentation](<https://opendatazurich.github.io/rpk-api/rpk_api_swagger-ui.png>)
-
-Das komplette API steht auch als [OpenAPI Spezifikation (Swagger-File)](/rpk-api/docs/openapi.yaml) zum Downlaod zur Verfügung.
-
-Diese Dokumentation bietet einen **Schnelleinstieg in das RPK-API**.
-Im Kapitel 1 werden ein paar typische Beispiels-Abfragen erläutert. 
-Im Kapitel 2 wird ein konkretes Programmier-Beispiel mit Python als Jupyter-Notebook zur Verfügung gestellt.
-
-
 **Inhaltsverzeichnis**
 
 1. [Modell](#modell)
@@ -20,6 +9,16 @@ Im Kapitel 2 wird ein konkretes Programmier-Beispiel mit Python als Jupyter-Note
    1. [Departemente suchen](#departemente-suchen)
    1. [Institutionen suchen](#institutionen-suchen)
 1. [Programmier-Beispiele](#programmier-beispiele)
+
+Diese Dokumentation bietet einen **Schnelleinstieg in das RPK-API**
+Im ersten Teil wird das Modell und ein paar typische Beispiels-Abfragen erläutert. 
+Im zweiten Teil wird ein konkretes Programmier-Beispiel mit Python als Jupyter-Notebook zur Verfügung gestellt.
+
+Für das API gibt es eine [interaktive Dokumentation der Endpunkte und deren Parameter](/rpk-api/docs/), welche alle Details beschreibt.
+
+![RPK-API-API Dokumentation](<https://opendatazurich.github.io/rpk-api/rpk_api_swagger-ui.png>)
+
+Das komplette API steht auch als [OpenAPI Spezifikation (Swagger-File)](/rpk-api/docs/openapi.yaml) zum Downlaod zur Verfügung.
 
 ## Modell
 
