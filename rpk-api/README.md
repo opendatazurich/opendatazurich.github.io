@@ -1,13 +1,6 @@
 # RPK-API, Finanzverwaltung
 
-Diese Dokumentation beschreibt die Programmierschnittstelle (API) der Finanzdaten der Finanzverwaltung. Über das API lassen sich folgende Entitäten abfragen:
-
-* Departemente/Institutionen
-* Konten
-* Beträge/Betragsreihen
-
-<img src="https://opendatazurich.github.io/rpk-api/model.png" height="50%" width="50%" alt="Modell" title="Modell">
-
+Diese Dokumentation beschreibt die Programmierschnittstelle (API) der Finanzdaten der Finanzverwaltung.
 
 Für das API gibt es eine [interaktive Dokumentation der Endpunkte und deren Parameter](/rpk-api/docs/), welche alle Details beschreibt.
 
@@ -22,10 +15,21 @@ Im Kapitel 2 wird ein konkretes Programmier-Beispiel mit Python als Jupyter-Note
 
 **Inhaltsverzeichnis**
 
+1. [Modell](#modell)
 1. [Beispiel-Abfragen](#beispiel-abfragen)
    1. [Departemente suchen](#departemente-suchen)
-   2. [Institutionen suchen](#institutionen-suchen)
-2. [Programmier-Beispiele](#programmier-beispiele)
+   1. [Institutionen suchen](#institutionen-suchen)
+1. [Programmier-Beispiele](#programmier-beispiele)
+
+## Modell
+
+Über das API lassen sich folgende Entitäten abfragen:
+
+* Departemente/Institutionen
+* Konten
+* Beträge/Betragsreihen
+
+<img src="https://opendatazurich.github.io/rpk-api/model.png" height="50%" width="50%" alt="Modell" title="Modell">
 
 ## Beispiel-Abfragen
 
