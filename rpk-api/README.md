@@ -24,7 +24,7 @@ Im Kapitel 2 wird ein konkretes Programmier-Beispiel mit Python als Jupyter-Note
 
 1. [Beispiel-Abfragen](#beispiel-abfragen)
    1. [Departemente suchen](#departemente-suchen)
-   2. [Institutionen suchen](#institutionen-details)
+   2. [Institutionen suchen](#institutionen-suchen)
 2. [Programmier-Beispiele](#programmier-beispiele)
 
 ## Beispiel-Abfragen
