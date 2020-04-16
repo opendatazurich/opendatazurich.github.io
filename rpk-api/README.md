@@ -6,7 +6,7 @@ Diese Dokumentation beschreibt die Programmierschnittstelle (API) der Finanzdate
 * Konten
 * Beträge/Betragsreihen
 
-![Modell](<https://opendatazurich.github.io/rpk-api/model.png>)
+<img src="https://opendatazurich.github.io/rpk-api/model.png" height="50%" width="50%" alt="Modell" title="Modell">
 
 
 Für das API gibt es eine [interaktive Dokumentation der Endpunkte und deren Parameter](/rpk-api/docs/), welche alle Details beschreibt.
