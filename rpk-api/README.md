@@ -8,6 +8,7 @@ Diese Dokumentation beschreibt die Programmierschnittstelle (API) der Finanzdate
 1. [Beispiel-Abfragen](#beispiel-abfragen)
    1. [Departemente suchen](#departemente-suchen)
    1. [Institutionen suchen](#institutionen-suchen)
+   1. [Konten abfragen]((#konten-abfragen)
 1. [Programmier-Beispiele](#programmier-beispiele)
 
 Diese Dokumentation bietet einen **Schnelleinstieg in das RPK-API**
@@ -310,12 +311,361 @@ Der orgKey Parameter ist optional, er kann verwendet werden um einen Instiutions
             },
             "key": "1520",
             "kurzname": "MRZ"
+        }
+    ]
+}
+```
+(Output gekürzt für bessere Übersicht)
+
+### Konten abfragen
+
+**Endpunkt:**
+
+`https://api.stadt-zuerich.ch/rpkk-rs/v1/konten?bezeichnung=<string>&kontoNr=<string>&orgKey=<string>`
+
+* `bezeichnung`: Bezeichnung der Konten. Eine Suche mit Wildcards (*) ist möglich.
+* `kontoNr`: KontoNr der Konten. Eine Suche mit Wildcards (*) ist möglich.
+* `orgKey`: Key des Departements oder der Institution.
+
+`orgKey` kann mit den [`/departemente`](#departemente-suchen) oder [`/institutionen`](#institutionen-suchen) Endpunkten gefunden werden.
+
+
+**Alle Konten der Dienstabteilung Statistik Stadt Zürich anzeigen:**
+
+`GET https://api.stadt-zuerich.ch/rpkk-rs/v1/konten?orgKey=1575`
+
+```json
+{
+    "value": [
+        {
+            "bezeichnung": "Löhne des Verwaltungs- und Betriebspersonals",
+            "id": 7953,
+            "institution": {
+                "bezeichnung": "Statistik Stadt Zürich",
+                "departement": {
+                    "bezeichnung": "Präsidialdepartement",
+                    "key": "15",
+                    "kurzname": "PRD"
+                },
+                "key": "1575",
+                "kurzname": "SSZ"
+            },
+            "kontoNr": "3010 00 000"
         },
-        ...
+        {
+            "bezeichnung": "Erstattung von Lohn des Verwaltungs- und Betriebspersonals",
+            "id": 12041,
+            "institution": {
+                "bezeichnung": "Statistik Stadt Zürich",
+                "departement": {
+                    "bezeichnung": "Präsidialdepartement",
+                    "key": "15",
+                    "kurzname": "PRD"
+                },
+                "key": "1575",
+                "kurzname": "SSZ"
+            },
+            "kontoNr": "3010 00 900"
+        },
+        {
+            "bezeichnung": "Verpflegungszulagen",
+            "id": 7954,
+            "institution": {
+                "bezeichnung": "Statistik Stadt Zürich",
+                "departement": {
+                    "bezeichnung": "Präsidialdepartement",
+                    "key": "15",
+                    "kurzname": "PRD"
+                },
+                "key": "1575",
+                "kurzname": "SSZ"
+            },
+            "kontoNr": "3042 00 000"
+        },
+        {
+            "bezeichnung": "Übrige Zulagen",
+            "id": 12042,
+            "institution": {
+                "bezeichnung": "Statistik Stadt Zürich",
+                "departement": {
+                    "bezeichnung": "Präsidialdepartement",
+                    "key": "15",
+                    "kurzname": "PRD"
+                },
+                "key": "1575",
+                "kurzname": "SSZ"
+            },
+            "kontoNr": "3049 00 000"
+        },
+        {
+            "bezeichnung": "AG-Beiträge AHV, IV, EO, ALV, Verwaltungskosten",
+            "id": 7955,
+            "institution": {
+                "bezeichnung": "Statistik Stadt Zürich",
+                "departement": {
+                    "bezeichnung": "Präsidialdepartement",
+                    "key": "15",
+                    "kurzname": "PRD"
+                },
+                "key": "1575",
+                "kurzname": "SSZ"
+            },
+            "kontoNr": "3050 00 000"
+        },
+        {
+            "bezeichnung": "Erstattung von AG-Beiträgen AHV, IV, EO, ALV, Verwaltungskosten",
+            "id": 12043,
+            "institution": {
+                "bezeichnung": "Statistik Stadt Zürich",
+                "departement": {
+                    "bezeichnung": "Präsidialdepartement",
+                    "key": "15",
+                    "kurzname": "PRD"
+                },
+                "key": "1575",
+                "kurzname": "SSZ"
+            },
+            "kontoNr": "3050 00 900"
+        },
+        {
+            "bezeichnung": "AG-Beiträge an Pensionskassen",
+            "id": 7956,
+            "institution": {
+                "bezeichnung": "Statistik Stadt Zürich",
+                "departement": {
+                    "bezeichnung": "Präsidialdepartement",
+                    "key": "15",
+                    "kurzname": "PRD"
+                },
+                "key": "1575",
+                "kurzname": "SSZ"
+            },
+            "kontoNr": "3052 00 000"
+        },
+        {
+            "bezeichnung": "AG-Beiträge an Unfall- und Personal-Haftpflichtversicherungen",
+            "id": 7957,
+            "institution": {
+                "bezeichnung": "Statistik Stadt Zürich",
+                "departement": {
+                    "bezeichnung": "Präsidialdepartement",
+                    "key": "15",
+                    "kurzname": "PRD"
+                },
+                "key": "1575",
+                "kurzname": "SSZ"
+            },
+            "kontoNr": "3053 00 000"
+        }
+    ]
+}
+```
+(Output gekürzt für bessere Übersicht)
+
+### Betragsreihen von Konto abfragen
+
+Um eine Betragsreihe abzufragen, benötigt man zuerst eine Konto-ID (siehe [`/konten` Endpunkt](#konten-abfragen)).
+
+**Endpunkt:**
+
+`https://api.stadt-zuerich.ch/rpkk-rs/v1/betragsreihen?kontoId=<long>,<long>&jahre=<integer>,<integer>`
+
+* **`kontoId`**: (Required) kontoIds der Konten. Mehrere IDs komma-separiert angeben z.B. 7957,7956
+* `jahre`: (Required) Jahr(e) für welche(s) die Betragreihen gesucht werden. Mehrere Jahre komma-separiert angeben z.B. 2019,2020
+
+`kontoId` kann mit den [`/konten`](#konten-abfragen) Endpunkt gefunden werden (**ACHTUNG**: es geht um das Feld `id` nicht das Feld `kontoNr`).
+
+Hinweise zur Antwort:
+
+* `betragInRappen`: Betrag in Rappen (`wert * 100 = betragInRappen`)
+* `wert`: Betrag in CHF (`betragInRappen / 100 = wert`)
+* `betragsTyp`: Dies bezeichnet die Phase im Budgetprozess (siehe [Modell](#modell))
+
+**Betragsreihe des Kontos 7953 ("Löhne des Verwaltungs- und Betriebspersonals" von Statistik Stadt Zürich) für das Jahr 2019 anzeigen:**
+
+
+`GET https://api.integ.stadt-zuerich.ch/rpkk-rs/v1/betragsreihe?jahre=2019&kontoId=7991`
+
+```json
+{
+    "value": [
+        {
+            "betraege": [
+                {
+                    "begruendung": "Anpassung Löhne von div. Mitarbeitenden aufgrund neuer Einstufung und Wiederbesetzung einer Vakanz.\r\n",
+                    "betragInRappen": 340800000,
+                    "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+                    "wert": 3408000.0
+                },
+                {
+                    "begruendung": "Anpassung Löhne von div. Mitarbeitenden aufgrund neuer Einstufung und Wiederbesetzung einer Vakanz.\r\n",
+                    "betragInRappen": 340800000,
+                    "betragsTyp": "STADTRAT_ANTRAG",
+                    "wert": 3408000.0
+                },
+                {
+                    "betragInRappen": 331575280,
+                    "betragsTyp": "RECHNUNG",
+                    "wert": 3315752.8
+                },
+                {
+                    "betragInRappen": 2000000,
+                    "betragsTyp": "N4",
+                    "wert": 20000.0
+                }
+            ],
+            "jahr": 2019
+        }
     ]
 }
 ```
 
+### 2-stellige Sachkonten abfragen
+
+**Endpunkt:**
+
+`https://api.stadt-zuerich.ch/rpkk-rs/v1/sachkonto2stellig?departement=<integer>&institution=<integer>&jahr=<integer>,<integer>&betragsTyp=<string>`
+
+* **`jahr`**: (Required) Jahr(e) für welche(s) die Sachkonten gesucht werden. Mehrere Jahre komma-separiert angeben z.B. "2019,2020"
+* **`betragsTyp`**: (Required) Betragstyp der Sachkonten. Gültige Werte: NOVEMBER_BRIEF, GEMEINDERAT_BESCHLUSS, NACHTRAGSKREDIT11_ANTRAG, NACHTRAGSKREDIT12_ANTRAG, NACHTRAGSKREDIT13_ANTRAG, NACHTRAGSKREDIT14_ANTRAG, NACHTRAGSKREDIT11_BESCHLUSS, NACHTRAGSKREDIT12_BESCHLUSS, NACHTRAGSKREDIT13_BESCHLUSS, NACHTRAGSKREDIT14_BESCHLUSS, NACHTRAGSKREDIT21_ANTRAG, NACHTRAGSKREDIT22_ANTRAG, NACHTRAGSKREDIT23_ANTRAG, NACHTRAGSKREDIT24_ANTRAG, NACHTRAGSKREDIT21_BESCHLUSS, NACHTRAGSKREDIT22_BESCHLUSS, NACHTRAGSKREDIT23_BESCHLUSS, NACHTRAGSKREDIT24_BESCHLUSS, RECHNUNG, STADTRAT_ANTRAG, N3, N4
+* `departement`: Departement für welches die Sachkonten gesucht werden sollen. Wert kann mit den [`/departemente`](#departemente-suchen) Endpunkt gefunden werden.
+* `institution`: Institution für welche die Sachkonten gesucht werden sollen. Wert kann mit den [`/institutionen`](#institutionen-suchen) Endpunkt gefunden werden.
+* `orgKey`: Key des Departements oder der Institution.
+
+`departement` kann mit den [`/departemente`](#departemente-suchen) oder [`/institutionen`](#institutionen-suchen) Endpunkten gefunden werden.
+
+Hinweise zur Antwort:
+
+* `betrag`: Der Betrag ist in CHF angegeben
+* `betragsTyp`: Dies bezeichnet die Phase im Budgetprozess (siehe [Modell](#modell))
+* `institution`: Wert kann mit den [`/institutionen`](#institutionen-suchen) Endpunkt aufgelöst werden.
+* `sachkonto`: In der [CSV-Datei sachkonto_codes.csv](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/rpk-api/sachkonto_codes.csv) sind alle Sachkonten mit ihrer Bezeichnung aufgelistet.
+
+**Alle Sachkonto des Präsidialdepartements für 2019 anzeigen (gemäss Gemeinderatsbeschluss):**
+
+
+
+`GET https://api.stadt-zuerich.ch/rpkk-rs/v1/sachkonto2stellig?departement=15&jahr=2019&betragsTyp=GEMEINDERAT_BESCHLUSS`
+
+```json
+{
+    "value": [
+        {
+            "betrag": "3356900",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1500",
+            "jahr": 2019,
+            "sachkonto": "30"
+        },
+        {
+            "betrag": "4610400",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1505",
+            "jahr": 2019,
+            "sachkonto": "30"
+        },
+        {
+            "betrag": "1224400",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1506",
+            "jahr": 2019,
+            "sachkonto": "30"
+        },
+        {
+            "betrag": "6871100",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1510",
+            "jahr": 2019,
+            "sachkonto": "30"
+        },
+        {
+            "betrag": "6454300",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1520",
+            "jahr": 2019,
+            "sachkonto": "30"
+        },
+        {
+            "betrag": "21134000",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1530",
+            "jahr": 2019,
+            "sachkonto": "30"
+        },
+        {
+            "betrag": "800200",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1561",
+            "jahr": 2019,
+            "sachkonto": "30"
+        },
+        {
+            "betrag": "2388500",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1565",
+            "jahr": 2019,
+            "sachkonto": "30"
+        },
+        {
+            "betrag": "4145700",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1575",
+            "jahr": 2019,
+            "sachkonto": "30"
+        },
+        {
+            "betrag": "305000",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1500",
+            "jahr": 2019,
+            "sachkonto": "31"
+        },
+        {
+            "betrag": "2253000",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1505",
+            "jahr": 2019,
+            "sachkonto": "31"
+        },
+        {
+            "betrag": "356800",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1506",
+            "jahr": 2019,
+            "sachkonto": "31"
+        },
+        {
+            "betrag": "9545700",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1510",
+            "jahr": 2019,
+            "sachkonto": "31"
+        },
+        {
+            "betrag": "4920500",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1520",
+            "jahr": 2019,
+            "sachkonto": "31"
+        },
+        {
+            "betrag": "4371400",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1530",
+            "jahr": 2019,
+            "sachkonto": "31"
+        },
+        {
+            "betrag": "82000",
+            "betragsTyp": "GEMEINDERAT_BESCHLUSS",
+            "institution": "1561",
+            "jahr": 2019,
+            "sachkonto": "31"
+        }
+    ]
+}
+```
+(Output gekürzt für bessere Übersicht)
 
 ## Programmier-Beispiele
 
