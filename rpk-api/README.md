@@ -16,7 +16,7 @@ Im zweiten Teil wird ein konkretes Programmier-Beispiel mit Python als Jupyter-N
 
 Für das API gibt es eine [interaktive Dokumentation der Endpunkte und deren Parameter](/rpk-api/docs/), welche alle Details beschreibt.
 
-![RPK-API-API Dokumentation](<https://opendatazurich.github.io/rpk-api/rpk_api_swagger-ui.png>)
+<img src="https://opendatazurich.github.io/rpk-api/rpk_api_swagger-ui.png" height="50%" width="50%" alt="Modell" title="RPK-API Dokumentation">
 
 Das komplette API steht auch als [OpenAPI Spezifikation (Swagger-File)](/rpk-api/docs/openapi.yaml) zum Downlaod zur Verfügung.
 
@@ -29,6 +29,13 @@ Das komplette API steht auch als [OpenAPI Spezifikation (Swagger-File)](/rpk-api
 * Beträge/Betragsreihen
 
 <img src="https://opendatazurich.github.io/rpk-api/model.png" height="50%" width="50%" alt="Modell" title="Modell">
+
+
+Der städtische Budget- und Rechnungsprozess durchläuft eine Reihe von Phasen:
+Vom Antrag an den Stadtrat, über Nachträge im sogenannten Novemberbrief über das vom Gemeinderat beschlossene Budget sowie mehrere Runden mit Nachtragskrediten.
+Diese Phasen sind im API als Betragstypen abgebildet.
+
+<img src="https://opendatazurich.github.io/rpk-api/budgetprozess.png" height="50%" width="50%" alt="Budgetprozess" title="Budgetprozess">
 
 ## Beispiel-Abfragen
 
@@ -317,7 +324,6 @@ Im [Jupyter-Notebook RPK-API-Beispiele.ipynb](https://github.com/opendatazurich/
 Jupyter-Notebook interaktiv im Browser starten: 
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=rpk-api/RPK-API-Beispiele.ipynb)
-
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/opendatazurich/opendatazurich.github.io/blob/master/rpk-api/RPK-API-Beispiele.ipynb)
 
-![RPK-API Dokumentation](<https://opendatazurich.github.io/rpk-api/rpk_api_binder.png>)
+<img src="https://opendatazurich.github.io/rpk-api/rpk_api_binder.png" height="50%" width="50%" alt="RPK-API Jupyter Notebook in Binder" title="RPK-API Jupyter Notebook in Binder">
