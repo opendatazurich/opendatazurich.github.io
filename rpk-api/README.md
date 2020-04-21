@@ -8,7 +8,9 @@ Diese Dokumentation beschreibt die Programmierschnittstelle (API) der Finanzdate
 1. [Beispiel-Abfragen](#beispiel-abfragen)
    1. [Departemente suchen](#departemente-suchen)
    1. [Institutionen suchen](#institutionen-suchen)
-   1. [Konten abfragen]((#konten-abfragen)
+   1. [Konten abfragen](#konten-abfragen)
+   1. [Betragsreihen von Konto abfragen](#betragsreihen-von-konto-abfragen)
+   1. [2-stellige Sachkonten abfragen](#2-stellige-sachkonten-abfragen)
 1. [Programmier-Beispiele](#programmier-beispiele)
 
 Diese Dokumentation bietet einen **Schnelleinstieg in das RPK-API**
@@ -40,7 +42,7 @@ Diese Phasen sind im API als Betragstypen abgebildet.
 
 ## Beispiel-Abfragen
 
-### Departemente abfragen
+### Departemente suchen
 
 **Endpunkt:**
 
