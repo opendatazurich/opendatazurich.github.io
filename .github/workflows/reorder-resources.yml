@@ -1,0 +1,43 @@
+name: Re-order resources
+
+on:
+  schedule:
+    #- cron:  '20 5-22/4 * * *' # 5:20, 9:20, 13:20, 17:20 21:20 (UTC)
+    - cron:  '*/5 * * * *'
+
+jobs:
+  reorder:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    # checkout repos
+    - uses: actions/checkout@v2
+    - name: Checkout ckan-admin-scripts repo
+      uses: actions/checkout@v2
+      with:
+        repository: metaodi/ckan-admin-scripts
+        path: ckan-admin-scripts
+
+   # Setup Python
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r automation/automation-requirements.txt
+        pip install -r ckan-admin-scripts/requirements.txt
+        sudo apt-get install jq
+    
+    # run the scripts
+    - name: Reorder the resources
+      env:
+        CKAN_API_KEY: ${{ secrets.ckan_api_key }}
+        CKAN_BASE_URL: ${{ secrets.ckan_base_url }}
+      run: |
+        ckanapi action package_search q="tags:sachdaten" rows=500 -r $CKAN_BASE_URL | jq -r ".results|.[]|.name" | python ckan-admin-scripts/order_resources.py
