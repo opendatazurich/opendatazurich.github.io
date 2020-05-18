@@ -48,19 +48,17 @@ Die zwei Serien von Nachtragskrediten sind jeweils mit einem Code versehen:
 | Code* | Serie | Bezeichnung | Parameter `betragsTyp` für das API                                          | Bemerkung |                                                                      
 | ----- | ----- | ----------- | --------------------------------------------------------------------------- | --------- |
 | N11   | 1     | Ordentlicher Nachtragkredit  | `NACHTRAGSKREDIT11_ANTRAG`, `NACHTRAGSKREDIT11_BESCHLUSS`  |           |        
-| N12   | 1     | Ordentliche Übertragungen Nachtragskredit | `NACHTRAGSKREDIT11_ANTRAG`, `NACHTRAGSKREDIT11_BESCHLUSS` | |
-| N13   | 1     | Dringlicher Nachtragskredit | `NACHTRAGSKREDIT11_ANTRAG`, `NACHTRAGSKREDIT11_BESCHLUSS` ||
-| N14   | 1     | Dingliche Übertragungen Nachtragskredit | `NACHTRAGSKREDIT11_ANTRAG`, `NACHTRAGSKREDIT11_BESCHLUSS`
-| N15   | 1     | Statistische Mehreinnahmen Nachtragskredit                            | - | nicht im Budget nachgeführt. |
-| N21   | 2     | Ordentlicher Nachtragskredit | `NACHTRAGSKREDIT11_ANTRAG`, `NACHTRAGSKREDIT11_BESCHLUSS` | |
-| N22   | 2     | Ordentliche Übertragungen Nachtragskredit | `NACHTRAGSKREDIT11_ANTRAG`, `NACHTRAGSKREDIT11_BESCHLUSS` | |
-| N23   | 2     | Dringlicher Nachtragskredit | `NACHTRAGSKREDIT11_ANTRAG`, `NACHTRAGSKREDIT11_BESCHLUSS` | |
-| N24   | 2     | Dingliche Übertragungen Nachtragskredit| `NACHTRAGSKREDIT11_ANTRAG`, `NACHTRAGSKREDIT11_BESCHLUSS` | |
+| N12   | 1     | Ordentliche Übertragungen Nachtragskredit | `NACHTRAGSKREDIT12_ANTRAG`, `NACHTRAGSKREDIT12_BESCHLUSS` | |
+| N13   | 1     | Dringlicher Nachtragskredit | `NACHTRAGSKREDIT13_ANTRAG`, `NACHTRAGSKREDIT13_BESCHLUSS` ||
+| N14   | 1     | Dingliche Übertragungen Nachtragskredit | `NACHTRAGSKREDIT13_ANTRAG`, `NACHTRAGSKREDIT13_BESCHLUSS`
+| N15   | 1     | Statistische Mehreinnahmen Nachtragskredit | - | nicht im Budget nachgeführt. |
+| N21   | 2     | Ordentlicher Nachtragskredit | `NACHTRAGSKREDIT21_ANTRAG`, `NACHTRAGSKREDIT21_BESCHLUSS` | |
+| N22   | 2     | Ordentliche Übertragungen Nachtragskredit | `NACHTRAGSKREDIT22_ANTRAG`, `NACHTRAGSKREDIT22_BESCHLUSS` | |
+| N23   | 2     | Dringlicher Nachtragskredit | `NACHTRAGSKREDIT23_ANTRAG`, `NACHTRAGSKREDIT23_BESCHLUSS` | |
+| N24   | 2     | Dingliche Übertragungen Nachtragskredit| `NACHTRAGSKREDIT24_ANTRAG`, `NACHTRAGSKREDIT24_BESCHLUSS` | |
 | N25   | 2     | Statistische Mehreinnahmen Nachtragskredit | - | | Nur statistisch und nicht im Budget nachgeführt. |
 
-* Bis 2008 wurde im Code Z anstatt N verwendet.
-
-NOVEMBER_BRIEF, GEMEINDERAT_BESCHLUSS, NACHTRAGSKREDIT11_ANTRAG, NACHTRAGSKREDIT12_ANTRAG, NACHTRAGSKREDIT13_ANTRAG, NACHTRAGSKREDIT14_ANTRAG, NACHTRAGSKREDIT11_BESCHLUSS, NACHTRAGSKREDIT12_BESCHLUSS, NACHTRAGSKREDIT13_BESCHLUSS, NACHTRAGSKREDIT14_BESCHLUSS, NACHTRAGSKREDIT21_ANTRAG, NACHTRAGSKREDIT22_ANTRAG, NACHTRAGSKREDIT23_ANTRAG, NACHTRAGSKREDIT24_ANTRAG, NACHTRAGSKREDIT21_BESCHLUSS, NACHTRAGSKREDIT22_BESCHLUSS, NACHTRAGSKREDIT23_BESCHLUSS, NACHTRAGSKREDIT24_BESCHLUSS, RECHNUNG, STADTRAT_ANTRAG, N3, N4
+* Bis 2018 wurde im Code Z anstatt N verwendet.
 
 ## Beispiel-Abfragen
 
@@ -352,7 +350,7 @@ Der orgKey Parameter ist optional, er kann verwendet werden um einen Instiutions
 * `orgKey`: Key des Departements oder der Institution.
 
 `orgKey` kann mit den [`/departemente`](#departemente-suchen) oder [`/institutionen`](#institutionen-suchen) Endpunkten gefunden werden.
-
+`kontoNr` war bis 2018 8-stellig (xxxx xxxx), ab 2019 sind die Kontonummern 9-stellig (xxxx xx xxx).
 
 **Alle Konten der Dienstabteilung Statistik Stadt Zürich anzeigen:**
 
