@@ -5,6 +5,7 @@ Diese Dokumentation beschreibt die Programmierschnittstelle (API) der Finanzdate
 **Inhaltsverzeichnis**
 
 1. [Modell](#modell)
+   1. [Nachtragskredite](#nachtragskredite)
 1. [Beispiel-Abfragen](#beispiel-abfragen)
    1. [Departemente suchen](#departemente-suchen)
    1. [Institutionen suchen](#institutionen-suchen)
@@ -33,7 +34,7 @@ Das komplette API steht auch als [OpenAPI Spezifikation (Swagger-File)](/rpk-api
 
 <img src="https://opendatazurich.github.io/rpk-api/model.png" height="50%" width="50%" alt="Modell" title="Modell">
 
-
+### Phasen im Budget- und Rechnungsprozess
 Der städtische Budget- und Rechnungsprozess durchläuft eine Reihe von Phasen:
 Vom Antrag an den Stadtrat, über Nachträge im sogenannten Novemberbrief über das vom Gemeinderat beschlossene Budget sowie zwei Serien mit Nachtragskrediten.
 Diese Phasen sind im API als Betragstypen abgebildet.
