@@ -5,6 +5,8 @@ Diese Dokumentation beschreibt die Programmierschnittstelle (API) der Finanzdate
 **Inhaltsverzeichnis**
 
 1. [Modell](#modell)
+   1. [Phasen im Budget- und Rechnungsprozess](#phasen-im-budget--und-rechnungsprozess)
+   1. [Nachtragskredite](#nachtragskredite)
 1. [Beispiel-Abfragen](#beispiel-abfragen)
    1. [Departemente suchen](#departemente-suchen)
    1. [Institutionen suchen](#institutionen-suchen)
@@ -33,12 +35,32 @@ Das komplette API steht auch als [OpenAPI Spezifikation (Swagger-File)](/rpk-api
 
 <img src="https://opendatazurich.github.io/rpk-api/model.png" height="50%" width="50%" alt="Modell" title="Modell">
 
-
+### Phasen im Budget- und Rechnungsprozess
 Der städtische Budget- und Rechnungsprozess durchläuft eine Reihe von Phasen:
-Vom Antrag an den Stadtrat, über Nachträge im sogenannten Novemberbrief über das vom Gemeinderat beschlossene Budget sowie mehrere Runden mit Nachtragskrediten.
+Vom Antrag an den Stadtrat, über Nachträge im sogenannten Novemberbrief über das vom Gemeinderat beschlossene Budget sowie zwei Serien mit Nachtragskrediten.
 Diese Phasen sind im API als Betragstypen abgebildet.
 
 <img src="https://opendatazurich.github.io/rpk-api/budgetprozess.png" height="50%" width="50%" alt="Budgetprozess" title="Budgetprozess">
+
+### Nachtragskredite
+
+Die zwei Serien von Nachtragskrediten sind jeweils mit einem Code versehen:
+
+
+| Code* | Serie | Bezeichnung | Parameter `betragsTyp` für das API                                          | Bemerkung |                                                                      
+| ----- | ----- | ----------- | --------------------------------------------------------------------------- | --------- |
+| N11   | 1     | Ordentlicher Nachtragkredit  | `NACHTRAGSKREDIT11_ANTRAG`, `NACHTRAGSKREDIT11_BESCHLUSS`  |           |        
+| N12   | 1     | Ordentliche Übertragungen Nachtragskredit | `NACHTRAGSKREDIT12_ANTRAG`, `NACHTRAGSKREDIT12_BESCHLUSS` | |
+| N13   | 1     | Dringlicher Nachtragskredit | `NACHTRAGSKREDIT13_ANTRAG`, `NACHTRAGSKREDIT13_BESCHLUSS` ||
+| N14   | 1     | Dingliche Übertragungen Nachtragskredit | `NACHTRAGSKREDIT13_ANTRAG`, `NACHTRAGSKREDIT13_BESCHLUSS`
+| N15   | 1     | Statistische Mehreinnahmen Nachtragskredit | - | nicht im Budget nachgeführt. |
+| N21   | 2     | Ordentlicher Nachtragskredit | `NACHTRAGSKREDIT21_ANTRAG`, `NACHTRAGSKREDIT21_BESCHLUSS` | |
+| N22   | 2     | Ordentliche Übertragungen Nachtragskredit | `NACHTRAGSKREDIT22_ANTRAG`, `NACHTRAGSKREDIT22_BESCHLUSS` | |
+| N23   | 2     | Dringlicher Nachtragskredit | `NACHTRAGSKREDIT23_ANTRAG`, `NACHTRAGSKREDIT23_BESCHLUSS` | |
+| N24   | 2     | Dingliche Übertragungen Nachtragskredit| `NACHTRAGSKREDIT24_ANTRAG`, `NACHTRAGSKREDIT24_BESCHLUSS` | |
+| N25   | 2     | Statistische Mehreinnahmen Nachtragskredit | - | | Nur statistisch und nicht im Budget nachgeführt. |
+
+* Bis 2018 wurde im Code Z anstatt N verwendet.
 
 ## Beispiel-Abfragen
 
@@ -330,7 +352,7 @@ Der orgKey Parameter ist optional, er kann verwendet werden um einen Instiutions
 * `orgKey`: Key des Departements oder der Institution.
 
 `orgKey` kann mit den [`/departemente`](#departemente-suchen) oder [`/institutionen`](#institutionen-suchen) Endpunkten gefunden werden.
-
+`kontoNr` war bis 2018 8-stellig (xxxx xxxx), ab 2019 sind die Kontonummern 9-stellig (xxxx xx xxx).
 
 **Alle Konten der Dienstabteilung Statistik Stadt Zürich anzeigen:**
 
