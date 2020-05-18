@@ -5,6 +5,7 @@ Diese Dokumentation beschreibt die Programmierschnittstelle (API) der Finanzdate
 **Inhaltsverzeichnis**
 
 1. [Modell](#modell)
+   1. [Phasen im Budget- und Rechnungsprozess](#phasen-im-budget--und-rechnungsprozess)
    1. [Nachtragskredite](#nachtragskredite)
 1. [Beispiel-Abfragen](#beispiel-abfragen)
    1. [Departemente suchen](#departemente-suchen)
