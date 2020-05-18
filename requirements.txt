@@ -9,3 +9,4 @@ anytree
 pendulum
 beautifulsoup4
 tqdm
+PyPDF2
