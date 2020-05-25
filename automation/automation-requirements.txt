@@ -3,3 +3,6 @@ requests
 ckanapi
 docopts
 pytz
+sruthi
+beautifulsoup4
+defusedxml
