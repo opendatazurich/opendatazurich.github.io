@@ -6,3 +6,4 @@ pytz
 sruthi
 beautifulsoup4
 defusedxml
+slackclient
