@@ -2,7 +2,7 @@ name: Notify about new/updated datasets
 
 on:
   schedule:
-    - cron:  '8 45 * * *' # 8:45 UTC
+    - cron:  '45 8 * * *' # 8:45 UTC
 
 jobs:
   notify_datasets:
