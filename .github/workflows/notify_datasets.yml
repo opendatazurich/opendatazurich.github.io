@@ -27,6 +27,6 @@ jobs:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SLACK_API_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        SLACK_CHANNEL_ID: CV4NG6ECE # team-opendata
+        SLACK_CHANNEL_ID: C014Y6SHE12 # github-action-notifications
       run: |
         python automation/notify_datasets/notify.py
