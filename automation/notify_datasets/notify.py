@@ -65,6 +65,8 @@ try:
 
             if last_job_stats['deleted'] > 0:
                 color = 'danger'
+            elif last_job_stats['errored'] > 0:
+                color = 'danger'
             elif last_job_stats['added'] > 0:
                 color = 'warning'
             else:
