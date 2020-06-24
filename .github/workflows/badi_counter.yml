@@ -16,7 +16,6 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
-    - run: npm ci
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
