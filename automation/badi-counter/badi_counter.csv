@@ -781,3 +781,6 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-24T19:24:02+02:00,210,c5ed7c34806fc3,"Hallenbad Oerlikon",https://www.badi-info.ch/oerlikon.html,1,manual,"",0,421,19,0
 2020-06-24T19:25:11+02:00,211,c5ed7c35d2691a,"Freibad Mythenquai",https://www.badi-info.ch/Mythenquai.html,1,manual,"",1,4009,0,0
 2020-06-24T19:34:10+02:00,210,c5ed7c34806fc3,"Hallenbad Oerlikon",https://www.badi-info.ch/oerlikon.html,1,manual,"",0,421,12,0
+2020-06-24T19:35:09+02:00,222,c5ed7c47e86f10,"Wärmebad Käferberg",https://www.badi-info.ch/kaeferberg.html,1,manual,"",0,70,2,0
+2020-06-24T19:37:16+02:00,210,c5ed7c34806fc3,"Hallenbad Oerlikon",https://www.badi-info.ch/oerlikon.html,1,manual,"",1,421,0,0
+2020-06-24T19:38:57+02:00,221,c5ed7c466505e4,"Hallenbad Leimbach",https://www.badi-info.ch/zh/leimbach-hallenbad.html,1,manual,"",1,120,0,0
