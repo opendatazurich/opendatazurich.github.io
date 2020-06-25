@@ -792,3 +792,5 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-25T04:24:36+02:00,210,c5ed7c34806fc3,"Hallenbad Oerlikon",https://www.badi-info.ch/oerlikon.html,1,manual,"",0,421,56,0
 2020-06-25T04:30:08+02:00,210,c5ed7c34806fc3,"Hallenbad Oerlikon",https://www.badi-info.ch/oerlikon.html,1,manual,"",0,421,71,0
 2020-06-25T04:32:00+02:00,71,c5eb19118e5824,"Hallenbad City Zürich",https://www.badi-info.ch/city.html,1,manual,"",0,365,83,0
+2020-06-25T04:40:04+02:00,71,c5eb19118e5824,"Hallenbad City Zürich",https://www.badi-info.ch/city.html,1,manual,"",0,365,99,0
+2020-06-25T04:42:49+02:00,210,c5ed7c34806fc3,"Hallenbad Oerlikon",https://www.badi-info.ch/oerlikon.html,1,manual,"",0,421,75,0
