@@ -857,3 +857,11 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-25T06:31:40+02:00,72,c5eb1917e9eedc,"Freibad Letzigraben",https://www.badi-info.ch/letzi.html,1,manual,"",0,2970,47,0
 2020-06-25T06:32:48+02:00,210,c5ed7c34806fc3,"Hallenbad Oerlikon",https://www.badi-info.ch/oerlikon.html,1,manual,"",0,421,145,0
 2020-06-25T06:34:14+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,1,manual,"",0,147,13,0
+2020-06-25T06:36:34+02:00,221,c5ed7c466505e4,"Hallenbad Leimbach",https://www.badi-info.ch/zh/leimbach-hallenbad.html,1,manual,"",0,120,3,0
+2020-06-25T06:36:35+02:00,217,c5ed7c4013bd69,"Seebad Utoquai",https://www.badi-info.ch/Utoquai.html,1,manual,"",0,231,55,-2
+2020-06-25T06:40:12+02:00,210,c5ed7c34806fc3,"Hallenbad Oerlikon",https://www.badi-info.ch/oerlikon.html,1,manual,"",0,421,147,0
+2020-06-25T06:42:05+02:00,71,c5eb19118e5824,"Hallenbad City Zürich",https://www.badi-info.ch/city.html,1,manual,"",0,365,41,0
+2020-06-25T06:42:30+02:00,213,c5ed7c3a043ac0,"Freibad Seebach",https://www.badi-info.ch/seebach.html,1,manual,"",0,2100,48,-2
+2020-06-25T06:42:43+02:00,72,c5eb1917e9eedc,"Freibad Letzigraben",https://www.badi-info.ch/letzi.html,1,manual,"",0,2970,74,0
+2020-06-25T06:43:48+02:00,211,c5ed7c35d2691a,"Freibad Mythenquai",https://www.badi-info.ch/Mythenquai.html,1,manual,"",0,4009,37,0
+2020-06-25T06:44:00+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,1,manual,"",0,147,17,0
