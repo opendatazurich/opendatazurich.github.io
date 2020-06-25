@@ -1382,3 +1382,19 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-25T12:18:38+02:00,207,c5ed7c2be2e1d1,"Freibad Heuried",https://www.badi-info.ch/heuried.html,1,manual,"",0,1760,626,7
 2020-06-25T12:18:46+02:00,72,c5eb1917e9eedc,"Freibad Letzigraben",https://www.badi-info.ch/letzi.html,1,manual,"",0,2970,564,19
 2020-06-25T12:18:49+02:00,215,c5ed7c3c97c5c1,"Freibad Tiefenbrunnen",https://www.badi-info.ch/Tiefenbrunnen.html,1,manual,"",0,2812,617,0
+2020-06-25T12:24:33+02:00,210,c5ed7c34806fc3,"Hallenbad Oerlikon",https://www.badi-info.ch/oerlikon.html,1,manual,"",0,421,134,0
+2020-06-25T12:24:53+02:00,213,c5ed7c3a043ac0,"Freibad Seebach",https://www.badi-info.ch/seebach.html,1,manual,"",0,2100,323,-2
+2020-06-25T12:26:20+02:00,217,c5ed7c4013bd69,"Seebad Utoquai",https://www.badi-info.ch/Utoquai.html,1,manual,"",0,231,220,-2
+2020-06-25T12:26:32+02:00,219,c5ed7c43707dff,"Hallenbad Bläsi",https://www.badi-info.ch/blaesi.html,1,manual,"",0,101,10,0
+2020-06-25T12:26:33+02:00,215,c5ed7c3c97c5c1,"Freibad Tiefenbrunnen",https://www.badi-info.ch/Tiefenbrunnen.html,1,manual,"",0,2812,647,0
+2020-06-25T12:26:52+02:00,71,c5eb19118e5824,"Hallenbad City Zürich",https://www.badi-info.ch/city.html,1,manual,"",0,365,63,0
+2020-06-25T12:26:57+02:00,218,c5ed7c41ae0016,"Freibad Wollishofen",https://www.badi-info.ch/wollishofen.html,1,manual,"",0,387,95,0
+2020-06-25T12:27:04+02:00,208,c5ed7c2d6c3cfb,"Freibad Hölzli",https://www.badi-info.ch/zh/oberengstringen-schwimmbad.html,1,manual,"",0,2200,286,0
+2020-06-25T12:27:22+02:00,207,c5ed7c2be2e1d1,"Freibad Heuried",https://www.badi-info.ch/heuried.html,1,manual,"",0,1760,660,7
+2020-06-25T12:27:26+02:00,206,c5ed7c2a3c5fa5,"Freibad Auhof",https://www.badi-info.ch/auhof.html,1,manual,"",0,1929,283,0
+2020-06-25T12:27:28+02:00,211,c5ed7c35d2691a,"Freibad Mythenquai",https://www.badi-info.ch/Mythenquai.html,1,manual,"",0,4009,1125,0
+2020-06-25T12:27:34+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"",0,701,463,0
+2020-06-25T12:27:36+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,1,manual,"",0,814,475,1
+2020-06-25T12:27:47+02:00,212,c5ed7c38a83d5e,"Flussbad Oberer Letten",https://www.badi-info.ch/oberer_letten.html,1,manual,"",0,299,290,0
+2020-06-25T12:27:50+02:00,72,c5eb1917e9eedc,"Freibad Letzigraben",https://www.badi-info.ch/letzi.html,1,manual,"",0,2970,583,23
+2020-06-25T12:27:55+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,1,manual,"",0,880,397,0
