@@ -1972,7 +1972,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-26T07:16:01+02:00,218,c5ed7c41ae0016,"Freibad Wollishofen",https://www.badi-info.ch/wollishofen.html,1,manual,"",0,387,32,1
 2020-06-26T07:19:19+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,1,manual,"",0,147,17,0
 2020-06-26T07:22:02+02:00,218,c5ed7c41ae0016,"Freibad Wollishofen",https://www.badi-info.ch/wollishofen.html,1,manual,"",0,387,33,1
-2020-06-26T07:32:57+02:00,206,c5ed7c2a3c5fa5,"Freibad Auhof",https://www.badi-info.ch/auhof.html,3,manual,"offen Bad ist wenig besucht",0,1929,0,0
+2020-06-26T07:32:57+02:00,206,c5ed7c2a3c5fa5,"Freibad Auhof",https://www.badi-info.ch/auhof.html,3,manual,"offen Bad ist mittelmässig besucht",0,1929,0,0
 2020-06-26T07:33:00+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,1,manual,"",0,147,32,0
 2020-06-26T07:51:36+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,1,manual,"",0,147,39,0
 2020-06-26T08:05:41+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,1,manual,"",0,147,41,0
@@ -2058,3 +2058,4 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-27T12:44:15+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,76,0
 2020-06-27T12:53:42+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,96,0
 2020-06-27T13:04:00+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,107,1
+2020-06-27T13:12:12+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,116,1
