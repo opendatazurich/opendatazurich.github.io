@@ -2042,3 +2042,4 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-27T07:52:35+02:00,71,c5eb19118e5824,"Hallenbad City",https://www.badi-info.ch/city.html,1,manual,"",0,365,68,0
 2020-06-27T08:03:44+02:00,71,c5eb19118e5824,"Hallenbad City",https://www.badi-info.ch/city.html,1,manual,"",0,365,69,0
 2020-06-27T08:24:34+02:00,71,c5eb19118e5824,"Hallenbad City",https://www.badi-info.ch/city.html,1,manual,"",0,365,0,0
+2020-06-27T09:15:53+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,7,0
