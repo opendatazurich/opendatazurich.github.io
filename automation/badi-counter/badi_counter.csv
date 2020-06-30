@@ -1943,7 +1943,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-25T19:13:18+02:00,71,c5eb19118e5824,"Hallenbad City Zürich",https://www.badi-info.ch/city.html,1,manual,"",0,365,19,0
 2020-06-25T19:20:44+02:00,219,c5ed7c43707dff,"Hallenbad Bläsi",https://www.badi-info.ch/blaesi.html,1,manual,"",0,101,7,0
 2020-06-25T19:25:39+02:00,219,c5ed7c43707dff,"Hallenbad Bläsi",https://www.badi-info.ch/blaesi.html,1,manual,"",0,101,8,0
-2020-06-25T19:32:29+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen Badi ist mittelmässig besucht",0,880,0,0
+2020-06-25T19:32:29+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen Badi ist gut besucht",0,880,0,0
 2020-06-25T19:37:33+02:00,219,c5ed7c43707dff,"Hallenbad Bläsi",https://www.badi-info.ch/blaesi.html,1,manual,"",1,101,0,0
 2020-06-25T19:44:17+02:00,222,c5ed7c47e86f10,"Wärmebad Käferberg",https://www.badi-info.ch/kaeferberg.html,3,manual,"",0,70,0,0
 2020-06-25T19:44:46+02:00,215,c5ed7c3c97c5c1,"Strandbad Tiefenbrunnen",https://www.badi-info.ch/Tiefenbrunnen.html,3,manual,"offen Bad ist mittelmässig besucht",0,2812,0,2
@@ -2105,3 +2105,4 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-30T11:44:29+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen das Bad ist sehr gut besucht",0,147,202,1
 2020-06-30T11:54:22+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen das Bad ist sehr gut besucht",0,147,213,1
 2020-06-30T12:10:01+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen das Bad ist sehr gut besucht",0,147,228,1
+2020-06-30T12:19:09+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen das Bad ist sehr gut besucht",0,147,226,1
