@@ -2140,3 +2140,4 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-03T06:55:36+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen Bad ist wenig besucht",0,147,5,1
 2020-07-03T08:57:25+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen bis 14.00 Uhr",0,147,1,1
 2020-07-03T09:52:46+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen bis 14.00 Uhr",1,147,0,1
+2020-07-03T14:50:50+02:00,72,c5eb1917e9eedc,"Freibad Letzigraben",https://www.badi-info.ch/letzi.html,3,manual,"offen Bad ist wenig besucht",1,2970,0,0
