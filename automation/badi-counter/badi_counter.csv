@@ -2071,7 +2071,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-27T15:10:28+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,160,0
 2020-06-27T15:22:54+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,167,0
 2020-06-27T15:34:27+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,168,0
-2020-06-27T15:40:33+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen , Bad ist wenig besucht",0,387,171,0
+2020-06-27T15:40:33+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen mitelmässig besucht, freie Plätze",0,387,171,0
 2020-06-30T06:43:23+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen , Bad ist wenig besucht",0,147,17,1
 2020-06-30T06:50:32+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen , Bad ist wenig besucht",0,147,20,1
 2020-06-30T07:08:52+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen , Bad ist wenig besucht",0,147,35,1
@@ -2227,6 +2227,9 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-04T12:26:24+02:00,215,c5ed7c3c97c5c1,"Strandbad Tiefenbrunnen",https://www.badi-info.ch/Tiefenbrunnen.html,1,manual,"offen Bad ist wenig besucht",0,2812,0,0
 2020-07-04T12:28:58+02:00,212,c5ed7c38a83d5e,"Flussbad Oberer Letten",https://www.badi-info.ch/oberer_letten.html,1,manual,"offen Bad ist mittelmässig besucht",0,299,299,27
 2020-07-04T12:32:41+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"offen Flussteil geschlossen,beckenbereich offen,sehr gut besucht",0,701,213,0
-2020-07-04T12:37:23+02:00,215,c5ed7c3c97c5c1,"Strandbad Tiefenbrunnen",https://www.badi-info.ch/Tiefenbrunnen.html,1,manual,"offen Bad ist wenig besucht",1,2812,0,0
+2020-07-04T12:37:23+02:00,215,c5ed7c3c97c5c1,"Strandbad Tiefenbrunnen",https://www.badi-info.ch/Tiefenbrunnen.html,1,manual,"offen Bad ist mittelmässig besucht",0,2812,0,0
 2020-07-04T12:43:36+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,1,manual,"offen das Bad ist gut besucht",0,147,160,1
 2020-07-04T12:44:44+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"offen Flussteil geschlossen,beckenbereich offen,sehr gut besucht",0,701,217,0
+2020-07-04T12:47:16+02:00,212,c5ed7c38a83d5e,"Flussbad Oberer Letten",https://www.badi-info.ch/oberer_letten.html,1,manual,"offen Bad ist mittelmässig besucht",1,299,0,27
+2020-07-04T12:49:10+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,1,manual,"offen das Bad ist gut besucht",1,147,0,1
+2020-07-04T12:55:30+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"offen Flussteil geschlossen,beckenbereich offen,sehr gut besucht",0,701,233,0
