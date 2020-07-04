@@ -2212,3 +2212,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-04T11:45:33+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"offen Flussteil geschlossen,beckenbereich offen,sehr gut besucht",0,701,160,0
 2020-07-04T11:45:41+02:00,211,c5ed7c35d2691a,"Strandbad Mythenquai",https://www.badi-info.ch/Mythenquai.html,1,manual,"offen Bad ist wenig besucht",0,4009,1240,0
 2020-07-04T11:45:46+02:00,212,c5ed7c38a83d5e,"Flussbad Oberer Letten",https://www.badi-info.ch/oberer_letten.html,1,manual,"offen Bad ist mittelmässig besucht",0,299,245,0
+2020-07-04T11:54:20+02:00,215,c5ed7c3c97c5c1,"Strandbad Tiefenbrunnen",https://www.badi-info.ch/Tiefenbrunnen.html,1,manual,"offen Bad ist wenig besucht",0,2812,3,0
+2020-07-04T11:54:53+02:00,211,c5ed7c35d2691a,"Strandbad Mythenquai",https://www.badi-info.ch/Mythenquai.html,1,manual,"offen Bad ist wenig besucht",0,4009,1272,0
+2020-07-04T11:55:02+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"offen Flussteil geschlossen,beckenbereich offen,sehr gut besucht",0,701,166,0
+2020-07-04T11:55:31+02:00,212,c5ed7c38a83d5e,"Flussbad Oberer Letten",https://www.badi-info.ch/oberer_letten.html,1,manual,"offen Bad ist mittelmässig besucht",0,299,270,0
