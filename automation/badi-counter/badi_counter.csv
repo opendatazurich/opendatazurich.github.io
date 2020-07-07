@@ -2267,3 +2267,4 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-04T17:55:20+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"geschlossen Der Flussteil bleibt vorerst geschlossen.",0,590,0,0
 2020-07-06T08:28:40+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,offen,1,814,0,1
 2020-07-07T07:01:25+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"offen der Flussteil ist Geschlossen",0,590,2,0
+2020-07-07T07:25:58+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"offen der Flussteil ist Geschlossen",0,590,15,0
