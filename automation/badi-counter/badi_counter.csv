@@ -2399,3 +2399,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-08T09:17:25+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,1,manual,"offen Bad ist sehr gut besucht",0,180,146,1
 2020-07-08T09:18:30+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,1,manual,"offen Bad ist wenig besucht",0,814,143,0
 2020-07-08T09:19:04+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",1,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,95,0
+2020-07-08T09:24:36+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",1,manual,"",0,130,19,0
+2020-07-08T09:25:43+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,1,manual,"offen Bad ist sehr gut besucht",0,180,152,1
+2020-07-08T09:25:47+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",1,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,97,0
+2020-07-08T09:26:03+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,1,manual,"offen Bad ist wenig besucht",0,814,184,0
