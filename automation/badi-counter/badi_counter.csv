@@ -2422,3 +2422,6 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-08T10:16:22+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",1,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,132,0
 2020-07-08T10:18:11+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,1,manual,"offen Bad ist wenig besucht",0,814,273,0
 2020-07-08T10:18:14+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",1,manual,"",0,130,36,0
+2020-07-08T10:26:16+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,1,manual,"offen Bad ist wenig besucht",0,814,306,0
+2020-07-08T10:26:23+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",1,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,142,0
+2020-07-08T10:26:25+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",1,manual,"",0,130,42,0
