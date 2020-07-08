@@ -2516,3 +2516,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-08T14:36:05+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist Mittelmässig besucht",0,1650,990,0
 2020-07-08T14:36:06+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,451,0
 2020-07-08T14:36:27+02:00,211,c5ed7c35d2691a,"Strandbad Mythenquai",https://www.badi-info.ch/Mythenquai.html,3,manual,"offen Badist mittelmässig besucht",0,6500,1647,0
+2020-07-08T14:39:37+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen Bad ist mittelmässig besucht",0,1600,289,0
+2020-07-08T14:43:06+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist Mittelmässig besucht",0,1650,1004,0
+2020-07-08T14:43:46+02:00,211,c5ed7c35d2691a,"Strandbad Mythenquai",https://www.badi-info.ch/Mythenquai.html,3,manual,"offen Badist mittelmässig besucht",0,6500,1637,0
+2020-07-08T14:44:04+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,439,0
