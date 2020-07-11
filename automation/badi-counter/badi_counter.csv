@@ -3113,4 +3113,4 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-11T08:06:29+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,0,0
 2020-07-11T09:00:20+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",1,590,0,0
 2020-07-11T09:20:18+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen bis 11 Uhr, Bad ist wenig besucht",1,1600,0,0
-2020-07-11T10:16:39+02:00,211,c5ed7c35d2691a,"Strandbad Mythenquai",https://www.badi-info.ch/Mythenquai.html,3,manual,"offen Bad ist wenig besucht",0,6500,0,0
+2020-07-11T10:16:39+02:00,211,c5ed7c35d2691a,"Strandbad Mythenquai",https://www.badi-info.ch/Mythenquai.html,3,manual,"offen bis 14.00 Uhr",0,6500,0,0
