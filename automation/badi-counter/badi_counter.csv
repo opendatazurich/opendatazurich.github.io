@@ -3117,3 +3117,4 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-12T04:09:31+02:00,71,c5eb19118e5824,"Hallenbad City",https://www.badi-info.ch/city.html,3,manual,"offen Bad ist mittelmässig besucht",0,365,18,0
 2020-07-12T04:18:52+02:00,71,c5eb19118e5824,"Hallenbad City",https://www.badi-info.ch/city.html,3,manual,"offen Bad ist mittelmässig besucht",0,365,21,0
 2020-07-12T04:24:43+02:00,71,c5eb19118e5824,"Hallenbad City",https://www.badi-info.ch/city.html,3,manual,"offen Bad ist wenig besucht",0,365,24,0
+2020-07-12T06:44:14+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,0,4
