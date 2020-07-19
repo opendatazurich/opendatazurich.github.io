@@ -1618,7 +1618,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-25T14:45:40+02:00,205,c5ed7c28b7b192,"Freibad Allenmoos",https://www.badi-info.ch/Allenmoos.html,1,manual,"",0,4020,1046,0
 2020-06-25T14:52:14+02:00,219,c5ed7c43707dff,"Hallenbad Bläsi",https://www.badi-info.ch/blaesi.html,1,manual,"",0,101,17,0
 2020-06-25T14:52:49+02:00,221,c5ed7c466505e4,"Hallenbad Leimbach",https://www.badi-info.ch/zh/leimbach-hallenbad.html,1,manual,"",0,120,8,0
-2020-06-25T14:53:12+02:00,217,c5ed7c4013bd69,"Seebad Utoquai",https://www.badi-info.ch/Utoquai.html,3,manual,"offen Bad ist VOLL, Wartezeiten für Gem. Bereich bis zu 1Std",0,400,231,51
+2020-06-25T14:53:12+02:00,217,c5ed7c4013bd69,"Seebad Utoquai",https://www.badi-info.ch/Utoquai.html,3,manual,"offen das Bad ist fast voll",0,400,231,51
 2020-06-25T14:54:08+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"",0,701,700,21
 2020-06-25T14:54:23+02:00,218,c5ed7c41ae0016,"Freibad Wollishofen",https://www.badi-info.ch/wollishofen.html,1,manual,"",0,387,160,0
 2020-06-25T14:54:26+02:00,213,c5ed7c3a043ac0,"Freibad Seebach",https://www.badi-info.ch/seebach.html,1,manual,"",0,2100,707,-2
@@ -4321,3 +4321,6 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-19T15:53:17+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,379,0
 2020-07-19T15:54:11+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist voll, Wartezeit ca. 20 min.",0,1650,1489,20
 2020-07-19T15:54:28+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,130,21
+2020-07-19T16:09:54+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,130,6
+2020-07-19T16:10:19+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist voll, Wartezeit ca. 20 min.",0,1650,1377,20
+2020-07-19T16:10:32+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,346,0
