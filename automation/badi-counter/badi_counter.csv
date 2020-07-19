@@ -4276,3 +4276,6 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-19T13:36:25+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,130,23
 2020-07-19T13:36:29+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen Bad ist sehr gut besucht",0,1600,1054,0
 2020-07-19T13:36:33+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,525,4
+2020-07-19T13:43:38+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,130,21
+2020-07-19T13:44:07+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,554,4
+2020-07-19T13:44:36+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen Bad ist sehr gut besucht",0,1600,1050,0
