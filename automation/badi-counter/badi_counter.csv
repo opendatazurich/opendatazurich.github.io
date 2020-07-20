@@ -2435,7 +2435,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-08T10:55:30+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen Bad ist voll",0,180,180,1
 2020-07-08T10:55:35+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",1,manual,"",0,130,79,0
 2020-07-08T10:55:43+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist wenig besucht",0,814,356,0
-2020-07-08T11:02:28+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen , Bad ist wenig besucht",0,180,180,1
+2020-07-08T11:02:28+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen Bad ist mittelmässig besucht",0,180,180,1
 2020-07-08T11:08:19+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",1,manual,"",0,130,64,0
 2020-07-08T11:09:37+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist wenig besucht",0,814,372,0
 2020-07-08T11:09:40+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",1,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,184,0
@@ -4391,3 +4391,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-20T08:08:44+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,29,0
 2020-07-20T08:11:36+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,41,0
 2020-07-20T08:11:49+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen Bad ist wenig besucht",0,1600,116,0
+2020-07-20T08:23:17+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,61,0
+2020-07-20T08:24:08+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,45,0
+2020-07-20T08:24:10+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist mittelmässig besucht",0,1650,98,1
+2020-07-20T08:24:18+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen Bad ist wenig besucht",0,1600,131,0
