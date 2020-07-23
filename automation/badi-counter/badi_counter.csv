@@ -1764,7 +1764,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-25T16:35:47+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,1,manual,"",0,880,667,0
 2020-06-25T16:35:54+02:00,211,c5ed7c35d2691a,"Freibad Mythenquai",https://www.badi-info.ch/Mythenquai.html,1,manual,"",0,4009,625,1
 2020-06-25T16:36:41+02:00,212,c5ed7c38a83d5e,"Flussbad Oberer Letten",https://www.badi-info.ch/oberer_letten.html,1,manual,"",0,299,299,15
-2020-06-25T16:36:46+02:00,220,c5ed7c44f09fcd,"Hallenbad Bungertwies",https://www.badi-info.ch/bungertwies.html,3,manual,offen,0,97,0,0
+2020-06-25T16:36:46+02:00,220,c5ed7c44f09fcd,"Hallenbad Bungertwies",https://www.badi-info.ch/bungertwies.html,3,manual,offen,1,97,0,0
 2020-06-25T16:38:31+02:00,213,c5ed7c3a043ac0,"Freibad Seebach",https://www.badi-info.ch/seebach.html,1,manual,"",0,2100,670,-2
 2020-06-25T16:39:36+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,1,manual,"",0,814,716,1
 2020-06-25T16:39:58+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,1,manual,"",0,147,110,0
@@ -5176,3 +5176,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-23T11:25:45+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,162,0
 2020-07-23T11:26:00+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,124,0
 2020-07-23T11:26:23+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen Badi ist mittelmässig besucht",0,1600,351,0
+2020-07-23T11:34:49+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist wenig besucht",0,1650,352,0
+2020-07-23T11:34:53+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,130,5
+2020-07-23T11:34:58+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,165,0
+2020-07-23T11:35:36+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen Badi ist mittelmässig besucht",0,1600,376,0
