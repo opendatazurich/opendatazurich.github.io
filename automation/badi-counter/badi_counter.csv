@@ -1945,7 +1945,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-25T19:25:39+02:00,219,c5ed7c43707dff,"Hallenbad Bläsi",https://www.badi-info.ch/blaesi.html,1,manual,"",0,101,8,0
 2020-06-25T19:32:29+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen Bad ist wenig besucht",0,880,0,0
 2020-06-25T19:37:33+02:00,219,c5ed7c43707dff,"Hallenbad Bläsi",https://www.badi-info.ch/blaesi.html,3,manual,"offen Bad ist wenig besucht",1,101,0,0
-2020-06-25T19:44:17+02:00,222,c5ed7c47e86f10,"Wärmebad Käferberg",https://www.badi-info.ch/kaeferberg.html,3,manual,"offen Bad ist wenig besucht",1,70,0,0
+2020-06-25T19:44:17+02:00,222,c5ed7c47e86f10,"Wärmebad Käferberg",https://www.badi-info.ch/kaeferberg.html,3,manual,"offen Bad ist wenig besucht",0,70,0,0
 2020-06-25T19:44:46+02:00,215,c5ed7c3c97c5c1,"Strandbad Tiefenbrunnen",https://www.badi-info.ch/Tiefenbrunnen.html,3,manual,"offen Bad ist wenig besucht",0,2812,0,2
 2020-06-25T19:45:48+02:00,71,c5eb19118e5824,"Hallenbad City Zürich",https://www.badi-info.ch/city.html,1,manual,"",0,365,16,0
 2020-06-25T20:06:30+02:00,71,c5eb19118e5824,"Hallenbad City Zürich",https://www.badi-info.ch/city.html,1,manual,"",0,365,0,0
@@ -2071,7 +2071,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-27T15:10:28+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,160,0
 2020-06-27T15:22:54+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,167,0
 2020-06-27T15:34:27+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,168,0
-2020-06-27T15:40:33+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen . Bad ist wenig besucht.",0,387,171,0
+2020-06-27T15:40:33+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen . Bad ist mittelmässig besucht.",0,387,171,0
 2020-06-30T06:43:23+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen , Bad ist wenig besucht",0,147,17,1
 2020-06-30T06:50:32+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen , Bad ist wenig besucht",0,147,20,1
 2020-06-30T07:08:52+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen , Bad ist wenig besucht",0,147,35,1
@@ -6688,3 +6688,6 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-31T08:56:09+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,107,0
 2020-07-31T08:56:29+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist wenig besucht",0,1650,258,0
 2020-07-31T08:56:43+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,172,0
+2020-07-31T09:09:44+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,190,0
+2020-07-31T09:10:33+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist wenig besucht",0,1650,312,0
+2020-07-31T09:11:05+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,104,0
