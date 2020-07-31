@@ -2243,7 +2243,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-04T14:12:59+02:00,215,c5ed7c3c97c5c1,"Strandbad Tiefenbrunnen",https://www.badi-info.ch/Tiefenbrunnen.html,1,manual,"offen Bad ist mittelmässig besucht",0,2812,0,0
 2020-07-04T14:18:34+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"offen Flussteil geschlossen,beckenbereich offen,sehr gut besucht",0,701,335,0
 2020-07-04T14:27:11+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"offen Flussteil geschlossen,beckenbereich offen,sehr gut besucht",0,701,328,0
-2020-07-04T14:28:33+02:00,215,c5ed7c3c97c5c1,"Strandbad Tiefenbrunnen",https://www.badi-info.ch/Tiefenbrunnen.html,3,manual,"offen , das Bad ist sehr gut besucht",0,4800,0,0
+2020-07-04T14:28:33+02:00,215,c5ed7c3c97c5c1,"Strandbad Tiefenbrunnen",https://www.badi-info.ch/Tiefenbrunnen.html,3,manual,"offen , das Bad ist sehr gut besucht",1,4800,0,0
 2020-07-04T14:34:51+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"offen Flussteil geschlossen,beckenbereich offen,sehr gut besucht",0,701,337,0
 2020-07-04T14:44:03+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"offen Flussteil geschlossen,beckenbereich offen,sehr gut besucht",0,701,351,0
 2020-07-04T14:54:15+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"offen Flussteil geschlossen,beckenbereich offen,sehr gut besucht",0,701,352,0
@@ -3116,7 +3116,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-11T10:16:39+02:00,211,c5ed7c35d2691a,"Strandbad Mythenquai",https://www.badi-info.ch/Mythenquai.html,3,manual,"offen Bad ist wenig besucht",0,6500,0,0
 2020-07-12T04:09:31+02:00,71,c5eb19118e5824,"Hallenbad City",https://www.badi-info.ch/city.html,3,manual,"offen Bad ist mittelmässig besucht",0,365,18,0
 2020-07-12T04:18:52+02:00,71,c5eb19118e5824,"Hallenbad City",https://www.badi-info.ch/city.html,3,manual,"offen Bad ist mittelmässig besucht",0,365,21,0
-2020-07-12T04:24:43+02:00,71,c5eb19118e5824,"Hallenbad City",https://www.badi-info.ch/city.html,3,manual,offen,0,365,24,0
+2020-07-12T04:24:43+02:00,71,c5eb19118e5824,"Hallenbad City",https://www.badi-info.ch/city.html,3,manual,"offen Bad ist mittelmässig besucht",0,365,24,0
 2020-07-12T06:44:14+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,0,0
 2020-07-12T06:58:55+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist wenig besucht",0,1650,21,1
 2020-07-12T07:00:37+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,3,0
