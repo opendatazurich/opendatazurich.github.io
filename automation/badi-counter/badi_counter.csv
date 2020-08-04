@@ -1944,12 +1944,12 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-25T19:20:44+02:00,219,c5ed7c43707dff,"Hallenbad Bläsi",https://www.badi-info.ch/blaesi.html,1,manual,"",0,101,7,0
 2020-06-25T19:25:39+02:00,219,c5ed7c43707dff,"Hallenbad Bläsi",https://www.badi-info.ch/blaesi.html,1,manual,"",0,101,8,0
 2020-06-25T19:32:29+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen Bad ist wenig besucht",0,880,0,0
-2020-06-25T19:37:33+02:00,219,c5ed7c43707dff,"Hallenbad Bläsi",https://www.badi-info.ch/blaesi.html,3,manual,"offen Bad ist mittelmässig besucht",0,101,0,0
+2020-06-25T19:37:33+02:00,219,c5ed7c43707dff,"Hallenbad Bläsi",https://www.badi-info.ch/blaesi.html,3,manual,"offen Bad ist wenig besucht",0,101,0,0
 2020-06-25T19:44:17+02:00,222,c5ed7c47e86f10,"Wärmebad Käferberg",https://www.badi-info.ch/kaeferberg.html,3,manual,"offen Bad ist wenig besucht",0,70,0,0
 2020-06-25T19:44:46+02:00,215,c5ed7c3c97c5c1,"Strandbad Tiefenbrunnen",https://www.badi-info.ch/Tiefenbrunnen.html,3,manual,"offen Bad ist wenig besucht",0,2812,0,2
 2020-06-25T19:45:48+02:00,71,c5eb19118e5824,"Hallenbad City Zürich",https://www.badi-info.ch/city.html,1,manual,"",0,365,16,0
 2020-06-25T20:06:30+02:00,71,c5eb19118e5824,"Hallenbad City Zürich",https://www.badi-info.ch/city.html,1,manual,"",0,365,0,0
-2020-06-26T04:07:17+02:00,210,c5ed7c34806fc3,"Hallenbad Oerlikon",https://www.badi-info.ch/oerlikon.html,3,manual,"offen , Bad ist sehr gut besucht",0,421,0,0
+2020-06-26T04:07:17+02:00,210,c5ed7c34806fc3,"Hallenbad Oerlikon",https://www.badi-info.ch/oerlikon.html,3,manual,"offen , Bad ist mittelmässig besucht",0,421,0,0
 2020-06-26T04:18:14+02:00,71,c5eb19118e5824,"Hallenbad City Zürich",https://www.badi-info.ch/city.html,1,manual,"",0,365,62,0
 2020-06-26T04:26:09+02:00,71,c5eb19118e5824,"Hallenbad City Zürich",https://www.badi-info.ch/city.html,1,manual,"",0,365,86,0
 2020-06-26T04:32:42+02:00,71,c5eb19118e5824,"Hallenbad City Zürich",https://www.badi-info.ch/city.html,1,manual,"",0,365,96,0
