@@ -1618,7 +1618,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-25T14:45:40+02:00,205,c5ed7c28b7b192,"Freibad Allenmoos",https://www.badi-info.ch/Allenmoos.html,1,manual,"",0,4020,1046,0
 2020-06-25T14:52:14+02:00,219,c5ed7c43707dff,"Hallenbad Bläsi",https://www.badi-info.ch/blaesi.html,1,manual,"",0,101,17,0
 2020-06-25T14:52:49+02:00,221,c5ed7c466505e4,"Hallenbad Leimbach",https://www.badi-info.ch/zh/leimbach-hallenbad.html,1,manual,"",0,120,8,0
-2020-06-25T14:53:12+02:00,217,c5ed7c4013bd69,"Seebad Utoquai",https://www.badi-info.ch/Utoquai.html,3,manual,"offen - das Bad ist mässig voll",1,400,231,51
+2020-06-25T14:53:12+02:00,217,c5ed7c4013bd69,"Seebad Utoquai",https://www.badi-info.ch/Utoquai.html,3,manual,"offen Bad ist wenig besucht",0,400,231,51
 2020-06-25T14:54:08+02:00,216,c5ed7c3ecaf50b,"Flussbad Unterer Letten",https://www.badi-info.ch/Unterer_letten.html,1,manual,"",0,701,700,21
 2020-06-25T14:54:23+02:00,218,c5ed7c41ae0016,"Freibad Wollishofen",https://www.badi-info.ch/wollishofen.html,1,manual,"",0,387,160,0
 2020-06-25T14:54:26+02:00,213,c5ed7c3a043ac0,"Freibad Seebach",https://www.badi-info.ch/seebach.html,1,manual,"",0,2100,707,-2
@@ -2141,7 +2141,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-07-03T08:57:25+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen bis 14.00 Uhr",0,147,1,1
 2020-07-03T09:52:46+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen das Bad ist gut besucht",0,147,0,1
 2020-07-03T14:50:50+02:00,72,c5eb1917e9eedc,"Freibad Letzigraben",https://www.badi-info.ch/letzi.html,3,manual,"offen Bad ist wenig besucht",1,2970,0,0
-2020-07-03T14:57:30+02:00,72,c5eb1917e9eedc,"Freibad Letzigraben",https://www.badi-info.ch/letzi.html,3,manual,"offen Mittelmässig besucht  geöffnet bis 20:30 Uhr",1,3900,0,0
+2020-07-03T14:57:30+02:00,72,c5eb1917e9eedc,"Freibad Letzigraben",https://www.badi-info.ch/letzi.html,3,manual,"offen Bad ist wenig besucht",0,3900,0,0
 2020-07-04T06:41:21+02:00,211,c5ed7c35d2691a,"Strandbad Mythenquai",https://www.badi-info.ch/Mythenquai.html,1,manual,"offen Bad ist wenig besucht",0,4009,15,0
 2020-07-04T06:50:54+02:00,211,c5ed7c35d2691a,"Strandbad Mythenquai",https://www.badi-info.ch/Mythenquai.html,1,manual,"offen Bad ist wenig besucht",0,4009,27,0
 2020-07-04T07:05:43+02:00,211,c5ed7c35d2691a,"Strandbad Mythenquai",https://www.badi-info.ch/Mythenquai.html,1,manual,"offen Bad ist wenig besucht",0,4009,33,0
