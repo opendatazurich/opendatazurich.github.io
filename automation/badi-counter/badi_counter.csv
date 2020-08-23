@@ -8825,4 +8825,4 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-08-18T12:59:03+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad schliesst um 18:00 Uhr",1,1650,81,0
 2020-08-19T08:11:41+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad schliesst um 18:00 Uhr",0,1650,30,0
 2020-08-19T08:21:30+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad schliesst um 18:00 Uhr",0,1650,45,0
-2020-08-19T08:25:04+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist wenig besucht",0,1650,0,0
+2020-08-19T08:25:04+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen bis 14:00 uhr, Bad ist wenig besucht",0,1650,0,0
