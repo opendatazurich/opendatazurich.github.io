@@ -20,6 +20,7 @@ Im ersten Teil wird das Modell und ein paar typische Beispiels-Abfragen erläute
 Im zweiten Teil wird ein konkretes Programmier-Beispiel mit Python als Jupyter-Notebook zur Verfügung gestellt.
 
 Für das API gibt es eine [interaktive Dokumentation der Endpunkte und deren Parameter](/rpk-api/docs/), welche alle Details beschreibt.
+Das API benötigt einen API-Key: `vopVcmhIMkeUCf8gQjk1GgU2wK+fKihAdlCl0WKJ`, bei der interaktiven Dokumentation muss dieser oben unter «Authorize» eingegeben werden, bevor Requests abgesetzt werden können.
 
 <img src="https://opendatazurich.github.io/rpk-api/rpk_api_swagger-ui.png" height="50%" width="50%" alt="Modell" title="RPK-API Dokumentation">
 
