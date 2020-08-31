@@ -2,7 +2,7 @@ name: Update vbz_frequenzen_hardbruecke data
 
 on:
   schedule:
-    - cron:  '*/20 * * * *' # every 20min
+    - cron:  '*/30 * * * *' # every 30min
   workflow_dispatch:
 
 jobs:
