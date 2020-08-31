@@ -1764,7 +1764,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-25T16:35:47+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,1,manual,"",0,880,667,0
 2020-06-25T16:35:54+02:00,211,c5ed7c35d2691a,"Freibad Mythenquai",https://www.badi-info.ch/Mythenquai.html,1,manual,"",0,4009,625,1
 2020-06-25T16:36:41+02:00,212,c5ed7c38a83d5e,"Flussbad Oberer Letten",https://www.badi-info.ch/oberer_letten.html,1,manual,"",0,299,299,15
-2020-06-25T16:36:46+02:00,220,c5ed7c44f09fcd,"Hallenbad Bungertwies",https://www.badi-info.ch/bungertwies.html,3,manual,offen,1,97,0,0
+2020-06-25T16:36:46+02:00,220,c5ed7c44f09fcd,"Hallenbad Bungertwies",https://www.badi-info.ch/bungertwies.html,3,manual,offen,0,97,0,0
 2020-06-25T16:38:31+02:00,213,c5ed7c3a043ac0,"Freibad Seebach",https://www.badi-info.ch/seebach.html,1,manual,"",0,2100,670,-2
 2020-06-25T16:39:36+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,1,manual,"",0,814,716,1
 2020-06-25T16:39:58+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,1,manual,"",0,147,110,0
@@ -2071,7 +2071,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-06-27T15:10:28+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,160,0
 2020-06-27T15:22:54+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,167,0
 2020-06-27T15:34:27+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen freie Plätze",0,387,168,0
-2020-06-27T15:40:33+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen bis 12 Uhr",0,387,171,0
+2020-06-27T15:40:33+02:00,218,c5ed7c41ae0016,"Strandbad Wollishofen",https://www.badi-info.ch/wollishofen.html,3,manual,"offen bis 12 Uhr",1,387,171,0
 2020-06-30T06:43:23+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen , Bad ist wenig besucht",0,147,17,1
 2020-06-30T06:50:32+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen , Bad ist wenig besucht",0,147,20,1
 2020-06-30T07:08:52+02:00,214,c5ed7c3b370597,"Frauenbad Stadthausquai",https://www.badi-info.ch/stadthausquai.html,3,manual,"offen , Bad ist wenig besucht",0,147,35,1
@@ -8564,7 +8564,7 @@ date,id,slug,name,slug_badi_info,status,mode,msg,closed,max,occupancy_count,wait
 2020-08-11T19:03:25+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",1,590,0,1
 2020-08-11T19:05:36+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,0,0
 2020-08-11T19:18:18+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist wenig besucht",0,1650,0,0
-2020-08-11T19:38:07+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen bis 11 Uhr Bad ist wenig besucht",0,1600,0,0
+2020-08-11T19:38:07+02:00,209,c5ed7c330546ea,"Seebad Katzensee",https://www.badi-info.ch/katzensee.html,3,manual,"offen bis 11 Uhr Bad ist wenig besucht",1,1600,0,0
 2020-08-12T07:03:59+02:00,238,c5eda072893782,"Flussbad Au-Höngg",https://www.badi-info.ch/au_hoengg.html,3,manual,"offen Bad ist wenig besucht",0,1650,8,0
 2020-08-12T07:11:52+02:00,208,c5ed7c2d6c3cfb,"Unterer Letten Flussteil","",3,manual,"",0,130,28,0
 2020-08-12T07:12:29+02:00,216,c5ed7c3ecaf50b,"Unterer Letten Plansch- und Nichtschwimmerbecken","",3,manual,"offen Bad ist wenig besucht . Der Flussteil ist Geschlossen .",0,590,25,1
