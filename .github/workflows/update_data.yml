@@ -8,7 +8,7 @@ on:
 jobs:
   update_data_py:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     strategy:
       matrix:
         python-version: [3.7]
