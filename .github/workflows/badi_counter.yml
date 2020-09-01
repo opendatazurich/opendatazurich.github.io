@@ -1,8 +1,8 @@
 name: Fetch badi counter
 
 on:
-  schedule:
-    - cron:  '*/10 * * * *' # run every 20min
+  #schedule:
+  #  - cron:  '*/10 * * * *' # run every 20min
   workflow_dispatch:
 
 jobs:
