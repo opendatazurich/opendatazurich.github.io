@@ -7,3 +7,4 @@ sruthi
 beautifulsoup4
 defusedxml
 slackclient
+xlrd
