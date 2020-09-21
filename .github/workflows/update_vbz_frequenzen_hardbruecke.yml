@@ -43,7 +43,8 @@ jobs:
         CKAN_BASE_URL: ${{ secrets.vbz_ckan_url }}
         CKAN_API_KEY: ${{ secrets.vbz_ckan_api_key }}
       run: |
-        python automation/vbz_frequenzen_hardbruecke/update_metadata.py -d vbz_frequenzen_hardbruecke
+        python automation/vbz_frequenzen_hardbruecke/xls_to_meta_xml.py -f automation/vbz_frequenzen_hardbruecke/Frequenzen_Hardbruecke_Meta.xlsx --outfile automation/vbz_frequenzen_hardbruecke/meta.xml
+        python automation/vbz_frequenzen_hardbruecke/update_metadata.py -d vbz_frequenzen_hardbruecke -f automation/vbz_frequenzen_hardbruecke/meta.xml
 
     - name: Get current unix timestamp
       if: always()
