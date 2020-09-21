@@ -2,14 +2,15 @@
 """Convert a metadata xls file to a meta.xml
 
 Usage:
-  xls_to_meta_xml.py --file <path-to-file>
+  xls_to_meta_xml.py --file <path-to-file> [--outfile <path-to-file>]
   xls_to_meta_xml.py (-h | --help)
   xls_to_meta_xml.py --version
 
 Options:
-  -h, --help                  Show this screen.
-  --version                   Show version.
-  -f, --file <path-to-file>   Path to the xls file.
+  -h, --help                   Show this screen.
+  --version                    Show version.
+  -f, --file <path-to-file>    Path to the xls file.
+  -o, --outfile <path-to-file> Path to the output XML file [default: meta.xml].
 
 """
 
@@ -116,7 +117,12 @@ for field in fields:
     item.text = metadata[field]
 
 meta_xml = ET.tostring(root, encoding="unicode")
-meta_path = os.path.join(__location__, 'meta.xml')
+outfile = arguments['--outfile']
+if outfile:
+    meta_path = outfile
+else:
+    meta_path = os.path.join(__location__, 'meta.xml')
+
 with codecs.open(meta_path, 'w', 'utf-8-sig') as meta_file:
     meta_file.write(u"<?xml version='1.0' encoding='utf-8'?>")
     meta_file.write(meta_xml)
