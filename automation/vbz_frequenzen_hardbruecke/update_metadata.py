@@ -2,7 +2,7 @@
 """Update metadata on CKAN.
 
 Usage:
-  update_metadata.py --dataset <dataset-name> --file <path-to-file>
+  update_metadata.py --dataset <dataset-name> --file <path-to-file> [--no-verify]
   update_metadata.py (-h | --help)
   update_metadata.py --version
 
@@ -11,6 +11,7 @@ Options:
   --version                    Show version.
   -d, --dataset <dataset-name> Name of the dataset to upload file to.
   -f, --file <path-to-file>    Path to meta.xml file.
+  --no-verify                  Option to disable SSL verification for requests.
 
 """
 
@@ -58,6 +59,7 @@ def map_metadata_to_ckan(metadata):
         'groups': [{'name': k} for k in metadata['kategorie']],
         'sszBemerkungen': convert_comments(metadata['bemerkungen']),
         'sszFields': json.dumps([(k, v) for k, v in metadata['attributliste'] if v]),
+        #'extras': [],
     }
 
 def convert_comments(comments):
@@ -98,7 +100,10 @@ try:
     data.update(ckan_metadata)
     print(f"Updating metadata on dataset {dataset} to {pprint(data)}")
     try:
-        ckan.call_action('package_patch', data, requests_kwargs={'verify': False})
+        if arguments['--no-verify']:
+            ckan.call_action('package_patch', data, requests_kwargs={'verify': False})
+        else:
+            ckan.call_action('package_patch', data)
     except NotFound:
          print('Dataset %s not found!' % dataset, file=sys.stderr)
          raise
