@@ -81,13 +81,11 @@ def convert_comments(comments):
 try:
     BASE_URL = os.getenv('CKAN_BASE_URL')
     API_KEY = os.getenv('CKAN_API_KEY')
-    print(BASE_URL)
     ckan = RemoteCKAN(BASE_URL, apikey=API_KEY)
 
     # meta.xml
     meta_xml_path = os.path.join(__location__, 'meta.xml')
     meta = read_meta_xml.read_meta_xml(meta_xml_path)
-    print(meta)
     ckan_metadata = map_metadata_to_ckan(meta)
 
     dataset = arguments['--dataset']
