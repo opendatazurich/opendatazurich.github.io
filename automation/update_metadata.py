@@ -30,12 +30,6 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 arguments = docopt(__doc__, version='Update metadata on CKAN 1.0')
 
-__location__ = os.path.realpath(
-    os.path.join(
-        os.getcwd(),
-        os.path.dirname(__file__)
-    )
-)
 
 def map_metadata_to_ckan(metadata):
     return {
@@ -84,7 +78,7 @@ try:
     ckan = RemoteCKAN(BASE_URL, apikey=API_KEY)
 
     # meta.xml
-    meta_xml_path = os.path.join(__location__, 'meta.xml')
+    meta_xml_path = arguments['--file']
     meta = read_meta_xml.read_meta_xml(meta_xml_path)
     ckan_metadata = map_metadata_to_ckan(meta)
 
