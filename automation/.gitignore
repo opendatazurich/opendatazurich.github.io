@@ -3,3 +3,4 @@ pyenv3.7
 **/.env
 **/*.csv
 !badi-counter/badi_counter.csv
+__pycache__/*
