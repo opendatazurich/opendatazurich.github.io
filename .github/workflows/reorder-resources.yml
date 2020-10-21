@@ -2,7 +2,7 @@ name: Re-order resources
 
 on:
   schedule:
-    - cron:  '20 5-22/4 * * *' # 5:20, 9:20, 13:20, 17:20, 21:20 (UTC)
+    - cron:  '55 5-22 * * *' # xx:55, 5-22 (UTC)
   workflow_dispatch:
 
 jobs:
