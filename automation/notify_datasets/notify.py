@@ -46,6 +46,7 @@ try:
                 if since_last_run > (24*60*60):
                     continue
             else:
+                start = None
                 start_datetime = ''
 
             end_str = source_info['status']['last_job']['finished']
@@ -54,6 +55,7 @@ try:
                 local_end = pytz.utc.localize(end).astimezone(zurich_tz)
                 end_datetime = local_end.strftime('%d.%m.%Y %H:%M')
             else:
+                end = None
                 end_datetime = ''
 
             if end and start:
