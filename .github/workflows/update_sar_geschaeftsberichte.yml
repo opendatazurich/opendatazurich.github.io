@@ -28,7 +28,7 @@ jobs:
       run: |
         set -e
         set -o pipefail
-        python automation/sar_geschaeftsbericht/generate_csv.py | tee sar_geschaeftsberichte.csv
+        python automation/sar_geschaeftsberichte/generate_csv.py | tee sar_geschaeftsberichte.csv
         
     - name: Upload file to CKAN
       env:
