@@ -25,6 +25,8 @@ jobs:
       - name: Export metadata to Excel sheet
         env:
           DATASET: ${{ github.event.inputs.dataset }}
+          CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+          CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         run: |
           python automation/ckan_to_xls.py --file ${DATASET}_metadata.xlsx --dataset ${DATASET}
           
