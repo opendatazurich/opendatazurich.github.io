@@ -1,0 +1,36 @@
+name: Export CKAN metadata to Excel
+
+on:
+  workflow_dispatch:
+    inputs:
+      dataset:
+        description: 'Slug of dataset'
+        required: true
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r automation/automation-requirements.txt
+
+      - name: Export metadata to Excel sheet
+        env:
+          DATASET: ${{ github.event.inputs.dataset }}
+        run: |
+          python automation/ckan_to_xls.py --file ${DATASET}_metadata.xlsx --dataset ${DATASET}
+          
+      - name: Upload artifact
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.event.inputs.dataset }}_metadata.xlsx
+          path: ${{ github.event.inputs.dataset }}_metadata.xlsx
+
