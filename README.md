@@ -7,3 +7,8 @@
 1. [ParkenDD API](/parkendd-api/)
 1. [Geoportal der Stadt Zürich](/geoportal/)
 1. [RPK-API (Finanzdaten der Stadt Zürich), Finanzverwaltung](/rpk-api/)
+
+## Trainingsmaterial
+
+1. [Wikidata Training](https://github.com/opendatazurich/wikidata-training)
+1. [Crashkurs «Datenvisualisierung»](/crashkurs-dataviz/)
