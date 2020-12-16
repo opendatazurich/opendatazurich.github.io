@@ -31,7 +31,7 @@ Im ersten Schritt geht es aber darum, CSV-Datei zu finden und herunterzuladen.
 
 ## Daten finden
 
-Die offenen Behördendaten der Stadt Zürich (OGD - Open Government Data) werden auf dem OGD-Katalog angeboten: http://data.stadt-zuerich.ch
+Die offenen Behördendaten der Stadt Zürich (OGD - Open Government Data) werden auf dem OGD-Katalog angeboten: [http://data.stadt-zuerich.ch](http://data.stadt-zuerich.ch)
 
 ![OGD-Katalog der Stadt Zürich](https://user-images.githubusercontent.com/538415/102369942-cff0d300-3fbc-11eb-86f1-83264cdee019.png)
 
