@@ -47,3 +47,7 @@ Andere Quellen sind zum Beispiel das [Geoportal](https://www.stadt-zuerich.ch/ge
 # Teil 2: Datawrapper
 
 ## Daten in Datawrapper laden
+
+Datawrapper bietet einen Wizard an, um die Daten zu laden:
+
+![Wizard von Datawrapper um Daten zu laden](https://user-images.githubusercontent.com/538415/102371585-9e790700-3fbe-11eb-966d-58f22547fd1c.png)
