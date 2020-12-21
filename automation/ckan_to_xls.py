@@ -67,7 +67,8 @@ def convert_comments(comments):
     lines = comments.split('\n')
     key = None
     for line in lines:
-        m = re.match(r'^\s*\*\*(.*?)\*\*$', line)
+        line = line.strip()
+        m = re.match(r'^\*\*(.*?)\*\*$', line)
         if m:
             key = m[1]
             continue
