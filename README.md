@@ -10,5 +10,5 @@
 
 ## Trainingsmaterial
 
-1. [Wikidata Training](https://github.com/opendatazurich/wikidata-training)
+1. [Wikidata Training](/wikidata-training/)
 1. [Crashkurs «Datenvisualisierung»](/crashkurs-dataviz/)
