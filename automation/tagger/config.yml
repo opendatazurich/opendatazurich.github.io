@@ -1,4 +1,6 @@
-architektur:
-    tags: []
+verkehr:
+    tags:
+        - verkehr
     datasets: []
-    queries: []
+    queries:
+        - "title:*verkehr*"
