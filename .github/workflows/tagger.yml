@@ -1,8 +1,8 @@
 name: Tagger for CKAN datasets
 
 on:
-  #schedule:
-  #  - cron:  '11 * * * *' # every hours at xx:11
+  schedule:
+    - cron:  '11 * * * *' # every hours at xx:11
   workflow_dispatch:
 
 jobs:
