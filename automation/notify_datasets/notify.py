@@ -41,10 +41,6 @@ try:
                 start =  datetime.datetime.strptime(start_str, '%Y-%m-%d %H:%M:%S.%f')
                 local_start = pytz.utc.localize(start).astimezone(zurich_tz)
                 start_datetime = local_start.strftime('%d.%m.%Y %H:%M')
-                # skip if last harvest job is older than 24h
-                since_last_run = (datetime.datetime.now() - start).total_seconds()
-                if since_last_run > (24*60*60):
-                    continue
             else:
                 start = None
                 start_datetime = ''
@@ -64,16 +60,24 @@ try:
                 duration = f'{minutes}min {math.floor(seconds)}s'
             else:
                 duration = 'unbekannt'
+            
+            # skip if last harvest job is older than 24h
+            # but raise as error if there is no end time
+            # as this could indicate, that the harvest job got stuck
+            runs_too_long = False
+            if start:
+                since_last_run = (datetime.datetime.now() - start).total_seconds()
+                if since_last_run > (24*60*60) and not end:
+                    runs_too_long = True
+                elif since_last_run > (24*60*60) and end:
+                    continue
 
-            if last_job_stats['deleted'] > 0:
+            if last_job_stats['deleted'] > 0 or last_job_stats['errored'] > 0:
                 color = 'danger'
-            elif last_job_stats['errored'] > 0:
-                color = 'danger'
-            elif last_job_stats['added'] > 0:
+            elif last_job_stats['added'] > 0 or runs_too_long:
                 color = 'warning'
             else:
                 color = 'good'
-
                 
             attachment = {
                 'fallback': source_info['title'],
