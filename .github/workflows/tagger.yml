@@ -1,0 +1,50 @@
+name: Tagger for CKAN datasets
+
+on:
+  schedule:
+    - cron:  '11 * * * *' # every hours at xx:11
+  workflow_dispatch:
+
+jobs:
+  tagger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    # checkout repos
+    - uses: actions/checkout@v2
+
+   # Setup Python
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r automation/automation-requirements.txt
+    
+    # run the scripts
+    - name: Tag CKAN datasets
+      env:
+        CKAN_API_KEY: ${{ secrets.ckan_api_key }}
+        CKAN_BASE_URL: ${{ secrets.ckan_base_url }}
+      run: |
+        python automation/tagger/tagger.py -c automation/tagger/config.yml
+
+    - name: Get current unix timestamp
+      if: always()
+      id: date
+      run: echo "::set-output name=ts::$(date +'%s')"
+
+    - name: Notify slack failure
+      if: ${{ failure()  || cancelled() }}
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: pullreminders/slack-action@master
+      with:
+          args: '{\"channel\":\"C014Y6SHE12\", \"attachments\": [{\"fallback\": \"Job failed.\", \"color\": \"danger\", \"title\": \"CKAN tagger job failed\", \"title_link\": \"https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true\", \"text\": \":x: Reorder failed\", \"footer\": \"<https://github.com/opendatazurich/opendatazurich.github.io/actions|opendatazurich/opendatazurich.github.io>\", \"footer_icon\": \"https://github.com/abinoda/slack-action/raw/master/docs/app-icons/github-icon.png\", \"ts\": \"${{steps.date.outputs.ts}}\"}]}'

@@ -1,0 +1,17 @@
+architektur:
+    tags:
+        - architektur
+        - hallo
+    datasets:
+        - sid_dav_verkehrszaehlung_miv_od2031
+    queries:
+        - "groups:bauen-und-wohnen tags:geodaten res_format:dxf"
+        - "beleuchtung -tags:ktzh"
+
+hackathonx:
+    tags:
+        - hackathonx
+        - test123
+    queries:
+        - "tags:sasa"
+
