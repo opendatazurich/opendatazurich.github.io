@@ -1,0 +1,59 @@
+name: Copy hash of resources
+
+on:
+  workflow_dispatch:
+
+jobs:
+  reorder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    # checkout repos
+    - uses: actions/checkout@v2
+    - name: Checkout ckan-admin-scripts repo
+      uses: actions/checkout@v2
+      with:
+        repository: metaodi/ckan-admin-scripts
+        path: ckan-admin-scripts
+
+   # Setup Python
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r automation/automation-requirements.txt
+        pip install -r ckan-admin-scripts/requirements.txt
+        sudo apt-get install jq
+    
+    # run the scripts
+    - name: Reorder the resources
+      env:
+        CKAN_API_KEY: ${{ secrets.ckan_api_key }}
+        CKAN_BASE_URL: ${{ secrets.ckan_base_url }}
+      run: |
+        #ckanapi action package_search q="tags:sachdaten" rows=500 -r $CKAN_BASE_URL | jq -r ".results|.[]|.name" > dataset_list.txt
+        echo "ugz_luftschadstoffmessung_stundenwerte" > dataset_list.txt
+        wc -l dataset_list.txt
+        cat dataset_list.txt
+        cat dataset_list.txt | python ckan-admin-scripts/copy_hash.py
+
+    - name: Get current unix timestamp
+      if: always()
+      id: date
+      run: echo "::set-output name=ts::$(date +'%s')"
+
+    - name: Notify slack failure
+      if: ${{ failure()  || cancelled() }}
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: pullreminders/slack-action@master
+      with:
+          args: '{\"channel\":\"C014Y6SHE12\", \"attachments\": [{\"fallback\": \"Job failed.\", \"color\": \"danger\", \"title\": \"Copy resources hash job failed\", \"title_link\": \"https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true\", \"text\": \":x: Reorder failed\", \"footer\": \"<https://github.com/opendatazurich/opendatazurich.github.io/actions|opendatazurich/opendatazurich.github.io>\", \"footer_icon\": \"https://github.com/abinoda/slack-action/raw/master/docs/app-icons/github-icon.png\", \"ts\": \"${{steps.date.outputs.ts}}\"}]}'
