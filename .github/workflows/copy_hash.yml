@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  reorder:
+  copy_hash:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
