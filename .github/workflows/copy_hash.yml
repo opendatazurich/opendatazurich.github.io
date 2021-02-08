@@ -34,7 +34,7 @@ jobs:
         sudo apt-get install jq
     
     # run the scripts
-    - name: Reorder the resources
+    - name: Copy hash of resources
       env:
         CKAN_API_KEY: ${{ secrets.ckan_api_key }}
         CKAN_BASE_URL: ${{ secrets.ckan_base_url }}
