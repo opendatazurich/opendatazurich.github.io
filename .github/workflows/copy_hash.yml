@@ -1,6 +1,8 @@
 name: Copy hash of resources
 
 on:
+  schedule:
+    - cron:  '* */4 * * *' # every 30min
   workflow_dispatch:
 
 jobs:
@@ -39,8 +41,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.ckan_api_key }}
         CKAN_BASE_URL: ${{ secrets.ckan_base_url }}
       run: |
-        #ckanapi action package_search q="tags:sachdaten" rows=500 -r $CKAN_BASE_URL | jq -r ".results|.[]|.name" > dataset_list.txt
-        echo "ugz_luftschadstoffmessung_stundenwerte" > dataset_list.txt
+        ckanapi action package_search q="tags:zeitreihe" rows=500 -r $CKAN_BASE_URL | jq -r ".results|.[]|.name" > dataset_list.txt
         wc -l dataset_list.txt
         cat dataset_list.txt
         cat dataset_list.txt | python ckan-admin-scripts/copy_hash.py
