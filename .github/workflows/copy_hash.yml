@@ -1,12 +1,14 @@
 name: Copy hash of resources
 
 on:
+  schedule:
+    - cron:  '45 */4 * * *' # every 4h at xx:45 UTC
   workflow_dispatch:
 
 jobs:
   copy_hash:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 45
     strategy:
       matrix:
         python-version: [3.7]
