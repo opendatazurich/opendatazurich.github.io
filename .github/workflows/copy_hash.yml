@@ -6,7 +6,7 @@ on:
 jobs:
   copy_hash:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     strategy:
       matrix:
         python-version: [3.7]
