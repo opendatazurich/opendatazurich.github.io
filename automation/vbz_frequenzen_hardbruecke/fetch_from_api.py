@@ -12,11 +12,12 @@ load_dotenv(find_dotenv())
 user = os.getenv('SSZ_USER')
 pw = os.getenv('SSZ_PASS')
 
-# get locations
-r = requests.get('https://vbz.diamondreports.ch:8012/api/location', auth=(user, pw))
-locations = r.json()
-
 try:
+    # get locations
+    r = requests.get('https://vbz.diamondreports.ch:8012/api/location', auth=(user, pw))
+    r.raise_for_status()
+    locations = r.json()
+
     field_names = ['In', 'Out', 'Timestamp', 'Name']
     writer = csv.DictWriter(sys.stdout, field_names, quoting=csv.QUOTE_NONNUMERIC)
     writer.writeheader()
