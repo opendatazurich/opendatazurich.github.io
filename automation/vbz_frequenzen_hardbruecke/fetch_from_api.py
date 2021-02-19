@@ -37,6 +37,7 @@ try:
                     'date': current_date.strftime('%Y%m%d')
                 }
             )
+            cr.raise_for_status()
             counter = cr.json()
             if len(counter['Counters']) == 0:
                 continue
