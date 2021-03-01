@@ -15,6 +15,15 @@ load_dotenv(find_dotenv())
 slack_token = os.environ["SLACK_API_TOKEN"]
 client = WebClient(token=slack_token)
 
+
+
+def convert_to_localtime(str):
+    zurich_tz = pytz.timezone('Europe/Zurich')
+    dateobj =  datetime.datetime.strptime(str, '%Y-%m-%d %H:%M:%S.%f')
+    local_date = pytz.utc.localize(dateobj).astimezone(zurich_tz)
+    local_datetime = local_date.strftime('%d.%m.%Y %H:%M')
+    return (dateobj, local_datetime)
+
 try:
     BASE_URL = os.getenv('CKAN_BASE_URL')
     API_KEY = os.getenv('CKAN_API_KEY')
@@ -24,7 +33,7 @@ try:
     # get list + status of all harvesters
     harvesters = ckan.call_action('harvest_source_list')
 
-    zurich_tz = pytz.timezone('Europe/Zurich')
+    
 
     for harvester in harvesters:
         try:
@@ -38,18 +47,14 @@ try:
 
             start_str = source_info['status']['last_job']['gather_started']
             if start_str:
-                start =  datetime.datetime.strptime(start_str, '%Y-%m-%d %H:%M:%S.%f')
-                local_start = pytz.utc.localize(start).astimezone(zurich_tz)
-                start_datetime = local_start.strftime('%d.%m.%Y %H:%M')
+                start, start_datetime = convert_to_localtime(start_str)
             else:
                 start = None
                 start_datetime = ''
 
             end_str = source_info['status']['last_job']['finished']
             if end_str:
-                end =  datetime.datetime.strptime(end_str, '%Y-%m-%d %H:%M:%S.%f')
-                local_end = pytz.utc.localize(end).astimezone(zurich_tz)
-                end_datetime = local_end.strftime('%d.%m.%Y %H:%M')
+                end, end_datetime =  convert_to_localtime(end_str)
             else:
                 end = None
                 end_datetime = ''
@@ -65,10 +70,12 @@ try:
             # but raise as error if there is no end time
             # as this could indicate, that the harvest job got stuck
             runs_too_long = False
-            if start:
-                since_last_run = (datetime.datetime.now() - start).total_seconds()
+            created, _ = convert_to_localtime(source_info['status']['last_job']['created'])
+            if created:
+                since_last_run = (datetime.datetime.now() - created).total_seconds()
                 if since_last_run > (24*60*60) and not end:
                     runs_too_long = True
+                    duration = " :warning: >= 24h!"
                 elif since_last_run > (24*60*60) and end:
                     continue
 
@@ -92,7 +99,7 @@ try:
                         "short": True,
                     },
                     {
-                        "title": "Akutalisiert",
+                        "title": "Aktualisiert",
                         "value": last_job_stats['updated'],
                         "short": True,
                     },
