@@ -75,23 +75,26 @@ try:
                 since_last_run = (datetime.datetime.now() - created).total_seconds()
                 if since_last_run > (24*60*60) and not end:
                     runs_too_long = True
-                    duration = " :warning: >= 24h!"
+                    duration = ">=24h!"
                 elif since_last_run > (24*60*60) and end:
                     continue
 
             if last_job_stats['deleted'] > 0 or last_job_stats['errored'] > 0:
                 color = 'danger'
+                status = ':x:'
             elif last_job_stats['added'] > 0 or runs_too_long:
                 color = 'warning'
+                status = ':warning:'
             else:
                 color = 'good'
+                status = ':runner:'
                 
             attachment = {
                 'fallback': source_info['title'],
                 'color': color,
                 'title': source_info['title'],
                 'title_link': f"https://data.stadt-zuerich.ch/harvest/{name}/job/{job_id}",
-                'text': f':runner: {start_datetime} :checkered_flag: {end_datetime} ({duration})',
+                'text': f'{status} {start_datetime} :checkered_flag: {end_datetime} ({duration})',
                 'fields': [
                     {
                         "title": "Neu",
