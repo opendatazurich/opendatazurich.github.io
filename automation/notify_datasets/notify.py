@@ -22,7 +22,7 @@ def convert_to_localtime(str):
     dateobj =  datetime.datetime.strptime(str, '%Y-%m-%d %H:%M:%S.%f')
     local_date = pytz.utc.localize(dateobj).astimezone(zurich_tz)
     local_datetime = local_date.strftime('%d.%m.%Y %H:%M')
-    return (dateobj, local_datetime)
+    return (dateobj, local_date, local_datetime)
 
 try:
     BASE_URL = os.getenv('CKAN_BASE_URL')
@@ -47,16 +47,18 @@ try:
 
             start_str = source_info['status']['last_job']['gather_started']
             if start_str:
-                start, start_datetime = convert_to_localtime(start_str)
+                start, start_local, start_datetime = convert_to_localtime(start_str)
             else:
                 start = None
+                start_local = None
                 start_datetime = ''
 
             end_str = source_info['status']['last_job']['finished']
             if end_str:
-                end, end_datetime =  convert_to_localtime(end_str)
+                end, end_local, end_datetime =  convert_to_localtime(end_str)
             else:
                 end = None
+                end_local = None
                 end_datetime = ''
 
             if end and start:
@@ -70,7 +72,7 @@ try:
             # but raise as error if there is no end time
             # as this could indicate, that the harvest job got stuck
             runs_too_long = False
-            created, _ = convert_to_localtime(source_info['status']['last_job']['created'])
+            created, created_local, _ = convert_to_localtime(source_info['status']['last_job']['created'])
             if created:
                 since_last_run = (datetime.datetime.now() - created).total_seconds()
                 if since_last_run > (24*60*60) and not end:
@@ -89,12 +91,25 @@ try:
                 color = 'good'
                 status = ':runner:'
                 
+            
+            # generate links for new/updated datasets
+            links = ""
+            if start and end:
+                created_start = start.strftime('%Y-%m-%dT%H:%M:%SZ')
+                created_end = end.strftime('%Y-%m-%dT%H:%M:%SZ')
+                new_url = f"https://data.stadt-zuerich.ch/dataset?q=harvest_source_id%3A{harvester['id']}+AND+metadata_created%3A%5B{created_start}+TO+{created_end}%5D"
+                new_link = f"*<{new_url}|Neue Datensätze>*"
+                update_url = f"https://data.stadt-zuerich.ch/dataset?q=harvest_source_id%3A{harvester['id']}+AND+metadata_updated%3A%5B{created_start}+TO+{created_end}%5D"
+                update_link = f"*<{update_url}|Aktualisierte Datensätze>*"
+                links = f"\n\n{new_link} | {update_link}"
+                
             attachment = {
+                'mrkdwn_in': ['text'],
                 'fallback': source_info['title'],
                 'color': color,
                 'title': source_info['title'],
                 'title_link': f"https://data.stadt-zuerich.ch/harvest/{name}/job/{job_id}",
-                'text': f'{status} {start_datetime} :checkered_flag: {end_datetime} ({duration})',
+                'text': f'{status} {start_datetime} :checkered_flag: {end_datetime} ({duration}){links}',
                 'fields': [
                     {
                         "title": "Neu",
