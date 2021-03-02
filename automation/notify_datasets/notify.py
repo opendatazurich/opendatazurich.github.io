@@ -98,10 +98,10 @@ try:
                 created_start = start.strftime('%Y-%m-%dT%H:%M:%SZ')
                 created_end = end.strftime('%Y-%m-%dT%H:%M:%SZ')
                 new_url = f"https://data.stadt-zuerich.ch/dataset?q=harvest_source_id%3A{harvester['id']}+AND+metadata_created%3A%5B{created_start}+TO+{created_end}%5D"
-                new_link = f"*<{new_url}|Neue Datensätze>*"
+                new_link = f"*<{new_url}|Neue Datensätze anzeigen>*"
                 update_url = f"https://data.stadt-zuerich.ch/dataset?q=harvest_source_id%3A{harvester['id']}+AND+metadata_modified%3A%5B{created_start}+TO+{created_end}%5D"
-                update_link = f"*<{update_url}|Aktualisierte Datensätze>*"
-                links = f"\n\n{new_link} | {update_link}"
+                update_link = f"*<{update_url}|Aktualisierte Datensätze anzeigen>*"
+                links = f"\n\n:mag: {new_link}\n:mag: {update_link}"
                 
             attachment = {
                 'mrkdwn_in': ['text'],
