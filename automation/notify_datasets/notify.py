@@ -96,7 +96,7 @@ try:
             links = ""
             if start and end:
                 created_start = start.strftime('%Y-%m-%dT%H:%M:%SZ')
-                created_end = end.strftime('%Y-%m-%dT%H:%M:%SZ')
+                created_end = end.strftime('%Y-%m-%dT23:59:59Z') # always use end of day as end
                 new_url = f"https://data.stadt-zuerich.ch/dataset?q=harvest_source_id%3A{harvester['id']}+AND+metadata_created%3A%5B{created_start}+TO+{created_end}%5D"
                 new_link = f"*<{new_url}|Neue Datensätze anzeigen>*"
                 update_url = f"https://data.stadt-zuerich.ch/dataset?q=harvest_source_id%3A{harvester['id']}+AND+metadata_modified%3A%5B{created_start}+TO+{created_end}%5D"
