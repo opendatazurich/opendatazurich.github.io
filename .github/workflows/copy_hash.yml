@@ -1,8 +1,6 @@
 name: Copy hash of resources
 
 on:
-  schedule:
-    - cron:  '45 */4 * * *' # every 4h at xx:45 UTC
   workflow_dispatch:
 
 jobs:
