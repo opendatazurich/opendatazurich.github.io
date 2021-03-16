@@ -2,7 +2,7 @@ name: Update abstimmungsparolen data
 
 on:
   schedule:
-    - cron:  '15 14 * * *' # runs 5:15 UTC every Monday
+    - cron:  '15 14 * * *' # runs 14:15 UTC every day
   workflow_dispatch:
 
 jobs:
