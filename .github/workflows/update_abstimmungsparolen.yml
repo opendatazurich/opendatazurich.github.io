@@ -26,13 +26,7 @@ jobs:
         sudo apt-get install sqlite3
         
     - name: Prepare data
-      run: |
-        set -e
-        set -o pipefail
-        python automation/abstimmungsparolen/populate_database.py automation/abstimmungsparolen/abstimmungsparolen.csv
-        python automation/abstimmungsparolen/scraper.py
-        sqlite3 -header -csv $DIR/data.sqlite "select * from data order by date asc;" > automation/abstimmungsparolen/abstimmungsparolen.csv
-        sed -i 's/""//g' automation/abstimmungsparolen/abstimmungsparolen.csv
+      run: automation/abstimmungsparolen/run_scraper.sh
         
     - name: Commit and push to repo
       uses: github-actions-x/commit@v2.6

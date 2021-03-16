@@ -45,19 +45,18 @@ try:
             titel text,
             abstimmungstext text,
             partei text,
-            parole text
+            parole text,
             UNIQUE(datum, titel, partei)
         )
         '''
     )
-    
 
     # add entries
-    query = 'INSERT INTO data (\n'
-    query += ",\n".join(columns)
-    query += ') VALUES ('
-    query += ",".join(['?'] * len(columns))
-    query += ');'
+    query = "INSERT INTO data ("
+    query += ", ".join(columns)
+    query += ") VALUES ("
+    query += ", ".join(['?'] * len(columns))
+    query += ")"
     c.executemany(query, to_db)
     conn.commit()
 except Exception as e:
