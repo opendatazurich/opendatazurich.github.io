@@ -27,8 +27,13 @@ jobs:
         
     - name: Prepare data
       run: automation/abstimmungsparolen/run_scraper.sh
+    
+    - name: Check if there are changes in the repo
+      id: changes
+      uses: UnicornGlobal/has-changes-action@v1.0.11
         
     - name: Commit and push to repo
+      if: steps.changes.outputs.changed == 1 # only try to commit if there are actually changes
       uses: github-actions-x/commit@v2.6
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -38,8 +43,8 @@ jobs:
         commit-message: Update abstimmungsparolen.csv with latest data
         rebase: 'true'
 
-        
     - name: Upload file to CKAN
+      if: steps.changes.outputs.changed == 1 # only upload if there are actually changes
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
