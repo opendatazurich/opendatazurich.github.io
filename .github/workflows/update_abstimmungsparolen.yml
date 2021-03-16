@@ -44,7 +44,7 @@ jobs:
         rebase: 'true'
 
     - name: Upload file to CKAN
-      if: steps.changes.outputs.changed == 1 # only upload if there are actually changes
+      if: steps.changes.outputs.changed == 1 # only upload file if it changed
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
@@ -52,6 +52,7 @@ jobs:
         python automation/upload_resource_to_ckan.py -f automation/abstimmungsparolen/abstimmungsparolen.csv -d politik_abstimmungsparolen_gemeindeabstimmung_seit2012
 
     - name: Update CKAN metadata
+      if: steps.changes.outputs.changed == 1 # only update metadata if the file changed
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
