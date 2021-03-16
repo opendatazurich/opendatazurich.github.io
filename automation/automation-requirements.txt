@@ -10,3 +10,4 @@ slackclient
 xlrd==1.2.0
 openpyxl
 pyyaml==5.1
+dateparser
