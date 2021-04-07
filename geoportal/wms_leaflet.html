@@ -30,20 +30,6 @@
 		layers: 'wmslayers'
 	}).addTo(zurichMap);
 
-	L.marker([47.34, 8.54]).addTo(zurichMap)
-		.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
-
-	var popup = L.popup();
-
-	function onMapClick(e) {
-		popup
-			.setLatLng(e.latlng)
-			.setContent("Du hast auf der Karte auf " + e.latlng.toString() + " geklickt")
-			.openOn(zurichMap);
-	}
-
-	zurichMap.on('click', onMapClick);
-
 </script>
 
 
