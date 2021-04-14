@@ -12,3 +12,4 @@
 
 1. [Wikidata Training](/wikidata-training/)
 1. [Crashkurs «Datenvisualisierung»](/crashkurs-dataviz/)
+1. [Crashkurs «Power BI Datenvisualisierung»](/crashkurs-dataviz-powerbi/)
