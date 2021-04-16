@@ -22,7 +22,8 @@
 	
 	var wmsOptions = {
 	    'format': 'image/png',
-	    'detectRetina': true
+	    'detectRetina': true,
+          
 	};
 	
 	/* check GetCapabilities to find layers: 
@@ -39,7 +40,13 @@
 	    'Basiskarte Zürich Raster': L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster', {
 		layers: 'wmslayers',
 		wmsOptions
-	    })
+	    }),
+	    'Basiskarte_Zuerich_Raster_Grau WMTS': L.tileLayer.wmts('https://www.ogd.stadt-zuerich.ch/mapproxy/wmts', {
+		 layer: 'Basiskarte_Zuerich_Raster_Grau',
+		 style: "default",
+		 tilematrixSet: "ktzh",
+		 format: "image/png"
+             })
 	};
 
 	L.control.layers(basemaps).addTo(map);
