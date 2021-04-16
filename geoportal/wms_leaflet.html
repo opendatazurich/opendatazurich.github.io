@@ -15,10 +15,10 @@
 
 
 
-<div id="mapid" style="width: 600px; height: 400px; max-width: 100%;"></div>
+<div id="mapid" style="width: 1200px; height: 800px; max-width: 100%;"></div>
 <script>
 
-	var zurichMap = L.map('mapid').setView([47.36, 8.53], 13);
+	var map = L.map('mapid').setView([47.36, 8.53], 13);
 	
 	/* check GetCapabilities to find layers: 
 	 * https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0
@@ -52,7 +52,7 @@
 	
 	//L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
 	//	layers: 'wmslayers'
-	//}).addTo(zurichMap);
+	//}).addTo(map);
 
 </script>
 
