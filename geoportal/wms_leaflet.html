@@ -41,10 +41,7 @@
 		layers: 'wmslayers',
 		wmsOptions
 	    }),
-	    'Basiskarte_Zuerich_Raster_Grau WMTS': L.tileLayer.wmts('https://www.ogd.stadt-zuerich.ch/mapproxy/wmts', {
-		 layer: 'Basiskarte_Zuerich_Raster_Grau',
-		 style: "default",
-		 tilematrixSet: "ktzh",
+	    'Basiskarte_Zuerich_Raster_Grau WMTS': L.tileLayer('https://www.ogd.stadt-zuerich.ch/mapproxy/wmts/1.0.0/Basiskarte_Zuerich_Raster_Grau/default/ktzh/{z}/{y}/{x}.png', {
 		 format: "image/png"
              })
 	};
