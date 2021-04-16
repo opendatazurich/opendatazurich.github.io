@@ -19,16 +19,40 @@
 <script>
 
 	var zurichMap = L.map('mapid').setView([47.36, 8.53], 13);
-
-    
+	
 	/* check GetCapabilities to find layers: 
 	 * https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau?SERVICE=WMS&REQUEST=GetCapabilities&VERSION=1.3.0
 	 *
 	 * More examples: https://leafletjs.com/examples/wms/wms.html
 	 */
-	L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
+	
+	var basemaps = {
+	    wmylayers: L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
+		layers: 'wmslayers'
+	    }),
+	    'Basiskarte Zürich 1000 Grau': L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
 		layers: 'Basiskarte Zürich 1000 Grau'
-	}).addTo(zurichMap);
+	    }),
+	    'Basiskarte Zürich 2500 Grau': L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
+		layers: 'Basiskarte Zürich 2500 Grau'
+	    }),
+	    'Basiskarte Zürich 25000 Grau': L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
+		layers: 'Basiskarte Zürich 25000 Grau'
+	    }),
+	    'Basiskarte Zürich 50000 Grau': L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
+		layers: 'Basiskarte Zürich 50000 Grau'
+	    })
+	};
+
+	L.control.layers(basemaps).addTo(map);
+
+	basemaps.wmylayers.addTo(map);
+
+    
+	
+	//L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
+	//	layers: 'wmslayers'
+	//}).addTo(zurichMap);
 
 </script>
 
