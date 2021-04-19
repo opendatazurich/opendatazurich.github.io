@@ -42,10 +42,14 @@
 	
 	var basemaps = {
 	    'Basiskarte Zürich Raster Grau': L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
-		layers: 'wmslayers'
+		layers: ['wmslayers'],
+		maxZoom: crs.options.resolutions.length,
+                minZoom: 0
 	    }),
 	    'Basiskarte Zürich Raster': L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster', {
-		layers: 'wmslayers'
+		layers: ['wmslayers'],
+		maxZoom: crs.options.resolutions.length,
+                minZoom: 0
 	    }),
 	    'Basiskarte_Zuerich_Raster_Grau WMTS': L.tileLayer('https://www.ogd.stadt-zuerich.ch/mapproxy/wmts/1.0.0/Basiskarte_Zuerich_Raster_Grau/default/ktzh/{z}/{y}/{x}.png', {
 		 format: "image/png"
