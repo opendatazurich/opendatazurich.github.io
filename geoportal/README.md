@@ -11,7 +11,7 @@ Auf dem Geoportal können die Datensätze manuell in vielen verschiedenen Format
 1. [Beispiel-Abfragen mit WFS](#beispiel-abfragen-mit-wfs)
    1. [GetCapabilities](#getcapabilities)
    2. [GetFeature](#getfeature)
-2. [WMS/WMTS in Leaflet einbinden](#wms-wmts-in-leaflet-einbinden)
+2. [WMS/WMTS in Leaflet einbinden](#wmswmts-in-leaflet-einbinden)
 3. [Programmier-Beispiele](#programmier-beispiele)
 
 ## Beispiel-Abfragen mit WFS
