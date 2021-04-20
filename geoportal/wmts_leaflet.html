@@ -40,10 +40,19 @@
 	 */
 	
 	var basemaps = {
-	    'Basiskarte Zuerich Raster Grau WMTS': L.tileLayer('https://www.ogd.stadt-zuerich.ch/mapproxy/wmts/1.0.0/Basiskarte_Zuerich_Raster_Grau/default/ktzh/{z}/{y}/{x}.png', {
-		    maxZoom: crs.options.resolutions.length,
-        tileSize: 512
-       })
+            'Basiskarte Zuerich Raster Grau WMTS': L.tileLayer(
+                'https://www.ogd.stadt-zuerich.ch/mapproxy/wmts/1.0.0/Basiskarte_Zuerich_Raster_Grau/default/ktzh/{z}/{y}/{x}.png', {
+                    maxZoom: crs.options.resolutions.length,
+                    tileSize: 512
+                }
+            ),
+            'Basiskarte Zuerich Raster WMTS': L.tileLayer(
+                'https://www.ogd.stadt-zuerich.ch/mapproxy/wmts/1.0.0/Basiskarte_Zuerich_Raster/default/ktzh/{z}/{y}/{x}.png', {
+                    maxZoom: crs.options.resolutions.length,
+                    tileSize: 512
+                }
+            ),
+		
 	};
 
 	L.control.layers(basemaps).addTo(map);
