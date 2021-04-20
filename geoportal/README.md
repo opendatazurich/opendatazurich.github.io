@@ -11,7 +11,8 @@ Auf dem Geoportal können die Datensätze manuell in vielen verschiedenen Format
 1. [Beispiel-Abfragen mit WFS](#beispiel-abfragen-mit-wfs)
    1. [GetCapabilities](#getcapabilities)
    2. [GetFeature](#getfeature)
-2. [Programmier-Beispiele](#programmier-beispiele)
+2. [WMS/WMTS in Leaflet einbinden](#wms-wmts-in-leaflet-einbinden)
+3. [Programmier-Beispiele](#programmier-beispiele)
 
 ## Beispiel-Abfragen mit WFS
 
@@ -62,6 +63,74 @@ Mit `GetFeature` lassen sich Daten via WFS beziehen, z.B. die Statistischen Quar
 
 [https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Statistische_Quartiere?service=WFS&version=1.1.0&request=GetFeature&typename=adm_statistische_quartiere_map&outputFormat=GeoJSON](https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Statistische_Quartiere?service=WFS&version=1.1.0&request=GetFeature&typename=adm_statistische_quartiere_map&outputFormat=GeoJSON)
 
+## WMS/WMTS in Leaflet einbinden
+
+Hier soll beispielhaft gezeigt werden, wie die angebotenen WMS oder WMTS sich in [Leaflet](https://leafletjs.com/) integrieren lassen.
+
+Komplette, lauffähige Beispiele sind hier verfügbar:
+- [WMS in Leaflet](https://opendatazurich.github.io/geoportal/wms_leaflet.html)
+- [WMTS in Leaflet](https://opendatazurich.github.io/geoportal/wmts_leaflet.html)
+
+## Einfaches Beispiel mit dem WMS [Basiskarte Zürich Raster Grau](https://www.stadt-zuerich.ch/geodaten/download/Basiskarte_Zuerich_Raster_Grau)
+
+```html
+<!DOCTYPE html>
+<html>
+   ...
+   
+   <div id="mapid" style="width: 1200px; height: 800px; max-width: 100%;"></div>
+   
+   <script>
+   //nicht optimal, da der WMS die Daten reprojezieren muss => Tiles sind blurry
+   var map = L.map('mapid').setView([47.36, 8.53], 13);
+   L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
+      layers: 'wmslayers'
+   }).addTo(map);
+   </script>
+   ...
+</html>
+```
+
+Dies funktioniert, hat aber den Nachteil, dass die Daten vom WMS reprojeziert werden müssen (die städischen WMS nutzen EPSG:2056 (LV95), das standardmässig von Leaflet **nicht** unterstützt wird. Durch das reprojezieren ist die Qualität der Tiles deutlich reduziert.
+
+## Beispiel mit WMS mit EPSG:2056 (LV95)
+
+Um direkt die Tiles in EPSG:2056 vom WMS nutzen zu können, muss Leaflet erweitert werden. Dazu werden die beiden Module [`proj4js`](http://proj4js.org/) und [`proj4leaflet`](http://kartena.github.io/Proj4Leaflet/) benötigt.
+
+```html
+<!DOCTYPE html>
+<html>
+   ...
+   
+   <div id="mapid" style="width: 1200px; height: 800px; max-width: 100%;"></div>
+   
+   <script>
+    // Definiere LV95
+    var lv95 = {
+        epsg: 'EPSG:2056',
+        def: '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs',
+        resolutions: [ 4000, 3750, 3500, 3250, 3000, 2750, 2500, 2250, 2000, 1750, 1500, 1250, 1000, 750, 650, 500, 250, 100, 50, 20, 10, 5, 2.5, 2, 1.5, 1,0.5,0.2,0.1],
+        origin: [2420000, 1350000]
+   };
+   var crs = new L.Proj.CRS(lv95.epsg, lv95.def, { 
+       resolutions: lv95.resolutions, 
+       origin: lv95.origin
+   });
+   var map = new L.Map('mapid', {
+       crs: crs,
+       maxZoom: crs.options.resolutions.length,
+       minZoom: 16,
+   }).setView([47.365, 8.54], 22);
+	
+   L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
+      layers: ['wmslayers'],
+      maxZoom: crs.options.resolutions.length,
+      minZoom: 0
+   }).addTo(map);
+   </script>
+   ...
+</html>
+```
 
 ## Programmier-Beispiele
 
