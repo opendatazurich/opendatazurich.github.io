@@ -71,29 +71,18 @@ Komplette, lauffähige Beispiele sind hier verfügbar:
 - [WMS in Leaflet](https://opendatazurich.github.io/geoportal/wms_leaflet.html)
 - [WMTS in Leaflet](https://opendatazurich.github.io/geoportal/wmts_leaflet.html)
 
-## Einfaches Beispiel mit dem WMS [Basiskarte Zürich Raster Grau](https://www.stadt-zuerich.ch/geodaten/download/Basiskarte_Zuerich_Raster_Grau)
+In Leaflet kann grundsätzlich mit der Funktion `L.tileLayer.wms` ein WMS eingebunden werden:
 
-```html
-<!DOCTYPE html>
-<html>
-   ...
-   
-   <div id="mapid" style="width: 1200px; height: 800px; max-width: 100%;"></div>
-   
-   <script>
-   //nicht optimal, da der WMS die Daten reprojezieren muss => Tiles sind blurry
-   var map = L.map('mapid').setView([47.36, 8.53], 13);
-   L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
-      layers: 'wmslayers'
-   }).addTo(map);
-   </script>
-   ...
-</html>
+```javascript
+var map = L.map('mapid').setView([47.36, 8.53], 13);
+L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zuerich_Raster_Grau', {
+   layers: 'wmslayers'
+}).addTo(map);
 ```
 
-Dies funktioniert, hat aber den Nachteil, dass die Daten vom WMS reprojeziert werden müssen (die städischen WMS nutzen EPSG:2056 (LV95), das standardmässig von Leaflet **nicht** unterstützt wird. Durch das reprojezieren ist die Qualität der Tiles deutlich reduziert.
+**ACHTUNG**: Dies funktioniert, hat aber den Nachteil, dass die Daten vom WMS reprojeziert werden müssen, da die städischen WMS EPSG:2056 (LV95) nutzen. Standardmässig ist LV95 von Leaflet **nicht** unterstützt. **Durch das reprojezieren ist die Qualität der Tiles deutlich reduziert.**
 
-## Beispiel mit WMS mit EPSG:2056 (LV95)
+## Beispiel mit dem WMS [Basiskarte Zürich Raster Grau](https://www.stadt-zuerich.ch/geodaten/download/Basiskarte_Zuerich_Raster_Grau) mit EPSG:2056 (LV95)
 
 Um direkt die Tiles in EPSG:2056 vom WMS nutzen zu können, muss Leaflet erweitert werden. Dazu werden die beiden Module [`proj4js`](http://proj4js.org/) und [`proj4leaflet`](http://kartena.github.io/Proj4Leaflet/) benötigt.
 
@@ -126,6 +115,45 @@ Um direkt die Tiles in EPSG:2056 vom WMS nutzen zu können, muss Leaflet erweite
       layers: ['wmslayers'],
       maxZoom: crs.options.resolutions.length,
       minZoom: 0
+   }).addTo(map);
+   </script>
+   ...
+</html>
+```
+
+## Beispiel mit dem WMTS [Basiskarte Zürich Raster Grau](https://www.stadt-zuerich.ch/geodaten/download/Basiskarte_Zuerich_Raster_Grau) mit EPSG:2056 (LV95)
+
+Um direkt die Tiles in EPSG:2056 vom WMTS nutzen zu können, muss Leaflet erweitert werden. Dazu werden die beiden Module [`proj4js`](http://proj4js.org/) und [`proj4leaflet`](http://kartena.github.io/Proj4Leaflet/) benötigt.
+
+```html
+<!DOCTYPE html>
+<html>
+   ...
+   
+   <div id="mapid" style="width: 1200px; height: 800px; max-width: 100%;"></div>
+   
+   <script>
+   // Definiere LV95
+   var lv95 = {
+       epsg: 'EPSG:2056',
+       def: '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs',
+       resolutions: [67.7333333333, 33.8666666667, 16.9333333333, 8.4666666667, 4.2333333333,
+  2    .1166666667, 1.0583333333, 0.5291666667, 0.2645833333, 0.1322916667, 0.0661458333],
+       origin: [2480237.0, 1315832.0],
+       bounds:  L.bounds( [2480237.000000, 1062032.000000], [2846837.000000, 1315832.000000])
+   }
+   var crs = new L.Proj.CRS(lv95.epsg, lv95.def, { 
+       resolutions: lv95.resolutions, 
+       origin: lv95.origin
+   });
+   var map = new L.Map('mapid', {
+       crs: crs,
+       maxZoom: crs.options.resolutions.length,
+   }).setView([47.365, 8.54], 4);
+	
+   L.tileLayer('https://www.ogd.stadt-zuerich.ch/mapproxy/wmts/1.0.0/Basiskarte_Zuerich_Raster_Grau/default/ktzh/{z}/{y}/{x}.png', {
+      maxZoom: crs.options.resolutions.length,
+      tileSize: 512
    }).addTo(map);
    </script>
    ...
