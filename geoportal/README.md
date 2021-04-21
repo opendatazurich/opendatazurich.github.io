@@ -12,7 +12,9 @@ Auf dem Geoportal können die Datensätze manuell in vielen verschiedenen Format
    1. [GetCapabilities](#getcapabilities)
    2. [GetFeature](#getfeature)
 2. [WMS/WMTS in Leaflet einbinden](#wmswmts-in-leaflet-einbinden)
-3. [Programmier-Beispiele](#programmier-beispiele)
+   1. [WMS Beispiel mit LV95](#beispiel-mit-dem-wms-basiskarte-zürich-raster-grau-mit-epsg2056-lv95)
+   2. [WMTS Beispiel mit LV95](#beispiel-mit-dem-wmts-basiskarte-zürich-raster-grau-mit-epsg2056-lv95)
+4. [Programmier-Beispiele](#programmier-beispiele)
 
 ## Beispiel-Abfragen mit WFS
 
