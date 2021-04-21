@@ -88,6 +88,8 @@ L.tileLayer.wms('https://www.ogd.stadt-zuerich.ch/wms/geoportal/Basiskarte_Zueri
 
 Um direkt die Tiles in EPSG:2056 vom WMS nutzen zu können, muss Leaflet erweitert werden. Dazu werden die beiden Module [`proj4js`](http://proj4js.org/) und [`proj4leaflet`](http://kartena.github.io/Proj4Leaflet/) benötigt.
 
+--> [**Komplettes Beispiel WMS in Leaflet**](https://opendatazurich.github.io/geoportal/wms_leaflet.html) ([_Quellcode_](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/geoportal/wms_leaflet.html))
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -126,6 +128,8 @@ Um direkt die Tiles in EPSG:2056 vom WMS nutzen zu können, muss Leaflet erweite
 ## Beispiel mit dem WMTS [Basiskarte Zürich Raster Grau](https://www.stadt-zuerich.ch/geodaten/download/Basiskarte_Zuerich_Raster_Grau) mit EPSG:2056 (LV95)
 
 Um direkt die Tiles in EPSG:2056 vom WMTS nutzen zu können, muss Leaflet erweitert werden. Dazu werden die beiden Module [`proj4js`](http://proj4js.org/) und [`proj4leaflet`](http://kartena.github.io/Proj4Leaflet/) benötigt.
+
+--> [**Komplettes Beispiel WMTS in Leaflet**](https://opendatazurich.github.io/geoportal/wmts_leaflet.html) ([_Quellcode_](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/geoportal/wmts_leaflet.html))
 
 ```html
 <!DOCTYPE html>
