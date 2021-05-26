@@ -11,3 +11,4 @@ xlrd==1.2.0
 openpyxl
 pyyaml==5.4
 dateparser
+icalendar
