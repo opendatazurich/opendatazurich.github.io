@@ -2,7 +2,7 @@ name: Update Schulferien data
 
 on:
   schedule:
-    - cron:  '15 14 * * *' # runs 15:15 UTC every day
+    - cron:  '15 15 * * *' # runs 15:15 UTC every day
   workflow_dispatch:
 
 jobs:
