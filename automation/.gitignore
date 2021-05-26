@@ -2,6 +2,8 @@ pyenv
 pyenv3.7
 **/.env
 **/*.csv
+**/*.ics
 !badi-counter/badi_counter.csv
 !abstimmungsparolen/abstimmungsparolen.csv
+!schulferien/schulferien.csv
 __pycache__/*
