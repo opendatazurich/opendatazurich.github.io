@@ -23,6 +23,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r automation/automation-requirements.txt
+        sudo apt-get install sqlite3
         
     - name: Prepare data
       run: automation/schulferien/run_scraper.sh
@@ -41,3 +42,33 @@ jobs:
         email: opendata@zuerich.ch
         commit-message: Update schulferien.csv with latest data
         rebase: 'true'
+
+    - name: Upload file to CKAN
+      if: steps.changes.outputs.changed == 1 # only upload file if it changed
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_INTEG_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_INTEG_API_KEY }}
+      run: |
+        python automation/upload_resource_to_ckan.py --no-verify -f automation/schulferien/schulferien.csv -d ssd_schulferien
+
+    - name: Update CKAN metadata
+      if: steps.changes.outputs.changed == 1 # only update metadata if the file changed
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_INTEG_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_INTEG_API_KEY }}
+      run: |
+        python automation/xls_to_meta_xml.py -f automation/schulferien/metadata_ferientermine_volksschule.xlsx --outfile automation/schulferien/meta.xml
+        python automation/update_metadata.py --no-verify -d ssd_schulferien -f automation/schulferien/meta.xml
+
+    - name: Get current unix timestamp
+      if: always()
+      id: date
+      run: echo "::set-output name=ts::$(date +'%s')"
+
+    - name: Notify slack failure
+      if: ${{ failure()  || cancelled() }}
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: pullreminders/slack-action@master
+      with:
+          args: '{\"channel\":\"C014Y6SHE12\", \"attachments\": [{\"fallback\": \"Job failed.\", \"color\": \"danger\", \"title\": \"SSD Schulferien Job Failed\", \"title_link\": \"https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true\", \"text\": \":x: Update failed\", \"footer\": \"<https://github.com/opendatazurich/opendatazurich.github.io/actions|opendatazurich/opendatazurich.github.io>\", \"footer_icon\": \"https://github.com/abinoda/slack-action/raw/master/docs/app-icons/github-icon.png\", \"ts\": \"${{steps.date.outputs.ts}}\"}]}'

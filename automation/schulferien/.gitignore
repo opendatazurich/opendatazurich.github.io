@@ -1,2 +1,4 @@
 __pycache__
 *.ics
+data.sqlite
+meta.xml
