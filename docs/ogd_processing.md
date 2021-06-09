@@ -32,4 +32,54 @@ Im ogd-data-processing hat es eine Reihe von Skripten, die bei der Datenaufberei
 
 ## Datensatz aufbereiten
 
+Typischer Aufbau einer `update_dataset.sh` Skripts:
+
+```bash
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+function cleanup {
+  exit $?
+}
+trap "cleanup" EXIT
+
+DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Load python environment
+if ! command -v scl &> /dev/null
+then
+    scl enable rh-python36 bash
+fi
+source $DIR/../env/bin/activate
+
+
+# Config
+DATA_DIR=/mnt/OGD/Daten/Quelldaten/HBD/bauarchiv_zuerich_um_1910
+DROPZONE_DIR=/mnt/OGD_Dropzone/DWH
+DATASET=baz_zuerich_um_1910
+
+# Load .env
+source $DIR/../.env
+
+# generate meta.xml
+python $DIR/../xls_to_meta_xml.py -f $DATA_DIR/OGD-Metadaten_BAZ_Zürich1910.xlsx -o $DIR/meta.xml
+
+# copy everything to DROPZONE
+cp $DIR/meta.xml $DROPZONE_DIR/$DATASET
+cp $DATA_DIR/link.xml $DROPZONE_DIR/$DATASET
+python $DIR/../csv_delim.py -f $DATA_DIR/LIST_BAZ_GLAMhack2021_Zürich1910.csv -d ";" -e cp1252 > $DROPZONE_DIR/$DATASET/baz_zuerich_um_1910.csv 
+```
+
+In diesem Beispiel wird eine Quelldatei (CSV) für OGD aufbereitet (korrekte Codierung und Trennzeichen) und in der DWH-Dropzone zur Verfügung gestellt.
+
+In `.env` sind alle Umgebungsvariablen definiert, diese umfassen folgende Werte: 
+
+```
+CKAN_BASE_URL=https://data.stadt-zuerich.ch
+CKAN_API_KEY=<api-key>
+GITHUB_TOKEN=<token>
+```
+
 [^metaxml]: `meta.xml` sind die CKAN-Metadaten in XML Form, so dass der Harvester diese interpretieren kann.
