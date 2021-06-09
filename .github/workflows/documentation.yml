@@ -18,6 +18,7 @@ jobs:
              -V colorlinks=true
              -V linkcolor=blue
              -V urlcolor=blue
+             -V toc-title:"Inhaltsverzeichnis"
              --from markdown+footnotes+pipe_tables
              --table-of-contents 
              --output=output/result.pdf
