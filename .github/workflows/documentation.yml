@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Create output directory
+        run: mkdir output
 
       - uses: docker://pandoc/latex:2.9
         with:
