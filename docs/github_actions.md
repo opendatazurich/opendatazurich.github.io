@@ -32,6 +32,19 @@ Die resultierende Excel-Datei kann für max. 90 Tage als Artifact auf einem erfo
 Für das Open Data Zürich Team ist es wichtig, täglich informiert zu sein, ob alle Harvester[^harvester] erfolgreich durchgelaufen sind und ob es neue, aktualisierte oder gelöschte Datensätze gibt.
 Zu diesem Zweck läuft [dieser Job jeden Morgen](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/notify_datasets.yml) und liefert diese Informationen in einen definierten Slack-Channel.
 
+## Datenaufbereitung von öffentlich zugänglichen Daten
+
+Es gibt einige Datensätze, die öffentlich zugänglich sind, jedoch für OGD noch aufbereitet werden müssen.
+Datensätze, die auf nur intern zugänglichen Daten basieren, werden im Kapitel [Datenaufbereitung mit Python](/docs/ogd_processing.md) beschrieben.
+
+### SSD: Schulferien
+
+### VBZ: Passagierfrequenzen
+
+### SAR: Geschäftsberichte
+
+### SKZ: Abstimmungsparolen
+
 [^ckan]: CKAN ist eine Open Source Katalogsoftware, mehr Informationen unter https://ckan.org/.
 [^slug]: Der Slug bezeichnet den letzen Teil der URL eines Datasets, bei https://data.stadt-zuerich.ch/dataset/sar_geschaeftsberichte wäre `sar_geschaeftsberichte` der Slug.
 [^harvester]: Harvester sind Programme, die automatisiert Daten aus einer Quelle holen und diese in den Open-Data-Katalog importieren.
