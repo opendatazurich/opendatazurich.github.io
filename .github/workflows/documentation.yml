@@ -14,7 +14,7 @@ jobs:
 
       - uses: docker://pandoc/latex:2.9
         with:
-          args: --from markdown+footnotes --table-of-contents --output=output/result.pdf docs/README.md docs/github_actions.md docs/ogd_processing.md docs/jupyter_notebooks.md 
+          args: --from markdown+footnotes+pipe_tables --table-of-contents --output=output/result.pdf docs/README.md docs/github_actions.md docs/ogd_processing.md docs/jupyter_notebooks.md 
           
       - uses: actions/upload-artifact@master
         with:
