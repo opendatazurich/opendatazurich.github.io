@@ -4,6 +4,7 @@ Datenaufbereitung mit Python
 Die Datenaufbereitung mit Python für Datensätze, die auf internen Daten basieren, gibt es ein separates Git Repository [opendatazurich/ogd-data-processing](https://github.com/opendatazurich/ogd-data-processing).
 
 Alle diese Datenaufbereitungen sind gleich aufgebaut und werden über Cron gesteuert auf dem internen Linux-Server szhm58504 mit dem Benutzer `opendatazurich`.
+Der Login auf szhm58504 erfolgt mit dem eigenen Benutzer, anschliessend kann mit `sudo su - opendatazurich` zum Benutzer `opendatazurich` gewechselt werden.
 
 Die Idee ist es, die Quelldaten so aufzubereiten, dass diese von einem Harvester auf CKAN importiert werden können.
 
