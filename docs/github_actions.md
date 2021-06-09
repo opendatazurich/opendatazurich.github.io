@@ -1,3 +1,5 @@
+\newpage
+
 GitHub Actions
 ==============
 
