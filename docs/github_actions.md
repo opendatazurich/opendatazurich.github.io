@@ -47,7 +47,7 @@ Die Datasets für welche diese Tags vergeben werden sollen lassen sich auf zwei 
 Unter `datasets:` (in der Gruppe `architektur` oben) lassen sich beliebig viele Datasets als Liste von Slugs konfigurieren.
 
 Unter `queries:` (in der Gruppe `hackathonx` oben) lassen sich beliebig viele Queries definieren.
-Bei den Queries handelt es sich um CKAN-Queries, siehe dazu auch [«Daten finden» (handbook.opendata.swiss)](https://handbook.opendata.swiss/de/content/nutzen/daten-suchen.html).
+Bei den Queries handelt es sich um CKAN-Queries, siehe dazu auch [«Daten finden» (handbook.opendata.swiss)](https://handbook.opendata.swiss/de/content/nutzen/daten-suchen.html). 
 
 Es ist auch möglich Queries und eine Liste von Datensätzen miteinander zu verbinden.
 
