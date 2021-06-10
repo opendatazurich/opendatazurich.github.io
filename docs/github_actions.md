@@ -65,8 +65,7 @@ Zu diesem Zweck läuft [dieser Job jeden Morgen](https://github.com/opendatazuri
 
 ## Datenaufbereitung von öffentlich zugänglichen Daten
 
-Es gibt einige Datensätze, die öffentlich zugänglich sind, jedoch für OGD noch aufbereitet werden müssen.
-Datensätze, die auf nur intern zugänglichen Daten basieren, werden im Kapitel [Datenaufbereitung mit Python](/docs/ogd_processing.md) beschrieben.
+Es gibt einige Datensätze, die öffentlich zugänglich sind, jedoch für OGD noch aufbereitet werden müssen. Die Skripts dazu sind in [opendatazurich.github.io > automation]( https://github.com/opendatazurich/opendatazurich.github.io/tree/master/automation) abgelegt. Datensätze, die auf nur intern zugänglichen Daten basieren, werden im Kapitel [Datenaufbereitung mit Python](/docs/ogd_processing.md) beschrieben.
 
 ### SSD: Schulferien
 
