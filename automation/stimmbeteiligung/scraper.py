@@ -4,7 +4,6 @@ import requests
 from bs4 import BeautifulSoup
 import sqlite3
 import re
-from urllib.parse import urljoin
 import dateparser
 import sys
 import os
@@ -29,7 +28,7 @@ def insert_or_update(data, conn):
             INSERT INTO data (
                 Abstimmungs_Datum,
                 Stimmbeteiligung_Prozent,
-                Aktualisierungs_Datum,
+                Aktualisierungs_Datum
             )
             VALUES
             (?,?,?)
@@ -43,7 +42,7 @@ def insert_or_update(data, conn):
     except sqlite3.IntegrityError:
         try:
             print("Already there, updating instead")
-            print(parole)
+            print(data)
             c.execute(
                 '''
                 UPDATE data SET Stimmbeteiligung_Prozent = ? WHERE Abstimmungs_Datum = ? AND Aktualisierungs_Datum = ?
@@ -72,16 +71,18 @@ try:
 
     # parse page
     page = requests.get(url)
+    if page.status_code != requests.codes.ok:
+        print(f"Error when requesting url {url}: {page.status_code}", file=sys.stderr)
+        sys.exit(0)
+    page.raise_for_status()
     soup = BeautifulSoup(page.content, 'html.parser')
     div = soup.select_one('div.mainparsys')
-    print(div.text)
-    match = re.search(r'Urnengang vom (.+):.*Stimmbeteiligung.*beträgt.*(\d+,?\d?)Prozent.*\((\d+\.\d+\.\d+\))', div.text.strip())
-    print(match)
+    match = re.search(r'Urnengang vom (.+):.*?Stimmbeteiligung.*beträgt.*?(\d+,?\d?)\s*Prozent.*?\((\d+\.\d+\.\d+)\)', div.text.strip())
 
     data = {
-        'abst_datum': match[1],
-        'stimmbeteiligung': match[2],
-        'akt_datum': match[3],
+        'abst_datum': dateparser.parse(match[1], languages=['de']).date().isoformat(),
+        'stimmbeteiligung': float(match[2].replace(',', '.')),
+        'akt_datum': dateparser.parse(match[3], languages=['de']).date().isoformat(),
     }
     insert_or_update(data, conn)
 
