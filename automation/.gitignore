@@ -5,5 +5,6 @@ pyenv3.7
 **/*.ics
 !badi-counter/badi_counter.csv
 !abstimmungsparolen/abstimmungsparolen.csv
+!stimmbeteiligung/stimmbeteiligung.csv
 !schulferien/schulferien.csv
 __pycache__/*
