@@ -1,0 +1,290 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%													%%%
+%%%				 SSZ-PDF-Template						%%%
+%%%													%%%
+%%%				  Alessandro Feller						%%%
+%%%													%%%
+%%%				    Oktober 2020						%%%
+%%%													%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%													%%%
+%%%				   Voreinstellungen						%%%
+%%%													%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%!TEX TS-program = xelatex
+% !TEX encoding = UTF-8 Unicode
+
+% Deklaration der Dokumentklasse und Schriftgrösse
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$lang$,$endif$$if(papersize)$$papersize$,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{article}
+
+% Fontspec
+\usepackage{fontspec,xltxtra,xunicode}
+\setmainfont{Arial}
+
+% Mathematische Symbole 
+\usepackage{amsmath}
+
+% Sprache
+\usepackage[german]{babel}
+
+% Margins, etc
+\usepackage{geometry}
+\geometry{verbose,letterpaper,tmargin=3cm,bmargin=3cm,lmargin=3cm,rmargin=3cm}
+
+% Style der Untertitel
+\usepackage{titlesec}
+\titleformat{\section}
+  {\normalfont\Huge\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\Large\bfseries}{\thesubsection.}{1em}{}
+\titleformat{\subsubsection}
+  {\normalfont\large\bfseries}{\thesubsubsection.}{1em}{}
+
+% Fussnoten (hier funktioniert etwas wegen Package Clash nicht)
+% \usepackage[flushmargin]{footmisc} 
+% \usepackage[hang,flushmargin]{footmisc}
+
+\usepackage{tocloft}
+
+
+% Paragraphenformat
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+
+% Seitennummerierung
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{$subtitle$}
+\lhead{Statistik Stadt Zürich}
+\rfoot{\thepage}
+
+% Lists formatting
+$if(fancy-enums)$
+\makeatletter\AtBeginDocument{%
+  \renewcommand{\@listi}
+    {\setlength{\labelwidth}{4em}}
+}\makeatother
+\usepackage{enumerate}
+$endif$
+
+\usepackage{listings}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+% Table formatting: 
+$if(tables)$
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{float}
+\usepackage{threeparttable}
+$endif$
+
+
+% Subscripts:
+$if(subscript)$
+\newcommand{\textsubscr}[1]{\ensuremath{_{\scriptsize\textrm{#1}}}}
+$endif$
+
+
+% Web-style links:
+\usepackage[breaklinks=true]{hyperref}
+\hypersetup{colorlinks,%
+		    citecolor=Züriblau,%
+                 filecolor=Züriblau,%
+                 linkcolor=.,%
+                 urlcolor=Züriblau}
+
+$if(url)$
+\usepackage{url}
+$endif$
+
+
+%%%% Grafische Einstellungen
+\usepackage{tikzpagenodes}
+
+% Code Macros
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+% Captions
+%\usepackage{floatrow}
+%\floatsetup[figure]{capposition=bottom, font=huge}
+%\floatsetup[table]{capposition=top,font=small}
+
+% Farbpalette
+\usepackage{xcolor}
+
+% Farben
+\definecolor{Züriblau}{HTML}{0F05A0}
+\definecolor{Mitternachtsblau80}{HTML}{070066}
+\definecolor{Mitternachtsblau70}{HTML}{0F05A0}
+\definecolor{Mitternachtsblau10}{HTML}{EFF5FF}
+\definecolor{Zitronengelb80}{HTML}{998D00}
+\definecolor{Zitronengelb70}{HTML}{CCBA10}
+\definecolor{Zitronengelb30}{HTML}{FFFD89}
+\definecolor{Kleeblatt80}{HTML}{004E14}
+\definecolor{Kleeblatt30}{HTML}{BCE59E}
+\definecolor{Kleeblatt10}{HTML}{F0FDE9}
+\definecolor{Magenta80}{HTML}{60003B}
+\definecolor{Magenta30}{HTML}{F99EC8}
+\definecolor{Magenta10}{HTML}{FDF1F8}
+\definecolor{Orange60}{HTML}{EB5E00}
+\definecolor{Orange50}{HTML}{F18830}
+\definecolor{Orange30}{HTML}{FBCB97}
+
+% Inhaltsverzeichnis und Nummerierung der Überschrift
+$if(numbersections)$
+\setcounter{secnumdepth}{3}
+\usepackage{tocloft}
+\cftsetindents{section}{0em}{4em}
+\cftsetindents{subsection}{0em}{4em}
+\cftsetindents{subsubsection}{0em}{4em}
+\setlength\cftaftertoctitleskip{-100pt}
+\renewcommand\cfttoctitlefont{\Huge\textbf}
+\renewcommand{\cftsecfont}{\large\bfseries\textbf\normalfont}
+\renewcommand{\cftsubsecfont}{\large\bfseries\textbf\normalfont}
+\renewcommand{\cftsubsubsecfont}{\large\bfseries\textbf\normalfont}
+\renewcommand\cftaftertoctitle{\vspace*{2,5cm}\hfill\mbox{}\thispagestyle{empty}}
+\renewcommand{\cftdot}{}
+$else$
+\setcounter{secnumdepth}{0}
+\usepackage{tocloft}
+\cftsetindents{section}{0em}{4em}
+\cftsetindents{subsection}{0em}{4em}
+\cftsetindents{subsubsection}{0em}{4em}
+\renewcommand\cfttoctitlefont{\Huge\textbf}
+\renewcommand{\cftsecfont}{\large\bfseries\textbf\normalfont}
+\renewcommand{\cftsubsecfont}{\large\bfseries\textbf\normalfont}
+\renewcommand{\cftsubsubsecfont}{\large\bfseries\textbf\normalfont}
+\renewcommand\cftaftertoctitle{\vspace*{2,5cm}\hfill\mbox{}\thispagestyle{empty}}
+\renewcommand{\cftdot}{}
+$endif$
+
+
+
+% Other stuff you specify on the command line:
+% You can include stuff for the header from a file specified on the command line;
+% I've never done this, but that stuff will go here:
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+% Titel auf der Frontpage
+$if(title)$
+\title{$title$}
+$endif$
+
+$if(subtitle)$
+\title{$subtitle$}
+$endif$
+
+$if(authors)$
+\author{$for(authors)$$authors$$sep$ \and $endfor$}
+$endif$
+
+
+\usepackage{titling}
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
+\begin{flushleft}
+  \vspace*{2,5cm}\hspace*{-0.45cm}\textbf{\color{$title-color$}{\Large $subtitle$}} \\
+  \vspace*{0.5cm}\hspace*{-0.45cm}\textbf{\color{$title-color$}{\Huge $title$}}
+\end{flushleft}\egroup
+}
+
+
+\begin{document}
+
+\begin{titlepage}
+$if(front-page-color)$
+\pagecolor{$front-page-color$}
+$else$
+\pagecolor{white}
+$endif$
+
+$if(logo)$
+\begin{center}
+  \vspace*{-3.65cm}\makebox[\textwidth]{\includegraphics[width=\paperwidth]{$logo$}}
+\end{center}
+$endif$
+
+\maketitle
+
+$if(front-page-graphic)$
+\begin{tikzpicture}[remember picture,overlay]
+ \node[anchor=south west,xshift=-3.2cm,yshift=-3.2cm] at (current page text area.south west) {\includegraphics[width=\paperwidth]{$front-page-graphic$}};
+\end{tikzpicture}
+\vspace{0.75in}
+$endif$
+
+\end{titlepage}
+
+\newpage
+\pagecolor{white}
+
+\begin{titlepage}
+$if(impressum)$
+\thispagestyle{empty}
+\begin{flushleft}
+  \vspace*{2,5cm}\textbf{{\Huge Impressum}} \\
+  \vspace*{9.5cm}\textbf{$subtitle$} \\
+  \vspace*{0.5cm}\textbf{Herausgeberin} \\
+   {Stadt Zürich} \\
+   {$department$} \\
+   {$address$} \\
+   {$tel$} \\
+   {$web$} \\
+  \vspace*{0.5cm}{$date$} \\
+  \vspace*{\fill}\textbf{Redaktionelle Bearbeitung} \\
+  {$for(authors)$$authors$$sep$\\$endfor$} \\
+  \vspace*{\fill}\textbf{Fotografie} \\
+  {$credit$} \\
+\end{flushleft}
+$endif$
+\end{titlepage}
+
+\newpage
+
+\begin{titlepage}
+$if(toc)$
+\pagestyle{empty}
+\pagecolor{$toc-color$}
+\textcolor{$toc-font-color$}{\tableofcontents}
+\newpage
+\pagecolor{white}
+$endif$
+\end{titlepage}
+
+$if(alignment)$
+\begin{$alignment$}
+$endif$
+
+$body$
+
+\newpage
+
+\begin{titlepage}
+\twocolumn
+$if(glossary)$
+\thispagestyle{empty}
+\begin{flushleft}
+  \vspace*{2,5cm}\color{white}\textbf{{\Huge Glossar}} \\
+\end{flushleft}
+\pagecolor{$glossary-color$}
+\textcolor{white}\printnoidxglossaries
+$endif$
+\end{titlepage}
+
+\end{document}
