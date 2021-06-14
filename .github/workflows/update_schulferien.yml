@@ -46,19 +46,19 @@ jobs:
     - name: Upload file to CKAN
       if: steps.changes.outputs.changed == 1 # only upload file if it changed
       env:
-        CKAN_BASE_URL: ${{ secrets.CKAN_INTEG_BASE_URL }}
-        CKAN_API_KEY: ${{ secrets.CKAN_INTEG_API_KEY }}
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
       run: |
-        python automation/upload_resource_to_ckan.py --no-verify -f automation/schulferien/schulferien.csv -d ssd_schulferien
+        python automation/upload_resource_to_ckan.py -f automation/schulferien/schulferien.csv -d ssd_schulferien
 
     - name: Update CKAN metadata
       if: steps.changes.outputs.changed == 1 # only update metadata if the file changed
       env:
-        CKAN_BASE_URL: ${{ secrets.CKAN_INTEG_BASE_URL }}
-        CKAN_API_KEY: ${{ secrets.CKAN_INTEG_API_KEY }}
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
       run: |
         python automation/xls_to_meta_xml.py -f automation/schulferien/metadata_ferientermine_volksschule.xlsx --outfile automation/schulferien/meta.xml
-        python automation/update_metadata.py --no-verify -d ssd_schulferien -f automation/schulferien/meta.xml
+        python automation/update_metadata.py -d ssd_schulferien -f automation/schulferien/meta.xml
 
     - name: Get current unix timestamp
       if: always()
