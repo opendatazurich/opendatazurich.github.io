@@ -1,8 +1,8 @@
-name: Update abstimmungsparolen data
+name: Update stimmbeteiligung data
 
 on:
-  schedule:
-    - cron:  '15 14 * * *' # runs 14:15 UTC every day
+  #schedule:
+  #  - cron:  '15 16 * * *' # runs 16:15 UTC every day
   workflow_dispatch:
     inputs:
       force_update:
@@ -11,7 +11,7 @@ on:
         default: 'false'
 
 jobs:
-  update_data_py:
+  update_data:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     strategy:
@@ -31,7 +31,7 @@ jobs:
         sudo apt-get install sqlite3
         
     - name: Prepare data
-      run: automation/abstimmungsparolen/run_scraper.sh
+      run: automation/stimmbeteiligung/run_scraper.sh
     
     - name: Check if there are changes in the repo
       id: changes
@@ -45,25 +45,25 @@ jobs:
         push-branch: master
         name: GitHub Action Bot
         email: opendata@zuerich.ch
-        commit-message: Update abstimmungsparolen.csv with latest data
+        commit-message: Update stimmbeteiligung.csv with latest data
         rebase: 'true'
 
     - name: Upload file to CKAN
       if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
       env:
-        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
-        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        CKAN_BASE_URL: ${{ secrets.CKAN_INTEG_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_INTEG_API_KEY }}
       run: |
-        python automation/upload_resource_to_ckan.py -f automation/abstimmungsparolen/abstimmungsparolen.csv -d politik_abstimmungsparolen_gemeindeabstimmung_seit2012
+        python automation/upload_resource_to_ckan.py --no-verify -f automation/stimmbeteiligung/stimmbeteiligung.csv -d politik_stimmbeteiligung-vor-urnengangen
 
     - name: Update CKAN metadata
       if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
       env:
-        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
-        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        CKAN_BASE_URL: ${{ secrets.CKAN_INTEG_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_INTEG_API_KEY }}
       run: |
-        python automation/xls_to_meta_xml.py -f automation/abstimmungsparolen/Meta_Abstimmungsparolen.xlsx --outfile automation/abstimmungsparolen/meta.xml
-        python automation/update_metadata.py -d politik_abstimmungsparolen_gemeindeabstimmung_seit2012 -f automation/abstimmungsparolen/meta.xml
+        python automation/xls_to_meta_xml.py -f automation/stimmbeteiligung/Meta_Stimmbeteiligung.xlsx --outfile automation/stimmbeteiligung/meta.xml
+        python automation/update_metadata.py --no-verify -d politik_stimmbeteiligung-vor-urnengangen -f automation/stimmbeteiligung/meta.xml
 
     - name: Get current unix timestamp
       if: always()
@@ -76,4 +76,4 @@ jobs:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       uses: pullreminders/slack-action@master
       with:
-          args: '{\"channel\":\"C014Y6SHE12\", \"attachments\": [{\"fallback\": \"Job failed.\", \"color\": \"danger\", \"title\": \"SKZ Abstimmungsparolen Job Failed\", \"title_link\": \"https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true\", \"text\": \":x: Update failed\", \"footer\": \"<https://github.com/opendatazurich/opendatazurich.github.io/actions|opendatazurich/opendatazurich.github.io>\", \"footer_icon\": \"https://github.com/abinoda/slack-action/raw/master/docs/app-icons/github-icon.png\", \"ts\": \"${{steps.date.outputs.ts}}\"}]}'
+          args: '{\"channel\":\"C014Y6SHE12\", \"attachments\": [{\"fallback\": \"Job failed.\", \"color\": \"danger\", \"title\": \"Stimmbeteiligung Job Failed\", \"title_link\": \"https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true\", \"text\": \":x: Update failed\", \"footer\": \"<https://github.com/opendatazurich/opendatazurich.github.io/actions|opendatazurich/opendatazurich.github.io>\", \"footer_icon\": \"https://github.com/abinoda/slack-action/raw/master/docs/app-icons/github-icon.png\", \"ts\": \"${{steps.date.outputs.ts}}\"}]}'

@@ -20,15 +20,15 @@ import os
 import xmlparse
 from datetime import date
 import json
+import codecs
 from pprint import pprint
-
 
 
 def read_meta_xml(path):
 
     dataset_node = None
     xmlparser = xmlparse.XMLParser()
-    with open(path, 'r') as f:
+    with codecs.open(path, 'r', 'utf-8-sig') as f:
         meta_xml = xmlparser.parse(f.read())
         dataset_node = meta_xml.find('datensatz')
 
