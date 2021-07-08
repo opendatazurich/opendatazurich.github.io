@@ -4,3 +4,15 @@ verkehr:
     datasets: []
     queries:
         - "title:*verkehr*"
+        
+        
+smart_city:
+    tags:
+        - Digitale Transparenz im öffentlichen Raum
+        - DToeR
+    datasets:
+        - sid_dav_verkehrszaehlung_miv_od2031
+        - ted_taz_verkehrszaehlungen_werte_fussgaenger_velo
+        - ugz_luftschadstoffmessung_stundenwerte
+
+
