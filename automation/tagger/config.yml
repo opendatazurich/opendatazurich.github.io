@@ -8,8 +8,8 @@ verkehr:
         
 smart_city:
     tags:
-        - digitale transparenz im öffentlichen raum
-        - DTöR
+        - digitale-transparenz-im-oeffentlichen-raum
+        - dtoer
     datasets:
         - sid_dav_verkehrszaehlung_miv_od2031
         - ted_taz_verkehrszaehlungen_werte_fussgaenger_velo
