@@ -509,7 +509,7 @@ Hinweise zur Antwort:
 **Betragsreihe des Kontos 7953 ("Löhne des Verwaltungs- und Betriebspersonals" von Statistik Stadt Zürich) für das Jahr 2019 anzeigen:**
 
 
-`GET https://api.integ.stadt-zuerich.ch/rpkk-rs/v1/betragsreihe?jahre=2019&kontoId=7991`
+`GET https://api.stadt-zuerich.ch/rpkk-rs/v1/betragsreihe?jahre=2019&kontoId=7991`
 
 ```json
 {
