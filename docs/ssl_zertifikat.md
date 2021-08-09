@@ -74,7 +74,7 @@ sudo cp /home/liipadmin/data.integ.stadt-zuerich.ch.key /etc/ssl/certs/data.inte
 
 # Berechtigungen setzen
 sudo chmod 664 /etc/ssl/certs/data.integ.stadt-zuerich.ch.crt /etc/ssl/certs/data.integ.stadt-zuerich.ch.key
-sudo chown liipadmin /etc/ssl/certs/data.integ.stadt-zuerich.ch.crt /etc/ssl/certs/data.integ.stadt-zuerich.ch.key
+sudo chown liipadmin:liipadmin /etc/ssl/certs/data.integ.stadt-zuerich.ch.crt /etc/ssl/certs/data.integ.stadt-zuerich.ch.key
 ```
 
 ## Abschluss
