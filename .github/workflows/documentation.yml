@@ -19,6 +19,7 @@ jobs:
              -V linkcolor=blue
              -V urlcolor=blue
              -V toc-title:"Inhaltsverzeichnis"
+             --pdf-engine=xelatex
              --from markdown+footnotes+pipe_tables
              --table-of-contents 
              --output=output/result.pdf
