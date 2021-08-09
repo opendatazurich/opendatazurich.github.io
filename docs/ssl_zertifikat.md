@@ -40,7 +40,50 @@ Zertifikate können via Service Desk bestellt werden, dabei muss der Typ gewähl
 Die Zertifikate werden üblicherweise als PFX-Datei geliefert, aus dieser Datei lassen sich der Public- und der Private Key der Zertifikats extrahieren.
 Um die Dateien zu extrahieren benötigt man `openssl`, welches auf dem Server bereits installiert ist.
 
+**1. Datei auf den Server hochladen**
+
+Die PFX-Datei der OIZ am besten mit WinSCP auf den CKAN-Server laden (Username/Passwort im KeePass).
+
+**2. .crt und .key Files aus dem PFX extrahieren**
+
+```
+# Zertifikat
+openssl pkcs12 -in cert.pfx -clcerts -nokeys -out cert.crt
+
+# Key
+openssl pkcs12 -in cert.pfx -nocerts -out cert-encrypted.key
+openssl rsa -in cert-encrypted.key -out cert.key
+```
+
+**3. Dateien kopieren**
+
+Die Pfade zum Key und Zertifikat sind alle in `/etc/httpd/conf.d/ckan_default.conf` definiert.
+
+Zur Sicherheit die alten Dateien (Key/Zertifikat) umbenennen um notfalls wieder auf das alte Zertifikat wechseln zu können
+
+```
+cd /etc/ssl/certs/
+
+# Backup erstellen als .old
+sudo cp data.integ.stadt-zuerich.ch.crt{,.old}
+sudo cp data.integ.stadt-zuerich.ch.key{,.old}
+
+# Neue Dateien kopieren
+sudo cp /home/liipadmin/data.integ.stadt-zuerich.ch.crt /etc/ssl/certs/data.integ.stadt-zuerich.ch.crt
+sudo cp /home/liipadmin/data.integ.stadt-zuerich.ch.key /etc/ssl/certs/data.integ.stadt-zuerich.ch.key
+
+# Berechtigungen setzen
+sudo chmod 664 /etc/ssl/certs/data.integ.stadt-zuerich.ch.crt /etc/ssl/certs/data.integ.stadt-zuerich.ch.key
+sudo chown liipadmin /etc/ssl/certs/data.integ.stadt-zuerich.ch.crt /etc/ssl/certs/data.integ.stadt-zuerich.ch.key
+```
+
 ## Abschluss
+
+Im Anschluss noch den Webserver neustarten:
+
+```
+sudo systemctl restart httpd
+```
 
 Nach dem Austausch lohnt es sich die neue Konfiguration [via SSLLabs testen](https://www.ssllabs.com/ssltest/) zu lassen.
 Dort werden dann u.a. die Zertifikatsketten geprüft.
