@@ -6,3 +6,4 @@ authors:
 - Stefan Oderbolz
 - Marco Sieber
 keywords: [ogd, anleitung, jupyter, github, linux-server]
+---
