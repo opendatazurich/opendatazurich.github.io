@@ -24,7 +24,7 @@ jobs:
              --table-of-contents 
              --output=output/result.pdf
              --template=ssz.tex
-             docs/github_actions.md docs/ogd_processing.md docs/jupyter_notebooks.md docs/ssl_zertifikat.md
+             docs/*.md
           
       - uses: actions/upload-artifact@master
         with:
