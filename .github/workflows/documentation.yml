@@ -27,6 +27,7 @@ jobs:
              --table-of-contents 
              --output=output/result.pdf
              --template=ssz.tex
+             --verbose
              ${{ steps.files_list.outputs.files }}
           
       - uses: actions/upload-artifact@master
