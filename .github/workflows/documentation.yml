@@ -9,8 +9,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Create output directory
-        run: mkdir output
+      - name: Create file list and output directory
+        id: files_list
+        run: |
+          mkdir output  # create output dir
+          echo "::set-output name=files::$(printf '"%s" ' docs/??_*.md)"
 
       - uses: metaodi/pandoc-latex-action@v2.1
         with:
@@ -24,7 +27,7 @@ jobs:
              --table-of-contents 
              --output=output/result.pdf
              --template=ssz.tex
-             docs/*.md
+             ${{ steps.files_list.outputs.files }}
           
       - uses: actions/upload-artifact@master
         with:
