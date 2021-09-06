@@ -12,3 +12,5 @@ openpyxl
 pyyaml==5.4
 dateparser
 icalendar
+xmltodict
+flatten-dict
