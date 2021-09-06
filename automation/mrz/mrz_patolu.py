@@ -4,18 +4,32 @@ import museumplus
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
-search_url = f"{os.getenv('MRZ_BASE_URL')}/ria-ws/application/module/Object/search"
+base_url = os.getenv('MRZ_BASE_URL')
 user = os.getenv('MRZ_USER')
 pw = os.getenv('MRZ_PASS')
 
-records = museumplus.search(
-    url=search_url,
-    query='Patolu',
-    limit=1,
-    offset=0,
+client = museumplus.MuseumPlusClient(
+    base_url=base_url,
     requests_kwargs={'auth': (user, pw)}
 )
 
-for record in records:
-    pprint(record)
+group_result = client.search(
+    field='OgrNameTxt',
+    value='Patolu, MAP',
+    module='ObjectGroup'
+)
+
+for res in group_result:
+    pprint(res)
+
+# records = museumplus.fulltext_search(
+#     base_url=base_url,
+#     query='Patolu',
+#     limit=1,
+#     offset=0,
+#     requests_kwargs={'auth': (user, pw)}
+# )
+# 
+# for record in records:
+#     pprint(record)
 
