@@ -32,7 +32,7 @@ class SearchResponse(object):
         except AttributeError:
             return 'SearchResponse(empty)'
 
-    def __length__(self):
+    def __len__(self):
         return len(self.records)
 
     def __iter__(self):

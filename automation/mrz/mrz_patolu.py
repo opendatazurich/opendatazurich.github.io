@@ -18,9 +18,17 @@ group_result = client.search(
     value='Patolu, MAP',
     module='ObjectGroup'
 )
+assert len(group_result) == 1, "More than one ObjectGroup found"
+group = group_result[0]
 
-for res in group_result:
-    pprint(res)
+ref = group['moduleItem']['moduleReference']
+for ref_item in ref['moduleReferenceItem'][:1]:
+    print(ref_item)
+    print(ref['targetModule'])
+    item = client.module_item(ref_item['moduleItemId'], ref['targetModule'])
+    pprint(item)
+    if item['hasAttachments'] == 'true':
+        client.download_attachment(ref_item['moduleItemId'], ref['targetModule'])
 
 # records = museumplus.fulltext_search(
 #     base_url=base_url,
