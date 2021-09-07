@@ -28,7 +28,7 @@ for ref_item in ref['moduleReferenceItem'][:1]:
     item = client.module_item(ref_item['moduleItemId'], ref['targetModule'])
     pprint(item)
     if item['hasAttachments'] == 'true':
-        client.download_attachment(ref_item['moduleItemId'], ref['targetModule'])
+        client.download_attachment(ref_item['moduleItemId'], ref['targetModule'], os.path.join('.', 'images'))
 
 # records = museumplus.fulltext_search(
 #     base_url=base_url,
