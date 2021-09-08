@@ -76,7 +76,7 @@ class MuseumPlusClient(object):
 
     def download_attachment(self, id, module='Object', dir='.'):
         url = f"{self.base_url}/ria-ws/application/module/{module}/{id}/attachment"
-        self._download_file(url, dir)
+        return self._download_file(url, dir)
 
     def _download_file(self, url, dir):
         headers = {'Accept': 'application/octet-stream'}
@@ -88,6 +88,7 @@ class MuseumPlusClient(object):
         with open(path, 'wb') as f:
             for chunk in res.iter_content(1024):
                 f.write(chunk)
+        return path
 
     def _get_xml(self, url):
         res = self._get_content(url)
