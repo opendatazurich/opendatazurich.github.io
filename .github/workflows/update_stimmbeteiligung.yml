@@ -60,8 +60,8 @@ jobs:
     - name: Update CKAN metadata
       if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
       env:
-        CKAN_BASE_URL: ${{ secrets.CKAN_INTEG_BASE_URL }}
-        CKAN_API_KEY: ${{ secrets.CKAN_INTEG_API_KEY }}
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
       run: |
         python automation/xls_to_meta_xml.py -f automation/stimmbeteiligung/Meta_Stimmbeteiligung.xlsx --outfile automation/stimmbeteiligung/meta.xml
         python automation/update_metadata.py --no-verify -d politik_stimmbeteiligung-vor-urnengangen -f automation/stimmbeteiligung/meta.xml
