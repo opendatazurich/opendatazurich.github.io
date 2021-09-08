@@ -71,7 +71,7 @@ class MuseumPlusClient(object):
         xml_response = self._get_xml(url)
         resp = response.SearchResponse(xml_response)
         if len(resp) == 1:
-            return resp[0]['moduleItem']
+            return resp[0]
         return resp
 
     def download_attachment(self, id, module='Object', dir='.'):

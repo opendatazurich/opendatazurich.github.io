@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import xmlparse
+from flatten_dict import flatten
 
 ZETCOM_NS = "http://www.zetcom.com/ria/ws/module"
 
@@ -13,13 +14,41 @@ class SearchResponse(object):
 
     def _extract_records(self, xml):
         new_records = []
-
+        
+        #print(self.xmlparser.tostring(xml))
         xml_recs = self.xmlparser.findall(xml, f'.//{{{ZETCOM_NS}}}module/{{{ZETCOM_NS}}}moduleItem')
         for xml_rec in xml_recs:
-            record = self.xmlparser.todict(xml_rec, xml_attribs=True)
-            record = dict(record)
+
+            print(self.xmlparser.tostring(xml_rec))
+            record = {
+                'hasAttachments': self.xmlparser.find(xml_rec, f'./{{{ZETCOM_NS}}}hasAttachments').text,
+                'ObjObjectNumberGrp': self.xmlparser.find(xml_rec, './recordSchema').text,
+                'ObjObjectTitleGrp': '',
+                'ObjPerAssociationRef': '',
+                'ObjGeograficGrp': '',
+                'ObjDateGrp': '',
+                'ObjDimAllGrp': '',
+                'ObjMaterialTechniqueGrp': '',
+                'ObjMuseumCollectionVoc': '',
+                'ObjCreditlineGrp': '',
+                'ObjOwnershipDEDpl': '',
+                'ObjBriefDescriptionClb': '',
+                'ObjLiteratureRef': '',
+                'MulPhotocreditTxt': '',
+            }
+            record['raw'] = self.xmlparser.todict(xml_rec, xml_attribs=True)
+            #record.pop('xmlns', None)
+            #record = self._clean_dict(record)
             new_records.append(record)
         self.records.extend(new_records)
+
+    def _clean_dict(self, record_data):
+        # check if there is only one element on the top level
+        keys = list(record_data.keys())
+        if len(record_data) == 1 and len(keys) > 0 and len(record_data[keys[0]]) > 0:
+            record_data = record_data[keys[0]]
+
+        return record_data
 
     def __repr__(self):
         try:
