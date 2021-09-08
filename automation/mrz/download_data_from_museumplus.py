@@ -76,28 +76,25 @@ try:
         quoting=csv.QUOTE_MINIMAL
     )
     writer.writeheader()
-    for ref_item in ref['moduleReferenceItem'][:1]:
-        print(ref_item)
-        print(ref['targetModule'])
+    for ref_item in ref['moduleReferenceItem']:
         item = client.module_item(ref_item['moduleItemId'], ref['targetModule'])
-        pprint(item)
         if item['hasAttachments'] == 'true':
             attachment_path = client.download_attachment(ref_item['moduleItemId'], ref['targetModule'], arguments['--attachments'])
         sleep(randint(1,3))
         row = {
-            'inventar_nummer': '',
-            'bezeichnung': '',
-            'urheber': '',
-            'geo': '',
-            'datum': '',
-            'masse': '',
-            'material_technik': '',
+            'inventar_nummer': item['ObjObjectNumberTxt'],
+            'bezeichnung': item['ObjObjectTitleGrp'],
+            'urheber': item['ObjPerAssociationRef'],
+            'geo':  item['ObjGeograficGrp'],
+            'datum': item['ObjDateTxt'],
+            'masse': item['ObjDimAllGrp'],
+            'material_technik': item['ObjMaterialTechniqueGrp'],
             'sammlung': '',
-            'creditline': '',
-            'provenienz': '',
-            'kurzbeschreibung': '',
-            'literatur': '',
-            'bildunterschrift': '',
+            'creditline': item['ObjCreditlineGrp'],
+            'provenienz': item['ObjOwnershipRef'],
+            'kurzbeschreibung': item['ObjScientificNotesClb'],
+            'literatur': item['ObjLiteratureRef'],
+            'bildunterschrift': item['ObjMultimediaRef'],
             'dateiname': os.path.basename(attachment_path),
         }
         writer.writerow(row)
