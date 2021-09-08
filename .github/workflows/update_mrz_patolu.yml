@@ -1,0 +1,80 @@
+name: Update stimmbeteiligung data
+
+on:
+  #schedule:
+  #  - cron:  '15 16 * * *' # runs 16:15 UTC every day
+  workflow_dispatch:
+    inputs:
+      force_update:
+        description: 'Force update of resource and metadata'
+        required: false
+        default: 'false'
+
+jobs:
+  update_data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: integration
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r automation/automation-requirements.txt
+        
+    - name: Prepare data
+      run: automation/mrz/prepare_data.sh
+    
+    - name: Check if there are changes in the repo
+      id: changes
+      uses: UnicornGlobal/has-changes-action@v1.0.11
+        
+    - name: Commit and push to repo
+      if: steps.changes.outputs.changed == 1 # only try to commit if there are actually changes
+      uses: github-actions-x/commit@v2.6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        push-branch: master
+        name: GitHub Action Bot
+        email: opendata@zuerich.ch
+        commit-message: Update mrz_patolu.csv with latest data
+        rebase: 'true'
+
+    - name: Upload file to CKAN
+      if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+      run: |
+        python automation/upload_resource_to_ckan.py --no-verify -f automation/mrz/mrz_patolu.csv -d mrz_patolu
+        python automation/upload_resource_to_ckan.py --no-verify -f automation/mrz/patolu_images.zip -d mrz_patolu
+
+    - name: Update CKAN metadata
+      if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+      run: |
+        python automation/xls_to_meta_xml.py -f automation/mrz/Meta_Patolu.xlsx --outfile automation/mrz/meta.xml
+        python automation/update_metadata.py --no-verify -d mrz_patolu -f automation/mrz/meta.xml
+
+    - name: Get current unix timestamp
+      if: always()
+      id: date
+      run: echo "::set-output name=ts::$(date +'%s')"
+
+    - name: Notify slack failure
+      if: ${{ failure()  || cancelled() }}
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: pullreminders/slack-action@master
+      with:
+          args: '{\"channel\":\"C014Y6SHE12\", \"attachments\": [{\"fallback\": \"Job failed.\", \"color\": \"danger\", \"title\": \"MRZ Patolu Job Failed\", \"title_link\": \"https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true\", \"text\": \":x: Update failed\", \"footer\": \"<https://github.com/opendatazurich/opendatazurich.github.io/actions|opendatazurich/opendatazurich.github.io>\", \"footer_icon\": \"https://github.com/abinoda/slack-action/raw/master/docs/app-icons/github-icon.png\", \"ts\": \"${{steps.date.outputs.ts}}\"}]}'
