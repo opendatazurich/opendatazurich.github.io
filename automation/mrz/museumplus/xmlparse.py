@@ -21,25 +21,9 @@ class XMLNone(object):
 class XMLParser(object):
     def __init__(self):
         self.namespaces = {
-            'sru': 'http://www.loc.gov/zing/srw/',
-            'isad': 'http://www.expertisecentrumdavid.be/xmlschemas/isad.xsd',
-            'rel': 'info:srw/extension/2/relevancy-1.0',
-            'ap': 'http://www.archivportal.ch/srw/extension/',
-            'zr': 'http://explain.z3950.org/dtd/2.1/',
         }
         self.dict_namespaces = {
-            'http://www.loc.gov/zing/srw/': 'sru',
-            'http://explain.z3950.org/dtd/2.1/': 'zr',
-            'info:srw/extension/2/relevancy-1.0': None,
-            'http://www.archivportal.ch/srw/extension/': None,
-            'http://www.loc.gov/MARC21/slim': None,
-            'http://www.loc.gov/mods/v3': None,
-            'http://www.loc.gov/standards/mods/v3/mods-3-6.xsd': None,
-            'http://www.loc.gov/standards/mods/v3/mods-3-6.xsd': None,
-            'http://purl.org/dc/elements/1.1/': None,
-            'http://www.expertisecentrumdavid.be/xmlschemas/isad.xsd': None,
-            'http://www.w3.org/2001/XMLSchema-instance': None,
-            'http://www.w3.org/XML/1998/namespace': None,
+            'http://www.zetcom.com/ria/ws/module': None,
         }
 
     def parse(self, content):
