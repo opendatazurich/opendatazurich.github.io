@@ -18,4 +18,4 @@ python $DIR/download_data_from_museumplus.py -s "Patolu, MAP" -a $DIR/images > $
 
 # 2. Generate a zip file
 echo "Create zip for images"
-zip -r $DIR/mrz_patolu_images.zip $DIR/images
+zip $DIR/mrz_patolu_images.zip -j $DIR/images
