@@ -1,8 +1,8 @@
 name: Update stimmbeteiligung data
 
 on:
-  #schedule:
-  #  - cron:  '15 16 * * *' # runs 16:15 UTC every day
+  schedule:
+    - cron:  '15 17 * * *' # runs 17:15 UTC every day
   workflow_dispatch:
     inputs:
       force_update:
