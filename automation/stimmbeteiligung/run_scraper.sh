@@ -23,5 +23,5 @@ python $DIR/scraper.py
 
 # 3. Export the database as csv
 echo "Export database to CSV..."
-sqlite3 -header -csv $DIR/data.sqlite "select * from data order by Abstimmungs_Datum asc, Aktualisierungs_Datum desc" > $DIR/stimmbeteiligung.csv
+sqlite3 -header -csv $DIR/data.sqlite "select * from data order by Abstimmungs_Datum asc, Aktualisierungs_Datum asc" > $DIR/stimmbeteiligung.csv
 sed -i 's/""//g' $DIR/stimmbeteiligung.csv
