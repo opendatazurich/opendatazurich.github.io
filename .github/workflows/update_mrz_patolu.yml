@@ -31,6 +31,10 @@ jobs:
         pip install -r automation/automation-requirements.txt
         
     - name: Prepare data
+      env:
+        MRZ_BASE_URL: ${{ secrets.MRZ_BASE_URL }}
+        MRZ_USER: ${{ secrets.MRZ_USER }}
+        MRZ_PASS: ${{ secrets.MRZ_PASS }}
       run: automation/mrz/prepare_data.sh
     
     - name: Check if there are changes in the repo
