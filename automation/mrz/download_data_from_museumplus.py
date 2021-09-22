@@ -23,7 +23,7 @@ from pprint import pprint
 import csv
 from random import randint
 from time import sleep
-import museumplus
+import museumpy
 from docopt import docopt
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
@@ -35,8 +35,26 @@ user = os.getenv('MRZ_USER')
 pw = os.getenv('MRZ_PASS')
 
 
+def map_to_csv(item):
+    mapped_record = {
+	'inventar_nummer': item['ObjObjectNumberTxt'],
+	'bezeichnung': item['ObjObjectTitleGrp'],
+	'urheber': item['ObjPerAssociationRef'],
+	'geo':  item['ObjGeograficGrp'],
+	'datum': item['ObjDateTxt'],
+	'masse': item['ObjDimAllGrp'],
+	'material_technik': item['ObjMaterialTechniqueGrp'],
+	'sammlung': '',
+	'creditline': item['ObjCreditlineGrp'],
+	'provenienz': item['ObjOwnershipRef'],
+	'kurzbeschreibung': item['ObjScientificNotesClb'],
+	'literatur': item['ObjLiteratureRef'],
+	'bildunterschrift': item['ObjMultimediaRef'],
+    }
+    return mapped_record
+
 try:
-    client = museumplus.MuseumPlusClient(
+    client = museumpy.MuseumPlusClient(
         base_url=base_url,
         requests_kwargs={'auth': (user, pw)}
     )
@@ -47,7 +65,7 @@ try:
         value=search_term,
         module='ObjectGroup'
     )
-    assert len(group_result) == 1, "More than one ObjectGroup found"
+    assert group_result.count == 1, "More than one ObjectGroup found"
     group = group_result[0]['raw']
     ref = group['moduleItem']['moduleReference']
 
@@ -81,22 +99,8 @@ try:
         if item['hasAttachments'] == 'true':
             attachment_path = client.download_attachment(ref_item['moduleItemId'], ref['targetModule'], arguments['--attachments'])
         sleep(randint(1,3))
-        row = {
-            'inventar_nummer': item['ObjObjectNumberTxt'],
-            'bezeichnung': item['ObjObjectTitleGrp'],
-            'urheber': item['ObjPerAssociationRef'],
-            'geo':  item['ObjGeograficGrp'],
-            'datum': item['ObjDateTxt'],
-            'masse': item['ObjDimAllGrp'],
-            'material_technik': item['ObjMaterialTechniqueGrp'],
-            'sammlung': '',
-            'creditline': item['ObjCreditlineGrp'],
-            'provenienz': item['ObjOwnershipRef'],
-            'kurzbeschreibung': item['ObjScientificNotesClb'],
-            'literatur': item['ObjLiteratureRef'],
-            'bildunterschrift': item['ObjMultimediaRef'],
-            'dateiname': os.path.basename(attachment_path),
-        }
+        row = map_to_csv(item)
+        row['dateiname'] = os.path.basename(attachment_path)
         writer.writerow(row)
 except Exception as e:
     print("Error: %s" % e, file=sys.stderr)
