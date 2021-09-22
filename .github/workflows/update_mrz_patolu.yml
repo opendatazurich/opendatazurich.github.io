@@ -1,4 +1,4 @@
-name: Update stimmbeteiligung data
+name: Update mrz_patolu data
 
 on:
   #schedule:
