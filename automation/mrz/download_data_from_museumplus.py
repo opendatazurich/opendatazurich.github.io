@@ -65,7 +65,7 @@ def map_xml(record, xml_rec):
     mm_client = museumpy.MuseumPlusClient(
         base_url=base_url,
         map_function=map_mm_xml,
-        requests_kwargs={'auth': (user, pw), 'verify': False}
+        requests_kwargs={'auth': (user, pw)}
     )
     mm_obj = mm_client.module_item(multimedia_id, 'Multimedia')
     
@@ -134,14 +134,13 @@ def map_xml(record, xml_rec):
     return record
 
 try:
-    client = museumpy.MuseumPlusClient(
+    search_client = museumpy.MuseumPlusClient(
         base_url=base_url,
-        map_function=map_xml,
         requests_kwargs={'auth': (user, pw)}
     )
 
     search_term = arguments['--search']
-    group_result = client.search(
+    group_result = search_client.search(
         field='OgrNameTxt',
         value=search_term,
         module='ObjectGroup'
@@ -150,6 +149,11 @@ try:
     group = group_result[0]['raw']
     ref = group['moduleItem']['moduleReference']
 
+    client = museumpy.MuseumPlusClient(
+        base_url=base_url,
+        map_function=map_xml,
+        requests_kwargs={'auth': (user, pw)}
+    )
     header = [
         'inventar_nummer',
         'bezeichnung',
