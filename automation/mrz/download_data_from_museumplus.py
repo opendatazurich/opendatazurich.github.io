@@ -47,7 +47,7 @@ def map_xml(record, xml_rec):
         return sep.join([g.text for g in groups])
     
     def map_mm_xml(mm_record, mm_xml):
-        mm_record['bildunterschrift'] = xml_text(
+        mm_record['bildnachweis'] = xml_text(
             f".//{{{ZETCOM_NS}}}dataField[@name='MulPhotocreditTxt']/{{{ZETCOM_NS}}}value",
             rec=mm_xml
         )
@@ -91,7 +91,7 @@ def map_xml(record, xml_rec):
         'bezeichnung': record['ObjObjectTitleGrp'],
         'kurzbeschreibung': record['ObjBriefDescriptionClb'],
         'datum': record['ObjDateTxt'],
-        'bildunterschrift': mm_obj['bildunterschrift'],
+        'bildnachweis': mm_obj['bildnachweis'],
         'dateiname': mm_obj['dateiname'].lower(),
         'credits': mm_obj['credits'],
         'urheber': xml_text(
@@ -167,7 +167,7 @@ try:
         'provenienz',
         'kurzbeschreibung',
         'literatur',
-        'bildunterschrift',
+        'bildnachweis',
         'credits',
         'dateiname',
     ]
