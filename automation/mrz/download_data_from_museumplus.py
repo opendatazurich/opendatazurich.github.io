@@ -84,7 +84,7 @@ def map_xml(record, xml_rec):
             f"./{{{ZETCOM_NS}}}dataField[@name='NotesClb']//{{{ZETCOM_NS}}}value",
             mat_rec
         )
-        material.append(f"{mat_text}\n{mat_notes}")
+        material.append(f"{mat_text} (Bemerkung: {mat_notes})")
     
     record = {
         'inventar_nummer': record['ObjObjectNumberTxt'],
