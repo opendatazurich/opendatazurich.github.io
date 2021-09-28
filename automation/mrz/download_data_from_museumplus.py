@@ -79,7 +79,6 @@ def map_xml(record, xml_rec):
             f"./{{{ZETCOM_NS}}}dataField[@name='DetailsTxt']//{{{ZETCOM_NS}}}value",
             mat_rec
         )
-        print(mat_text)
         mat_notes = xml_text(
             f"./{{{ZETCOM_NS}}}dataField[@name='NotesClb']//{{{ZETCOM_NS}}}value",
             mat_rec
