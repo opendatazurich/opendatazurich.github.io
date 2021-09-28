@@ -50,15 +50,15 @@ def map_xml(record, xml_rec):
         mm_record['bildnachweis'] = xml_text(
             f".//{{{ZETCOM_NS}}}dataField[@name='MulPhotocreditTxt']/{{{ZETCOM_NS}}}value",
             rec=mm_xml
-        )
+        ) or ''
         mm_record['credits'] = xml_text(
             f".//{{{ZETCOM_NS}}}dataField[@name='MulRestrictionsClb']/{{{ZETCOM_NS}}}value",
             rec=mm_xml
-        )
+        ) or ''
         mm_record['dateiname'] = xml_text(
             f".//{{{ZETCOM_NS}}}dataField[@name='MulOriginalFileTxt']/{{{ZETCOM_NS}}}value",
             rec=mm_xml
-        )
+        ) or ''
         return mm_record
     
     multimedia_id = record['refs']['Multimedia']['items'][0]['moduleItemId']
@@ -78,12 +78,15 @@ def map_xml(record, xml_rec):
         mat_text = xml_text(
             f"./{{{ZETCOM_NS}}}dataField[@name='DetailsTxt']//{{{ZETCOM_NS}}}value",
             mat_rec
-        )
+        )  or ''
         mat_notes = xml_text(
             f"./{{{ZETCOM_NS}}}dataField[@name='NotesClb']//{{{ZETCOM_NS}}}value",
             mat_rec
-        )
-        material.append(f"{mat_text} (Bemerkung: {mat_notes})")
+        )  or ''
+        if mat_notes:
+            material.append(f"{mat_text} (Bemerkung: {mat_notes})")
+        else:
+            material.append(mat_text)
     
     record = {
         'inventar_nummer': record['ObjObjectNumberTxt'],
