@@ -34,28 +34,109 @@ base_url = os.getenv('MRZ_BASE_URL')
 user = os.getenv('MRZ_USER')
 pw = os.getenv('MRZ_PASS')
 
+ZETCOM_NS = "http://www.zetcom.com/ria/ws/module"
 
-def map_to_csv(item):
-    mapped_record = {
-	'inventar_nummer': item['ObjObjectNumberTxt'],
-	'bezeichnung': item['ObjObjectTitleGrp'],
-	'urheber': item['ObjPerAssociationRef'],
-	'geo':  item['ObjGeograficGrp'],
-	'datum': item['ObjDateTxt'],
-	'masse': item['ObjDimAllGrp'],
-	'material_technik': item['ObjMaterialTechniqueGrp'],
-	'sammlung': '',
-	'creditline': item['ObjCreditlineGrp'],
-	'provenienz': item['ObjOwnershipRef'],
-	'kurzbeschreibung': item['ObjScientificNotesClb'],
-	'literatur': item['ObjLiteratureRef'],
-	'bildunterschrift': item['ObjMultimediaRef'],
+def map_xml(record, xml_rec):
+    parser = museumpy.xmlparse.XMLParser()
+   
+    def xml_text(xpath, rec=xml_rec):
+        return parser.find(rec, xpath).text
+
+    def xml_group(xpath, sep='; ', rec=xml_rec):
+        groups = parser.findall(rec, xpath)
+        return sep.join([g.text for g in groups])
+    
+    def map_mm_xml(mm_record, mm_xml):
+        mm_record['bildunterschrift'] = xml_text(
+            f".//{{{ZETCOM_NS}}}dataField[@name='MulPhotocreditTxt']/{{{ZETCOM_NS}}}value",
+            rec=mm_xml
+        )
+        mm_record['credits'] = xml_text(
+            f".//{{{ZETCOM_NS}}}dataField[@name='MulRestrictionsClb']/{{{ZETCOM_NS}}}value",
+            rec=mm_xml
+        )
+        mm_record['dateiname'] = xml_text(
+            f".//{{{ZETCOM_NS}}}dataField[@name='MulOriginalFileTxt']/{{{ZETCOM_NS}}}value",
+            rec=mm_xml
+        )
+        return mm_record
+    
+    multimedia_id = record['refs']['Multimedia']['items'][0]['moduleItemId']
+    mm_client = museumpy.MuseumPlusClient(
+        base_url=base_url,
+        map_function=map_mm_xml,
+        requests_kwargs={'auth': (user, pw), 'verify': False}
+    )
+    mm_obj = mm_client.module_item(multimedia_id, 'Multimedia')
+    
+    material = []
+    mat_recs = parser.findall(
+        xml_rec,
+        f".//{{{ZETCOM_NS}}}repeatableGroup[@name='ObjMaterialTechniqueGrp']/{{{ZETCOM_NS}}}repeatableGroupItem"
+    )
+    for mat_rec in mat_recs:
+        mat_text = xml_text(
+            f"./{{{ZETCOM_NS}}}dataField[@name='DetailsTxt']//{{{ZETCOM_NS}}}value",
+            mat_rec
+        )
+        print(mat_text)
+        mat_notes = xml_text(
+            f"./{{{ZETCOM_NS}}}dataField[@name='NotesClb']//{{{ZETCOM_NS}}}value",
+            mat_rec
+        )
+        material.append(f"{mat_text}\n{mat_notes}")
+    
+    record = {
+        'inventar_nummer': record['ObjObjectNumberTxt'],
+        'bezeichnung': record['ObjObjectTitleGrp'],
+        'kurzbeschreibung': record['ObjBriefDescriptionClb'],
+        'datum': record['ObjDateTxt'],
+        'bildunterschrift': mm_obj['bildunterschrift'],
+        'dateiname': mm_obj['dateiname'].lower(),
+        'credits': mm_obj['credits'],
+        'urheber': xml_text(
+            f".//{{{ZETCOM_NS}}}moduleReference[@name='ObjPerAssociationRef']"
+            f"/{{{ZETCOM_NS}}}moduleReferenceItem"
+            f"/{{{ZETCOM_NS}}}formattedValue"
+        ) or '',
+        'geo': xml_text(
+            f".//{{{ZETCOM_NS}}}repeatableGroup[@name='ObjGeograficGrp']"
+            f"//{{{ZETCOM_NS}}}vocabularyReference[@name='PlaceVoc']"
+            f"//{{{ZETCOM_NS}}}formattedValue"
+        ) or '',
+        'masse': xml_text(
+            f".//{{{ZETCOM_NS}}}repeatableGroup[@name='ObjDimAllGrp']"
+            f"//{{{ZETCOM_NS}}}virtualField[@name='PreviewVrt']"
+            f"//{{{ZETCOM_NS}}}value"
+        ) or '',
+        'sammlung': xml_text(
+            f".//{{{ZETCOM_NS}}}vocabularyReference[@name='ObjMuseumCollectionVoc']"
+            f"//{{{ZETCOM_NS}}}formattedValue"
+        ) or '',
+        'creditline': xml_text(
+            f".//{{{ZETCOM_NS}}}repeatableGroup[@name='ObjCreditlineGrp']"
+            f"//{{{ZETCOM_NS}}}dataField[@name='CreditlineTxt']"
+            f"//{{{ZETCOM_NS}}}value"
+        ) or '',
+        'provenienz': xml_group(
+            f".//{{{ZETCOM_NS}}}moduleReference[@name='ObjOwnershipRef']"
+            f"/{{{ZETCOM_NS}}}moduleReferenceItem"
+            f"/{{{ZETCOM_NS}}}formattedValue"
+        ) or '',
+        'literatur': xml_group(
+            f".//{{{ZETCOM_NS}}}moduleReference[@name='ObjLiteratureRef']"
+            f"/{{{ZETCOM_NS}}}moduleReferenceItem"
+            f"/{{{ZETCOM_NS}}}formattedValue"
+        ) or '',
+        'material_technik': "; ".join(material),
     }
-    return mapped_record
+    
+    return record
 
 try:
     client = museumpy.MuseumPlusClient(
         base_url=base_url,
+        map_function=map_xml,
         requests_kwargs={'auth': (user, pw)}
     )
 
@@ -83,6 +164,7 @@ try:
         'kurzbeschreibung',
         'literatur',
         'bildunterschrift',
+        'credits',
         'dateiname',
     ]
     writer = csv.DictWriter(
@@ -95,12 +177,7 @@ try:
     )
     writer.writeheader()
     for ref_item in ref['moduleReferenceItem']:
-        item = client.module_item(ref_item['moduleItemId'], ref['targetModule'])
-        if item['hasAttachments'] == 'true':
-            attachment_path = client.download_attachment(ref_item['moduleItemId'], ref['targetModule'], arguments['--attachments'])
-        sleep(randint(1,3))
-        row = map_to_csv(item)
-        row['dateiname'] = os.path.basename(attachment_path)
+        row = client.module_item(ref_item['moduleItemId'], ref['targetModule'])
         writer.writerow(row)
 except Exception as e:
     print("Error: %s" % e, file=sys.stderr)
