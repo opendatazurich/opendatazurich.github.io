@@ -1,8 +1,8 @@
 name: Update mrz_patolu data
 
 on:
-  #schedule:
-  #  - cron:  '15 16 * * *' # runs 16:15 UTC every day
+  schedule:
+    - cron:  '15 16 * * *' # runs 16:15 UTC every day
   workflow_dispatch:
     inputs:
       force_update:
@@ -59,7 +59,6 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
       run: |
         python automation/upload_resource_to_ckan.py --no-verify -f automation/mrz/mrz_patolu.csv -d mrz_patolu
-        python automation/upload_resource_to_ckan.py --no-verify -f automation/mrz/patolu_images.zip -d mrz_patolu
 
     - name: Update CKAN metadata
       if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
