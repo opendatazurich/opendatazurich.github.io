@@ -178,7 +178,7 @@ try:
         header,
         delimiter=',',
         quotechar='"',
-        lineterminator='\n',
+        lineterminator='\r\n',
         quoting=csv.QUOTE_MINIMAL
     )
     writer.writeheader()
