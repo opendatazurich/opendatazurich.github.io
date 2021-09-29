@@ -7,4 +7,5 @@ pyenv3.7
 !abstimmungsparolen/abstimmungsparolen.csv
 !stimmbeteiligung/stimmbeteiligung.csv
 !schulferien/schulferien.csv
+!mrz/mrz_patolu.csv
 __pycache__/*
