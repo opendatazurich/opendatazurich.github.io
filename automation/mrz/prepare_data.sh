@@ -5,8 +5,6 @@
 set -e
 set -o pipefail
 
-# make sure Python uses UTF-8 when printing to stdout
-export PYTHONIOENCODING=utf-8
 
 function cleanup {
   exit $?
