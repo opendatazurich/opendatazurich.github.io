@@ -13,4 +13,4 @@
 1. [Wikidata Training](/wikidata-training/)
 1. [Crashkurs «Datenvisualisierung»](/crashkurs-dataviz/)
 1. [Crashkurs «Power BI Datenvisualisierung»](/crashkurs-dataviz-powerbi/)
-1. [Kurs «Crowdsourcing nutzen» (OpenSteetMap, Wikidata)](/kurs-crowdsourcing/)
+1. [Kurs «Crowdsourcing nutzen» (OpenSteetMap, Wikidata)](/kurs-crowdsourced-data/)
