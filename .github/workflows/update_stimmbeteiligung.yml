@@ -35,8 +35,14 @@ jobs:
       run: automation/stimmbeteiligung/run_scraper.sh
     
     - name: Check if there are changes in the repo
+      run: |
+        if git diff --no-ext-diff --quiet
+        then
+          run: echo '::set-output name=changed::0'
+        else
+          run: echo '::set-output name=changed::1'
+        fi
       id: changes
-      uses: UnicornGlobal/has-changes-action@v1.0.11
         
     - name: Commit and push to repo
       if: steps.changes.outputs.changed == 1 # only try to commit if there are actually changes
