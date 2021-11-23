@@ -23,6 +23,7 @@ from pprint import pprint
 import csv
 from random import randint
 from time import sleep
+import requests
 import museumpy
 from docopt import docopt
 from dotenv import load_dotenv, find_dotenv
@@ -33,6 +34,9 @@ arguments = docopt(__doc__, version='Download data from MuseumPlus 1.0')
 base_url = os.getenv('MRZ_BASE_URL')
 user = os.getenv('MRZ_USER')
 pw = os.getenv('MRZ_PASS')
+s = requests.Session()
+s.auth = (user, pw)
+s.headers.update({'Accept-Language': 'de'})
 
 ZETCOM_NS = "http://www.zetcom.com/ria/ws/module"
 
@@ -60,15 +64,17 @@ def map_xml(record, xml_rec):
             rec=mm_xml
         ) or ''
         return mm_record
-    
+
+    # Multimedia 
     multimedia_id = record['refs']['Multimedia']['items'][0]['moduleItemId']
     mm_client = museumpy.MuseumPlusClient(
         base_url=base_url,
         map_function=map_mm_xml,
-        requests_kwargs={'auth': (user, pw)}
+        session=s
     )
     mm_obj = mm_client.module_item(multimedia_id, 'Multimedia')
-    
+
+    # Material 
     material = []
     mat_recs = parser.findall(
         xml_rec,
@@ -88,7 +94,7 @@ def map_xml(record, xml_rec):
         else:
             material.append(mat_text)
     
-    record = {
+    new_record = {
         'inventar_nummer': record['ObjObjectNumberTxt'],
         'bezeichnung': record['ObjObjectTitleGrp'],
         'kurzbeschreibung': record['ObjBriefDescriptionClb'],
@@ -133,12 +139,12 @@ def map_xml(record, xml_rec):
         'material_technik': "; ".join(material),
     }
     
-    return record
+    return new_record
 
 try:
     search_client = museumpy.MuseumPlusClient(
         base_url=base_url,
-        requests_kwargs={'auth': (user, pw)}
+        session=s
     )
 
     search_term = arguments['--search']
@@ -148,14 +154,7 @@ try:
         module='ObjectGroup'
     )
     assert group_result.count == 1, "More than one ObjectGroup found"
-    group = group_result[0]['raw']
-    ref = group['moduleItem']['moduleReference']
 
-    client = museumpy.MuseumPlusClient(
-        base_url=base_url,
-        map_function=map_xml,
-        requests_kwargs={'auth': (user, pw)}
-    )
     header = [
         'inventar_nummer',
         'bezeichnung',
@@ -182,8 +181,16 @@ try:
         quoting=csv.QUOTE_MINIMAL
     )
     writer.writeheader()
-    for ref_item in ref['moduleReferenceItem']:
-        row = client.module_item(ref_item['moduleItemId'], ref['targetModule'])
+
+    client = museumpy.MuseumPlusClient(
+        base_url=base_url,
+        map_function=map_xml,
+        session=s
+    )
+    target_module = 'Object'
+    refs = group_result[0]['refs'][target_module]['items']
+    for ref_item in refs:
+        row = client.module_item(ref_item['moduleItemId'], target_module)
         writer.writerow(row)
 except Exception as e:
     print("Error: %s" % e, file=sys.stderr)
