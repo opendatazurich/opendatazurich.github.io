@@ -23,6 +23,7 @@ from pprint import pprint
 import csv
 from random import randint
 from time import sleep
+import requests
 import museumpy
 from docopt import docopt
 from dotenv import load_dotenv, find_dotenv
@@ -33,6 +34,9 @@ arguments = docopt(__doc__, version='Download data from MuseumPlus 1.0')
 base_url = os.getenv('MRZ_BASE_URL')
 user = os.getenv('MRZ_USER')
 pw = os.getenv('MRZ_PASS')
+s = requests.Session()
+s.auth = (user, pw)
+s.headers.update({'Accept-Language': 'de'})
 
 ZETCOM_NS = "http://www.zetcom.com/ria/ws/module"
 
@@ -60,15 +64,17 @@ def map_xml(record, xml_rec):
             rec=mm_xml
         ) or ''
         return mm_record
-    
+
+    # Multimedia 
     multimedia_id = record['refs']['Multimedia']['items'][0]['moduleItemId']
     mm_client = museumpy.MuseumPlusClient(
         base_url=base_url,
         map_function=map_mm_xml,
-        requests_kwargs={'auth': (user, pw)}
+        session=s
     )
     mm_obj = mm_client.module_item(multimedia_id, 'Multimedia')
-    
+
+    # Material 
     material = []
     mat_recs = parser.findall(
         xml_rec,
@@ -88,7 +94,7 @@ def map_xml(record, xml_rec):
         else:
             material.append(mat_text)
     
-    record = {
+    new_record = {
         'inventar_nummer': record['ObjObjectNumberTxt'],
         'bezeichnung': record['ObjObjectTitleGrp'],
         'kurzbeschreibung': record['ObjBriefDescriptionClb'],
@@ -133,12 +139,12 @@ def map_xml(record, xml_rec):
         'material_technik': "; ".join(material),
     }
     
-    return record
+    return new_record.update(record)
 
 try:
     search_client = museumpy.MuseumPlusClient(
         base_url=base_url,
-        requests_kwargs={'auth': (user, pw)}
+        session=s
     )
 
     search_term = arguments['--search']
@@ -154,7 +160,7 @@ try:
     client = museumpy.MuseumPlusClient(
         base_url=base_url,
         map_function=map_xml,
-        requests_kwargs={'auth': (user, pw)}
+        session=s
     )
     header = [
         'inventar_nummer',
