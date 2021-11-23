@@ -139,7 +139,7 @@ def map_xml(record, xml_rec):
         'material_technik': "; ".join(material),
     }
     
-    return new_record.update(record)
+    return new_record
 
 try:
     search_client = museumpy.MuseumPlusClient(
@@ -154,14 +154,7 @@ try:
         module='ObjectGroup'
     )
     assert group_result.count == 1, "More than one ObjectGroup found"
-    group = group_result[0]['raw']
-    ref = group['moduleItem']['moduleReference']
 
-    client = museumpy.MuseumPlusClient(
-        base_url=base_url,
-        map_function=map_xml,
-        session=s
-    )
     header = [
         'inventar_nummer',
         'bezeichnung',
@@ -188,8 +181,16 @@ try:
         quoting=csv.QUOTE_MINIMAL
     )
     writer.writeheader()
-    for ref_item in ref['moduleReferenceItem']:
-        row = client.module_item(ref_item['moduleItemId'], ref['targetModule'])
+
+    client = museumpy.MuseumPlusClient(
+        base_url=base_url,
+        map_function=map_xml,
+        session=s
+    )
+    target_module = 'Object'
+    refs = group_result[0]['refs'][target_module]['items']
+    for ref_item in refs:
+        row = client.module_item(ref_item['moduleItemId'], target_module)
         writer.writerow(row)
 except Exception as e:
     print("Error: %s" % e, file=sys.stderr)
