@@ -36,7 +36,7 @@ jobs:
     
     - name: Check if there are changes in the repo
       run: |
-        if git diff --no-ext-diff --quiet --ignore-space-at-eol
+        if git diff -w --no-ext-diff --quiet --ignore-space-at-eol
         then
           echo '::set-output name=changed::0'
         else
