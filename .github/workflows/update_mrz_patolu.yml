@@ -74,7 +74,17 @@ jobs:
       run: |
         python automation/xls_to_meta_xml.py -f automation/mrz/Meta_Patolu.xlsx --outfile automation/mrz/meta.xml
         python automation/update_metadata.py -d mrz_patolu -f automation/mrz/meta.xml
-
+        
+    - name: Notify telegram failure
+      if: ${{ failure()  || cancelled() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        format: markdown
+        message: |
+          🔴 [MRZ Patolu Job Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
+          
     - name: Get current unix timestamp
       if: always()
       id: date
