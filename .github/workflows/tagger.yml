@@ -36,6 +36,7 @@ jobs:
         CKAN_BASE_URL: ${{ secrets.ckan_base_url }}
       run: |
         python automation/tagger/tagger.py -c automation/tagger/config.yml
+        exit 1
 
     - name: Get current unix timestamp
       if: always()
