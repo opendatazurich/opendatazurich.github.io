@@ -84,7 +84,7 @@ jobs:
       run: echo "::set-output name=ts::$(date +'%s')"
 
     - name: Notify telegram failure
-      if: always()
+      if: ${{ failure()  || cancelled() }}
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
@@ -92,7 +92,6 @@ jobs:
         format: markdown
         message: |
           🔴 [Stimmbeteiligung Job Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
-          🔴 Repository: ${{ github.repository }}
 
     - name: Notify slack failure
       if: ${{ failure()  || cancelled() }}
