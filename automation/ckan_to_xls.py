@@ -60,7 +60,7 @@ def map_metadata_to_xls(metadata):
 
 def convert_comments(comments):
     if not comments:
-       return None
+       return {}
 
     result = collections.defaultdict(str)
 
