@@ -22,7 +22,7 @@ try:
     writer = csv.DictWriter(sys.stdout, field_names, quoting=csv.QUOTE_NONNUMERIC)
     writer.writeheader()
 
-    start_date = date(2021, 1, 1)
+    start_date = date(2022, 1, 1)
     today = datetime.now().date()
     total_days = 366 
     for loc in locations:
