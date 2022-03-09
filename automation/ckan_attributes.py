@@ -64,9 +64,9 @@ try:
         assert m, f"Could not match name and tech_name from {attribute[0]}"
         row = {
             'dataset': dataset,
-            'attribute_name': m['name']
-            'attribute_tech_name': m['tech_name']
-            'attribute_desc': attribute[1]
+            'attribute_name': m['name'],
+            'attribute_tech_name': m['tech_name'],
+            'attribute_desc': attribute[1],
         }
         rows.append(row)
 
