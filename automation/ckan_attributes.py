@@ -42,7 +42,6 @@ ckan = RemoteCKAN(BASE_URL, apikey=API_KEY)
 
 
 def extract_attributes(dataset):
-    print(f"Extracting metadata from dataset {dataset}.")
     data = {
         'id': dataset.strip(),
     }
@@ -57,14 +56,25 @@ def extract_attributes(dataset):
 
     rows = []
     # insert attributes
-    attributes = json.loads(ckan_metadata['sszFields'])
+    try:
+        attributes = json.loads(ckan_metadata['sszFields'])
+    except json.decoder.JSONDecodeError:
+         print('JSONDecodeError for attributes on Dataset %s' % dataset, file=sys.stderr)
+         return rows
+
     for attribute in attributes:
         m = re.match(r'^(?P<name>.+?)\s*\(technisch: (?P<tech_name>.+?)\)$', attribute[0])
-        assert m, f"Could not match name and tech_name from {attribute[0]}"
+        if m:
+            name = m['name']
+            tech_name = m['tech_name']
+        else:
+            name = attribute[0]
+            tech_name = ''
+
         row = {
-            'dataset': dataset,
-            'attribute_name': m['name'],
-            'attribute_tech_name': m['tech_name'],
+            'dataset': dataset.strip(),
+            'attribute_name': name,
+            'attribute_tech_name': tech_name,
             'attribute_desc': attribute[1],
         }
         rows.append(row)
@@ -90,11 +100,11 @@ try:
     dataset = arguments['--dataset']
     if dataset:
         rows = extract_attributes(dataset)
-         writer.writerows(rows)
+        writer.writerows(rows)
     else:
         for dataset in sys.stdin:
             rows = extract_attributes(dataset)
-             writer.writerows(rows)
+            writer.writerows(rows)
     
 except Exception as e:
     print("Error: %s" % e, file=sys.stderr)
