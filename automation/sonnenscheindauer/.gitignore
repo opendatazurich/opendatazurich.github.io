@@ -1,0 +1,4 @@
+*.pyc
+data.sqlite
+data.csv
+meta.xml
