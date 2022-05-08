@@ -23,5 +23,5 @@ python $DIR/scraper.py
 
 # 3. Export the database as csv
 echo "Export database to CSV..."
-sqlite3 -header -csv $DIR/data.sqlite "select * from data order by jahr, monat, ort asc;" > $DIR/sonnenscheindauer.csv
+sqlite3 -header -csv $DIR/data.sqlite "select * from data order by jahr asc, monat asc, station asc;" > $DIR/sonnenscheindauer.csv
 sed -i 's/""//g' $DIR/sonnenscheindauer.csv

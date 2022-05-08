@@ -9,6 +9,7 @@ import dateparser
 import sys
 import os
 import traceback
+from datetime import datetime
 
 
 __location__ = os.path.realpath(
@@ -18,52 +19,94 @@ __location__ = os.path.realpath(
     )
 )
 
+def parse_year_table(year, label):
+    rows = year.parent.select('table.contenttable tr')
+    row_values = []
+    for row in rows:
+        row_values.append([x.text.strip() for x in row.find_all('td')])
+
+    table_labels = row_values[0]
+    table_values = row_values[1:]
+
+    exp_labels = [
+        'Station',
+        'Jan',
+        'Feb',
+        'Mär',
+        'Apr',
+        'Mai',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Okt',
+        'Nov',
+        'Dez',
+        'Total',
+    ]
+    for i, exp_label in enumerate(exp_labels):
+        assert table_labels[i] == exp_label, f"Labels do not match {table_labels[i]} != {exp_label}"
+
+   
+    values = []
+    for table_value in table_values:
+        station_values = {
+            'jahr': label,
+            'station': table_value[0],
+            'monat': dict(zip(range(1,13), table_value[1:12])),
+            'aktualisierungsdatum': datetime.now().isoformat(timespec='seconds')
+        }
+        values.append(station_values)
+
+    return values
+
 
 def insert_or_update(values, conn):
-    try:
-        print(f"Try to insert value: {values['jahr']}/{values['monat']}, {values['ort']}: {values['sonnenscheindauer_stunden']}")
-        c = conn.cursor()
-        c.execute(
-            '''
-            INSERT INTO data (
-                jahr,
-                monat,
-                ort,
-                sonnenscheindauer_stunden,
-                aktualisierungsdatum
-            )
-            VALUES
-            (?,?,?,?,?)
-            ''',
-            [
-                parole['jahr'],
-                parole['monat'],
-                parole['ort'],     
-                parole['sonnenscheindauer_stunden'],
-                parole['aktualisierungsdatum'],
-            ]
-        )
-    except sqlite3.IntegrityError:
+    for month, value in values['monat'].items():
         try:
-            print("Already there, updating instead")
-            print(parole)
+            print(f"Try to insert value: {values['jahr']}, {values['station']}: {values['monat']}")
+            c = conn.cursor()
             c.execute(
                 '''
-                UPDATE data SET sonnenscheindauer_stunden = ? WHERE jahr = ? AND monat = ? AND ort = ?
+                INSERT INTO data (
+                    jahr,
+                    monat,
+                    station,
+                    sonnenschein_h,
+                    aktualisierungsdatum
+                )
+                VALUES
+                (?,?,?,?,?)
                 ''',
                 [
-                    parole['sonnenscheindauer_stunden'],
-                    parole['jahr'],
-                    parole['monat'],   
-                    parole['ort'],
+                    values['jahr'],
+                    month,
+                    values['station'],     
+                    value,
+                    values['aktualisierungsdatum'],
                 ]
             )
-        except sqlite3.Error as e:
-            print("Error: an error occured in sqlite3: ", e.args[0], file=sys.stderr)
-            conn.rollback()
-            raise
-    finally:
-        conn.commit()
+        except sqlite3.IntegrityError:
+            try:
+                print("Already there, updating instead")
+                c.execute(
+                    '''
+                    UPDATE data SET sonnenschein_h = ?, aktualisierungsdatum = ? WHERE jahr = ? AND monat = ? AND station = ?
+                    ''',
+                    [
+                        value,
+                        values['aktualisierungsdatum'],
+                        values['jahr'],
+                        month,   
+                        values['station'],
+                    ]
+                )
+            except sqlite3.Error as e:
+                print("Error: an error occured in sqlite3: ", e.args[0], file=sys.stderr)
+                conn.rollback()
+                raise
+        finally:
+            conn.commit()
 
 
 
@@ -78,10 +121,18 @@ try:
     # check values of current page
     page = requests.get(start_url)
     soup = BeautifulSoup(page.content, 'html.parser')
-    
-    # check all years
 
-    # parse single year table
+    # check all years
+    years = soup.select('div.accordion_box div.csc-header')
+
+    for year in years:
+        title = year.find('h2')
+        if not title:
+            continue
+        year_text = title.text.strip().replace('Sonnenscheindauer ', '')
+        values = parse_year_table(year, year_text)
+        for value in values:
+            insert_or_update(value, conn)
 
 
     conn.commit()
