@@ -41,12 +41,12 @@ try:
     c.execute(
         '''
         CREATE TABLE data (
-            jahr text,
-            monat text,
-            ort text,
-            sonnenscheindauer_stunden text,
+            jahr int,
+            monat int,
+            station text,
+            sonnenschein_h int,
             aktualisierungsdatum text,
-            UNIQUE(jahr, monat, ort)
+            UNIQUE(jahr, monat, station)
         )
         '''
     )
