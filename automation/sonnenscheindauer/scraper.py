@@ -19,6 +19,15 @@ __location__ = os.path.realpath(
     )
 )
 
+
+def convert_int(s):
+    try:
+        v = int(s)
+        return v
+    except (ValueError, TypeError):
+        return s
+
+
 def parse_year_table(year, label):
     rows = year.parent.select('table.contenttable tr')
     row_values = []
@@ -89,18 +98,32 @@ def insert_or_update(values, conn):
         except sqlite3.IntegrityError:
             try:
                 print("Already there, updating instead")
+
+                # only update if the sonnenschein_h values are different
+                c = conn.cursor()
                 c.execute(
-                    '''
-                    UPDATE data SET sonnenschein_h = ?, aktualisierungsdatum = ? WHERE jahr = ? AND monat = ? AND station = ?
-                    ''',
+                    "SELECT sonnenschein_h from data WHERE jahr = ? AND monat = ? AND station = ?",
                     [
-                        value,
-                        values['aktualisierungsdatum'],
                         values['jahr'],
                         month,   
                         values['station'],
                     ]
                 )
+                (cur_sonnenschein,) = c.fetchone()
+                if convert_int(cur_sonnenschein) != convert_int(value):
+                    c = conn.cursor()
+                    c.execute(
+                        '''
+                        UPDATE data SET sonnenschein_h = ?, aktualisierungsdatum = ? WHERE jahr = ? AND monat = ? AND station = ?
+                        ''',
+                        [
+                            value,
+                            values['aktualisierungsdatum'],
+                            values['jahr'],
+                            month,   
+                            values['station'],
+                        ]
+                    )
             except sqlite3.Error as e:
                 print("Error: an error occured in sqlite3: ", e.args[0], file=sys.stderr)
                 conn.rollback()
