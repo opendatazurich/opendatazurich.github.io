@@ -33,21 +33,23 @@ jobs:
         WAPO_TB_PASS: ${{ secrets.wapo_tb_pass }}
       run: |
         python automation/wapo_wetterstationen/fetch_from_api.py
-        head messwerte_mythenquai_*.csv
+        head automation/wapo_wetterstationen/messwerte_mythenquai_*.csv
         echo "..."
-        tail messwerte_mythenquai_*.csv
+        tail automation/wapo_wetterstationen/messwerte_mythenquai_*.csv
         echo ""
-        head messwerte_tiefenbrunnen_*.csv
+        head automation/wapo_wetterstationen/messwerte_tiefenbrunnen_*.csv
         echo "..."
-        tail messwerte_tiefenbrunnen_*.csv
+        tail automation/wapo_wetterstationen/messwerte_tiefenbrunnen_*.csv
         
     - name: Upload files to CKAN
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
       run: |
-        python automation/upload_resource_to_ckan.py -f messwerte_mythenquai_2022.csv -d sid_wapo_wetterstationen
-        python automation/upload_resource_to_ckan.py -f messwerte_tiefenbrunnen_2022.csv -d sid_wapo_wetterstationen
+        my_path=$(ls automation/wapo_wetterstationen/messwerte_mythenquai_*.csv | head -n1)
+        tb_path=$(ls automation/wapo_wetterstationen/messwerte_mythenquai_*.csv | head -n1)
+        python automation/upload_resource_to_ckan.py -f $my_path -d sid_wapo_wetterstationen
+        python automation/upload_resource_to_ckan.py -f $tb_path -d sid_wapo_wetterstationen
 
     - name: Update CKAN metadata
       env:
