@@ -84,8 +84,6 @@ def save_csv_file(data, path):
         writer = csv.DictWriter(csvfile, field_names, quoting=csv.QUOTE_NONNUMERIC)
         writer.writeheader()
         for row in data:
-            from pprint import pprint
-            pprint(row)
             zurich_tz = pytz.timezone('Europe/Zurich')
             row_date = datetime.strptime(row['Datum'], '%d.%m.%Y %H:%M:%S')
             date_cet = zurich_tz.localize(row_date)
@@ -113,7 +111,6 @@ def save_csv_file(data, path):
                 'humidity': safefloat(row.get('Feuchte', '')),
                 'water_level': safefloat(row.get('Pegel', '')),
             }
-            pprint(mapped_row)
             writer.writerow(mapped_row)
 
 try:
