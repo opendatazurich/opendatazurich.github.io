@@ -74,7 +74,6 @@ def save_csv_file(data, path):
         'wind_direction',
         'windchill',
         'barometric_pressure_qfe',
-        'barometric_pressure_qnh',
         'precipitation',
         'dew_point',
         'global_radiation',
@@ -91,6 +90,12 @@ def save_csv_file(data, path):
             row_date = datetime.strptime(row['Datum'], '%d.%m.%Y %H:%M:%S')
             date_cet = zurich_tz.localize(row_date)
             date_utc = date_cet.astimezone(pytz.utc)
+
+            pressure_qfe = safefloat(row.get('LuftdruckQFE', ''))
+            pressure_qnh = safefloat(row.get('LuftdruckQNH', ''))
+            if not pressure_qfe and pressure_qnh:
+                pressure_qfe = pressure_qnh - 47 # local pressure, QFE = QNH - 47hPa
+
             mapped_row = {
                 'timestamp_utc': date_utc.isoformat(),
                 'timestamp_cet': date_cet.isoformat(),
@@ -101,8 +106,7 @@ def save_csv_file(data, path):
                 'wind_force_avg_10min': safefloat(row.get('Umr_Beaufort')),
                 'wind_direction': safeint(row.get('WRvek', '')),
                 'windchill': safefloat(row.get('Windchill', '')),
-                'barometric_pressure_qfe': safefloat(row.get('LuftdruckQFE', '')),
-                'barometric_pressure_qnh': safefloat(row.get('LuftdruckQNH', '')),
+                'barometric_pressure_qfe': pressure_qfe,
                 'precipitation': safefloat(row.get('Regen', '')),
                 'dew_point': safefloat(row.get('Taupunkt', '')),
                 'global_radiation': safeint(row.get('Strahlung', '')),
