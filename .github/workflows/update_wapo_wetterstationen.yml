@@ -1,0 +1,81 @@
+name: Update wapo_wetterstationen data
+
+on:
+  schedule:
+    - cron:  '5/15 * * * *' # every 15min
+  workflow_dispatch:
+
+jobs:
+  update_data_py:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: production
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r automation/automation-requirements.txt
+        
+    - name: Prepare data
+      env:
+        WAPO_MY_USER: ${{ secrets.wapo_my_user }}
+        WAPO_MY_PASS: ${{ secrets.wapo_my_pass }}
+        WAPO_TB_USER: ${{ secrets.wapo_tb_user }}
+        WAPO_TB_PASS: ${{ secrets.wapo_tb_pass }}
+      run: |
+        python automation/wapo_wetterstationen/fetch_from_api.py
+        head messwerte_mythenquai_*.csv
+        echo "..."
+        tail messwerte_mythenquai_*.csv
+        echo ""
+        head messwerte_tiefenbrunnen_*.csv
+        echo "..."
+        tail messwerte_tiefenbrunnen_*.csv
+        
+    - name: Upload files to CKAN
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+      run: |
+        python automation/upload_resource_to_ckan.py -f messwerte_mythenquai_2022.csv -d sid_wapo_wetterstationen
+        python automation/upload_resource_to_ckan.py -f messwerte_tiefenbrunnen_2022.csv -d sid_wapo_wetterstationen
+
+    - name: Update CKAN metadata
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+      run: |
+        python automation/xls_to_meta_xml.py -f automation/wapo_wetterstationen/Metadaten_wetterstationen_my.xlsx --outfile automation/wapo_wetterstationen/meta.xml
+        python automation/update_metadata.py -d sid_wapo_wetterstationen -f automation/wapo_wetterstationen/meta.xml
+
+    - name: Notify telegram failure
+      if: ${{ failure()  || cancelled() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        format: markdown
+        message: |
+          🔴 [WAPO Wetterstationen Job Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
+          
+    - name: Get current unix timestamp
+      if: always()
+      id: date
+      run: echo "::set-output name=ts::$(date +'%s')"
+
+    - name: Notify slack failure
+      if: ${{ failure()  || cancelled() }}
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: pullreminders/slack-action@master
+      with:
+          args: '{\"channel\":\"C014Y6SHE12\", \"attachments\": [{\"fallback\": \"Job failed.\", \"color\": \"danger\", \"title\": \"WAPO Wetterstationen Job Failed\", \"title_link\": \"https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true\", \"text\": \":x: Update failed\", \"footer\": \"<https://github.com/opendatazurich/opendatazurich.github.io/actions|opendatazurich/opendatazurich.github.io>\", \"footer_icon\": \"https://github.com/abinoda/slack-action/raw/master/docs/app-icons/github-icon.png\", \"ts\": \"${{steps.date.outputs.ts}}\"}]}'
