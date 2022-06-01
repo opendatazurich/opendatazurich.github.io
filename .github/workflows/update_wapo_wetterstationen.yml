@@ -47,7 +47,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
       run: |
         my_path=$(ls automation/wapo_wetterstationen/messwerte_mythenquai_*.csv | head -n1)
-        tb_path=$(ls automation/wapo_wetterstationen/messwerte_mythenquai_*.csv | head -n1)
+        tb_path=$(ls automation/wapo_wetterstationen/messwerte_tiefenbrunnen_*.csv | head -n1)
         python automation/upload_resource_to_ckan.py -f $my_path -d sid_wapo_wetterstationen --no-verify
         python automation/upload_resource_to_ckan.py -f $tb_path -d sid_wapo_wetterstationen --no-verify
 
