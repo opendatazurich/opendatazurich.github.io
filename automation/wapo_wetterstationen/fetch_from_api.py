@@ -81,7 +81,7 @@ def save_csv_file(data, path):
         'water_level',
     ]
     with open(path, 'w', newline='') as csvfile:
-        writer = csv.DictWriter(csvfile, field_names, quoting=csv.QUOTE_NONNUMERIC)
+        writer = csv.DictWriter(csvfile, field_names, quoting=csv.QUOTE_MINIMAL)
         writer.writeheader()
         for row in data:
             zurich_tz = pytz.timezone('Europe/Zurich')
