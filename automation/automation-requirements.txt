@@ -13,3 +13,4 @@ pyyaml==5.4
 dateparser
 icalendar
 museumpy
+pandas
