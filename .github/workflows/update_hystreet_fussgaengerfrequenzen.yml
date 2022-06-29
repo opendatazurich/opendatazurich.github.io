@@ -27,7 +27,7 @@ jobs:
         
     - name: Prepare data
       env:
-        API_KEY: ${{ secrets.hystreet_api_key }}
+        HYSTREET_API_KEY: ${{ secrets.HYSTREET_API_KEY }}
       run: |
         python automation/hystreet_fussgaengerfrequenzen/fetch_from_api.py -f hystreet_fussgaengerfrequenzen_seit2021.csv
         head hystreet_fussgaengerfrequenzen_seit2021.csv
