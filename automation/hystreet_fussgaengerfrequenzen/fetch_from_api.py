@@ -109,7 +109,7 @@ def save_to_csv(df, csv_path):
 
 locations = hystreet_request(location_api)
 for loc in locations:
-    start_date = datetime(2021, 6, 21) # first day with measurements
+    start_date = datetime(2021, 9, 29) # first day with measurements
     end_date = datetime.now() + timedelta(1) # tomorrow
     for cur_date, cur_end_date in daterange(start_date, end_date, step=14):
         save_measurements(loc['id'], cur_date, cur_end_date, path)
@@ -119,4 +119,5 @@ df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True)
 df = df.sort_values(by=['timestamp', 'location_name'])
 
 csv_path =  arguments['--file']
-df.to_csv(csv_path, index=False, encoding='utf-8', date_format='%Y-%m-%dT%H:%M:%SZ')
+df_today = df[df.timestamp <= 'today'].reset_index(drop=True)
+df_today.to_csv(csv_path, index=False, encoding='utf-8', date_format='%Y-%m-%dT%H:%M:%SZ')
