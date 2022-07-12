@@ -70,6 +70,7 @@ def convert_to_df(data, location_id):
         record.update(row)
         record.update(record['details'])
         del record['details']
+        del record['min_temperature']
         
         for zone in (record['zones'] or []):
             for k, v in zone.items():
