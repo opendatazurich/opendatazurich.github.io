@@ -60,6 +60,7 @@ jobs:
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/upload_resource_to_ckan.py --no-verify -f automation/stimmbeteiligung/stimmbeteiligung.csv -d politik_stimmbeteiligung-vor-urnengangen
 
@@ -68,6 +69,7 @@ jobs:
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/xls_to_meta_xml.py -f automation/stimmbeteiligung/Meta_Stimmbeteiligung.xlsx --outfile automation/stimmbeteiligung/meta.xml
         python automation/update_metadata.py --no-verify -d politik_stimmbeteiligung-vor-urnengangen -f automation/stimmbeteiligung/meta.xml
