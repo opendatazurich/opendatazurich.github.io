@@ -63,6 +63,7 @@ jobs:
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/upload_resource_to_ckan.py -f automation/schulferien/schulferien.csv -d ssd_schulferien
 
@@ -71,6 +72,7 @@ jobs:
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/xls_to_meta_xml.py -f automation/schulferien/metadata_ferientermine_volksschule.xlsx --outfile automation/schulferien/meta.xml
         python automation/update_metadata.py -d ssd_schulferien -f automation/schulferien/meta.xml
