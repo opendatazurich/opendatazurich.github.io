@@ -28,9 +28,16 @@ arguments = docopt(__doc__, version='Upload resource to CKAN 1.0')
 try:
     BASE_URL = os.getenv('CKAN_BASE_URL')
     API_KEY = os.getenv('CKAN_API_KEY')
+    SSL_VERIFY = os.getenv('SSL_VERIFY')
 
     session = requests.Session()
-    session.verify = not arguments['--no-verify']
+    if SSL_VERIFY == "true":
+        session.verify = true
+    elif SSL_VERIFY == "false":
+      session.verify = false
+    else:
+        session.verify = not arguments['--no-verify']
+        
     ckan = RemoteCKAN(BASE_URL, session=session, apikey=API_KEY)
 
     path = arguments['--file']
