@@ -45,6 +45,7 @@ jobs:
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         my_path=$(ls automation/wapo_wetterstationen/messwerte_mythenquai_*.csv | head -n1)
         tb_path=$(ls automation/wapo_wetterstationen/messwerte_tiefenbrunnen_*.csv | head -n1)
@@ -55,6 +56,7 @@ jobs:
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/xls_to_meta_xml.py -f automation/wapo_wetterstationen/Metadaten_wetterstationen_my.xlsx --outfile automation/wapo_wetterstationen/meta.xml
         python automation/update_metadata.py -d sid_wapo_wetterstationen -f automation/wapo_wetterstationen/meta.xml
