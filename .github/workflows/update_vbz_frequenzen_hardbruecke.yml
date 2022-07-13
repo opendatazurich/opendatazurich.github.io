@@ -37,15 +37,17 @@ jobs:
         
     - name: Upload file to CKAN
       env:
-        CKAN_BASE_URL: ${{ secrets.vbz_ckan_url }}
-        CKAN_API_KEY: ${{ secrets.vbz_ckan_api_key }}
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/upload_resource_to_ckan.py -f frequenzen_hardbruecke_2022.csv -d vbz_frequenzen_hardbruecke
 
     - name: Update CKAN metadata
       env:
-        CKAN_BASE_URL: ${{ secrets.vbz_ckan_url }}
-        CKAN_API_KEY: ${{ secrets.vbz_ckan_api_key }}
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/xls_to_meta_xml.py -f automation/vbz_frequenzen_hardbruecke/Frequenzen_Hardbruecke_Meta.xlsx --outfile automation/vbz_frequenzen_hardbruecke/meta.xml
         python automation/update_metadata.py -d vbz_frequenzen_hardbruecke -f automation/vbz_frequenzen_hardbruecke/meta.xml
