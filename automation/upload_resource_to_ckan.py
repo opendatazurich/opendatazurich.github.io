@@ -32,9 +32,9 @@ try:
 
     session = requests.Session()
     if SSL_VERIFY == "true":
-        session.verify = true
+        session.verify = True
     elif SSL_VERIFY == "false":
-      session.verify = false
+      session.verify = False
     else:
         session.verify = not arguments['--no-verify']
         
