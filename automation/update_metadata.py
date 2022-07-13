@@ -21,6 +21,7 @@ import traceback
 from datetime import datetime
 import pytz
 import json
+import requests
 from docopt import docopt
 from ckanapi import RemoteCKAN, NotFound
 from pprint import pprint
