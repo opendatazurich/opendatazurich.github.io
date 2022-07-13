@@ -75,7 +75,16 @@ def convert_comments(comments):
 try:
     BASE_URL = os.getenv('CKAN_BASE_URL')
     API_KEY = os.getenv('CKAN_API_KEY')
-    ckan = RemoteCKAN(BASE_URL, apikey=API_KEY)
+    SSL_VERIFY = os.getenv('SSL_VERIFY')
+    
+    session = requests.Session()
+    if SSL_VERIFY == "true":
+        session.verify = true
+    elif SSL_VERIFY == "false":
+      session.verify = false
+    else:
+        session.verify = not arguments['--no-verify']
+    ckan = RemoteCKAN(BASE_URL, session=session, apikey=API_KEY)
 
     # meta.xml
     meta_xml_path = arguments['--file']
@@ -92,10 +101,7 @@ try:
     data.update(ckan_metadata)
     print(f"Updating metadata on dataset {dataset} to {pprint(data)}")
     try:
-        if arguments['--no-verify']:
-            ckan.call_action('package_patch', data, requests_kwargs={'verify': False})
-        else:
-            ckan.call_action('package_patch', data)
+        ckan.call_action('package_patch', data)
     except NotFound:
          print('Dataset %s not found!' % dataset, file=sys.stderr)
          raise
