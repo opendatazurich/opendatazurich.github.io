@@ -39,7 +39,7 @@ jobs:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
       run: |
-        python automation/upload_resource_to_ckan.py -f hystreet_fussgaengerfrequenzen_seit2021.csv -d hystreet_fussgaengerfrequenzen --no-verify
+        python automation/upload_resource_to_ckan.py -f hystreet_fussgaengerfrequenzen_seit2021.csv -d hystreet_fussgaengerfrequenzen
 
     - name: Update CKAN metadata
       env:
@@ -47,7 +47,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
       run: |
         python automation/xls_to_meta_xml.py -f automation/hystreet_fussgaengerfrequenzen/hystreet_fussgaenger_metadata.xlsx  --outfile automation/hystreet_fussgaengerfrequenzen/meta.xml
-        python automation/update_metadata.py -d hystreet_fussgaengerfrequenzen -f automation/hystreet_fussgaengerfrequenzen/meta.xml --no-verify
+        python automation/update_metadata.py -d hystreet_fussgaengerfrequenzen -f automation/hystreet_fussgaengerfrequenzen/meta.xml
 
     - name: Notify telegram failure
       if: ${{ failure()  || cancelled() }}
