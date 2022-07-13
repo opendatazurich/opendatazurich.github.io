@@ -38,6 +38,7 @@ jobs:
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/upload_resource_to_ckan.py -f hystreet_fussgaengerfrequenzen_seit2021.csv -d hystreet_fussgaengerfrequenzen
 
@@ -45,6 +46,7 @@ jobs:
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/xls_to_meta_xml.py -f automation/hystreet_fussgaengerfrequenzen/hystreet_fussgaenger_metadata.xlsx  --outfile automation/hystreet_fussgaengerfrequenzen/meta.xml
         python automation/update_metadata.py -d hystreet_fussgaengerfrequenzen -f automation/hystreet_fussgaengerfrequenzen/meta.xml
