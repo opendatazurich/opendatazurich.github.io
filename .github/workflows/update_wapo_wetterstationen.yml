@@ -31,15 +31,8 @@ jobs:
         WAPO_MY_PASS: ${{ secrets.wapo_my_pass }}
         WAPO_TB_USER: ${{ secrets.wapo_tb_user }}
         WAPO_TB_PASS: ${{ secrets.wapo_tb_pass }}
-      run: |
-        python automation/wapo_wetterstationen/fetch_from_api.py
-        head automation/wapo_wetterstationen/messwerte_mythenquai_*.csv
-        echo "..."
-        tail automation/wapo_wetterstationen/messwerte_mythenquai_*.csv
-        echo ""
-        head automation/wapo_wetterstationen/messwerte_tiefenbrunnen_*.csv
-        echo "..."
-        tail automation/wapo_wetterstationen/messwerte_tiefenbrunnen_*.csv
+      run: ./run.sh
+        
         
     - name: Upload files to CKAN
       env:
