@@ -1,8 +1,8 @@
 name: Update wapo_wetterstationen data
 
 on:
-  schedule:
-    - cron:  '8/15 * * * *' # every 15min
+  #schedule:
+  #  - cron:  '8/15 * * * *' # every 15min
   workflow_dispatch:
 
 jobs:
