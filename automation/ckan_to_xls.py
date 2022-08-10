@@ -144,7 +144,7 @@ try:
     # insert attributes
     attributes = json.loads(ckan_metadata['sszFields'])
     for attribute in attributes:
-        m = re.match(r'^(?P<name>.+?)\s*\(technisch: (?P<tech_name>.+?)\)$', attribute[0])
+        m = re.match(r'^(?P<name>.+?)(\s*\(technisch: (?P<tech_name>.+?)\))?$', attribute[0])
         assert m, f"Could not match name and tech_name from {attribute[0]}"
         desc = attribute[1]
         ws.insert_rows(attributes_row)
