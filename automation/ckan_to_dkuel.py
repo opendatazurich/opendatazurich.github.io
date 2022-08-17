@@ -115,7 +115,7 @@ def convert_attributes(json_attr):
     # insert attributes
     try:
         attributes = json.loads(json_attr)
-    json.decoder.JSONDecodeError as e:
+    except json.decoder.JSONDecodeError as e:
         print(f"Error: {e}", file=sys.stderr)
         attributes = []
     attrs = []
