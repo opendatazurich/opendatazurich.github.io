@@ -1,0 +1,38 @@
+name: Export CKAN metadata to DK-ÜL CSVs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r automation/automation-requirements.txt
+
+      - name: Export metadata to Excel sheet
+        env:
+          CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+          CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        run: |
+          python automation/ckan_to_dkuel.py --out . --query "Statistik Stadt Zürich" -tags:geodaten
+          
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dkuel_metadata_csvs
+          path: |
+            ./01_ogd_rechtsgrundlagen.csv
+            ./02_ogd_datenbestaende.csv
+            ./03_ogd_datenobjekte.csv
+            ./04_ogd_datenattribute.csv
+
