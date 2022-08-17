@@ -19,12 +19,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r automation/automation-requirements.txt
 
-      - name: Export metadata to Excel sheet
+      - name: Export metadata to CSVs
         env:
           CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
           CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         run: |
-          python automation/ckan_to_dkuel.py --out . --query "Statistik Stadt Zürich" -tags:geodaten
+          python automation/ckan_to_dkuel.py --out . --query "\"Statistik Stadt Zürich\" -tags:geodaten"
           
       - name: Upload artifact
         uses: actions/upload-artifact@v2
