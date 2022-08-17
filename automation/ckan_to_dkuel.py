@@ -113,7 +113,11 @@ def split_time_range(r):
 
 def convert_attributes(json_attr):
     # insert attributes
-    attributes = json.loads(json_attr)
+    try:
+        attributes = json.loads(json_attr)
+    json.decoder.JSONDecodeError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        attributes = []
     attrs = []
     for attribute in attributes:
         m = re.match(
