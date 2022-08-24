@@ -14,3 +14,4 @@ dateparser
 icalendar
 museumpy
 pandas
+markdown
