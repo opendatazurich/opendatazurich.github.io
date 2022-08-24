@@ -25,6 +25,7 @@ import collections
 from docopt import docopt
 from ckanapi import RemoteCKAN, NotFound
 import pandas as pd
+from markdown import markdown
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
@@ -47,7 +48,7 @@ def map_metadata_to_datenbestand(metadata):
         "DBMDQuellsystemID": metadata["name"],
         "DBMDQuellsystem": "Open-Data-Katalog der Stadt Zürich",
         "DBName": f"Datenbestand: {metadata['title']}",
-        "DBBeschreibung": metadata["notes"],
+        "DBBeschreibung": markdown(metadata["notes"]),
         "DBKategorie": ", ".join([g["title"] for g in metadata["groups"]]),
         "DBOGDRechtsgrundlagen": metadata["legalInformation"],
         "DBRaeumlicheBeziehung": metadata["spatialRelationship"],
@@ -63,7 +64,7 @@ def map_metadata_to_datenbestand(metadata):
         "DBAktualisierung": metadata["updateInterval"][0],
         "DBSchluesselwoerter": ", ".join([t["name"] for t in metadata["tags"]]),
         "DBOGDLizenz": metadata["license_id"],
-        "DBBeschreibungBemerkungen": ckan_metadata["sszBemerkungen"],
+        "DBBeschreibungBemerkungen": markdown(ckan_metadata["sszBemerkungen"]),
     }
 
 
@@ -74,7 +75,7 @@ def map_metadata_to_datenobjekt(metadata):
         "DOMDQuellsystem": "Open-Data-Katalog der Stadt Zürich",
         "DOuebergordneterDBID": metadata["name"],
         "DOName": metadata["title"],
-        "DOBeschreibung": metadata["notes"],
+        "DOBeschreibung": markdown(metadata["notes"]),
         "DOKategorie": ", ".join([g["title"] for g in metadata["groups"]]),
         "DOOGDRechtsgrundlagen": metadata["legalInformation"],
         "DORaeumlicheBeziehung": metadata["spatialRelationship"],
@@ -88,7 +89,7 @@ def map_metadata_to_datenobjekt(metadata):
         "DOAktualisierung": metadata["updateInterval"][0],
         "DOSchluesselwoerter": ", ".join([t["name"] for t in metadata["tags"]]),
         "DOOGDLizenz": metadata["license_id"],
-        "DOBeschreibungBemerkungen": ckan_metadata["sszBemerkungen"],
+        "DOBeschreibungBemerkungen": markdown(ckan_metadata["sszBemerkungen"]),
     }
 
 
