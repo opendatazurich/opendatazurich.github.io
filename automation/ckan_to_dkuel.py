@@ -41,6 +41,9 @@ def map_metadata_to_rechtsgrundlage(metadata):
         "RGBezeichnung": metadata["legalInformation"],
     }
 
+def convert_markdown(text):
+    html = markdown(text)
+    return html.replace("\n", " ")
 
 def map_metadata_to_datenbestand(metadata):
     start, end = split_time_range(metadata["timeRange"])
@@ -48,7 +51,7 @@ def map_metadata_to_datenbestand(metadata):
         "DBMDQuellsystemID": metadata["name"],
         "DBMDQuellsystem": "Open-Data-Katalog der Stadt Zürich",
         "DBName": f"Datenbestand: {metadata['title']}",
-        "DBBeschreibung": markdown(metadata["notes"]),
+        "DBBeschreibung": convert_markdown(metadata["notes"]),
         "DBKategorie": ", ".join([g["title"] for g in metadata["groups"]]),
         "DBOGDRechtsgrundlagen": metadata["legalInformation"],
         "DBRaeumlicheBeziehung": metadata["spatialRelationship"],
@@ -64,7 +67,7 @@ def map_metadata_to_datenbestand(metadata):
         "DBAktualisierung": metadata["updateInterval"][0],
         "DBSchluesselwoerter": ", ".join([t["name"] for t in metadata["tags"]]),
         "DBOGDLizenz": metadata["license_id"],
-        "DBBeschreibungBemerkungen": markdown(ckan_metadata["sszBemerkungen"]),
+        "DBBeschreibungBemerkungen": convert_markdown(ckan_metadata["sszBemerkungen"]),
     }
 
 
@@ -75,7 +78,7 @@ def map_metadata_to_datenobjekt(metadata):
         "DOMDQuellsystem": "Open-Data-Katalog der Stadt Zürich",
         "DOuebergordneterDBID": metadata["name"],
         "DOName": metadata["title"],
-        "DOBeschreibung": markdown(metadata["notes"]),
+        "DOBeschreibung": convert_markdown(metadata["notes"]),
         "DOKategorie": ", ".join([g["title"] for g in metadata["groups"]]),
         "DOOGDRechtsgrundlagen": metadata["legalInformation"],
         "DORaeumlicheBeziehung": metadata["spatialRelationship"],
@@ -89,7 +92,7 @@ def map_metadata_to_datenobjekt(metadata):
         "DOAktualisierung": metadata["updateInterval"][0],
         "DOSchluesselwoerter": ", ".join([t["name"] for t in metadata["tags"]]),
         "DOOGDLizenz": metadata["license_id"],
-        "DOBeschreibungBemerkungen": markdown(ckan_metadata["sszBemerkungen"]),
+        "DOBeschreibungBemerkungen": convert_markdown(ckan_metadata["sszBemerkungen"]),
     }
 
 
