@@ -22,6 +22,7 @@ import traceback
 import re
 import json
 import collections
+from datetime import datetime
 from docopt import docopt
 from ckanapi import RemoteCKAN, NotFound
 import pandas as pd
@@ -61,7 +62,7 @@ def map_metadata_to_datenbestand(metadata):
         "DBOGDPruefung": "Ja",
         "DBOGDStatus": "Veröffentlicht",
         "DBRisiken": metadata["dataQuality"],
-        "DBMetadatenFreigabedatum": metadata["dateFirstPublished"],
+        "DBMetadatenFreigabedatum": convert_date(metadata["dateFirstPublished"]),
         "DBAktualisierung": metadata["updateInterval"][0],
         "DBSchluesselwoerter": ", ".join([t["name"] for t in metadata["tags"]]),
         "DBOGDLizenz": metadata["license_id"],
@@ -85,8 +86,8 @@ def map_metadata_to_datenobjekt(metadata):
         "DODatenvon": start,
         "DODatenbis": end,
         "DORisiken": metadata["dataQuality"],
-        "DOMetadatenFreigabedatum": metadata["dateFirstPublished"],
-        "DOAktualisierungDaten": metadata["dateLastUpdated"],
+        "DOMetadatenFreigabedatum": convert_date(metadata["dateFirstPublished"]),
+        "DOAktualisierungDaten": convert_date(metadata["dateLastUpdated"]),
         "DOAktualisierung": metadata["updateInterval"][0],
         "DOSchluesselwoerter": ", ".join([t["name"] for t in metadata["tags"]]),
         "DOOGDLizenz": metadata["license_id"],
@@ -112,6 +113,8 @@ def split_time_range(r):
         return (sr[0].strip(), sr[1].strip())
     return (r, "")
 
+def convert_date(d):
+  return datetime.strptime(d, '%d.%m.%Y').date().isoformat()
 
 def convert_attributes(json_attr):
     # insert attributes
