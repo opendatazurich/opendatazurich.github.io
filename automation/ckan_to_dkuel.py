@@ -107,7 +107,7 @@ def map_metadata_to_datenattribut(metadata):
             "DAMDQuellsystem": "Open-Data-Katalog der Stadt Zürich",
             "DAuebergordnetesDOID": metadata["name"],
             "DAtechFeldname": a['tech_name'],
-            "DAName": f"{metadata['name']}: {a['name']},
+            "DAName": f"{metadata['name']}: {a['name']}",
             "DABeschreibung": a['description'],
         }
         export_attr.append(ogd_attr)
