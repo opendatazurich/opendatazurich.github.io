@@ -54,7 +54,6 @@ def map_metadata_to_datenbestand(metadata):
         "DBBeschreibung": convert_markdown(metadata["notes"]),
         "DBKategorie": ", ".join([g["title"] for g in metadata["groups"]]),
         "DBOGDRechtsgrundlagen": metadata["legalInformation"],
-        "DBRaeumlicheBeziehung": metadata["spatialRelationship"],
         "DBDienstabteilung": metadata["url"],
         "DBDatenlieferant": metadata["author"],
         "DBDatenvon": start,
