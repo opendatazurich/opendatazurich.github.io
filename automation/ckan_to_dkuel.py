@@ -82,7 +82,7 @@ def map_metadata_to_datenobjekt(metadata):
         "DOBeschreibung": convert_markdown(metadata["notes"]),
         "DOKategorie": ", ".join([g["title"] for g in metadata["groups"]]),
         "DOOGDRechtsgrundlagen": metadata["legalInformation"],
-        "DORaeumlicheBeziehung": metadata["spatialRelationship"],
+        "DORaeumlicheBeziehung0": metadata["spatialRelationship"],
         "DODienstabteilung": metadata["url"],
         "DODatenlieferant": metadata["author"],
         "DODatenvon": start,
