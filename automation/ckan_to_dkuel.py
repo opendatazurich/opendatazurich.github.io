@@ -105,7 +105,7 @@ def map_metadata_to_datenattribut(metadata):
 
 
 def split_time_range(r):
-    split_chars = ['bis', "-", "–"]
+    split_chars = ['bis', "-", "–", "seit"]
     for sc in split_chars:
         if sc in r:
             sr = r.split(sc, 1)
