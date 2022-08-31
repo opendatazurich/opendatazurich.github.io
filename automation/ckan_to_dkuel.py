@@ -114,9 +114,10 @@ def split_time_range(r):
     return (r, "")
 
 def convert_date(d):
-  if d and re.match(r"\d{2}\.\d{2}\.\d{4}", d):
-    return datetime.strptime(d, '%d.%m.%Y').date().isoformat()
-  else:
+    if d:
+        m = re.match(r"\d{2}\.\d{2}\.\d{4}", d)
+        if m:
+            return datetime.strptime(m[0], '%d.%m.%Y').date().isoformat()
     return d
 
 def convert_attributes(json_attr):
