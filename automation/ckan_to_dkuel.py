@@ -48,10 +48,6 @@ def convert_markdown(text):
 
 def map_metadata_to_datenbestand(metadata):
     start, end = split_time_range(metadata["timeRange"])
-    if start == '':
-        start = None
-    if end == '':
-        end = None
     return {
         "DBMDQuellsystemID": metadata["name"],
         "DBMDQuellsystem": "Open-Data-Katalog der Stadt Zürich",
@@ -107,14 +103,12 @@ def map_metadata_to_datenattribut(metadata):
 
 
 def split_time_range(r):
-    if "bis" in r:
-        sr = r.split("bis", 1)
-        assert len(sr) == 2
-        return (sr[0].strip(), sr[1].strip())
-    elif "-" in r:
-        sr = r.split("-", 1)
-        assert len(sr) == 2
-        return (sr[0].strip(), sr[1].strip())
+    split_chars = ['bis', "-", "–"]
+    for sc in split_chars:
+        if sc in r:
+            sr = r.split(sc, 1)
+            assert len(sr) == 2
+            return (sr[0].strip(), sr[1].strip())
     return (r, "")
 
 def convert_date(d):
