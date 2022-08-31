@@ -101,9 +101,17 @@ def map_metadata_to_datenobjekt(metadata):
 
 def map_metadata_to_datenattribut(metadata):
     attributes = convert_attributes(metadata["sszFields"])
+    export_attr = []
     for a in attributes:
-        a["DAuebergordnetesDOID"] = metadata["name"]
-    return attributes
+        ogd_attr = {
+            "DOMDQuellsystem": "Open-Data-Katalog der Stadt Zürich",
+            "DAuebergordnetesDOID": metadata["name"],
+            "DAtechFeldname": a['tech_name'],
+            "DAName": a['name'],
+            "DABeschreibung": a['description'],
+        }
+        export_attr.append(ogd_attr)
+    return export_attr
 
 
 def split_time_range(r):
