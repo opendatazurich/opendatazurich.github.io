@@ -92,8 +92,10 @@ def map_metadata_to_datenobjekt(metadata):
         "DOAktualisierungDaten": convert_date(metadata["dateLastUpdated"]),
         "DOAktualisierung": metadata["updateInterval"][0],
         "DOSchluesselwoerter": ", ".join([t["name"] for t in metadata["tags"]]),
-        "DOOGDLizenz": metadata["license_id"],
+        "DOOGDLienz": metadata["license_id"],
         "DOBeschreibungBemerkungen": convert_markdown(ckan_metadata["sszBemerkungen"]),
+        "DOOGDStatus": "bereits veröffentlicht",
+        "DOOGDStatusID": "72",
     }
 
 
