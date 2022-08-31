@@ -48,6 +48,10 @@ def convert_markdown(text):
 
 def map_metadata_to_datenbestand(metadata):
     start, end = split_time_range(metadata["timeRange"])
+    if start == '':
+        start = None
+    if end == '':
+        end = None
     return {
         "DBMDQuellsystemID": metadata["name"],
         "DBMDQuellsystem": "Open-Data-Katalog der Stadt Zürich",
