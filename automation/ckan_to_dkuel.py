@@ -66,7 +66,7 @@ def map_metadata_to_datenbestand(metadata):
         "DBOGDStatusID": "72",
         "DBRisiken": metadata["dataQuality"],
         "DBMetadatenFreigabedatum": convert_date(metadata["dateFirstPublished"]),
-        "DBAktualisierungsDatum": convert_date(metadata["dateLastUpdated"]),
+        "DB_x002d_Aktualisierung_x002d_Da": convert_date(metadata["dateLastUpdated"]),
         "DBAktualisierung": metadata["updateInterval"][0],
         "DBSchluesselwoerter": ", ".join([t["name"] for t in metadata["tags"]]),
         "DBOGDLizenz": metadata["license_id"],
