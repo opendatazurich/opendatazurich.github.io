@@ -64,7 +64,6 @@ def map_metadata_to_datenbestand(metadata):
         "DBOGDPruefung": "Ja",
         "DBOGDStatus": "bereits veröffentlicht",
         "DBOGDStatusID": "72",
-        "DBRisiken": metadata["dataQuality"],
         "DBMetadatenFreigabedatum": convert_date(metadata["dateFirstPublished"]),
         "DBAktualisierungsDatum": convert_date(metadata["dateLastUpdated"]),
         "DBAktualisierung": metadata["updateInterval"][0],
