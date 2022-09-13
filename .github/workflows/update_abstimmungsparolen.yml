@@ -44,35 +44,35 @@ jobs:
         fi
       id: changes
         
-    - name: Commit and push to repo
-      if: steps.changes.outputs.changed == 1 # only try to commit if there are actually changes
-      uses: github-actions-x/commit@v2.9
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        push-branch: master
-        name: GitHub Action Bot
-        email: opendata@zuerich.ch
-        commit-message: Update abstimmungsparolen.csv with latest data
-        rebase: 'true'
-
-    - name: Upload file to CKAN
-      if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
-      env:
-        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
-        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
-        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
-      run: |
-        python automation/upload_resource_to_ckan.py -f automation/abstimmungsparolen/abstimmungsparolen.csv -d politik_abstimmungsparolen_gemeindeabstimmung_seit2012
-
-    - name: Update CKAN metadata
-      if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
-      env:
-        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
-        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
-        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
-      run: |
-        python automation/xls_to_meta_xml.py -f automation/abstimmungsparolen/Meta_Abstimmungsparolen.xlsx --outfile automation/abstimmungsparolen/meta.xml
-        python automation/update_metadata.py -d politik_abstimmungsparolen_gemeindeabstimmung_seit2012 -f automation/abstimmungsparolen/meta.xml
+    #- name: Commit and push to repo
+    #  if: steps.changes.outputs.changed == 1 # only try to commit if there are actually changes
+    #  uses: github-actions-x/commit@v2.9
+    #  with:
+    #    github-token: ${{ secrets.GITHUB_TOKEN }}
+    #    push-branch: master
+    #    name: GitHub Action Bot
+    #    email: opendata@zuerich.ch
+    #    commit-message: Update abstimmungsparolen.csv with latest data
+    #    rebase: 'true'
+    #
+    #- name: Upload file to CKAN
+    #  if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
+    #  env:
+    #    CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+    #    CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+    #    SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+    #  run: |
+    #    python automation/upload_resource_to_ckan.py -f automation/abstimmungsparolen/abstimmungsparolen.csv -d politik_abstimmungsparolen_gemeindeabstimmung_seit2012
+    #
+    #- name: Update CKAN metadata
+    #  if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
+    #  env:
+    #    CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+    #    CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+    #    SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+    #  run: |
+    #    python automation/xls_to_meta_xml.py -f automation/abstimmungsparolen/Meta_Abstimmungsparolen.xlsx --outfile automation/abstimmungsparolen/meta.xml
+    #    python automation/update_metadata.py -d politik_abstimmungsparolen_gemeindeabstimmung_seit2012 -f automation/abstimmungsparolen/meta.xml
 
     - name: Notify telegram failure
       if: ${{ failure()  || cancelled() }}
