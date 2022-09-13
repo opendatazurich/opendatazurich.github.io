@@ -15,3 +15,4 @@ icalendar
 museumpy
 pandas
 markdown
+lxml
