@@ -17,6 +17,7 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 echo "Populating database from CSV abstimmungsparolen.csv..."
 rm -rf $DIR/data.sqlite
 sqlite3 $DIR/data.sqlite -cmd ".mode csv" -cmd ".import $DIR/abstimmungsparolen.csv data" .quit
+sqlite3 $DIR/data.sqlite -cmd "CREATE UNIQUE INDEX vote_unq ON data (datum, titel, partei);" .quit
 
 # 2. run the scraper, update the db
 echo "Run the scraper..."
