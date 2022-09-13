@@ -15,7 +15,8 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # 1. populate the database with the current CSV
 echo "Populating database from CSV abstimmungsparolen.csv..."
-python $DIR/populate_database.py $DIR/abstimmungsparolen.csv
+rm -rf $DIR/data.sqlite
+sqlite3 $DIR/data.sqlite -cmd ".mode csv" -cmd ".import $DIR/abstimmungsparolen.csv website" .quit
 
 # 2. run the scraper, update the db
 echo "Run the scraper..."
