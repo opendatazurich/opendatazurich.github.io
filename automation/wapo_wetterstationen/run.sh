@@ -18,21 +18,28 @@ wget https://data.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen/download/mes
 wget https://data.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen/download/messwerte_tiefenbrunnen_${year}.csv -O $DIR/messwerte_tiefenbrunnen.csv
 
 # 2. populate the database with the current CSV
-echo "Populating database from CSV schulferien.csv..."
-python $DIR/populate_database.py -n mythenquai.sqlite -f $DIR/messwerte_mythenquai.csv
-python $DIR/populate_database.py -n tiefenbrunnen.sqlite -f $DIR/messwerte_tiefenbrunnen.csv
+echo "Populating databases from CSVs..."
+rm -rf $DIR/mythenquai.sqlite
+rm -rf $DIR/tiefenbrunnen.sqlite
+sqlite3 $DIR/mythenquai.sqlite -cmd '.mode csv' -cmd '.import messwerte_mythenquai.csv data' .quit
+sqlite3 $DIR/tiefenbrunnen.sqlite -cmd '.mode csv' -cmd '.import messwerte_tiefenbrunnen.csv data' .quit
+sqlite3 $DIR/mythenquai.sqlite -cmd 'create unique index ix_timestamp on data(timestamp_utc);' .quit
+sqlite3 $DIR/tiefenbrunnen.sqlite -cmd 'create unique index ix_timestamp on data(timestamp_utc);' .quit
 
 # 3. run the scraper, update the db
-echo "Run the scraper..."
+echo "Fetch todays data from API..."
 python $DIR/fetch_from_api.py
 
 # 3. Merge events
 echo "Merge events..."
-python $DIR/merge_data.py
+python $DIR/merge_data.py -d $DIR/mythenquai.sqlite -f $DIR/messwerte_mythenquai_today.csv
+python $DIR/merge_data.py -d $DIR/tiefenbrunnen.sqlite -f $DIR/messwerte_tiefenbrunnen_today.csv
+rm $DIR/messwerte_mythenquai_today.csv
+rm $DIR/messwerte_tiefenbrunnen_today.csv
 
 # 3. Export the database as csv
 echo "Export database to CSV..."
-sqlite3 -header -csv $DIR/mythenquai.sqlite "select * from data order by timestamp_utc asc;" > messwerte_mythenquai_${year}.csv
-sqlite3 -header -csv $DIR/tiefenbrunnen.sqlite "select * from data order by timestamp_utc asc;" > messwerte_tiefenbrunnen_${year}.csv
+sqlite3 -header -csv $DIR/mythenquai.sqlite "select * from data order by timestamp_utc asc;" > $DIR/messwerte_mythenquai_${year}.csv
+sqlite3 -header -csv $DIR/tiefenbrunnen.sqlite "select * from data order by timestamp_utc asc;" > $DIR/messwerte_tiefenbrunnen_${year}.csv
 sed -i 's/""//g' messwerte_mythenquai_${year}.csv
 sed -i 's/""//g' messwerte_tiefenbrunnen_${year}.csv

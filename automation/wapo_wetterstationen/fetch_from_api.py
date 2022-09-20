@@ -116,12 +116,12 @@ def save_csv_file(data, path):
 try:
     # get mythenquai data
     reader = request_data('mythenquai')
-    path = os.path.join(__location__, f'messwerte_mythenquai_{date.today().year}.csv')
+    path = os.path.join(__location__, f'messwerte_mythenquai_today.csv')
     save_csv_file(reader, path)
 
     # get tiefenbrunnen data
     reader = request_data('tiefenbrunnen')
-    path = os.path.join(__location__, f'messwerte_tiefenbrunnen_{date.today().year}.csv')
+    path = os.path.join(__location__, f'messwerte_tiefenbrunnen_today.csv')
     save_csv_file(reader, path)
 
 except Exception as e:
