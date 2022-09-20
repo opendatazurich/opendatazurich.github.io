@@ -51,7 +51,7 @@ def map_metadata_to_datenbestand(metadata):
     return {
         "DBMDQuellsystemID": metadata["name"],
         "DBMDQuellsystem": "Open-Data-Katalog der Stadt Zürich",
-        "DBName": f"{metadata['title'][:50]}",
+        "DBName": f"{metadata['title']}",
         "DBBeschreibung": convert_markdown(metadata["notes"]),
         "DBKategorie": ", ".join([g["title"] for g in metadata["groups"]]),
         "DBOGDRechtsgrundlagen": metadata["legalInformation"],
@@ -85,7 +85,8 @@ def map_metadata_to_datenobjekt(metadata):
         "DOKategorie": ", ".join([g["title"] for g in metadata["groups"]]),
         "DOOGDRechtsgrundlagen": metadata["legalInformation"],
         "DORaeumlicheBeziehung": metadata["spatialRelationship"],
-        "DODienstabteilung": metadata["url"],
+        "DBDienstabteilung": "SSZ",
+        "DBDienstabteilungID": "4",
         "DODatenlieferant": "SSZ",
         "DODatenlieferantID": "4",
         "DODatenvon": start,
@@ -108,6 +109,8 @@ def map_metadata_to_datenattribut(metadata):
     export_attr = []
     for a in attributes:
         ogd_attr = {
+            "DODienstabteilung": "SSZ",
+            "DODienstabteilungID": "4",
             "DAMDQuellsystem": "Open-Data-Katalog der Stadt Zürich",
             "DAuebergordnetesDOID": metadata["name"],
             "DAtechFeldname": a['tech_name'],
