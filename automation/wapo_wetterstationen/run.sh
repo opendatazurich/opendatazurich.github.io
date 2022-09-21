@@ -27,8 +27,8 @@ sqlite3 $DIR/mythenquai.sqlite -cmd 'create unique index ix_timestamp on data(ti
 sqlite3 $DIR/tiefenbrunnen.sqlite -cmd 'create unique index ix_timestamp on data(timestamp_utc);' .quit
 
 # 3. run the scraper, update the db
-echo "Fetch todays data from API..."
-python $DIR/fetch_from_api.py
+echo "Fetch todays data from website..."
+python $DIR/scrape_from_website.py
 
 # 3. Merge events
 echo "Merge events..."
