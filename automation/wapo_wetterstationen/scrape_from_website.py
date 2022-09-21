@@ -112,10 +112,11 @@ def save_csv_file(data, path):
 try:
     today = datetime.now().strftime('%d.%m.%Y')
     today = '05.08.2022'
+    enddate = '15.08.2022'
     for k, v in stations.items():
         data = {
             "messw_beg": today,
-            "messw_end": today,
+            "messw_end": enddate,
             "auswahl": "2",
             "combilog": k,
             "suchen": "Werte+anzeigen"
