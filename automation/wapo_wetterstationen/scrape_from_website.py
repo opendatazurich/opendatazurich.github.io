@@ -48,6 +48,7 @@ def safeint(s):
     else:
         raise ValueError(f"Can't parse {s} as int without losing precision")
 
+
 def request_data(url, data={}, auth=None, verify=True):
     http = requests.Session()
     http.auth = auth
@@ -93,7 +94,7 @@ def save_csv_file(data, path):
                 'timestamp_utc': date_utc.isoformat(),
                 'timestamp_cet': date_cet.isoformat(),
                 'air_temperature': safefloat(row.get('Lufttemperatur', '')),
-                'water_temperature': safefloat(row.get('TempWasser', '')),
+                'water_temperature': safefloat(row.get('Wassertemperatur', '')),
                 'wind_gust_max_10min': safefloat(row.get('Windboeen', '')),
                 'wind_speed_avg_10min': safefloat(row.get('Windgeschw', '')),
                 'wind_force_avg_10min': safefloat(row.get('Windstaerke')),
