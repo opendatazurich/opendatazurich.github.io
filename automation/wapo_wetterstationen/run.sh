@@ -41,5 +41,5 @@ rm $DIR/messwerte_tiefenbrunnen_today.csv
 echo "Export database to CSV..."
 sqlite3 -header -csv $DIR/mythenquai.sqlite "select * from data order by timestamp_utc asc;" > $DIR/messwerte_mythenquai_${year}.csv
 sqlite3 -header -csv $DIR/tiefenbrunnen.sqlite "select * from data order by timestamp_utc asc;" > $DIR/messwerte_tiefenbrunnen_${year}.csv
-sed -i 's/""//g' messwerte_mythenquai_${year}.csv
-sed -i 's/""//g' messwerte_tiefenbrunnen_${year}.csv
+sed -i 's/""//g' $DIR/messwerte_mythenquai_${year}.csv
+sed -i 's/""//g' $DIR/messwerte_tiefenbrunnen_${year}.csv
