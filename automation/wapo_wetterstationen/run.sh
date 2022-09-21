@@ -21,8 +21,8 @@ wget https://data.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen/download/mes
 echo "Populating databases from CSVs..."
 rm -rf $DIR/mythenquai.sqlite
 rm -rf $DIR/tiefenbrunnen.sqlite
-sqlite3 $DIR/mythenquai.sqlite -cmd '.mode csv' -cmd '.import messwerte_mythenquai.csv data' .quit
-sqlite3 $DIR/tiefenbrunnen.sqlite -cmd '.mode csv' -cmd '.import messwerte_tiefenbrunnen.csv data' .quit
+sqlite3 $DIR/mythenquai.sqlite -cmd '.mode csv' -cmd ".import $DIR/messwerte_mythenquai.csv data" .quit
+sqlite3 $DIR/tiefenbrunnen.sqlite -cmd '.mode csv' -cmd ".import $DIR/messwerte_tiefenbrunnen.csv data" .quit
 sqlite3 $DIR/mythenquai.sqlite -cmd 'create unique index ix_timestamp on data(timestamp_utc);' .quit
 sqlite3 $DIR/tiefenbrunnen.sqlite -cmd 'create unique index ix_timestamp on data(timestamp_utc);' .quit
 
