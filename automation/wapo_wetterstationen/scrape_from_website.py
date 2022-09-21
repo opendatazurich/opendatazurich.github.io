@@ -79,7 +79,6 @@ def save_csv_file(data, path):
         writer = csv.DictWriter(csvfile, field_names, quoting=csv.QUOTE_MINIMAL)
         writer.writeheader()
         for row in data:
-            pprint(row)
             zurich_tz = pytz.timezone('Europe/Zurich')
             row_date = datetime.strptime(row['Datum'], '%d.%m.%Y %H:%M:%S')
             date_cet = zurich_tz.localize(row_date)
