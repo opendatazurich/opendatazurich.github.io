@@ -111,8 +111,8 @@ def save_csv_file(data, path):
 
 try:
     today = datetime.now().strftime('%d.%m.%Y')
-    today = '15.08.2022'
-    enddate = '31.08.2022'
+    today = '31.08.2022'
+    enddate = '12.09.2022'
     for k, v in stations.items():
         data = {
             "messw_beg": today,
