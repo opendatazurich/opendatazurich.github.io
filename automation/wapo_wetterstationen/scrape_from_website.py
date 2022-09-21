@@ -5,6 +5,7 @@ import sys
 import csv
 import traceback
 from datetime import datetime, date, timedelta
+import pandas as pd
 import pytz
 import requests
 from dotenv import load_dotenv, find_dotenv
