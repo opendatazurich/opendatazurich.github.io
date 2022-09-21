@@ -47,19 +47,13 @@ def safeint(s):
     else:
         raise ValueError(f"Can't parse {s} as int without losing precision")
 
-
-def request_data(station):
-    config = stations[station]
-    payload = {
-        'feld': 1,
-        'datum_von': date(date.today().year, 1, 1).strftime('%d.%m.%Y'),
-        'datum_bis': date.today().strftime('%d.%m.%Y'),
-    }
-    r = requests.post(config['url'], data=payload, auth=(config['user'], config['password']))
+def request_data(url, data={}, auth=None, verify=True):
+    http = requests.Session()
+    http.auth = auth
+    headers = {'user-agent': 'Mozilla Firefox: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0'}
+    r = http.post(url, data=data, headers=headers, timeout=10, verify=verify)
     r.raise_for_status()
-    lines = r.text.splitlines()
-    reader = csv.DictReader(lines, delimiter=';')
-    return reader
+    return r
 
 
 def save_csv_file(data, path):
@@ -84,6 +78,7 @@ def save_csv_file(data, path):
         writer = csv.DictWriter(csvfile, field_names, quoting=csv.QUOTE_MINIMAL)
         writer.writeheader()
         for row in data:
+            pprint(row)
             zurich_tz = pytz.timezone('Europe/Zurich')
             row_date = datetime.strptime(row['Datum'], '%d.%m.%Y %H:%M:%S')
             date_cet = zurich_tz.localize(row_date)
@@ -97,32 +92,58 @@ def save_csv_file(data, path):
             mapped_row = {
                 'timestamp_utc': date_utc.isoformat(),
                 'timestamp_cet': date_cet.isoformat(),
-                'air_temperature': safefloat(row.get('Temp2m', '')),
+                'air_temperature': safefloat(row.get('Lufttemperatur', '')),
                 'water_temperature': safefloat(row.get('TempWasser', '')),
-                'wind_gust_max_10min': safefloat(row.get('WGmax', '')),
-                'wind_speed_avg_10min': safefloat(row.get('WGavr', '')),
-                'wind_force_avg_10min': safefloat(row.get('Umr_Beaufort')),
-                'wind_direction': safeint(row.get('WRvek', '')),
+                'wind_gust_max_10min': safefloat(row.get('Windboeen', '')),
+                'wind_speed_avg_10min': safefloat(row.get('Windgeschw', '')),
+                'wind_force_avg_10min': safefloat(row.get('Windstaerke')),
+                'wind_direction': safeint(row.get('Windrichtung', '')),
                 'windchill': safefloat(row.get('Windchill', '')),
                 'barometric_pressure_qfe': pressure_qfe,
-                'precipitation': safefloat(row.get('Regen', '')),
+                'precipitation': safefloat(row.get('Niederschlag', '')),
                 'dew_point': safefloat(row.get('Taupunkt', '')),
-                'global_radiation': safeint(row.get('Strahlung', '')),
-                'humidity': safefloat(row.get('Feuchte', '')),
+                'global_radiation': safeint(row.get('Globalstrahlung', '')),
+                'humidity': safefloat(row.get('Luftfeuchte', '')),
                 'water_level': safefloat(row.get('Pegel', '')),
             }
             writer.writerow(mapped_row)
 
 try:
-    # get mythenquai data
-    reader = request_data('mythenquai')
-    path = os.path.join(__location__, f'messwerte_mythenquai_today.csv')
-    save_csv_file(reader, path)
-
-    # get tiefenbrunnen data
-    reader = request_data('tiefenbrunnen')
-    path = os.path.join(__location__, f'messwerte_tiefenbrunnen_today.csv')
-    save_csv_file(reader, path)
+    today = datetime.now().strftime('%d.%m.%Y')
+    for k, v in stations.items():
+        data = {
+            "messw_beg": today,
+            "messw_end": today,
+            "auswahl": "2",
+            "combilog": k,
+            "suchen": "Werte+anzeigen"
+        }
+    
+        # get data
+        r =  request_data(v['url'], data=data, auth=(v['user'], v['password']))
+        df = pd.read_html(r.text, header=0)[1]
+        new_names = {
+            'Datum\xa0/\xa0Uhrzeit\xa0(MEZ)': 'Datum',
+            'Lufttemperatur\xa0(°C)': 'Lufttemperatur',
+            'Luftfeuchte\xa0(%)': 'Luftfeuchte',
+            'Windböen (max) 10 min.\xa0(m/s)': 'Windboeen',
+            'Windgeschw. Ø 10min.\xa0(m/s)': 'Windgeschw',
+            'Windstärke Ø 10 min.\xa0(bft)': 'Windstaerke',
+            'Windrichtung\xa0(°)': 'Windrichtung',
+            'Windchill\xa0(°C)': 'Windchill',
+            'Luftdruck QNH\xa0(hPa)': 'LuftdruckQNH',
+            'Luftdruck QFE\xa0(hPa)': 'LuftdruckQFE',
+            'Niederschlag\xa0(mm)': 'Niederschlag',
+            'Taupunkt\xa0(°C)': 'Taupunkt',
+            'Globalstrahlung\xa0(W/m²)': 'Globalstrahlung',
+            'Wassertemperatur\xa0(°C)': 'Wassertemperatur',
+            'Pegel (NS 406.0m)\xa0(m)': 'Pegel',
+        }
+        df = df.rename(columns=new_names)
+        data = df.to_dict('records')
+        
+        path = os.path.join(__location__, f'messwerte_{k}_today.csv')
+        save_csv_file(data, path)
 
 except Exception as e:
     print("Error: %s" % e, file=sys.stderr)
