@@ -2,7 +2,7 @@ name: Update wapo_wetterstationen data
 
 on:
   schedule:
-    - cron:  '23 4-23/2 * * *' # xx:23 UTC every other hour from 5-23
+    - cron:  '23 */2 * * *' # xx:23 UTC every other hour
   workflow_dispatch:
 
 jobs:
