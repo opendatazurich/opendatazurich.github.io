@@ -112,7 +112,7 @@ try:
             question = ''
             for kapitel in erlaut['kapitel']:
                 prev_title = ''
-                forth comp in kapitel['komponenten']:
+                for comp in kapitel['komponenten']:
                     if comp['typ'] == 'parole' and prev_title.startswith('Abstimmungsparolen'):
                         m = re.match(r"(.+): (.*)", comp['parole']['text'])
                         parties = m[2].split(',')
