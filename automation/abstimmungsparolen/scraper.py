@@ -94,7 +94,14 @@ try:
     geolevel = 3
     bfsnr = 261
     vorlage_url = f"https://app.statistik.zh.ch/wahlen_abstimmungen/data_prod/geschaefte/{geolevel}_{bfsnr}_{m['year']}{m['month']}{m['day']}/Vorlagen.json"
-    result = get_json(vorlage_url)
+    
+    r = session.get(vorlage_url)
+    if r.status_code != requests.codes.ok:
+        print(f"Error when requesting url {vorlage_url}: {r.status_code}", file=sys.stderr)
+        sys.exit(0)
+    result = r.json()
+    
+    
     
     # extract paroles
     paroles = []
@@ -105,7 +112,7 @@ try:
             question = ''
             for kapitel in erlaut['kapitel']:
                 prev_title = ''
-                for comp in kapitel['komponenten']:
+                forth comp in kapitel['komponenten']:
                     if comp['typ'] == 'parole' and prev_title.startswith('Abstimmungsparolen'):
                         m = re.match(r"(.+): (.*)", comp['parole']['text'])
                         parties = m[2].split(',')
