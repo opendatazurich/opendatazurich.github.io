@@ -59,10 +59,7 @@ def map_metadata_to_datenbestand(metadata):
         "DBOGDStatus": "bereits veröffentlicht",
         "DBOGDStatusID": "72",
         "DBMetadatenFreigabedatum": convert_date(metadata["dateFirstPublished"]),
-        "DBAktualisierungsDatum": convert_date(metadata["dateLastUpdated"]),
-        "DBAktualisierung": metadata["updateInterval"][0],
         "DBSchluesselwoerter": ", ".join([t["name"] for t in metadata["tags"]]),
-        "DBOGDLizenz": metadata["license_id"],
         "DBBeschreibungBemerkungen": convert_markdown(ckan_metadata["sszBemerkungen"]),
         "StatusNummer": "1",
     }
