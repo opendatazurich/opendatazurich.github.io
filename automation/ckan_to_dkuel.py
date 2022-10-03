@@ -47,7 +47,6 @@ def convert_markdown(text):
     return html.replace("\n", " ")
 
 def map_metadata_to_datenbestand(metadata):
-    start, end = split_time_range(metadata["timeRange"])
     return {
         "DBMDQuellsystemID": metadata["name"],
         "DBMDQuellsystem": "Open-Data-Katalog der Stadt Zürich",
@@ -56,8 +55,6 @@ def map_metadata_to_datenbestand(metadata):
         "DBKategorie": ", ".join([g["title"] for g in metadata["groups"]]),
         "DBDienstabteilung": "SSZ",
         "DBDienstabteilungID": "4",
-        "DBDatenvon": convert_date(start),
-        "DBDatenbis": convert_date(end),
         "DBOGDPruefung": "Ja",
         "DBOGDStatus": "bereits veröffentlicht",
         "DBOGDStatusID": "72",
