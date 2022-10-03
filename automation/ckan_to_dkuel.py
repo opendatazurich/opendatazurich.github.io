@@ -56,8 +56,6 @@ def map_metadata_to_datenbestand(metadata):
         "DBKategorie": ", ".join([g["title"] for g in metadata["groups"]]),
         "DBDienstabteilung": "SSZ",
         "DBDienstabteilungID": "4",
-        "DBDatenlieferant": "SSZ",
-        "DBDatenlieferantID": "4",
         "DBDatenvon": convert_date(start),
         "DBDatenbis": convert_date(end),
         "DBOGDPruefung": "Ja",
