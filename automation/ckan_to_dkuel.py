@@ -22,7 +22,7 @@ import traceback
 import re
 import json
 import collections
-from datetime import datetime
+from datetime import datetime, date
 from docopt import docopt
 from ckanapi import RemoteCKAN, NotFound
 import pandas as pd
@@ -59,8 +59,8 @@ def map_metadata_to_datenbestand(metadata):
         "DBDienstabteilungID": "4",
         "DBDatenlieferant": "SSZ",
         "DBDatenlieferantID": "4",
-        "DBDatenvon": start,
-        "DBDatenbis": end,
+        "DBDatenvon": convert_date(start),
+        "DBDatenbis": convert_date(end),
         "DBOGDPruefung": "Ja",
         "DBOGDStatus": "bereits veröffentlicht",
         "DBOGDStatusID": "72",
@@ -76,6 +76,9 @@ def map_metadata_to_datenbestand(metadata):
 
 def map_metadata_to_datenobjekt(metadata):
     start, end = split_time_range(metadata["timeRange"])
+    if metadata["dataQuality"]:
+        ckan_metadata["sszBemerkungen"] = f"{ckan_metadata["sszBemerkungen"]}**Datenqualität:**\n\n{metadata["dataQuality"]}\n\n"
+                                               
     return {
         "DOMDQuellsystemID": metadata["name"],
         "DOMDQuellsystem": "Open-Data-Katalog der Stadt Zürich",
@@ -89,9 +92,8 @@ def map_metadata_to_datenobjekt(metadata):
         "DBDienstabteilungID": "4",
         "DODatenlieferant": "SSZ",
         "DODatenlieferantID": "4",
-        "DODatenvon": start,
-        "DODatenbis": end,
-        "DORisiken": metadata["dataQuality"],
+        "DODatenvon": convert_date(start),
+        "DODatenbis": convert_date(end),
         "DOMetadatenFreigabedatum": convert_date(metadata["dateFirstPublished"]),
         "DOAktualisierungsDatum": convert_date(metadata["dateLastUpdated"]),
         "DOAktualisierung": metadata["updateInterval"][0],
@@ -123,19 +125,31 @@ def map_metadata_to_datenattribut(metadata):
 
 
 def split_time_range(r):
+    def year_to_date(s):
+        if re.match(r"\d{2}\.\d{2}\.\d{4}", s):
+            return s
+        if re.match(r"\d{4}", s):
+            return f"01.01.{s}"
+        return s
+            
     split_chars = ['bis', "-", "–", "seit"]
     for sc in split_chars:
         if sc in r:
             sr = r.split(sc, 1)
             assert len(sr) == 2
-            return (sr[0].strip(), sr[1].strip())
+            return (year_to_date(sr[0].strip()), year_to_date(sr[1].strip()))
     return (r, "")
 
 def convert_date(d):
     if d:
         m = re.match(r"\d{2}\.\d{2}\.\d{4}", d)
         if m:
-            return datetime.strptime(m[0], '%d.%m.%Y').date().isoformat()
+            # Sharepoint does not support dates before 1900
+            oldest_date = date(1900, 1, 1)
+            date_obj = datetime.strptime(m[0], '%d.%m.%Y').date()
+            if date_obj < oldest_date:
+                date_obj = oldest_date
+            return date_obj.isoformat()
     return d
 
 def convert_attributes(json_attr):
