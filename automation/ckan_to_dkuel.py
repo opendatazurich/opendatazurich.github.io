@@ -146,13 +146,16 @@ def split_time_range(r):
 def convert_date(d):
     if d:
         m = re.match(r"\d{2}\.\d{2}\.\d{4}", d)
-        if m:
-            # Sharepoint does not support dates before 1900
-            oldest_date = date(1900, 1, 1)
-            date_obj = datetime.strptime(m[0], '%d.%m.%Y').date()
-            if date_obj < oldest_date:
-                date_obj = oldest_date
-            return date_obj.isoformat()
+        if not m:
+            # return empty string for invalid formatted dates
+            return ""
+        
+        # Sharepoint does not support dates before 1900
+        oldest_date = date(1900, 1, 1)
+        date_obj = datetime.strptime(m[0], '%d.%m.%Y').date()
+        if date_obj < oldest_date:
+            date_obj = oldest_date
+        return date_obj.isoformat()
     return d
 
 def convert_attributes(json_attr):
