@@ -126,10 +126,10 @@ def map_metadata_to_datenattribut(metadata):
 
 def split_time_range(r):
     def year_to_date(s):
-        if re.match(r"\d{2}\.\d{2}\.\d{4}", s):
-            return s
-        if re.match(r"\d{4}", s):
-            return f"01.01.{s}"
+        if re.match(r"\d{2}\.\d{2}\.\d{4}", s.strip()):
+            return s.strip()
+        if re.match(r"\d{4}", s.strip()):
+            return f"01.01.{s.strip()}"
         return s
             
     split_chars = ['bis', "-", "–", "seit"]
@@ -138,7 +138,7 @@ def split_time_range(r):
             sr = r.split(sc, 1)
             assert len(sr) == 2
             return (year_to_date(sr[0].strip()), year_to_date(sr[1].strip()))
-    return (r, "")
+    return (year_to_date(r), "")
 
 def convert_date(d):
     if d:
