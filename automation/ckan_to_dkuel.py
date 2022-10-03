@@ -141,8 +141,8 @@ def convert_date(d):
             # return empty string for invalid formatted dates
             return ""
         
-        # Sharepoint does not support dates before 1900
-        oldest_date = date(1900, 1, 1)
+        # Sharepoint does not support dates before 1901
+        oldest_date = date(1901, 1, 1)
         date_obj = datetime.strptime(m[0], '%d.%m.%Y').date()
         if date_obj < oldest_date:
             date_obj = oldest_date
