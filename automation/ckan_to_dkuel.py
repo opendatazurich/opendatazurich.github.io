@@ -77,7 +77,7 @@ def map_metadata_to_datenbestand(metadata):
 def map_metadata_to_datenobjekt(metadata):
     start, end = split_time_range(metadata["timeRange"])
     if metadata["dataQuality"]:
-        ckan_metadata["sszBemerkungen"] = f"{ckan_metadata["sszBemerkungen"]}**Datenqualität:**\n\n{metadata["dataQuality"]}\n\n"
+        ckan_metadata["sszBemerkungen"] = f"{ckan_metadata['sszBemerkungen']}**Datenqualität:**\n\n{metadata['dataQuality']}\n\n"
                                                
     return {
         "DOMDQuellsystemID": metadata["name"],
