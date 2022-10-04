@@ -61,7 +61,6 @@ def map_metadata_to_datenbestand(metadata):
         "DBMetadatenFreigabedatum": convert_date(metadata["dateFirstPublished"]),
         "DBSchluesselwoerter": ", ".join([t["name"] for t in metadata["tags"]]),
         "DBBeschreibungBemerkungen": convert_markdown(ckan_metadata["sszBemerkungen"]),
-        "StatusNummer": "1",
     }
 
 
@@ -93,7 +92,6 @@ def map_metadata_to_datenobjekt(metadata):
         "DOBeschreibungBemerkungen": convert_markdown(ckan_metadata["sszBemerkungen"]),
         "DOOGDStatus": "bereits veröffentlicht",
         "DOOGDStatusID": "72",
-        "StatusNummer": "1",
     }
 
 
@@ -109,7 +107,6 @@ def map_metadata_to_datenattribut(metadata):
             "DAtechFeldname": a['tech_name'],
             "DAName": f"{metadata['name']}: {a['name']}",
             "DABeschreibung": a['description'],
-            "StatusNummer": "1",
         }
         export_attr.append(ogd_attr)
     return export_attr
