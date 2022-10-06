@@ -115,6 +115,8 @@ try:
                 for comp in kapitel['komponenten']:
                     if comp['typ'] == 'parole' and prev_title.startswith('Abstimmungsparolen'):
                         m = re.match(r"(.+): (.*)", comp['parole']['text'])
+                        if not m:
+                            continue
                         parties = m[2].split(',')
                         for party in parties:
                             parole = {
