@@ -92,6 +92,7 @@ def map_metadata_to_datenobjekt(metadata):
         "DOBeschreibungBemerkungen": convert_markdown(ckan_metadata["sszBemerkungen"]),
         "DOOGDStatus": "bereits veröffentlicht",
         "DOOGDStatusID": "72",
+        "DOMetadatenErfasserID": "22", # = sszods
     }
 
 
