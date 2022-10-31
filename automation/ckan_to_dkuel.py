@@ -189,6 +189,7 @@ try:
         ckan_metadata = ckan.call_action(
             "package_show", {"id": dataset["id"]}, requests_kwargs=requests_kwargs
         )
+        ckan_metadata.setdefault("sszBemerkungen", "")
 
         try:
             rechtsgrundlagen.append(map_metadata_to_rechtsgrundlage(ckan_metadata))
