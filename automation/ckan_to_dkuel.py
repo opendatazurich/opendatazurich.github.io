@@ -196,7 +196,7 @@ try:
             datenobjekte.append(map_metadata_to_datenobjekt(ckan_metadata))
             datenattribute.extend(map_metadata_to_datenattribut(ckan_metadata))
         except Exception as e:
-            print(f"Could not map metadata of dataset {dataset["id"]}: {ckan_metadata}", file=sys.stderr)
+            print(f"Could not map metadata of dataset {dataset['id']}: {ckan_metadata}", file=sys.stderr)
             raise
 
     # create dataframes
