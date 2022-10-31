@@ -24,7 +24,7 @@ jobs:
           CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
           CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         run: |
-          python automation/ckan_to_dkuel.py --out . --query "\"Statistik Stadt Zürich\" -tags:geodaten"
+          python automation/ckan_to_dkuel.py --out . --query "url:\"Statistik Stadt Zürich, Präsidialdepartement\" -tags:geodaten"
           
       - name: Upload artifact
         uses: actions/upload-artifact@v2
