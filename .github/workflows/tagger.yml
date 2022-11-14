@@ -36,11 +36,6 @@ jobs:
         CKAN_BASE_URL: ${{ secrets.ckan_base_url }}
       run: |
         python automation/tagger/tagger.py -c automation/tagger/config.yml
-
-    - name: Get current unix timestamp
-      if: always()
-      id: date
-      run: echo "::set-output name=ts::$(date +'%s')"
       
     - name: Notify telegram failure
       if: ${{ failure()  || cancelled() }}
@@ -51,11 +46,3 @@ jobs:
         format: markdown
         message: |
           🔴 [CKAN tagger job Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
-          
-    - name: Notify slack failure
-      if: ${{ failure()  || cancelled() }}
-      env:
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-      uses: pullreminders/slack-action@master
-      with:
-          args: '{\"channel\":\"C014Y6SHE12\", \"attachments\": [{\"fallback\": \"Job failed.\", \"color\": \"danger\", \"title\": \"CKAN tagger job failed\", \"title_link\": \"https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true\", \"text\": \":x: Reorder failed\", \"footer\": \"<https://github.com/opendatazurich/opendatazurich.github.io/actions|opendatazurich/opendatazurich.github.io>\", \"footer_icon\": \"https://github.com/abinoda/slack-action/raw/master/docs/app-icons/github-icon.png\", \"ts\": \"${{steps.date.outputs.ts}}\"}]}'
