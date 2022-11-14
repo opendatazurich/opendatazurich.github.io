@@ -104,7 +104,7 @@ try:
             
             # generate links for new/updated datasets
             text += f"**[{source_info['title']}](https://ckan-ogdzh.clients.liip.ch/harvest/{name}/job/{job_id})**"
-            text += f'\n{status} {start_datetime} 🏁 {end_datetime} ({duration})',
+            text += f'\n{status} {start_datetime} 🏁 {end_datetime} ({duration})'
             if start and end:
                 created_start = start.strftime('%Y-%m-%dT%H:%M:%SZ')
                 created_end = end.strftime('%Y-%m-%dT23:59:59Z') # always use end of day as end
