@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-import json
 import datetime
 import traceback
 import pytz
@@ -32,7 +31,7 @@ def send_telegram_message(token, chat_id, message):
     }
     headers = {'Content-type': 'application/json'}
     url = f"https://api.telegram.org/bot{token}/sendMessage"
-    r = requests.post(url, data=json.dumps(params), headers=headers)
+    r = requests.post(url, json=params, headers=headers)
     r.raise_for_status()
 
 
