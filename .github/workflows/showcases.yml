@@ -34,7 +34,7 @@ jobs:
         pip install -r ckan-admin-scripts/requirements.txt
     
     # run the scripts
-    - name: Reorder the resources
+    - name: Show showcases without datasets
       env:
         CKAN_API_KEY: ${{ secrets.ckan_api_key }}
         CKAN_BASE_URL: ${{ secrets.ckan_base_url }}
