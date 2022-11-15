@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+import re
 import datetime
 import traceback
 import pytz
 import math
 import requests
-from ckanapi import RemoteCKAN
+from ckanapi import RemoteCKAN, NotFound
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
@@ -27,11 +28,12 @@ def send_telegram_message(token, chat_id, message):
     params = {
         "chat_id": chat_id,
         "text": message,
-        "parse_mode": 'MarkdownV2',
+        "parse_mode": 'HTML',
     }
-    headers = {'Content-type': 'application/json'}
+    headers = {'Content-Type': 'application/json'}
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     r = requests.post(url, json=params, headers=headers)
+    print(f"Telegram response: {r.content}", file=sys.stderr)
     r.raise_for_status()
 
 
@@ -42,18 +44,15 @@ try:
 
     # get list + status of all harvesters
     harvesters = ckan.call_action('harvest_source_list')
-
-    
-
     for harvester in harvesters:
         try:
             if not harvester['active']:
                 continue
-
-            text = ""
-
-            source_info = ckan.call_action('harvest_source_show', {'id': harvester['id']})
-            last_job_stats = source_info['status']['last_job']['stats']
+            try:
+                source_info = ckan.call_action('harvest_source_show', {'id': harvester['id']})
+                last_job_stats = source_info['status']['last_job']['stats']
+            except (NotFound, TypeError):
+                continue # there is no "last_job" or harvester NotFound
             name = source_info['name']
             job_id = source_info['status']['last_job']['id']
 
@@ -76,7 +75,7 @@ try:
             if end and start:
                 elapsed_time = end - start
                 minutes, seconds = divmod(elapsed_time.total_seconds(), 60)
-                duration = f'{minutes}min {math.floor(seconds)}s'
+                duration = f'{int(minutes):02}:{math.floor(seconds):02} min'
             else:
                 duration = 'unbekannt'
             
@@ -102,21 +101,23 @@ try:
                 
             
             # generate links for new/updated datasets
-            text += f"**[{source_info['title']}](https://ckan-ogdzh.clients.liip.ch/harvest/{name}/job/{job_id})**"
-            text += f'\n{status} {start_datetime} 🏁 {end_datetime} ({duration})'
+            text = f"<b><a href='https://ckan-ogdzh.clients.liip.ch/harvest/{name}/job/{job_id}'>{source_info['title']}</a></b>"
+            text += f'\n{status} {start_datetime}'
+            text += f'\n🏁 {end_datetime}'
+            text += f'\n⏱ {duration}'
             if start and end:
                 created_start = start.strftime('%Y-%m-%dT%H:%M:%SZ')
                 created_end = end.strftime('%Y-%m-%dT23:59:59Z') # always use end of day as end
                 new_url = f"https://data.stadt-zuerich.ch/dataset?q=harvest_source_id%3A{harvester['id']}+AND+metadata_created%3A%5B{created_start}+TO+{created_end}%5D"
-                new_link = f"**[Neue Datensätze anzeigen]({new_url})**"
+                new_link = f"<b><a href='{new_url}'>Neue Datensätze</a></b>"
                 update_url = f"https://data.stadt-zuerich.ch/dataset?q=harvest_source_id%3A{harvester['id']}+AND+metadata_modified%3A%5B{created_start}+TO+{created_end}%5D"
-                update_link = f"**[Aktualisierte Datensätze anzeigen]({update_url})**"
+                update_link = f"<b><a href='{update_url}'>Aktualisierte Datensätze</a></b>"
                 text += f"\n\n🔍 {new_link}\n🔍 {update_link}"
 
-            text += f"\n\n**Neu**: {last_job_stats['added']}"
-            text += f"\n**Aktualisiert**: {last_job_stats['updated']}"
-            text += f"\n**Gelöscht**: {last_job_stats['deleted']}"
-            text += f"\n**Fehler**: {last_job_stats['errored']}"
+            text += f"\n\n<b>Neu</b>: {last_job_stats['added']}"
+            text += f"\n<b>Aktualisiert</b>: {last_job_stats['updated']}"
+            text += f"\n<b>Gelöscht</b>: {last_job_stats['deleted']}"
+            text += f"\n<b>Fehler</b>: {last_job_stats['errored']}"
 
             try:
                 send_telegram_message(TELEGRAM_TOKEN, TELEGRAM_CHAT_ID, text)
