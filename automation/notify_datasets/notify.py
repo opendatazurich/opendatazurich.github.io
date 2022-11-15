@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-import time
+import re
 import datetime
 import traceback
 import pytz
 import math
+import requests
 from ckanapi import RemoteCKAN, NotFound
-from slack import WebClient
-from slack.errors import SlackApiError
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
-slack_token = os.environ["SLACK_API_TOKEN"]
-client = WebClient(token=slack_token)
 
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
+TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_TO')
 
 
 def convert_to_localtime(str):
@@ -24,24 +23,36 @@ def convert_to_localtime(str):
     local_datetime = local_date.strftime('%d.%m.%Y %H:%M')
     return (dateobj, local_date, local_datetime)
 
+
+def send_telegram_message(token, chat_id, message):
+    params = {
+        "chat_id": chat_id,
+        "text": message,
+        "parse_mode": 'HTML',
+    }
+    headers = {'Content-Type': 'application/json'}
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    r = requests.post(url, json=params, headers=headers)
+    print(f"Telegram response: {r.content}", file=sys.stderr)
+    r.raise_for_status()
+
+
 try:
     BASE_URL = os.getenv('CKAN_BASE_URL')
     API_KEY = os.getenv('CKAN_API_KEY')
-    SLACK_CHANNEL_ID = os.getenv('SLACK_CHANNEL_ID')
     ckan = RemoteCKAN(BASE_URL, apikey=API_KEY)
 
     # get list + status of all harvesters
     harvesters = ckan.call_action('harvest_source_list')
-
-    
-
     for harvester in harvesters:
         try:
             if not harvester['active']:
                 continue
-
-            source_info = ckan.call_action('harvest_source_show', {'id': harvester['id']})
-            last_job_stats = source_info['status']['last_job']['stats']
+            try:
+                source_info = ckan.call_action('harvest_source_show', {'id': harvester['id']})
+                last_job_stats = source_info['status']['last_job']['stats']
+            except (NotFound, TypeError):
+                continue # there is no "last_job" or harvester NotFound
             name = source_info['name']
             job_id = source_info['status']['last_job']['id']
 
@@ -64,7 +75,7 @@ try:
             if end and start:
                 elapsed_time = end - start
                 minutes, seconds = divmod(elapsed_time.total_seconds(), 60)
-                duration = f'{minutes}min {math.floor(seconds)}s'
+                duration = f'{int(minutes):02}:{math.floor(seconds):02} min'
             else:
                 duration = 'unbekannt'
             
@@ -82,71 +93,39 @@ try:
                     continue
 
             if last_job_stats['deleted'] > 0 or last_job_stats['errored'] > 0:
-                color = 'danger'
-                status = ':x:'
+                status = '🔴'
             elif last_job_stats['added'] > 0 or runs_too_long:
-                color = 'warning'
-                status = ':warning:'
+                status = '🟡'
             else:
-                color = 'good'
-                status = ':runner:'
+                status = '🟢'
                 
             
             # generate links for new/updated datasets
-            links = ""
+            text = f"<b><a href='https://ckan-ogdzh.clients.liip.ch/harvest/{name}/job/{job_id}'>{source_info['title']}</a></b>"
+            text += f'\n{status} {start_datetime}'
+            text += f'\n🏁 {end_datetime}'
+            text += f'\n⏱ {duration}'
             if start and end:
                 created_start = start.strftime('%Y-%m-%dT%H:%M:%SZ')
                 created_end = end.strftime('%Y-%m-%dT23:59:59Z') # always use end of day as end
                 new_url = f"https://data.stadt-zuerich.ch/dataset?q=harvest_source_id%3A{harvester['id']}+AND+metadata_created%3A%5B{created_start}+TO+{created_end}%5D"
-                new_link = f"*<{new_url}|Neue Datensätze anzeigen>*"
+                new_link = f"<b><a href='{new_url}'>Neue Datensätze</a></b>"
                 update_url = f"https://data.stadt-zuerich.ch/dataset?q=harvest_source_id%3A{harvester['id']}+AND+metadata_modified%3A%5B{created_start}+TO+{created_end}%5D"
-                update_link = f"*<{update_url}|Aktualisierte Datensätze anzeigen>*"
-                links = f"\n\n:mag: {new_link}\n:mag: {update_link}"
-                
-            attachment = {
-                'mrkdwn_in': ['text'],
-                'fallback': source_info['title'],
-                'color': color,
-                'title': source_info['title'],
-                'title_link': f"https://data.stadt-zuerich.ch/harvest/{name}/job/{job_id}",
-                'text': f'{status} {start_datetime} :checkered_flag: {end_datetime} ({duration}){links}',
-                'fields': [
-                    {
-                        "title": "Neu",
-                        "value": last_job_stats['added'],
-                        "short": True,
-                    },
-                    {
-                        "title": "Aktualisiert",
-                        "value": last_job_stats['updated'],
-                        "short": True,
-                    },
-                    {
-                        "title": "Gelöscht",
-                        "value": last_job_stats['deleted'],
-                        "short": True,
-                    },
-                    {
-                        "title": "Fehler",
-                        "value": last_job_stats['errored'],
-                        "short": True,
-                    },
-                 ],
-                'footer': f'<https://data.stadt-zuerich.ch/harvest/admin/{name}|Harvester Administration>',
-                'footer_icon': 'https://data.stadt-zuerich.ch/base/images/ckan.ico',
-                'ts': int(time.time()),
-            }
+                update_link = f"<b><a href='{update_url}'>Aktualisierte Datensätze</a></b>"
+                text += f"\n\n🔍 {new_link}\n🔍 {update_link}"
 
-            response = client.chat_postMessage(
-                channel=SLACK_CHANNEL_ID,
-                attachments=[attachment]
-            )
-        except SlackApiError as e:
-            print("SlackApiError: %s" % e.response['error'], file=sys.stderr)
-            print(traceback.format_exc(), file=sys.stderr)
-            sys.exit(1)
+            text += f"\n\n<b>Neu</b>: {last_job_stats['added']}"
+            text += f"\n<b>Aktualisiert</b>: {last_job_stats['updated']}"
+            text += f"\n<b>Gelöscht</b>: {last_job_stats['deleted']}"
+            text += f"\n<b>Fehler</b>: {last_job_stats['errored']}"
+
+            try:
+                send_telegram_message(TELEGRAM_TOKEN, TELEGRAM_CHAT_ID, text)
+            except requests.HTTPError as e:
+                print(f"Error when sending message to telegram for harvester {harvester}: {e}", file=sys.stderr)
+                raise
         except Exception as e:
-            print(f"Failed for harvester: {harvester} with error: {e}", file=sys.stderr)
+            print(f"Failed for harvester {harvester} with error: {e}", file=sys.stderr)
             raise
 except Exception as e:
     print(f"Error: {e}", file=sys.stderr)
