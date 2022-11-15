@@ -30,10 +30,9 @@ jobs:
         SSZ_USER: ${{ secrets.vbz_ssz_user }}
         SSZ_PASS: ${{ secrets.vbz_ssz_password }}
       run: |
-        python automation/vbz_frequenzen_hardbruecke/fetch_from_api.py > frequenzen_hardbruecke_2022.csv
-        head frequenzen_hardbruecke_2022.csv
-        echo "..."
-        tail frequenzen_hardbruecke_2022.csv
+        year=$(date +'%Y')
+        automation/vbz_frequenzen_hardbruecke/update_data.sh
+        tail frequenzen_hardbruecke_${year}.csv
         
     - name: Upload file to CKAN
       env:
@@ -41,7 +40,8 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/upload_resource_to_ckan.py -f frequenzen_hardbruecke_2022.csv -d vbz_frequenzen_hardbruecke
+        year=$(date +'%Y')
+        python automation/upload_resource_to_ckan.py -f frequenzen_hardbruecke_${year}.csv -d vbz_frequenzen_hardbruecke
 
     - name: Update CKAN metadata
       env:

@@ -14,7 +14,9 @@ pw = os.getenv('SSZ_PASS')
 
 try:
     # get locations
-    r = requests.get('https://vbz.diamondreports.ch:8012/api/location', auth=(user, pw))
+    s = requests.Session()
+    s.auth = (user, pw)
+    r = s.get('https://vbz.diamondreports.ch:8012/api/location')
     r.raise_for_status()
     locations = r.json()
 
@@ -24,32 +26,26 @@ try:
 
     start_date = date(2022, 1, 1)
     today = datetime.now().date()
-    total_days = 366 
     for loc in locations:
-        for day in range(total_days):
-            current_date = (start_date + timedelta(days=day))
-            if current_date > today:
-                break
-            cr = requests.get(
-               'https://vbz.diamondreports.ch:8012/api/location/counter/%s' % loc['Name'],
-                auth=(user, pw),
-                params={
-                    'aggregate': 5,
-                    'date': current_date.strftime('%Y%m%d')
-                }
-            )
-            cr.raise_for_status()
-            counter = cr.json()
-            if len(counter['Counters']) == 0:
-                continue
+        cr = s.get(
+            f"https://vbz.diamondreports.ch:8012/api/location/counter/{loc['Name']}",
+            params={
+                'aggregate': 5,
+                'date': today.strftime('%Y%m%d')
+            }
+        )
+        cr.raise_for_status()
+        counter = cr.json()
+        if len(counter['Counters']) == 0:
+            continue
 
-            for obs in counter['Counters'][0]['Counts']:
-                writer.writerow({
-                    'In': obs['In'],
-                    'Out': obs['Out'],
-                    'Timestamp': obs['Timestamp'],
-                    'Name': loc['Name']
-                })
+        for obs in counter['Counters'][0]['Counts']:
+            writer.writerow({
+                'In': obs['In'],
+                'Out': obs['Out'],
+                'Timestamp': obs['Timestamp'],
+                'Name': loc['Name']
+            })
 except Exception as e:
     print("Error: %s" % e, file=sys.stderr)
     print(traceback.format_exc(), file=sys.stderr)
