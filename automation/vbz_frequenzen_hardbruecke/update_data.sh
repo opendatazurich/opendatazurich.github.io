@@ -26,12 +26,12 @@ sqlite3 $DIR/frequenzen_hardbruecke.sqlite -cmd 'create unique index ix_timestam
 echo "Fetch from API..."
 python $DIR/fetch_from_api.py > $DIR/frequenzen_hardbruecke_today.csv
 
-# 3. Merge events
+# 4. Merge events
 echo "Merge data..."
 python $DIR/merge_data.py -d $DIR/frequenzen_hardbruecke.sqlite -f $DIR/frequenzen_hardbruecke_today.csv
 rm $DIR/frequenzen_hardbruecke_today.csv
 
-# 3. Export the database as csv
+# 5. Export the database as csv
 echo "Export database to CSV..."
-sqlite3 -header -csv $DIR/data.sqlite "select * from data order by Timestamp asc, Name asc;" > $DIR/frequenzen_hardbruecke_${year}.csv
+sqlite3 -header -csv $DIR/frequenzen_hardbruecke.sqlite "select * from data order by Timestamp asc, Name asc;" > $DIR/frequenzen_hardbruecke_${year}.csv
 sed -i 's/""//g' $DIR/frequenzen_hardbruecke_${year}.csv
