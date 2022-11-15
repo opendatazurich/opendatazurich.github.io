@@ -29,10 +29,7 @@ jobs:
       env:
         SSZ_USER: ${{ secrets.vbz_ssz_user }}
         SSZ_PASS: ${{ secrets.vbz_ssz_password }}
-      run: |
-        year=$(date +'%Y')
-        automation/vbz_frequenzen_hardbruecke/update_data.sh
-        tail frequenzen_hardbruecke_${year}.csv
+      run: automation/vbz_frequenzen_hardbruecke/update_data.sh
         
     - name: Upload file to CKAN
       env:
