@@ -30,7 +30,7 @@ arguments = docopt(__doc__, version='Fetch CSV from hystreet API 1.0')
 __location__ = os.path.realpath(os.getcwd())
 path = os.path.join(__location__, "data")
 
-location_api = 'https://static.hystreet.com/api/https://hystreet.com/api/locations'
+location_api = 'https://api.hystreet.com/locations'
 API_KEY = os.getenv('HYSTREET_API_KEY')
 
 
