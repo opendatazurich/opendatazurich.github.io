@@ -113,7 +113,7 @@ try:
     today = datetime.now().strftime('%d.%m.%Y')
     for k, v in stations.items():
         data = {
-            "messw_beg": today,
+            "messw_beg": '17.11.2022', # today,
             "messw_end": today,
             "auswahl": "2",
             "combilog": k,
