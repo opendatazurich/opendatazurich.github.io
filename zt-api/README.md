@@ -9,6 +9,8 @@ Bis Januar 2023 sind sowohl Version 1 wie auch Version 2 des Zürich Tourismus A
 
 Hier die wichtigsten [Änderungen in v2](https://zt.zuerich.com/en/open-data/v2#change-log):
 
+- Der Endpoint ist neu nur noch auf Englisch verfügbar: **/en/api/v2/data**
+
 - Das Beschreibungsfeld (`description`) kann nun folgende HTML-Tags enthalten (in v1 war nur `<p>` erlaubt)
   - Hervorhebung: `<em>`, `<strong>`
   - Code: `<code>`
