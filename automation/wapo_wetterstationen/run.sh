@@ -13,9 +13,8 @@ trap "cleanup" EXIT
 DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # 1. Get current year file from CKAN
-year=$(date +'%Y')
-wget https://data.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen/download/messwerte_mythenquai_${year}.csv -O $DIR/messwerte_mythenquai.csv
-wget https://data.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen/download/messwerte_tiefenbrunnen_${year}.csv -O $DIR/messwerte_tiefenbrunnen.csv
+wget https://data.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen/download/messwerte_mythenquai_seit2007-heute.csv -O $DIR/messwerte_mythenquai.csv
+wget https://data.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen/download/messwerte_tiefenbrunnen_seit2007-heute.csv -O $DIR/messwerte_tiefenbrunnen.csv
 
 # 2. populate the database with the current CSV
 echo "Populating databases from CSVs..."
@@ -39,7 +38,7 @@ rm $DIR/messwerte_tiefenbrunnen_today.csv
 
 # 3. Export the database as csv
 echo "Export database to CSV..."
-sqlite3 -header -csv $DIR/mythenquai.sqlite "select * from data order by timestamp_utc asc;" > $DIR/messwerte_mythenquai_${year}.csv
-sqlite3 -header -csv $DIR/tiefenbrunnen.sqlite "select * from data order by timestamp_utc asc;" > $DIR/messwerte_tiefenbrunnen_${year}.csv
-sed -i 's/""//g' $DIR/messwerte_mythenquai_${year}.csv
-sed -i 's/""//g' $DIR/messwerte_tiefenbrunnen_${year}.csv
+sqlite3 -header -csv $DIR/mythenquai.sqlite "select * from data order by timestamp_utc asc;" > $DIR/messwerte_mythenquai_seit2007-heute.csv
+sqlite3 -header -csv $DIR/tiefenbrunnen.sqlite "select * from data order by timestamp_utc asc;" > $DIR/messwerte_tiefenbrunnen_seit2007-heute.csv
+sed -i 's/""//g' $DIR/messwerte_mythenquai_seit2007-heute.csv
+sed -i 's/""//g' $DIR/messwerte_tiefenbrunnen_seit2007-heute.csv
