@@ -29,18 +29,19 @@ jobs:
       env:
         HYSTREET_API_KEY: ${{ secrets.HYSTREET_API_KEY }}
       run: |
-        python automation/hystreet_fussgaengerfrequenzen/fetch_from_api.py -f hystreet_fussgaengerfrequenzen_seit2021.csv
+        python automation/hystreet_fussgaengerfrequenzen/fetch_from_api.py -f hystreet_fussgaengerfrequenzen_seit2021.csv -g hystreet_locations.geojson
         head hystreet_fussgaengerfrequenzen_seit2021.csv
         echo "..."
         tail hystreet_fussgaengerfrequenzen_seit2021.csv
         
-    - name: Upload file to CKAN
+    - name: Upload files to CKAN
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/upload_resource_to_ckan.py -f hystreet_fussgaengerfrequenzen_seit2021.csv -d hystreet_fussgaengerfrequenzen
+        python automation/upload_resource_to_ckan.py -f hystreet_locations.geojson -d hystreet_fussgaengerfrequenzen
 
     - name: Update CKAN metadata
       env:
@@ -55,21 +56,8 @@ jobs:
       if: ${{ failure()  || cancelled() }}
       uses: appleboy/telegram-action@master
       with:
-        to: ${{ secrets.TELEGRAM_TO }}
+        to: ${{ secrets.TELEGRAM_ERROR_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         format: markdown
         message: |
           🔴 [Hystreet Frequenzen Job Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
-          
-    - name: Get current unix timestamp
-      if: always()
-      id: date
-      run: echo "::set-output name=ts::$(date +'%s')"
-
-    - name: Notify slack failure
-      if: ${{ failure()  || cancelled() }}
-      env:
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-      uses: pullreminders/slack-action@master
-      with:
-          args: '{\"channel\":\"C014Y6SHE12\", \"attachments\": [{\"fallback\": \"Job failed.\", \"color\": \"danger\", \"title\": \"Hystreet Frequenzen Job Failed\", \"title_link\": \"https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true\", \"text\": \":x: Update failed\", \"footer\": \"<https://github.com/opendatazurich/opendatazurich.github.io/actions|opendatazurich/opendatazurich.github.io>\", \"footer_icon\": \"https://github.com/abinoda/slack-action/raw/master/docs/app-icons/github-icon.png\", \"ts\": \"${{steps.date.outputs.ts}}\"}]}'

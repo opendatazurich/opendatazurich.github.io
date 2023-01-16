@@ -3,6 +3,7 @@ pyenv3.7
 **/.env
 **/*.csv
 **/*.ics
+**/*.geojson
 !badi-counter/badi_counter.csv
 !abstimmungsparolen/abstimmungsparolen.csv
 !stimmbeteiligung/stimmbeteiligung.csv

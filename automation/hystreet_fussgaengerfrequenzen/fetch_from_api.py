@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
-"""Fetch CSV from Hystreet API
+"""Fetch CSV and from Hystreet API
 
 Usage:
-  fetch_from_api.py --file <path-to-file> [--no-verify]
+  fetch_from_api.py --file <path-to-csv> --geojson <path-to-geojson> [--no-verify]
   fetch_from_api.py (-h | --help)
   fetch_from_api.py --version
 
 Options:
-  -h, --help                   Show this screen.
-  --version                    Show version.
-  -f, --file <path-to-file>    Path to CSV file, prints to stdout if not specified.
-  --no-verify                  Option to disable SSL verification for requests.
+  -h, --help                      Show this screen.
+  --version                       Show version.
+  -f, --file <path-to-csv>        Path to CSV file
+  -g, --geojson <path-to-geojson> Path to GeoJSON file
+  --no-verify                     Option to disable SSL verification for reqests.
 
 """
 
@@ -22,6 +23,8 @@ from datetime import datetime, timedelta
 import pytz
 from docopt import docopt
 from dotenv import load_dotenv, find_dotenv
+import json
+import geojson
 
 
 load_dotenv(find_dotenv())
@@ -103,11 +106,13 @@ def save_measurements(location_id, start_date, end_date, df_path='.'):
     print(f"Saved pickle at {pickle_path}")
 
 
-def save_to_csv(df, csv_path):
-    df_save = df.copy()
-    df_save
+def save_geojson_to_file(geojson_path, data):
+    print(f"Save geojson at {geojson_path}")
+    with open(geojson_path, 'w') as f:
+        f.write(geojson.dumps(data))
 
-
+# get all measurements
+print("Get location geojson...")
 locations = hystreet_request(location_api)
 for loc in locations:
     start_date = datetime(2021, 9, 29) # first day with measurements
@@ -122,3 +127,20 @@ df = df.sort_values(by=['timestamp', 'location_name'])
 csv_path =  arguments['--file']
 df_today = df[df.timestamp <= 'today'].reset_index(drop=True)
 df_today.to_csv(csv_path, index=False, encoding='utf-8', date_format='%Y-%m-%dT%H:%M:%SZ')
+
+# get GeoJSON of locations
+locations = hystreet_request(location_api)
+features = []
+for loc in locations:
+    loc_details = data = hystreet_request(f"{location_api}/{loc['id']}", params={})
+    geo = geojson.loads(json.dumps(loc_details['geojson']))
+    props = {
+        "hystreet_location_id": loc['id'],
+        "name": loc['name'],
+        "city": loc['city'],
+    }
+    features.append(geojson.Feature(geometry=geo, id=loc['id'], properties=props))
+
+feature_col = geojson.FeatureCollection(features)
+geo_path =  arguments['--geojson']
+save_geojson_to_file(geo_path, feature_col)
