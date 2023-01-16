@@ -15,3 +15,5 @@ museumpy
 pandas
 markdown
 lxml
+chardet
+wasabi
