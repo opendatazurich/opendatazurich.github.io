@@ -1,9 +1,9 @@
 name: Update wapo_wetterstationen data
 
 on:
-  schedule:                    # every 90min
-    - cron:  '23 0-21/3 * * *' # xx:23 UTC every 3rd hour
-    - cron:  '53 1-22/3 * * *' # xx:53 UTC every 3rd hour
+  # schedule:                    # every 90min
+  #  - cron:  '23 0-21/3 * * *' # xx:23 UTC every 3rd hour
+  #  - cron:  '53 1-22/3 * * *' # xx:53 UTC every 3rd hour
   workflow_dispatch:
 
 jobs:
