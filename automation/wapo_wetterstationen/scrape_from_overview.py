@@ -112,7 +112,7 @@ try:
 
     for k, v in stations.items():
         # get data
-        r =  request_data(v['url'], verify=False)
+        r =  request_data(v['url'])
         soup = BeautifulSoup(r.text, 'html.parser')
 
         tags = soup.select("table td span")
