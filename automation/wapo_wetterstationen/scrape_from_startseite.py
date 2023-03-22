@@ -21,7 +21,7 @@ __location__ = os.path.realpath(
 
 stations = {
     'mythenquai': {
-        'url': 'https://www.tecson-data.ch/zurich/tiefenbrunnen/minianz/startseite.php?position=Mythenquai',
+        'url': 'https://www.tecson-data.ch/zurich/mythenquai/minianz/startseite.php?position=Mythenquai',
     },
     'tiefenbrunnen': {
         'url': 'https://www.tecson-data.ch/zurich/tiefenbrunnen/minianz/startseite.php?position=Tiefenbrunnen',
