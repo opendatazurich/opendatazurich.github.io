@@ -114,7 +114,7 @@ try:
         # get data
         r =  request_data(v['url'], verify=False)
         df = pd.read_html(r.text, index_col=0)[3]
-        df = df.rename(index={df.index[0]: 'Station'})
+        df = df.rename(index={df.index[0]: 'Station', df.index[1]: 'Sturmwarnstufe'})
         df = df.transpose()
         df.columns = df.columns.str.replace(":", "")
         df['Station'] = df['Station'][2]
