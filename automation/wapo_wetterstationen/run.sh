@@ -27,7 +27,7 @@ sqlite3 $DIR/tiefenbrunnen.sqlite -cmd 'create unique index ix_timestamp on data
 
 # 3. run the scraper, update the db
 echo "Fetch todays data from website..."
-python $DIR/scrape_from_startseite.py
+python $DIR/scrape_from_overview.py
 
 # 3. Merge events
 echo "Merge events..."
