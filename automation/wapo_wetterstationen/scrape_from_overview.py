@@ -24,9 +24,9 @@ stations = {
     'mythenquai': {
         'url': 'https://www.tecson-data.ch/zurich/mythenquai/',
     },
-    'tiefenbrunnen': {
-        'url': 'https://www.tecson-data.ch/zurich/tiefenbrunnen/',
-    },
+    #'tiefenbrunnen': {
+    #    'url': 'https://www.tecson-data.ch/zurich/tiefenbrunnen/',
+    #},
 }
 
 
