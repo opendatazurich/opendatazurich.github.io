@@ -31,7 +31,9 @@ jobs:
         WAPO_MY_PASS: ${{ secrets.wapo_my_pass }}
         WAPO_TB_USER: ${{ secrets.wapo_tb_user }}
         WAPO_TB_PASS: ${{ secrets.wapo_tb_pass }}
-      run: automation/wapo_wetterstationen/run.sh
+      run: |
+         echo "Keine Daten aktuell"
+         # automation/wapo_wetterstationen/run.sh
         
         
     - name: Upload files to CKAN
@@ -42,7 +44,7 @@ jobs:
       run: |
         my_path=$(ls automation/wapo_wetterstationen/messwerte_mythenquai_*.csv | head -n1)
         tb_path=$(ls automation/wapo_wetterstationen/messwerte_tiefenbrunnen_*.csv | head -n1)
-        python automation/upload_resource_to_ckan.py -f $my_path -d sid_wapo_wetterstationen
+        # python automation/upload_resource_to_ckan.py -f $my_path -d sid_wapo_wetterstationen
         # python automation/upload_resource_to_ckan.py -f $tb_path -d sid_wapo_wetterstationen
 
     - name: Update CKAN metadata
