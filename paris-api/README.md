@@ -1,22 +1,39 @@
 # Paris-API, Gemeinderat Stadt Zürich (GRZ)
 
-Diese Dokumentation beschreibt die Programmierschnittstelle (API) des Parlamentsinformationssystem (Paris) des Gemeinderats der Stadt Zürich. Über das API lassen sich folgende Entitäten abfragen:
+Diese Dokumentation beschreibt die Programmierschnittstelle (API) des Parlamentsinformationssystem (Paris) des Gemeinderats der Stadt Zürich. Über das API lassen sich folgende Entitäten/Indizes abfragen:
 
-* Mitglieder
-* Geschäfte
-* Protokolle
+* Ablaufschritt
+* Abstimmung
+* Behoerdenmandat
+* Departement
+* Dokument
+* Files
 * Ratspost
+* Ratspostfiles
+* Geschaeft
+* Geschaeftsart
+* Geschaeftsuebersicht
+* Geschaeft_Person
+* Gremiumdetail
+* Gremiumstyp
+* Gremiumsuebersicht
+* Jahr
+* Kontakt
+* Partei
+* Pendentbei
+* Referendum
+* Sitzung
+* Wahlkreis
+* Wohnkreis
 
-Diese Dokumentation bietet einen **Schnelleinstieg in das RIS-API**.
+Diese Dokumentation bietet einen **Schnelleinstieg in das Paris-API**.
 Im Kapitel 1 werden pro Entität ein paar typische Beispiels-Abfragen erläutert. 
 Im Kapitel 2 wird ein konkretes Programmier-Beispiel mit Python als Jupyter-Notebook zur Verfügung gestellt. Dieses kann ausserdem auch auf Binder aufgerufen werden, wodurch der Code interaktiv im Browser gestartet werden kann.
-
 
 **Inhaltsverzeichnis**
 
 1. [Beispiel-Abfragen](#beispiel-abfragen)
-   1. [Mitglieder suchen](#mitglieder-suchen)
-   2. [Mitglieder-Details](#mitglieder-details)
+   1. [Kontakte suchen](#kontakte-suchen)
    3. [Geschäft suchen](#geschäft-suchen)
    4. [Protokolle suchen](#protokolle-suchen)
    5. [Ratspost suchen](#ratspost-suchen)
@@ -24,80 +41,55 @@ Im Kapitel 2 wird ein konkretes Programmier-Beispiel mit Python als Jupyter-Note
 
 ## Beispiel-Abfragen
 
-### Mitglieder suchen
+Alle Abfragen nutzen als Basis-URL [`http://www.gemeinderat-zuerich.ch/api/`](http://www.gemeinderat-zuerich.ch/api/), öffnet man über den Browser diese Seite, kann man sich die einzelnen Indizes anschauen und die gültigen Suchfelder anzeigen lassen.
+
+Jeder Index verfügbar auch über ein maschinenlesbares Schema: https://www.gemeinderat-zuerich.ch/api/{{index}}/schema z.B. https://www.gemeinderat-zuerich.ch/api/kontakt/schema
+
+### Kontakte suchen
 
 **Endpunkt:**
 
-`http://www.gemeinderat-zuerich.ch/api/Mitglieder?name={{name}}&parteiId={{parteiId}}&fraktionId={{fraktionId}}&wahlkreisId={{wahlkreisId}}&wohnkreisId={{wohnkreisId}}&kommissionId={{kommissionId}}&includeInactive={{includeInactive}}&orderBy={{orderBy}}&orderDir={{orderDir}}`
+`http://www.gemeinderat-zuerich.ch/api/kontakt/searchdetails?q={{cql-query}}&l=de-CH`
 
-Die Wertlisten (`parteiId`, `fraktionId`, `wahlkreisId` etc.) können mit dem `/Mitglieder/parameter` Endpunkt gefunden werden.
+Alternativ kann der Index _Behoerdenmandat_ verwendet werden, da dort die Beziehung zwischen Person und Amt hinterlegt ist:
 
+`http://www.gemeinderat-zuerich.ch/api/behoerdenmandat/searchdetails?q={{cql-query}}&l=de-CH`
 
+Das CQL-Query ist eine Abfragesprache, mit der sich die Resultate eingrenzen lassen.
+Jeder Index hat definierte Suchfelder, die im CQL-Query verwendet werden können (siehe oben).
 
-**Suche nach Name "Martin":**
+**Suche nach Name "Peter" (max. 4 Resultate):**
 
-`GET http://www.gemeinderat-zuerich.ch/api/Mitglieder?name=Martin`
+`GET http://www.gemeinderat-zuerich.ch/api/kontakt/searchdetails?q=NameVorname any "Peter"&l=de-CH&s=1&m=4`
 
-```json
-[
-    {
-        "Id": "72d9c149-3269-42b0-848e-0e21fc8b0c21",
-        "Name": "Bürki",
-        "Vorname": "Martin",
-        "Titel": null,
-        "Partei": "FDP",
-        "Wahlkreis": "1 und 2",
-        "WahlkreisOrderBy": 100
-    },
-    {
-        "Id": "a2c59a56-f498-4b31-bd0d-270e54146fcc",
-        "Name": "Götzl",
-        "Vorname": "Martin",
-        "Titel": null,
-        "Partei": "SVP",
-        "Wahlkreis": "11",
-        "WahlkreisOrderBy": 107
-    },
-    {
-        "Id": "8ba66468-4f2e-450d-9b7e-dbac5e6a26ae",
-        "Name": "Marti",
-        "Vorname": "Elena",
-        "Titel": null,
-        "Partei": "Grüne",
-        "Wahlkreis": "11",
-        "WahlkreisOrderBy": 107
-    },
-    {
-        "Id": "e965adf7-71b7-4e39-a714-175ee4990207",
-        "Name": "Marti",
-        "Vorname": "Res",
-        "Titel": null,
-        "Partei": "Grüne",
-        "Wahlkreis": " 9",
-        "WahlkreisOrderBy": 105
-    },
-    {
-        "Id": "1a2aa558-cbd2-4ab6-8725-7c791cec92ad",
-        "Name": "Novak",
-        "Vorname": "Martina",
-        "Titel": null,
-        "Partei": "GLP",
-        "Wahlkreis": "7 und 8",
-        "WahlkreisOrderBy": 104
-    },
-    {
-        "Id": "3b4bbd28-c4d5-4e62-b4f3-0f32b8a7589b",
-        "Name": "Zürcher",
-        "Vorname": "Martina",
-        "Titel": null,
-        "Partei": "FDP",
-        "Wahlkreis": "10",
-        "WahlkreisOrderBy": 106
-    }
-]
+```xml
+<SearchDetailResponse xmlns="http://www.cmiag.ch/cdws/searchDetailResponse" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" IDXSEQ="1278036" q="NameVorname any "peter"" l="de-CH" s="1" m="4" numHits="9" indexName="Kontakt">
+   <Hit Guid="47360b912d0d4f7b9800ace40f2f861a" SEQ="1126343" Relevance="3.518206">
+      <Snippet>Marti <EM>Peter </EM></Snippet>
+      <Kontakt xmlns="http://www.cmiag.ch/cdws/Kontakt" xmlns:cmi="http://cmiag.ch" OBJ_GUID="47360b912d0d4f7b9800ace40f2f861a" SEQ="1126343" IDX="Kontakt">
+      ...
+      </Kontakt>
+   </Hit>
+   <Hit Guid="172c996d83ae4db7869ca5a5d3e33c4d" SEQ="1126394" Relevance="3.518206">
+      <Snippet>Niggli <EM>Peter </EM></Snippet>
+      <Kontakt xmlns="http://www.cmiag.ch/cdws/Kontakt" xmlns:cmi="http://cmiag.ch" OBJ_GUID="172c996d83ae4db7869ca5a5d3e33c4d" SEQ="1126394" IDX="Kontakt">
+      ...
+      </Kontakt>
+   </Hit>
+   <Hit Guid="f0ce797309714920a2e3f331bc3fd1bd" SEQ="1126404" Relevance="3.518206">
+      <Snippet><EM>Peter </EM>Karin </Snippet>
+      <Kontakt xmlns="http://www.cmiag.ch/cdws/Kontakt" xmlns:cmi="http://cmiag.ch" OBJ_GUID="f0ce797309714920a2e3f331bc3fd1bd" SEQ="1126404" IDX="Kontakt">
+      ...
+      </Kontakt>
+   </Hit>
+   <Hit Guid="a71e6ae9d0854d55b520559ed6f95aec" SEQ="1239623" Relevance="3.518206">
+      <Snippet>Anderegg <EM>Peter </EM></Snippet>
+      <Kontakt xmlns="http://www.cmiag.ch/cdws/Kontakt" xmlns:cmi="http://cmiag.ch" OBJ_GUID="a71e6ae9d0854d55b520559ed6f95aec" SEQ="1239623" IDX="Kontakt">
+      ...
+      </Kontakt>
+   </Hit>
+</SearchDetailResponse>
 ```
-
-
 
 **Suche nach Mitgliedern der GPK:**
 
@@ -205,76 +197,6 @@ Die Wertlisten (`parteiId`, `fraktionId`, `wahlkreisId` etc.) können mit dem `/
         "WahlkreisOrderBy": 106
     }
 ]
-```
-
-### Mitglieder-Details
-
-**Endpunkt:**
-
-`http://www.gemeinderat-zuerich.ch/api/Mitglieder/details?mid={{mid}}`
-
-Die `mid` entspricht der der `Id` vom `/Mitglieder/suchen` Endpunkt (siehe [Mitglieder suchen](#mitglieder-suchen))
-
-
-
-**Suche nach "Duri Beer":**
-
-`GET http://www.gemeinderat-zuerich.ch/api/Mitglieder/details?mid=ba439e1f-e568-4b4b-9816-9fa94a2fb3e5`
-
-```json
-{
-    "Id": "ba439e1f-e568-4b4b-9816-9fa94a2fb3e5",
-    "Name": "Beer",
-    "Vorname": "Duri",
-    "Anrede": "Herr",
-    "Titel": null,
-    "Geburtstag": "1974-05-29T00:00:00",
-    "Wohnkreis": " 3",
-    "Beruf": "Politischer Sekretär VPOD, Historiker",
-    "Partei": "SP",
-    "Fraktion": "SP",
-    "Wahlkreis": " 3",
-    "Sitznummer": null,
-    "GruppenMitgliedschaften": [
-        {
-            "Von": "2016-07-22T00:00:00",
-            "Bis": null,
-            "Name": "Gemeinderat",
-            "Id": "4211ff29-08c2-4ab7-9f4d-c3c460909c71"
-        },
-        {
-            "Von": "2012-12-20T00:00:00",
-            "Bis": "2014-05-06T00:00:00",
-            "Name": "Gemeinderat",
-            "Id": "4211ff29-08c2-4ab7-9f4d-c3c460909c71"
-        }
-    ],
-    "Adressen": [
-        {
-            "Addressart": "Postadresse",
-            "Strasse1": null,
-            "Strasse2": null,
-            "Plz": null,
-            "Ort": null
-        },
-        {
-            "Addressart": "Wohnadresse",
-            "Strasse1": "Gutstrasse 113",
-            "Strasse2": null,
-            "Plz": "8055",
-            "Ort": "Zürich"
-        }
-    ],
-    "EmailPrivat": "duribeer@hotmail.com",
-    "EmailGeschaeftlich": "duri.beer@vpod-zh.ch",
-    "Mobiltelefon": "",
-    "MobiltelefonGeschaeftlich": null,
-    "TelefonGeschaeftlich": "044 295 30 00",
-    "TelefonPrivat": "",
-    "Internetauftritt": null,
-    "Interessenverbindungen": "- Verband des Personals öffentlicher Dienste VPOD Zürich, Politischer Sekretär/Regionalsekretär\r- Stiftung Mosli (Kinderfreundehaus) Stallikon/Zürich, Stiftungsrat",
-    "NameInUrl": "Duri%20Beer"
-}
 ```
 
 ### Geschäft suchen
