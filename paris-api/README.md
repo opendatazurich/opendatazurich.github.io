@@ -45,6 +45,9 @@ Alle Abfragen nutzen als Basis-URL [`http://www.gemeinderat-zuerich.ch/api/`](ht
 
 Jeder Index verfügbar auch über ein maschinenlesbares Schema: https://www.gemeinderat-zuerich.ch/api/{{index}}/schema z.B. https://www.gemeinderat-zuerich.ch/api/kontakt/schema
 
+Alle Indizes nutzen sogenannte GUIDs als eindeutige Identifier.
+Mit dem Suchfeld `ID` kann nach diesen GUIDs gesucht werden.
+
 ### Kontakte suchen
 
 **Endpunkt:**
@@ -91,112 +94,71 @@ Jeder Index hat definierte Suchfelder, die im CQL-Query verwendet werden können
 </SearchDetailResponse>
 ```
 
-**Suche nach Mitgliedern der GPK:**
+**Suche nach aktiven Mitgliedern der GPK:**
 
-`GET http://www.gemeinderat-zuerich.ch/api/Mitglieder?kommissionId=d050df43-5336-47c2-8bf0-11f0bab7758a`
+`GET http://www.gemeinderat-zuerich.ch/api/behoerdenmandat/searchdetails?q=gremium any "GPK" AND Dauer_end > "9999-12-31 00:00:00" &l=de-CH&s=1&m=100`
 
-```json
-[
-    {
-        "Id": "8eb28350-c0cb-42db-b4bd-b753fd38ff7b",
-        "Name": "Bätschmann",
-        "Vorname": "Monika",
-        "Titel": null,
-        "Partei": "Grüne",
-        "Wahlkreis": "10",
-        "WahlkreisOrderBy": 106
-    },
-    {
-        "Id": "ba439e1f-e568-4b4b-9816-9fa94a2fb3e5",
-        "Name": "Beer",
-        "Vorname": "Duri",
-        "Titel": null,
-        "Partei": "SP",
-        "Wahlkreis": " 3",
-        "WahlkreisOrderBy": 101
-    },
-    {
-        "Id": "bbfb8ca0-91b1-448d-b1fc-c5e3bb35c158",
-        "Name": "Eberle",
-        "Vorname": "Natalie",
-        "Titel": null,
-        "Partei": "AL",
-        "Wahlkreis": " 3",
-        "WahlkreisOrderBy": 101
-    },
-    {
-        "Id": "af7eb3bf-d095-4438-bc6b-847b3d0db23b",
-        "Name": "Helfenstein",
-        "Vorname": "Urs",
-        "Titel": null,
-        "Partei": "SP",
-        "Wahlkreis": "4 und 5",
-        "WahlkreisOrderBy": 102
-    },
-    {
-        "Id": "3ad30c09-6873-4ee0-a9cf-8b699a5e943c",
-        "Name": "im Oberdorf",
-        "Vorname": "Bernhard",
-        "Titel": "Dr.",
-        "Partei": "SVP",
-        "Wahlkreis": "12",
-        "WahlkreisOrderBy": 108
-    },
-    {
-        "Id": "ceb880c2-db62-491a-9f62-883bb8e72a81",
-        "Name": "Kälin-Werth",
-        "Vorname": "Simon",
-        "Titel": null,
-        "Partei": "Grüne",
-        "Wahlkreis": "7 und 8",
-        "WahlkreisOrderBy": 104
-    },
-    {
-        "Id": "6f80de0e-2322-46c4-891b-3a2781b127c9",
-        "Name": "Landolt",
-        "Vorname": "Maleica",
-        "Titel": null,
-        "Partei": "GLP",
-        "Wahlkreis": "11",
-        "WahlkreisOrderBy": 107
-    },
-    {
-        "Id": "f74d8d44-3950-49bd-983e-3498b36b42ec",
-        "Name": "Renggli",
-        "Vorname": "Matthias",
-        "Titel": null,
-        "Partei": "SP",
-        "Wahlkreis": " 6",
-        "WahlkreisOrderBy": 103
-    },
-    {
-        "Id": "f68282d3-d683-48cf-ade1-c08da3dd76da",
-        "Name": "Schmid",
-        "Vorname": "Michael",
-        "Titel": null,
-        "Partei": "FDP",
-        "Wahlkreis": "1 und 2",
-        "WahlkreisOrderBy": 100
-    },
-    {
-        "Id": "42817325-1645-42da-bd71-a34faa5e597b",
-        "Name": "Seidler",
-        "Vorname": "Christine",
-        "Titel": "Prof.",
-        "Partei": "SP",
-        "Wahlkreis": " 9",
-        "WahlkreisOrderBy": 105
-    },
-    {
-        "Id": "3b4bbd28-c4d5-4e62-b4f3-0f32b8a7589b",
-        "Name": "Zürcher",
-        "Vorname": "Martina",
-        "Titel": null,
-        "Partei": "FDP",
-        "Wahlkreis": "10",
-        "WahlkreisOrderBy": 106
-    }
-]
+```xml
+<SearchDetailResponse xmlns="http://www.cmiag.ch/cdws/searchDetailResponse" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" IDXSEQ="1278032" q="gremium any "GPK" AND Dauer_end > "9999-12-31 00:00:00" " l="de-CH" s="1" m="1000" numHits="12" indexName="Behoerdenmandat">
+   <Hit Guid="0097f0e3f991481fb690ec212cf17987" SEQ="1147798" Relevance="2.668081">
+      <Snippet><EM>GPK (</EM>Geschäftsprüfungskommission) <EM>GPK </EM>0bab680addc94a9e83cd184947ee46ce D050DF43 5336 47C2 8BF0 11F0BAB7758A </Snippet>
+      <Behordenmandat xmlns="http://www.cmiag.ch/cdws/Behoerdenmandat" xmlns:cmi="http://cmiag.ch" OBJ_GUID="0097f0e3f991481fb690ec212cf17987" SEQ="1147798" IDX="Behoerdenmandat">
+         <Name>Bucher</Name>
+         <Vorname>Gregor</Vorname>
+         <KontaktGuid>eff3cfde35254c71b2370a93b26bf7fc</KontaktGuid>
+         <AltsystemID>4084208D-6380-4D59-A426-01231472D25B</AltsystemID>
+         <Dauer>
+            <Start xsi:nil="false">2009-02-01T00:00:00.000</Start>
+            <End xsi:nil="false">9999-12-31T23:59:59.000</End>
+            <Text>01.02.2009 -</Text>
+         </Dauer>
+         <Gremium>GPK (Geschäftsprüfungskommission)</Gremium>
+         <GremiumGuid>0bab680addc94a9e83cd184947ee46ce</GremiumGuid>
+         <Gremiumstyp>Kommission</Gremiumstyp>
+         <Partei/>
+         <ParteiGuid/>
+         <Titel/>
+         <Wahlkreis>6</Wahlkreis>
+         <WahlkreisOrder xsi:nil="true"/>
+         <Wohnkreis>6</Wohnkreis>
+         <Funktion>Sekretariat</Funktion>
+         <Sitz xsi:nil="true"/>
+      </Behordenmandat>
+   </Hit>
+   <Hit Guid="2cac0e895ead4ecdbb6499aa07458f6a" SEQ="1194816" Relevance="2.668081">
+   ...
+   </Hit>
+   <Hit Guid="78b2bfc84dd8439082cf53d3d6da1356" SEQ="1195241" Relevance="2.668081">
+   ...
+   </Hit>
+   <Hit Guid="df003fc284494792bf429308af7e3a9f" SEQ="1195595" Relevance="2.668081">
+   ...
+   </Hit>
+   <Hit Guid="6e0e7057496e47d6852971bc796d9bfa" SEQ="1198434" Relevance="2.668081">
+   ...
+   </Hit>
+   <Hit Guid="3f829a2225cb499ba7d323b5c76c6b0e" SEQ="1204353" Relevance="2.668081">
+   ...
+   </Hit>
+   <Hit Guid="0e4b163c1087471ca37c513d67491c86" SEQ="1205251" Relevance="2.668081">
+   ...
+   </Hit>
+   <Hit Guid="c2d5f14ded71423ea4ea9ac40b22c9bb" SEQ="1205345" Relevance="2.668081">
+   ...
+   </Hit>
+   <Hit Guid="11cc45a8335647158585bbfe083fc3c2" SEQ="1210940" Relevance="2.668081">
+   ...
+   </Hit>
+   <Hit Guid="75dfa941191d4a10bfd0a80a141271d5" SEQ="1220611" Relevance="2.668081">
+   ...
+   </Hit>
+   <Hit Guid="b6d2a4d8ac5d478894f1061e47422690" SEQ="1240574" Relevance="2.668081">
+   ...
+   </Hit>
+   <Hit Guid="b0ed5064c656490ea9ee146c380bf727" SEQ="1259556" Relevance="2.668081">
+   ...
+   </Hit>
+</SearchDetailResponse>
 ```
 
 ### Geschäft suchen
