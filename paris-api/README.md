@@ -26,14 +26,20 @@ Diese Dokumentation beschreibt die Programmierschnittstelle (API) des Parlaments
 * Wahlkreis
 * Wohnkreis
 
+Hier ein vereinfachtes konzeptuelles Datenmodell des Parlamentsinformationssystem:
+
+![Paris Datenmodell](<https://opendatazurich.github.io/ris-api/pics/Paris_Datenmodell.png>)
+
 Diese Dokumentation bietet einen **Schnelleinstieg in das Paris-API**.
 Im Kapitel 1 werden pro Entität ein paar typische Beispiels-Abfragen erläutert. 
 Im Kapitel 2 wird ein konkretes Programmier-Beispiel mit Python als Jupyter-Notebook zur Verfügung gestellt. Dieses kann ausserdem auch auf Binder aufgerufen werden, wodurch der Code interaktiv im Browser gestartet werden kann.
 
+Eine Übersicht über alle Funktionen der API mit Beispielen bietet auch die [**PDF-Anleitung der Paris-API**](https://data.stadt-zuerich.ch/dataset/parlamentsdienste_paris_api/download/Anleitung_Paris_API_Gemeinderat_Zuerich.pdf).
+
 **Inhaltsverzeichnis**
 
 1. [Beispiel-Abfragen](#beispiel-abfragen)
-   1. [Kontakte suchen](#kontakte-suchen)
+   1. [Personen suchen](#personen-suchen)
    3. [Geschäft suchen](#geschäft-suchen)
    4. [Protokolle suchen](#protokolle-suchen)
    5. [Ratspost suchen](#ratspost-suchen)
@@ -45,21 +51,44 @@ Alle Abfragen nutzen als Basis-URL [`http://www.gemeinderat-zuerich.ch/api/`](ht
 
 Jeder Index verfügbar auch über ein maschinenlesbares Schema: https://www.gemeinderat-zuerich.ch/api/{{index}}/schema z.B. https://www.gemeinderat-zuerich.ch/api/kontakt/schema
 
+Das API verwender die Abfragesprache CQL, mit der sich die Resultate eingrenzen und Sortieren lassen.
+Jeder Index hat definierte Suchfelder, die im CQL-Query verwendet werden können.
+
 Alle Indizes nutzen sogenannte GUIDs als eindeutige Identifier.
 Mit dem Suchfeld `ID` kann nach diesen GUIDs gesucht werden.
 
-### Kontakte suchen
+### Personen suchen
 
 **Endpunkt:**
 
 `http://www.gemeinderat-zuerich.ch/api/kontakt/searchdetails?q={{cql-query}}&l=de-CH`
 
+Verfügbare Suchfelder:
+- ID 
+- Fraktion 
+- Jahrgang 
+- AktivesRatsmitglied 
+- Geschlecht 
+- Kommission 
+- Name 
+- NameVorname 
+- Vorname 
+- Partei 
+- Wahlkreis 
+- Wohnkreis
+
 Alternativ kann der Index _Behoerdenmandat_ verwendet werden, da dort die Beziehung zwischen Person und Amt hinterlegt ist:
 
 `http://www.gemeinderat-zuerich.ch/api/behoerdenmandat/searchdetails?q={{cql-query}}&l=de-CH`
 
-Das CQL-Query ist eine Abfragesprache, mit der sich die Resultate eingrenzen lassen.
-Jeder Index hat definierte Suchfelder, die im CQL-Query verwendet werden können (siehe oben).
+Verfügbare Suchfelder:
+- Name
+- Gremium
+- Partei
+- Wohnkreis
+- Wahlkreis
+- Dauer
+
 
 **Suche nach Name "Peter" (max. 4 Resultate):**
 
@@ -165,185 +194,247 @@ Jeder Index hat definierte Suchfelder, die im CQL-Query verwendet werden können
 
 **Endpunkt**:
 
-`http://www.gemeinderat-zuerich.ch/api/Geschaeft?suchBegriff={{suchBegriff}}&grNummer={{grNummer}}&geschaeftsartId={{geschaeftsartId}}&jahr={{jahr}}&departementId={{departementId}}&personId={{personId}}&parteiId={{parteiId}}&geschaeftAuswahl={{geschaeftAuswahl}}&fraktionId={{fraktionId}}&kommissionEinrId={{kommissionEinrId}}&referendumId={{referendumId}}&ablaufschrittId={{ablaufschrittId}}&kommissionId={{kommissionId}}&pendentBeiId={{pendentBeiId}}&sitzungsNummer={{sitzungsNummer}}&datumVon={{datumVon}}&datumBis={{datumBis}}&beschlussNrGR={{beschlussNrGR}}&includeInactive={{includeInactive}}&orderBy={{orderBy}}&orderDir={{orderDir}}&activePage={{activePage}}&pageSize={{pageSize}}`
+`http://www.gemeinderat-zuerich.ch/api/geschaeft/searchdetails?q={{cql-query}}&l=de-CH`
 
-Die Wertlisten (`geschaeftsartId`, `kommissionEinrId`, `ablaufschrittId`etc.) können mit dem `/Geschaeft/parameter` Endpunkt gefunden werden.
-
-
+Verfügbare Suchfelder:
+- ID 
+- GRNr
+- Titel
+- Geschaeftsart
+- Ablaufschritt
+- Beginn
+- Departement
+- VorberatendeKommission
+- Dokument
+- FristBis
+- NameVorname
+- Partei
+- PendentBei
+- Eingereicht
+- Volltext
+- Verweise
+- Dringlich
 
 **Geschäfte von 2016 finden:**
 
-`GET http://www.gemeinderat-zuerich.ch/api/Geschaeft?jahr=2016&activePage=1&pageSize=5`
+`GET http://www.gemeinderat-zuerich.ch/api/geschaeft/searchdetails?q=beginn_start > "2016-01-01 00:00:00" AND beginn_start < "2017-01-01 00:00:00" sortBy beginn_start/sort.ascending&l=de-CH&s=1&m=100`
 
-**ACHTUNG:** Pagination beachten, mit `activePage` kann die Seite, die angefragt wird, angegeben werden. Mit Hilfe von `pageSize` und der im Resultat hinterlegten `AnzahlResultate` können so alle Ergebnisse seitenweise abgefragt werden.
+**ACHTUNG:** Pagination beachten, mit `s` kann die Nummer des ersten zurückgegebenen Treffers angegeben werden. Mit Hilfe von `m` die Maximale Anzahl Treffer.
+Mit diesen beiden Parameterns lässt sich eine Pagination implementieren.
+Dies ist Sache der abfragenden Drittapplikation.
 
-````json
-{
-    "Geschaefte": [
-        {
-            "GeschaeftId": "1a5920a8-3491-4343-9a76-5ed08278e288",
-            "Geschaeftsjahr": 2016,
-            "Geschaeftsnummer": 470,
-            "Geschaeftstitel": "Einrichtung einer Tempo-30-Zone an der Furttalstrasse innerhalb des Siedlungsgebiets",
-            "Geschaeftsart": "Postulat"
-        },
-        {
-            "GeschaeftId": "ffb6b86c-8ba2-42b4-8b29-014e2388e5e7",
-            "Geschaeftsjahr": 2016,
-            "Geschaeftsnummer": 469,
-            "Geschaeftstitel": "Haltestellen an der Wehntalerstrasse und Haltestelle Oberwiesenstrasse, Ausrüstung mit dem Züri-Bord",
-            "Geschaeftsart": "Postulat"
-        },
-        {
-            "GeschaeftId": "89bbe9bc-1e29-4dd9-83fc-aa9e7b0f2e42",
-            "Geschaeftsjahr": 2016,
-            "Geschaeftsnummer": 468,
-            "Geschaeftstitel": "Verlängerung der Haltestelle Glaubtenstrasse stadtauswärts an der Wehntalerstrasse",
-            "Geschaeftsart": "Postulat"
-        },
-        {
-            "GeschaeftId": "3d31a1d2-b565-432d-93e8-9f2703e86c20",
-            "Geschaeftsjahr": 2016,
-            "Geschaeftsnummer": 467,
-            "Geschaeftstitel": "Bewilligung von Sonntagsverkäufen, Angaben zu den Verfahren, den rechtlichen Grundlagen und zur Bewilligung von Ethno-Food-Märkten in Quartierzentren sowie zur Sonntagskultur im öffentlichen Leben der Stadt",
-            "Geschaeftsart": "Schriftliche Anfrage"
-        },
-        {
-            "GeschaeftId": "0be49c87-98d3-4f6b-96c8-94dc2f2d09bb",
-            "Geschaeftsjahr": 2016,
-            "Geschaeftsnummer": 466,
-            "Geschaeftstitel": "Verhinderung von energetischen Sanierungen aufgrund von Vorgaben der Denkmalpflege, Möglichkeiten für eine Entschädigung bauwilliger Eigentümerinnen und Eigentümer sowie für eine Klage gegen die Stadt",
-            "Geschaeftsart": "Schriftliche Anfrage"
-        }
-    ],
-    "AnzahlResultate": 469
-}
+````xml
+<SearchDetailResponse xmlns="http://www.cmiag.ch/cdws/searchDetailResponse" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" IDXSEQ="1285451" q="beginn_start > "2016-01-01 00:00:00" AND beginn_start < "2017-01-01 00:00:00" sortBy beginn_start/sort.ascending" l="de-CH" s="1" m="100" numHits="4040" indexName="Geschaeft">
+	<Hit Guid="75183f1744fb4a9c8464c70cc8a0f9f5" SEQ="788242" Relevance="1">
+		<Snippet/>
+		<Geschaeft xmlns="http://www.cmiag.ch/cdws/Geschaeft" xmlns:cmi="http://cmiag.ch" OBJ_GUID="75183f1744fb4a9c8464c70cc8a0f9f5" SEQ="788242" IDX="Geschaeft">
+			<GRNr>2016/11</GRNr>
+			<GRNrSort/>
+			<Titel>Traminfrastruktur beim Albert-Näf-Platz, betriebliche Nutzung und Notwendigkeit der Gleisverbindung Ohm-/Schaffhauserstrasse sowie Unterhalts- und Investitionskosten für die Gleisanlage</Titel>
+			<Geschaeftsart>Schriftliche Anfrage</Geschaeftsart>
+			<Geschaeftsstatus>Abgeschlossen</Geschaeftsstatus>
+			<Dringlich xsi:nil="false">false</Dringlich>
+			<VorberatendeKommission/>
+			<WeitereVorberatendeKommissionen/>
+			<FederfuehrendesDepartement>
+			...
+			</FederfuehrendesDepartement>
+			<MitbeteiligteDepartemente/>
+			<Beginn>
+				<Start xsi:nil="false">2016-01-06T00:00:00.000</Start>
+				<End xsi:nil="false">2016-01-07T00:00:00.000</End>
+				<Text>06.01.2016</Text>
+			</Beginn>
+			<PendentBei/>
+			<Referendum>Kein Referendum</Referendum>
+			<Ablaufschritte>
+			...
+			</Ablaufschritte>
+			<Erstunterzeichner>
+				<KontaktGremium OBJ_GUID="4e2b9a0c0fe3422ebea010dd250ad373">
+				<Name>Hans Jörg Käppeli</Name>
+				<Partei>SP</Partei>
+				<IstGremium xsi:nil="false">false</IstGremium>
+				</KontaktGremium>
+			</Erstunterzeichner>
+			<Mitunterzeichner/>
+			<AnzahlMitunterzeichnende xsi:nil="true"/>
+			<VerweisZu/>
+			<VerweisVon/>
+			<Traktanden/>
+		</Geschaeft>
+	</Hit>
+	<Hit Guid="2aa163cc0f404d1fb0a589ab4c5db763" SEQ="820481" Relevance="1">
+		<Snippet/>
+		<Geschaeft xmlns="http://www.cmiag.ch/cdws/Geschaeft" xmlns:cmi="http://cmiag.ch" OBJ_GUID="2aa163cc0f404d1fb0a589ab4c5db763" SEQ="820481" IDX="Geschaeft">
+		...
+		</Geschaeft>
+	</Hit>
+	<Hit Guid="064919aa8e67493782188cc8ef5e0e94" SEQ="867593" Relevance="1">
+		<Snippet/>
+		<Geschaeft xmlns="http://www.cmiag.ch/cdws/Geschaeft" xmlns:cmi="http://cmiag.ch" OBJ_GUID="064919aa8e67493782188cc8ef5e0e94" SEQ="867593" IDX="Geschaeft">
+		...
+		</Geschaeft>
+	</Hit>
+	...
+	...
+</SearchDetailResponse>
 ````
-
-
 
 ### Protokolle suchen
 
+Ein Sitzungsprotokoll ist einer Sitzung angehängt, und kann von dort bezogen werden
+
 **Endpunkt:**
 
-`http://www.gemeinderat-zuerich.ch/api/Protokoll?sitzungsNummer={{sitzungsNummer}}&suchBegriff={{suchBegriff}}&datumVon={{datumVon}}&datumBis={{datumBis}}`
+`https://www.gemeinderat-zuerich.ch/api/sitzung/searchdetails/?q={{cql-query}}&l=de-CH`
 
-Die Felder `datumVon`und `datumBis` müssen im Format TT.MM.JJJJ (z.B. 31.01.2019) abgefüllt werden.
+Verfügbare Suchfelder:
+- Sitzungsdatum_start
+- Sitzungsdatum_end
+- Titel
+- PersonWortmeldung
+- PersonWortmeldungPartei
+
 
 **Protokolle vom Januar 2019 suchen:**
 
-`GET https://www.gemeinderat-zuerich.ch/api/Protokoll?datumVon=01.01.2019&datumBis=31.01.2019`
+`GET https://www.gemeinderat-zuerich.ch/api/sitzung/searchdetails/?q=sitzungsdatum_start > "2019-01-01 00:00:00" and sitzungsdatum_start < "2019-01-31 23:59:59" sortBy sitzungsdatum_start/sort.ascending&l=de-CH&m=5`
 
-```json
-[
-    {
-        "Id": 6221,
-        "FileName": "GR-Protokoll 20190130.037.pdf"
-    },
-    {
-        "Id": 6223,
-        "FileName": "GR-Protokoll 20190130.037 substanziell.pdf"
-    },
-    {
-        "Id": 6218,
-        "FileName": "GR-Protokoll 20190130.036.pdf"
-    },
-    {
-        "Id": 6222,
-        "FileName": "GR-Protokoll 20190130.036 substanziell.pdf"
-    },
-    {
-        "Id": 6216,
-        "FileName": "GR-Protokoll 20190123.035.pdf"
-    },
-    {
-        "Id": 6220,
-        "FileName": "GR-Protokoll 20190123.035 substanziell.pdf"
-    },
-    {
-        "Id": 6212,
-        "FileName": "GR-Protokoll 20190116.034.pdf"
-    },
-    {
-        "Id": 6217,
-        "FileName": "GR-Protokoll 20190116 034 substanziell.pdf"
-    },
-    {
-        "Id": 6208,
-        "FileName": "GR-Protokoll 20190109.033.pdf"
-    },
-    {
-        "Id": 6219,
-        "FileName": "GR-Protokoll 20190109.033 substanziell.pdf"
-    }
-]
+```xml
+<SearchDetailResponse xmlns="http://www.cmiag.ch/cdws/searchDetailResponse" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" IDXSEQ="1286201" q="sitzungsdatum_start > "2019-01-01 00:00:00" and sitzungsdatum_start < "2019-01-31 23:59:59"" l="de-CH" s="1" m="5" numHits="218" indexName="Sitzung">
+    <Hit Guid="701a6efe54024040b27b2901246816b1" SEQ="1274826" Relevance="1">
+    <Snippet/>
+    <Sitzung xmlns="http://www.cmiag.ch/cdws/Sitzung" xmlns:cmi="http://cmiag.ch" OBJ_GUID="701a6efe54024040b27b2901246816b1" SEQ="1274826" IDX="Sitzung">
+        <Titel>33. Sitzung</Titel>
+        <Datum>
+            <Start xsi:nil="false">2019-01-09T00:00:00.000</Start>
+            <End xsi:nil="false">2019-01-10T00:00:00.000</End>
+            <Text>09.01.2019</Text>
+        </Datum>
+        <Beginn/>
+        <Ende/>
+        <EndeNachMitternacht/>
+        <VideoURL/>
+        <Traktanden>
+        ...
+        </Traktanden>
+        <Dokumente>
+            <Dokument OBJ_GUID="5b806f9d41ba47efbd180aaccaee33e9">
+            ...
+            </Dokument>
+            <Dokument OBJ_GUID="f729b69dd1724dd1bf10b1400babd2fa">
+            ...
+            </Dokument>
+            <Dokument OBJ_GUID="9cf56e38b2db4bb98baffef27ab88ab6">
+                <Titel>GR-Protokoll 20190109.033 substanziell</Titel>
+                <File ID="9cf56e38b2db4bb98baffef27ab88ab6-332" FileName="GR-Protokoll 20190109.033 substanziell">
+                <Version Nr="1">
+                <Rendition Extension="pdf" Ansicht="PDF"/>
+                </Version>
+                </File>
+                <Kategorie>Protokoll</Kategorie>
+            </Dokument>
+        </Dokumente>
+        <Sitzungsaufzeichnung>
+        ...
+        </Sitzungsaufzeichnung>
+    </Sitzung>
+    </Hit>
+    <Hit Guid="14f5477698b94df6a924ae4046d8b8ec" SEQ="1274708" Relevance="1">
+    ...
+    </Hit>
+    <Hit Guid="3766e307d269442a9390c4c832b7a6e8" SEQ="1274952" Relevance="1">
+    ...
+    </Hit>
+    <Hit Guid="af70361f65b344f68182feb904abe0e6" SEQ="1244238" Relevance="1">
+    ...
+    </Hit>
+    <Hit Guid="87a5eaadd21445e889a90fbfad369492" SEQ="1256795" Relevance="1">
+    ...
+    </Hit>
+</SearchDetailResponse>
 ```
 
-Die Datei kann wie folgt bezogen werden:
+Bei jeder Sitzung sind Dokumente abgehängt (z.B. Protokoll), welche dann wiefolgt bezogen werden können:
 
-`https://www.gemeinderat-zuerich.ch/DocumentLoader.aspx?Typ=protokoll&ID={Id}&FileName={FileName}`
+`https://www.gemeinderat-zuerich.ch/dokumente/{{guid}}`
 
-Beispiel: https://www.gemeinderat-zuerich.ch/DocumentLoader.aspx?ID=6218&Typ=protokoll&FileName=GR-Protokoll+20190130.036.pdf
+Beispiel von oben, die ID vom `File` muss verwendet werden (nicht vom Dokument!):
+
+```xml
+<Dokument OBJ_GUID="9cf56e38b2db4bb98baffef27ab88ab6">
+    <Titel>GR-Protokoll 20190109.033 substanziell</Titel>
+    <File ID="9cf56e38b2db4bb98baffef27ab88ab6-332" FileName="GR-Protokoll 20190109.033 substanziell">
+    <Version Nr="1">
+    <Rendition Extension="pdf" Ansicht="PDF"/>
+    </Version>
+    </File>
+    <Kategorie>Protokoll</Kategorie>
+</Dokument>
+```
+
+Dokument: https://www.gemeinderat-zuerich.ch/dokumente/9cf56e38b2db4bb98baffef27ab88ab6-332
 
 ### Ratspost suchen
 
 **Endpunkt:**
 
-`https://www.gemeinderat-zuerich.ch/api/Ratspost?datumVon={{datumVon}}&datumBis={{datumBis}}`
+`https://www.gemeinderat-zuerich.ch/api/ratspost/searchdetails/?q={{cql-query}}&l=de-CH`
 
-Die Felder `datumVon`und `datumBis` müssen im Format TT.MM.JJJJ (z.B. 31.01.2019) abgefüllt werden.
+Verfügbare Suchfelder:
+- Datum_Start
+- Datum_End
+- Dokument
 
-**Ratspost vom 1. Quartal 2019 suchen:**
+**Ratspost vom 1. Quartal 2023 suchen:**
 
-`GET https://www.gemeinderat-zuerich.ch/api/Ratspost?datumVon=01.01.2019&datumBis=31.03.2019`
+`GET https://www.gemeinderat-zuerich.ch/api/ratspost/searchdetails/?q=Datum_Start > "2023-01-01 00:00:00" and Datum_Start < "2023-01-04 00:00:00" sortBy Datum_Start/sort.ascending&l=de-CH`
 
-```json
-[
-    {
-        "Id": "6fbede90-4660-43d0-9429-ff836807b05b",
-        "FileName": "Ratspostversand20190328.html"
-    },
-    {
-        "Id": "107af3a0-f981-4208-8e69-4cdbd397fafc",
-        "FileName": "Ratspostversand20190321.html"
-    },
-    {
-        "Id": "424cd2ff-97d0-4255-a953-02fe7c15df56",
-        "FileName": "Ratspostversand20190314.html"
-    },
-    {
-        "Id": "479c2ba2-4124-4271-bc19-b0d7e01ec8ea",
-        "FileName": "Ratspostversand20190307.html"
-    },
-    {
-        "Id": "19ba52dc-b604-4412-9553-87c3722995e1",
-        "FileName": "Ratspostversand20190228.html"
-    },
-    {
-        "Id": "de6fd305-836a-4836-b41f-f9101bbc70bf",
-        "FileName": "Ratspostversand20190221.html"
-    },
-    {
-        "Id": "1c72707d-00b5-4b11-8213-8dc81d35c109",
-        "FileName": "Ratspostversand20190131.html"
-    },
-    {
-        "Id": "194ce486-eed7-4d92-8947-3c0767d0e2d6",
-        "FileName": "Ratspostversand20190124.html"
-    },
-    {
-        "Id": "86d8c3b4-24b7-4406-a45f-4ecf03aa11e3",
-        "FileName": "Ratspostversand20190117.html"
-    },
-    {
-        "Id": "3b0204f0-f9a4-4fc9-86cc-e66bbfd03a52",
-        "FileName": "Ratspostversand20190110.html"
-    },
-    {
-        "Id": "a84fb659-dd54-43df-8857-4142a3a2aaf7",
-        "FileName": "Ratspostversand20190103.html"
-    }
-]
+```xml
+<SearchDetailResponse xmlns="http://www.cmiag.ch/cdws/searchDetailResponse" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" IDXSEQ="1062008" q="2023-01-01 00:00:00" and Datum_Start < "2023-01-04 00:00:00" sortBy Datum_Start/sort.ascending" l="de-CH" s="1" m="5" numHits="1" indexName="Ratspost">
+    <Hit Guid="4446c8ba780b4edbaa3df66c4c5b261f" SEQ="1062008" Relevance="1">
+        <Snippet/>
+        <Ratspost xmlns="http://www.cmiag.ch/cdws/Ratspost" xmlns:cmi="http://cmiag.ch" OBJ_GUID="4446c8ba780b4edbaa3df66c4c5b261f" SEQ="1062008" IDX="Ratspost">
+            <Datum>
+                <Start xsi:nil="false">2023-05-04T00:00:00.000</Start>
+                <End xsi:nil="false">2023-05-05T00:00:00.000</End>
+                <Text>04.05.2023</Text>
+            </Datum>
+            <Einleitungstext/>
+            <NaechsteSitzungDatum>2023-05-10T00:00:00.000</NaechsteSitzungDatum>
+            <NaechsteSitzungGuid>614cfb372af649d89520fe3827052898</NaechsteSitzungGuid>
+            <Dokumente>
+            ...
+            </Dokumente>
+            <Positionen>
+                <Position OBJ_GUID="9e50848fa91341398dfe0160432ec9e8">
+                    <Kapitel>Neue Weisungen</Kapitel>
+                    <KapitelSortierung xsi:nil="false">60</KapitelSortierung>
+                    <GeschaeftGuid>f28b1ad5a7634c4f80f765a60e8020c9</GeschaeftGuid>
+                    <GRNr>2023/173</GRNr>
+                    <Titel>**Kultur, Konzeptförderung Tanz und Theater, Genehmigung 6-jährige Konzeptförderbeiträge 2024–2029, Aufteilung Rahmenkredit** Weisung, 05.04.2023</Titel>
+                    <Dokumente>
+                    ...
+                    </Dokumente>
+                </Position>
+                <Position OBJ_GUID="d71c7f42c3f84f1e848c284c4d771375">
+                ...
+                </Position>
+                <Position OBJ_GUID="1908f6ceaa204bad8ef538ac3974fbc6">
+                ...
+                </Position>
+                <Position OBJ_GUID="4a28a929c0fc42dd950586c641650bbe">
+                ...
+                </Position>
+                <Position OBJ_GUID="92ab56f05c16484a9a4a94cc211a4ef9">
+                ...
+                ...
+                ...
+            </Positionen>
+        </Ratspost>
+    </Hit>
+</SearchDetailResponse>
 ```
 
 Die Datei kann wie folgt bezogen werden:
@@ -357,10 +448,4 @@ Beispiel: https://www.gemeinderat-zuerich.ch/sitzungen/ratspost/?Id=3b0204f0-f9a
 Hinweis für **Python**: wir empfehlen für den Zugriff auf die Schnittstelle den API-Wrapper [**goifer**](https://pypi.org/project/goifer/) zu verwenden.
 Dies vereinfacht die Zugriffe auf die einzelnen Entitäten sehr.
 
-Im [Jupyter-Notebook RIS-API-Beispiele.ipynb](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/paris-api/Paris-API-Beispiele.ipynb) sind einige Python-Beispiele im Umgang mit dem API beschrieben.
-
-Jupyter-Notebook interaktiv im Browser starten: 
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=paris-api/Paris-API-Beispiele.ipynb)
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/opendatazurich/opendatazurich.github.io/blob/master/paris-api/Paris-API-Beispiele.ipynb)
+Im [Jupyter-Notebook Paris-API-Beispiele.ipynb](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/paris-api/Paris-API-Beispiele.ipynb) sind einige Python-Beispiele im Umgang mit dem API beschrieben.
