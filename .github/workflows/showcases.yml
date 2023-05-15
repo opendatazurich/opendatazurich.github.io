@@ -14,9 +14,9 @@ jobs:
 
     steps:
     # checkout repos
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Checkout ckan-admin-scripts repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: metaodi/ckan-admin-scripts
         path: ckan-admin-scripts
