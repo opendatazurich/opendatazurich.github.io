@@ -8,6 +8,13 @@ import traceback
 from dotenv import load_dotenv, find_dotenv
 
 
+__location__ = os.path.realpath(
+    os.path.join(
+        os.getcwd(),
+        os.path.dirname(__file__)
+    )
+)
+
 load_dotenv(find_dotenv())
 
 # host, user, pw aus dem .env File lesen
@@ -20,22 +27,14 @@ stations = [
     {
         "directory": '/domains/open-data-transfer.space/tecson/upload_mythenquai',
         "filename": 'Mythenquai_406m.csv',
-        "output_file": 'messwerte_mythenquai_today.csv',
+        "output_file": os.path.join(__location__, 'messwerte_mythenquai_today.csv'),
     },
     {
         "directory": '/domains/open-data-transfer.space/tecson/upload_tiefenbrunnen',
         "filename": 'Tiefenbrunnen_406m.csv',
-        "output_file": 'messwerte_tiefenbrunnen_today.csv',
+        "output_file": os.path.join(__location__, 'messwerte_tiefenbrunnen_today.csv'),
     },
 ]
-
-__location__ = os.path.realpath(
-    os.path.join(
-        os.getcwd(),
-        os.path.dirname(__file__)
-    )
-)
-
 
 def convert_csv_delim(output_path, input_path, input_delim=';', input_encoding='iso-8859-1'):
     with open(input_path, 'r', encoding=input_encoding) as f:
@@ -69,11 +68,12 @@ try:
         if station['filename'] not in files_in_cwd:
             raise Exception(f"File {station['filename']} not on FTP server in path {station['directory']}")
 
-        with open(station['filename'], 'wb') as fp:
+        input_path = os.path.join(__location__, station['filename'])
+        with open(input_path, 'wb') as fp:
             ftp.retrbinary(f"RETR {station['filename']}", fp.write)
 
         # convert files to UTF-8 with comma delimiter
-        convert_csv_delim(station['output_file'], station['filename'], input_delim=';', input_encoding='iso-8859-1')
+        convert_csv_delim(station['output_file'], input_path, input_delim=';', input_encoding='iso-8859-1')
 
         # delete the file on the FTP if everything was okay until here
         #ftp.delete(station['filename'])
