@@ -146,7 +146,7 @@ try:
         convert_csv_delim(station['output_file'], input_path, input_delim=';', input_encoding='iso-8859-1')
 
         # delete the file on the FTP if everything was okay until here
-        #ftp.delete(station['filename'])
+        ftp.delete(station['filename'])
 
     ftp.quit()
 
