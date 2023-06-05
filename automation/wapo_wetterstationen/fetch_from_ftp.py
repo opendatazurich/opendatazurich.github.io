@@ -3,6 +3,7 @@
 import os
 import sys
 import csv
+import io
 from ftplib import FTP
 from datetime import datetime, date, timedelta
 import pytz
@@ -146,7 +147,9 @@ try:
         convert_csv_delim(station['output_file'], input_path, input_delim=';', input_encoding='iso-8859-1')
 
         # delete the file on the FTP if everything was okay until here
-        ftp.delete(station['filename'])
+        empty_file = io.StringIO('')
+        ftp.storbinary(f"STOR {station['filename']}', file)
+        #ftp.delete(station['filename'])
 
     ftp.quit()
 
