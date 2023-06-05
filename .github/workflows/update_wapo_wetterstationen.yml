@@ -1,8 +1,8 @@
 name: Update wapo_wetterstationen data
 
 on:
-  #schedule:
-  # - cron: '5/7 * * * *' # every 7min
+  schedule:
+   - cron: '5/10 * * * *' # every 10min
   workflow_dispatch:
 
 jobs:
@@ -27,13 +27,10 @@ jobs:
         
     - name: Prepare data
       env:
-        WAPO_MY_USER: ${{ secrets.wapo_my_user }}
-        WAPO_MY_PASS: ${{ secrets.wapo_my_pass }}
-        WAPO_TB_USER: ${{ secrets.wapo_tb_user }}
-        WAPO_TB_PASS: ${{ secrets.wapo_tb_pass }}
-      run: |
-         echo "Keine Daten aktuell"
-         # automation/wapo_wetterstationen/run.sh
+        WAPO_FTP_HOST: ${{ secrets.wapo_ftp_host }}
+        WAPO_FTP_USER: ${{ secrets.wapo_ftp_user }}
+        WAPO_FTP_PASSWORD: ${{ secrets.wapo_ftp_password }}
+      run: automation/wapo_wetterstationen/run.sh
         
         
     - name: Upload files to CKAN
