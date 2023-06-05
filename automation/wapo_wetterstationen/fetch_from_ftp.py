@@ -148,7 +148,7 @@ try:
 
         # delete the file on the FTP if everything was okay until here
         empty_file = io.StringIO('')
-        ftp.storbinary(f"STOR {station['filename']}', empty_file)
+        ftp.storbinary(f"STOR {station['filename']}", empty_file)
         #ftp.delete(station['filename'])
 
     ftp.quit()
