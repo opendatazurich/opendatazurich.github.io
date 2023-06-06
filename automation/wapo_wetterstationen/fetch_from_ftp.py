@@ -134,7 +134,7 @@ try:
 
     for station in stations:
         # change to directory
-        ftp.cwd(station['directory'])$
+        ftp.cwd(station['directory'])
         
         # check if file exists
         files_in_cwd = [f[0] for f in ftp.mlsd()]
