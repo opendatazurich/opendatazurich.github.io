@@ -147,8 +147,8 @@ try:
         convert_csv_delim(station['output_file'], input_path, input_delim=';', input_encoding='iso-8859-1')
 
         # delete the file on the FTP if everything was okay until here
-        empty_file = io.StringIO('')
-        ftp.storbinary(f"STOR {station['filename']}", empty_file)
+        #empty_file = io.StringIO('')
+        #ftp.storbinary(f"STOR {station['filename']}", empty_file)
         #ftp.delete(station['filename'])
 
     ftp.quit()
