@@ -29,14 +29,21 @@ sqlite3 $DIR/tiefenbrunnen.sqlite -cmd 'create unique index ix_timestamp on data
 echo "Fetch todays data from FTP server..."
 python $DIR/fetch_from_ftp.py
 
-# 3. Merge events
+# 4. Show new data
+echo "New Mythenquai data:"
+tail $DIR/messwerte_mythenquai_today.csv
+echo ""
+echo "New Tiefenbrunnen data:"
+tail $DIR/messwerte_tiefenbrunnen_today.csv
+
+# 5. Merge events
 echo "Merge events..."
 python $DIR/merge_data.py -d $DIR/mythenquai.sqlite -f $DIR/messwerte_mythenquai_today.csv
 python $DIR/merge_data.py -d $DIR/tiefenbrunnen.sqlite -f $DIR/messwerte_tiefenbrunnen_today.csv
 rm $DIR/messwerte_mythenquai_today.csv
 rm $DIR/messwerte_tiefenbrunnen_today.csv
 
-# 3. Export the database as csv
+# 6. Export the database as csv
 echo "Export database to CSV..."
 sqlite3 -header -csv $DIR/mythenquai.sqlite "select * from data order by timestamp_utc asc;" > $DIR/messwerte_mythenquai_seit2007-heute.csv
 sqlite3 -header -csv $DIR/tiefenbrunnen.sqlite "select * from data order by timestamp_utc asc;" > $DIR/messwerte_tiefenbrunnen_seit2007-heute.csv
