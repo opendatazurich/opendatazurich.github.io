@@ -133,12 +133,15 @@ try:
     ftp.login(user, pw)
 
     for station in stations:
-        # get data
-        ftp.cwd(station['directory'])
+        # change to directory
+        ftp.cwd(station['directory'])$
+        
+        # check if file exists
         files_in_cwd = [f[0] for f in ftp.mlsd()]
         if station['filename'] not in files_in_cwd:
             raise NoFileOnFTPServer(f"File {station['filename']} not on FTP server in path {station['directory']}")
 
+        # get data
         input_path = os.path.join(__location__, station['filename'])
         with open(input_path, 'wb') as fp:
             ftp.retrbinary(f"RETR {station['filename']}", fp.write)
@@ -147,9 +150,7 @@ try:
         convert_csv_delim(station['output_file'], input_path, input_delim=';', input_encoding='iso-8859-1')
 
         # delete the file on the FTP if everything was okay until here
-        #empty_file = io.StringIO('')
-        #ftp.storbinary(f"STOR {station['filename']}", empty_file)
-        #ftp.delete(station['filename'])
+        ftp.delete(station['filename'])
 
     ftp.quit()
 
