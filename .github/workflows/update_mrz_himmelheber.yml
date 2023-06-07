@@ -2,7 +2,7 @@ name: Update MRZ Himmelheber data
 
 on:
   schedule:
-    - cron:  '5 17 * * *' # runs 17:05 UTC every day
+    - cron:  '5 17 * * 1' # runs 17:05 UTC every Monday
   workflow_dispatch:
     inputs:
       force_update:
@@ -38,7 +38,6 @@ jobs:
       run: automation/mrz_himmelheber/prepare_data.sh
 
     - name: Upload file to CKAN
-      if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
@@ -48,7 +47,6 @@ jobs:
         python automation/upload_resource_to_ckan.py -f automation/mrz_himmelheber/mrz_himmelheber_objekte.csv -d mrz_himmelheber_objekte
 
     - name: Update CKAN metadata
-      if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
