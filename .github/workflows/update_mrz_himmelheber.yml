@@ -1,0 +1,70 @@
+name: Update MRZ Himmelheber data
+
+on:
+  schedule:
+    - cron:  '5 17 * * *' # runs 17:05 UTC every day
+  workflow_dispatch:
+    inputs:
+      force_update:
+        description: 'Force update of resource and metadata'
+        required: false
+        default: 'false'
+
+jobs:
+  update_data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: integration
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r automation/automation-requirements.txt
+        
+    - name: Prepare data
+      env:
+        MRZ_BASE_URL: ${{ secrets.MRZ_BASE_URL }}
+        MRZ_USER: ${{ secrets.MRZ_USER }}
+        MRZ_PASS: ${{ secrets.MRZ_PASS }}
+      run: automation/mrz_himmelheber/prepare_data.sh
+
+    - name: Upload file to CKAN
+      if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+      run: |
+        python automation/upload_resource_to_ckan.py -f automation/mrz_himmelheber/mrz_himmelheber_fotos.csv -d mrz_himmelheber_fotos
+        python automation/upload_resource_to_ckan.py -f automation/mrz_himmelheber/mrz_himmelheber_objekte.csv -d mrz_himmelheber_objekte
+
+    - name: Update CKAN metadata
+      if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+      run: |
+        python automation/xls_to_meta_xml.py -f automation/mrz_himmelheber/Meta_Himmelheber_Fotos.xlsx --outfile automation/mrz_himmelheber/foto_meta.xml
+        python automation/update_metadata.py -d mrz_himmelheber_fotos -f automation/mrz_himmelheber/foto_meta.xml
+        python automation/xls_to_meta_xml.py -f automation/mrz_himmelheber/Meta_Himmelheber_Objekte.xlsx --outfile automation/mrz_himmelheber/objekte_meta.xml
+        python automation/update_metadata.py -d mrz_himmelheber_objekte -f automation/mrz_himmelheber/objekte_meta.xml
+        
+    - name: Notify telegram failure
+      if: ${{ failure()  || cancelled() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_ERROR_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        format: markdown
+        message: |
+          🔴 [MRZ Patolu Job Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
