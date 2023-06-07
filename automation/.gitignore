@@ -9,5 +9,5 @@ pyenv3.7
 !stimmbeteiligung/stimmbeteiligung.csv
 !schulferien/schulferien.csv
 !sonnenscheindauer/sonnenscheindauer.csv
-!mrz/mrz_patolu.csv
+!mrz_patolu/mrz_patolu.csv
 __pycache__/*
