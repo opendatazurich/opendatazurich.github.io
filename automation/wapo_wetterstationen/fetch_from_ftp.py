@@ -5,7 +5,7 @@ import sys
 import csv
 import io
 from ftplib import FTP
-from datetime import datetime, date, timedelta
+from datetime import datetime
 import pytz
 import traceback
 from dotenv import load_dotenv, find_dotenv
@@ -64,9 +64,9 @@ def safeint(s):
 
 
 def convert_csv_delim(output_path, input_path, input_delim=';', input_encoding='iso-8859-1'):
+    rows = []
     with open(input_path, 'r', encoding=input_encoding) as f:
         reader = csv.DictReader(f, delimiter=input_delim)
-        rows = []
         for r in reader:
             # strip keys and values of whitespace characters
             row = {k.strip(): v.strip() for k, v in r.items()}
@@ -125,12 +125,17 @@ def convert_csv_delim(output_path, input_path, input_delim=';', input_encoding='
                 'water_level': safefloat(row.get('Pegelstand', '')),
             }
             writer.writerow(mapped_row)
+    return len(rows)
 
 
 try:
     # login on FTP
     ftp = FTP(host)
     ftp.login(user, pw)
+
+    ROWS_PER_HOUR = 6
+    MAX_HOURS = 3
+    MAX_ROWS = ROWS_PER_HOUR * MAX_HOURS
 
     for station in stations:
         # change to directory
@@ -147,10 +152,12 @@ try:
             ftp.retrbinary(f"RETR {station['filename']}", fp.write)
 
         # convert files to UTF-8 with comma delimiter
-        convert_csv_delim(station['output_file'], input_path, input_delim=';', input_encoding='iso-8859-1')
+        number_of_rows = convert_csv_delim(station['output_file'], input_path, input_delim=';', input_encoding='iso-8859-1')
 
-        # delete the file on the FTP if everything was okay until here
-        ftp.delete(station['filename'])
+        # let the file grow for a period, then delete it
+        if number_of_rows > MAX_ROWS:
+            # delete the file on the FTP if everything was okay until here
+            ftp.delete(station['filename'])
 
     ftp.quit()
 
