@@ -4,11 +4,6 @@ on:
   schedule:
     - cron:  '5 17 * * 1' # runs 17:05 UTC every Monday
   workflow_dispatch:
-    inputs:
-      force_update:
-        description: 'Force update of resource and metadata'
-        required: false
-        default: 'false'
 
 jobs:
   update_data:
