@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import download as dl
 import requests
 from bs4 import BeautifulSoup
 import sqlite3
@@ -16,7 +17,6 @@ __location__ = os.path.realpath(
         os.path.dirname(__file__)
     )
 )
-
 
 
 def insert_or_update(data, conn):
@@ -70,12 +70,17 @@ try:
     url = 'https://www.stadt-zuerich.ch/portal/de/index/politik_u_recht/abstimmungen_u_wahlen/aktuell/stand-stimmbeteiligung.html'
 
     # parse page
-    page = requests.get(url)
-    if page.status_code != requests.codes.ok:
-        print(f"Error when requesting url {url}: {page.status_code}", file=sys.stderr)
-        sys.exit(0)
-    page.raise_for_status()
-    soup = BeautifulSoup(page.content, 'html.parser')
+    try:
+        content = dl.download_content(url)
+    except requests.exceptions.HTTPError as e:
+        # swallow bad HTTP status codes
+        if e.response.status_code != requests.codes.ok:
+            print(f"Error when requesting url {url}: {page.status_code}", file=sys.stderr)
+            sys.exit(0)
+        else:
+            raise
+   
+    soup = BeautifulSoup(content, 'html.parser')
     div = soup.select_one('div.mainparsys')
     match = re.search(r'Urnengang vom (.+):.*?Stimmbeteiligung.*beträgt.*?(\d+,?\d?)\s*Prozent.*?\((\d+\.\d+\.\d+)\)', div.text.strip())
 
