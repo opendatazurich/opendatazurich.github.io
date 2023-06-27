@@ -75,7 +75,7 @@ try:
     except requests.exceptions.HTTPError as e:
         # swallow bad HTTP status codes
         if e.response.status_code != requests.codes.ok:
-            print(f"Error when requesting url {url}: {page.status_code}", file=sys.stderr)
+            print(f"Error when requesting url {url}: {e.response.status_code}", file=sys.stderr)
             sys.exit(0)
         else:
             raise
