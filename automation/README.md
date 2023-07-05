@@ -9,7 +9,7 @@ D.h. bedeutet, dass initial ein neuer Datensatz manuell angelegt werden muss (en
 **Inhaltsverzeichnis:**
 
 - [GitHub Action](#github-actions)
-    * [Grundgerüst eines Workflows](#grundgerust-eines-workflows)
+    * [Grundgerüst eines Workflows](#grundgerüst-eines-workflows)
 - [Einzelne Workflows](#einzelne-workflows)
     * [WAPO Wetterstationen](#wapo-wetterstationen)
 
