@@ -135,6 +135,7 @@ Die [Secrets sind in den Settings ersichtlich](https://github.com/opendatazurich
 Es werden grundsätzlich zwei Arten von Secrets unterschieden: Repository Secrets und Environment Secrets.
 
 ***Repository Secrets:***
+
 ![Repository Secrets](https://github.com/opendatazurich/opendatazurich.github.io/assets/538415/38e8775e-b604-46fd-bc1d-d77702492024)
 
 Diese sind in allen Workflows zugänglich über die Syntax `${{ secrets.name }}`, z.B. `${{ secrets.TELEGRAM_TOKEN }}`.
