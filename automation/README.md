@@ -6,8 +6,14 @@ Die meisten Automationen dienen dazu, Datensätze auf dem Open-Data-Katalog zu a
 Grundsätzlich werden keine neuen Datensätze durch diesen Code hier angelegt, sondern lediglich bestehende Datensätze aktualisiert.
 D.h. bedeutet, dass initial ein neuer Datensatz manuell angelegt werden muss (entweder durch das CKAN Backend oder via API).
 
+**Inhaltsverzeichnis:**
 
-## GitHub Action
+- [GitHub Action](#github-actions)
+    * [Grundgerüst eines Workflows](#grundgerust-eines-workflows)
+- [Einzelne Workflows](#einzelne-workflows)
+    * [WAPO Wetterstationen](#wapo-wetterstationen)
+
+## GitHub Actions
 
 Eine GitHub Action wird durch eine YAML-Datei beschreiben, diese sind alle im Verzeichnis [`.github/workflows`](https://github.com/opendatazurich/opendatazurich.github.io/tree/master/.github/workflows) abgelegt.
 
@@ -267,3 +273,11 @@ Alle Datensätze, die via GitHub Action aktualisiert werden, haben ein OGD-Metad
     python automation/xls_to_meta_xml.py -f automation/abstimmungsparolen/Meta_Abstimmungsparolen.xlsx --outfile automation/abstimmungsparolen/meta.xml
     python automation/update_metadata.py -d politik_abstimmungsparolen_gemeindeabstimmung_seit2012 -f automation/abstimmungsparolen/meta.xml
 ```
+
+## Einzelne Workflows
+
+Jeder Workflow ist in seinem Ordner beschrieben.
+
+### WAPO Wetterstationen
+
+=> [wapo_wetterstationen/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/wapo_wetterstationen/README.md)
