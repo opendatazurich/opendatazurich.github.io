@@ -16,17 +16,17 @@ In dieser Dokumentation werden lediglich die wichtigsten Punkte erklärt.
 
 ```mermaid
 flowchart TD
-    A>"Zeitsteuerung ⌛️"]
-    B>"Manuell"]
-    C(GitHub Action starten)
-    A --> C
-    B --> C
-    C --> D{Daten geändert im Repo?}
-    D -->|Ja| E(Commit + Push)
-    D -->|Nein| F(Daten in CKAN aktualiseren)
-    E --> F
-    F --> G(Metadaten in CKAN aktualisieren)
-    G --> Ende
+    Zeit>"Zeitsteuerung ⌛️"]
+    Manuell>"Manuell"]
+    Start(GitHub Action starten)
+    Zeit --> Start
+    Manuell --> Start
+    Start --> Repo{Daten geändert im Repo?}
+    Repo -->|Ja| Commit(Commit + Push)
+    Repo -->|Nein| DataUpdate(Daten in CKAN aktualiseren)
+    Commit --> DataUpdate
+    DataUpdate --> MetadataUpdate(Metadaten in CKAN aktualisieren)
+    MetadataUpdate --> Ende
 ```
 
 **Beispiel-YAML:**
