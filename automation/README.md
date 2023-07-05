@@ -9,7 +9,7 @@ D.h. bedeutet, dass initial ein neuer Datensatz manuell angelegt werden muss (en
 
 ## GitHub Action
 
-Eine GitHub Action wird durch eine YAML-Datei beschreiben, diese sind alle im Verzeichnis `.github/workflows` abgelegt.
+Eine GitHub Action wird durch eine YAML-Datei beschreiben, diese sind alle im Verzeichnis [`.github/workflows`](https://github.com/opendatazurich/opendatazurich.github.io/tree/master/.github/workflows) abgelegt.
 
 GitHub hat eine [umfangreiche Dokumentation zu GitHub Actions](https://docs.github.com/de/actions) und wie diese Dateien aufgebaut sind.
 In dieser Dokumentation werden lediglich die wichtigsten Punkte erklärt.
