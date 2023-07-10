@@ -11,7 +11,7 @@ WAPO Wetterstationen
 Die Daten der beiden Wetterstationen Mythenquai und Tiefenbrunnen der Wasserschutzpolizei (WAPO) werden uns durch die Tecson AG via FTP-Server bereitgestellt.
 
 Das [Workflow-YAML](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_wapo_wetterstationen.yml) beschreibt den Ablauf im Detail.
-Die Skripts werden alle in `run.sh` und schlussendlich das erstellte CSV wieder in CKAN hochgeladen.
+Die Skripts werden alle in [`run.sh`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/wapo_wetterstationen/run.sh) ausgeführt und schlussendlich das erstellte CSV wieder in CKAN hochgeladen.
 
 ```mermaid
 flowchart TB
