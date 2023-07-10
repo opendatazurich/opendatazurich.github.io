@@ -16,6 +16,14 @@ D.h. bedeutet, dass initial ein neuer Datensatz manuell angelegt werden muss (en
     * [Daten in CKAN aktualiseren](#daten-in-ckan-aktualiseren)
     * [Metadaten in CKAN aktualisieren](#metadaten-in-ckan-aktualisieren)
 - [Datensatz-Worflows](#einzelne-workflows)
+    * [Abstimmungsparolen](#abstimmungsparolen)
+    * [Hystreet Fussgängerfrequenzen](#hystreet-fussgangerfrequenzen)
+    * [Museum Rietbert: Himmelheber](#museum-rietbert-himmelheber)
+    * [Museum Rietberg: Patolu](#museum-rietberg-patolu)
+    * [Stadtarchiv: Geschäftsberichte](#stadtarchiv-geschaftsberichte)
+    * [Schulferien](#schulferien)
+    * [Sonnenscheindauer](#sonnenscheindauer)
+    * [Stimmbeteiligung](#stimmbeteiligung)
     * [WAPO Wetterstationen](#wapo-wetterstationen)
     * [VBZ Passagierfrequenz](#vbz-passagierfrequenz)
 - [Hilfs-Worflows](#hilfs-workflows)
@@ -294,15 +302,27 @@ Jeder Workflow ist in seinem Ordner im jeweiligen README beschrieben.
 
 ### Abstimmungsparolen
 
+=> [abstimmungsparolen/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/abstimmungsparolen/README.md)
+
 ### Hystreet Fussgängerfrequenzen
+
+=> [hystreet_fussgaengerfrequenzen/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/hystreet_fussgaengerfrequenzen/README.md)
 
 ### Museum Rietbert: Himmelheber
 
+=> [mrz_himmelheber/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/mrz_himmelheber/README.md)
+
 ### Museum Rietberg: Patolu
+
+=> [mrz_patolu/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/mrz_patolu/README.md)
 
 ### Stadtarchiv: Geschäftsberichte
 
+=> [sar_geschaeftsberichte/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/sar_geschaeftsberichte/README.md)
+
 ### Schulferien
+
+=> [schulferien/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/schulferien/README.md)
 
 ### Sonnenscheindauer
 
@@ -311,6 +331,8 @@ Nicht produktiv, Test-Scraper für die Sonnenscheindauer.
 => [sonnenscheindauer/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/sonnenscheindauer/README.md)
 
 ### Stimmbeteiligung
+
+=> [stimmbeteiligung/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/stimmbeteiligung/README.md)
 
 ### VBZ Passagierfrequenz
 
