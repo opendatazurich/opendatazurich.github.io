@@ -3,6 +3,7 @@ WAPO Wetterstationen
 
 ||Beschreibung|
 |---|---|
+|**Status:**| [![Update wapo_wetterstationen data](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_wapo_wetterstationen.yml/badge.svg)](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_wapo_wetterstationen.yml)|
 |**Workflow:**|[`update_wapo_wetterstationen.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_wapo_wetterstationen.yml)|
 |**Quelle:**| FTP-Server
 |**Datensatz INT:**|[Messwerte der Wetterstationen der Wasserschutzpolizei Zürich (data.integ.stadt-zuerich.ch)](https://data.integ.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen)|
