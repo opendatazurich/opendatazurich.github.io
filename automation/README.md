@@ -313,8 +313,6 @@ Nicht produktiv, Test-Scraper für die Sonnenscheindauer.
 
 ### Stimmbeteiligung
 
-### Tagger
-
 ### VBZ Passagierfrequenz
 
 => [vbz_frequenzen_hardbruecke/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/vbz_frequenzen_hardbruecke/README.md)
@@ -322,3 +320,33 @@ Nicht produktiv, Test-Scraper für die Sonnenscheindauer.
 ### WAPO Wetterstationen
 
 => [wapo_wetterstationen/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/wapo_wetterstationen/README.md)
+
+## Hilfs-Workflows
+
+Neben den Datensatz-Workflows gibt es auch noch einige Hilfs-Workflows, die bei der täglichen Arbeit unterstützen.
+
+### Tagger
+
+Der [Tagger](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/tagger/README.md) ist ein kleines Tool, das basierend auf einer YAML-Konfiguration Tags an Datensätzen anbringen kann.
+Der zugehörige [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/tagger.yml) läuft alle 15min.
+
+### DK-ÜL Export
+
+Dieser [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/dk-uel.yml) kann manuell getriggert werden. Er lädt die CKAN-Metadaten in CSVs, welche sich in den DK-ÜL importieren lassen (durch Danny oder Michel).
+
+### Metadaten-Excel Export
+
+Mit diesem [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/export.yml) kann von einem Datensatz ein OGD-Metadaten-Excel generiert werden basierend auf den Metadaten, die auf CKAN eingetragen sind.
+Das ist sinnvoll, falls das zugehörige Excel verloren ging oder manuelle Änderungen vorgenommen wurden.
+
+### Ressourcen sortieren
+
+[Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/reorder-resources.yml) um die Sortierung von Ressourcen zu korrigieren.
+
+Basiert auf einem Skript aus dem [metaodi/ckan-admin-scripts Repository](https://github.com/metaodi/ckan-admin-scripts).
+
+### Showcases ohne Datasets
+
+[Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/showcases.yml) um CKAN Showcases aufzulisten, die zu keinem Datensatz verbunden sind.
+
+Basiert auf einem Skript aus dem [metaodi/ckan-admin-scripts Repository](https://github.com/metaodi/ckan-admin-scripts).
