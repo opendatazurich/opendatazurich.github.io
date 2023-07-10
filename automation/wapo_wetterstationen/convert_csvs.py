@@ -31,12 +31,14 @@ __location__ = os.path.realpath(
     )
 )
 
+# Method to convert string to floating point (if possible)
 def safefloat(s):
     if not s:
         return s
     return float(s)
 
 
+# Method to convert string to integer (if possible)
 def safeint(s):
     if not s:
         return s
@@ -48,6 +50,7 @@ def safeint(s):
         raise ValueError(f"Can't parse {s} as int without losing precision")
 
 
+# Method to convert the Tecson-CSV (with semicolon, ISO-8859-1 encoding) to a OGD CSV (comma-separated, UTF-8)
 def convert_csv_delim(output_path, input_path, input_delim=';', input_encoding='iso-8859-1'):
     with open(input_path, 'r', encoding=input_encoding) as f:
         reader = csv.DictReader(f, delimiter=input_delim)
@@ -82,6 +85,7 @@ def convert_csv_delim(output_path, input_path, input_delim=';', input_encoding='
         writer = csv.DictWriter(csv_file, fieldnames=header, delimiter=',', quoting=csv.QUOTE_MINIMAL)
         writer.writeheader()
         for row in rows:
+            # add new column for UTC date
             zurich_tz = pytz.timezone('Europe/Zurich')
             row_date = datetime.strptime(row['Datum/Zeit'], '%d.%m.%Y %H:%M:%S')
             date_cet = zurich_tz.localize(row_date)
