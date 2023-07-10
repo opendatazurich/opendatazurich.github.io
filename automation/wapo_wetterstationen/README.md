@@ -7,7 +7,7 @@ Das [Workflow-YAML](https://github.com/opendatazurich/opendatazurich.github.io/b
 Die Skripts werden alle in `run.sh` und schlussendlich das erstellte CSV wieder in CKAN hochgeladen.
 
 ```mermaid
-flowchart TD
+flowchart TB
     Zeit>"Zeitsteuerung ⌛️"]
     Manuell>"Manuell"]
     Start(GitHub Action starten, run.sh ausführen)
@@ -16,10 +16,16 @@ flowchart TD
     Start --> DatenVonCKAN(Bestehende Daten von CKAN herunterladen)
     DatenVonCKAN --> DatenInDB(Bestehende Daten in SQLite Datenbank laden)
     DatenInDB --> FTP(Neue Daten von FTP herunterladen)
+    FTP -.- fetchftp(fetch_from_ftp.py):::script
     FTP --> Merge(Neue Daten in SQLite Datenbank mergen)
+    Merge -.- mergedata(merge_data.py):::script
     Merge --> Export(SQLite Datenbank als CSV exportieren)
     Export --> DataUpdate(CSV in CKAN aktualiseren)
+    DataUpdate -.- upload(upload_resource_to_ckan.py):::script
     DataUpdate --> MetadataUpdate(Metadaten in CKAN aktualisieren)
-    MetadataUpdate --> Ende
+    MetadataUpdate -.- updatemetadata(update_metadata.py):::script
+    MetadataUpdate --> Ende["`**ENDE**`"]
+    style Ende stroke-width:5px
+    classDef script fill:#EDF2AE,stroke:#666,stroke-width:4px
 ```
 
