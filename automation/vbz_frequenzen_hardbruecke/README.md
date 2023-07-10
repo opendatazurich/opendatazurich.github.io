@@ -1,8 +1,6 @@
 VBZ Passagierfrequenzen
 =======================
 
-
-
 ||Beschreibung|
 |---|---|
 |**Workflow:**|[`update_vbz_frequenzen_hardbruecke.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_vbz_frequenzen_hardbruecke.yml)|
