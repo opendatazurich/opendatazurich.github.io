@@ -5,8 +5,8 @@ WAPO Wetterstationen
 |---|---|
 |**Workflow:**|[`update_wapo_wetterstationen.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_wapo_wetterstationen.yml)|
 |**Quelle:**| FTP-Server
-|**Datensatz INT:**|[Messwerte der Wetterstationen der Wasserschutzpolizei Zürich (data.stadt-zuerich.ch)](https://data.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen)|
-|**Datensatz PROD:**|[Messwerte der Wetterstationen der Wasserschutzpolizei Zürich (data.integ.stadt-zuerich.ch)](https://data.integ.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen))|
+|**Datensatz INT:**|[Messwerte der Wetterstationen der Wasserschutzpolizei Zürich (data.integ.stadt-zuerich.ch)](https://data.integ.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen)|
+|**Datensatz PROD:**|[Messwerte der Wetterstationen der Wasserschutzpolizei Zürich (data.stadt-zuerich.ch)](https://data.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen))|
 
 Die Daten der beiden Wetterstationen Mythenquai und Tiefenbrunnen der Wasserschutzpolizei (WAPO) werden uns durch die Tecson AG via FTP-Server bereitgestellt.
 
