@@ -19,6 +19,7 @@ D.h. bedeutet, dass initial ein neuer Datensatz manuell angelegt werden muss (en
     * [WAPO Wetterstationen](#wapo-wetterstationen)
     * [VBZ Passagierfrequenz](#vbz-passagierfrequenz)
 - [Hilfs-Worflows](#hilfs-workflows)
+    * [Notifiy Datasets](#notify-datasets)
     * [Tagger](#tagger)
     * [DK-ÜL Export](#dk-ul-export)
     * [Metadaten-Excel Export](#metadaten-excel-export)
