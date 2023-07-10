@@ -3,6 +3,7 @@ VBZ Passagierfrequenzen
 
 ||Beschreibung|
 |---|---|
+|**Status:**|[![Update vbz_frequenzen_hardbruecke data](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_vbz_frequenzen_hardbruecke.yml/badge.svg)](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_vbz_frequenzen_hardbruecke.yml)|
 |**Workflow:**|[`update_vbz_frequenzen_hardbruecke.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_vbz_frequenzen_hardbruecke.yml)|
 |**Quelle:**| VBZ API
 |**Datensatz INT:**|[Fahrgastfrequenzen an der VBZ-Haltestelle Hardbrücke (data.integ.stadt-zuerich.ch)](https://data.integ.stadt-zuerich.ch/dataset/vbz_frequenzen_hardbruecke)|
