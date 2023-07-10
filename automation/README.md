@@ -12,7 +12,7 @@ D.h. bedeutet, dass initial ein neuer Datensatz manuell angelegt werden muss (en
     * [Grundgerüst eines Workflows](#grundgerüst-eines-workflows)
     * [Secrets](#secrets)
     * [Artifakte](#artifakte)
-    * [Dateien in Repository pushen](#dateien)
+    * [Dateien in Repository pushen](#dateien-in-repository-pushen)
     * [Daten in CKAN aktualiseren](#daten-in-ckan-aktualiseren)
     * [Metadaten in CKAN aktualisieren](#metadaten-in-ckan-aktualisieren)
 - [Einzelne Workflows](#einzelne-workflows)
