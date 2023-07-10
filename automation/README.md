@@ -299,8 +299,6 @@ Jeder Workflow ist in seinem Ordner im jeweiligen README beschrieben.
 
 ### Museum Rietberg: Patolu
 
-### Notify Datasets
-
 ### Stadtarchiv: Geschäftsberichte
 
 ### Schulferien
@@ -324,6 +322,11 @@ Nicht produktiv, Test-Scraper für die Sonnenscheindauer.
 ## Hilfs-Workflows
 
 Neben den Datensatz-Workflows gibt es auch noch einige Hilfs-Workflows, die bei der täglichen Arbeit unterstützen.
+
+### Notify Datasets
+
+Dieser [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/notify_datasets.yml) sendet jeden Morgen automatisch eine Nachricht in einen definierten Telegram-Kanale mit den Informationen über die neuen oder geänderten Datensätze für jeden Harvester.
+Es dient als eine Kontrolle, ob die Harvester korrekt laufen.
 
 ### Tagger
 
