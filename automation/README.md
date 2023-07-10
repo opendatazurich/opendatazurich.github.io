@@ -15,9 +15,16 @@ D.h. bedeutet, dass initial ein neuer Datensatz manuell angelegt werden muss (en
     * [Dateien in Repository pushen](#dateien-in-repository-pushen)
     * [Daten in CKAN aktualiseren](#daten-in-ckan-aktualiseren)
     * [Metadaten in CKAN aktualisieren](#metadaten-in-ckan-aktualisieren)
-- [Einzelne Workflows](#einzelne-workflows)
+- [Datensatz-Worflows](#einzelne-workflows)
     * [WAPO Wetterstationen](#wapo-wetterstationen)
     * [VBZ Passagierfrequenz](#vbz-passagierfrequenz)
+- [Hilfs-Worflows](#hilfs-workflows)
+    * [Tagger](#tagger)
+    * [DK-ÜL Export](#dk-ul-export)
+    * [Metadaten-Excel Export](#metadaten-excel-export)
+    * [Ressourcen sortieren](#ressourcen-sortieren)
+    * [Showcases ohne Datasets](#showcases-ohne-datasets)
+
 
 ## GitHub Actions
 
