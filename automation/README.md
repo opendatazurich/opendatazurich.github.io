@@ -17,6 +17,7 @@ D.h. bedeutet, dass initial ein neuer Datensatz manuell angelegt werden muss (en
     * [Metadaten in CKAN aktualisieren](#metadaten-in-ckan-aktualisieren)
 - [Einzelne Workflows](#einzelne-workflows)
     * [WAPO Wetterstationen](#wapo-wetterstationen)
+    * [VBZ Passagierfrequenz](#vbz-passagierfrequenz)
 
 ## GitHub Actions
 
@@ -281,7 +282,35 @@ Alle Datensätze, die via GitHub Action aktualisiert werden, haben ein OGD-Metad
 
 ## Einzelne Workflows
 
-Jeder Workflow ist in seinem Ordner beschrieben.
+Jeder Workflow ist in seinem Ordner im jeweiligen README beschrieben.
+
+### Abstimmungsparolen
+
+### Hystreet Fussgängerfrequenzen
+
+### Museum Rietbert: Himmelheber
+
+### Museum Rietberg: Patolu
+
+### Notify Datasets
+
+### Stadtarchiv: Geschäftsberichte
+
+### Schulferien
+
+### Sonnenscheindauer
+
+Nicht produktiv, Test-Scraper für die Sonnenscheindauer.
+
+=> [sonnenscheindauer/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/sonnenscheindauer/README.md)
+
+### Stimmbeteiligung
+
+### Tagger
+
+### VBZ Passagierfrequenz
+
+=> [vbz_frequenzen_hardbruecke/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/vbz_frequenzen_hardbruecke/README.md)
 
 ### WAPO Wetterstationen
 
