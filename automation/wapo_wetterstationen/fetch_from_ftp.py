@@ -25,6 +25,13 @@ host = os.getenv('WAPO_FTP_HOST')
 user = os.getenv('WAPO_FTP_USER')
 pw = os.getenv('WAPO_FTP_PASSWORD')
 
+# Definition der max. Zeilen im CSV bis die Datei gelöscht wird
+# Lesebeispiel: 3h * 6 Zeilen = 18 Zeilen, wenn die CSV Datei mehr als 18 Zeilen hat, wird diese gelöscht
+# Das soll verhindern, dass die Datei unendlich anwächst aber trotzdem keine Datenlücke entsteht (3h Puffer)
+ROWS_PER_HOUR = 6
+MAX_HOURS = 3
+MAX_ROWS = ROWS_PER_HOUR * MAX_HOURS
+
  # config
 stations = [
     {
@@ -132,10 +139,6 @@ try:
     # login on FTP
     ftp = FTP(host)
     ftp.login(user, pw)
-
-    ROWS_PER_HOUR = 6
-    MAX_HOURS = 3
-    MAX_ROWS = ROWS_PER_HOUR * MAX_HOURS
 
     for station in stations:
         # change to directory
