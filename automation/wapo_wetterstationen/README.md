@@ -31,7 +31,7 @@ flowchart TB
     DataUpdate -.- upload(upload_resource_to_ckan.py):::script
     DataUpdate --> MetadataUpdate(Metadaten in CKAN aktualisieren)
     MetadataUpdate -.- updatemetadata(update_metadata.py):::script
-    MetadataUpdate --> Ende["`**ENDE**`"]
+    MetadataUpdate --> Ende["ENDE"]
     style Ende stroke-width:5px
     classDef script fill:#EDF2AE,stroke:#666,stroke-width:4px
 ```
