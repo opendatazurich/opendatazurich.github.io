@@ -10,4 +10,4 @@ Harvester Notifications
 Jeder Morgen wird dieser Workflow gestartet und notifiziert das OGD-Team via Telegram über den Stand aller Harvester.
 Die Daten stammen alle vom CKAN API.
 
-Der ganze Ablauf ist im Skript [`notify.sh`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/notify_datasets/notify.py) implementiert.
+Der ganze Ablauf ist im Skript [`notify.py`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/notify_datasets/notify.py) implementiert.
