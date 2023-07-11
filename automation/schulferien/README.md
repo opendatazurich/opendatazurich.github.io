@@ -17,17 +17,19 @@ Die Skripte werden alle in [`run_scraper.sh`](https://github.com/opendatazurich/
 flowchart TB
     Zeit>"Zeitsteuerung ⌛️"]
     Manuell>"Manuell"]
-    Start(GitHub Action starten, update_data.sh ausführen)
+    Start(GitHub Action starten, run_scraper.sh ausführen)
     Zeit --> Start
     Manuell --> Start
     Start --> DatenVonCKAN(Bestehende Daten von CKAN herunterladen)
     DatenVonCKAN --> DatenInDB(Bestehende Daten in SQLite Datenbank laden)
-    DatenInDB --> API(Neue Daten von API herunterladen)
-    API -.- fetch(fetch_from_api.py):::script
-    API --> Merge(Neue Daten in SQLite Datenbank mergen)
-    Merge -.- merge(merge_data.py):::script
+    DatenInDB --> populate(populate_database.py):::script
+    DatenInDB --> Scraper(Neue Daten von Webseite scrapen)
+    Scraper -.- scrape(scraper.py):::script
+    Scraper --> Merge(Neue Daten in SQLite Datenbank mergen)
+    Merge -.- merge(merge_events.py):::script
     Merge --> Export(SQLite Datenbank als CSV exportieren)
-    Export --> DataUpdate(CSV in CKAN aktualiseren)
+    Export --> Commit(Daten in Repository committen)
+    Commit --> DataUpdate(CSV in CKAN aktualiseren)
     DataUpdate -.- upload(upload_resource_to_ckan.py):::script
     DataUpdate --> MetadataUpdate(Metadaten in CKAN aktualisieren)
     MetadataUpdate -.- updatemetadata(update_metadata.py):::script
