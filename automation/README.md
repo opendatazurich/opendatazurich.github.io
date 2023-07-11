@@ -348,7 +348,7 @@ Neben den Datensatz-Workflows gibt es auch noch einige Hilfs-Workflows, die bei 
 
 ### Notify Datasets
 
-Dieser [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/notify_datasets.yml) sendet jeden Morgen automatisch eine Nachricht in einen definierten Telegram-Kanale mit den Informationen über die neuen oder geänderten Datensätze für jeden Harvester.
+Dieser [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/notify_datasets.yml) (meht Infos im [README](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/notify_datasets/README.md)) sendet jeden Morgen automatisch eine Nachricht in einen definierten Telegram-Kanale mit den Informationen über die neuen oder geänderten Datensätze für jeden Harvester.
 Es dient als eine Kontrolle, ob die Harvester korrekt laufen.
 
 ### Tagger
