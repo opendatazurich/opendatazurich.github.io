@@ -26,7 +26,7 @@ flowchart TB
     DatenInDB --> Scraper(Neue Daten von Webseite scrapen)
     Scraper -.- scrape(scraper.py):::script
     Scraper --> Merge(Neue Daten in SQLite Datenbank mergen)
-    Merge -.- merge(merge_events.py):::script
+    Merge -.- scrape:::script
     Merge --> Export(SQLite Datenbank als CSV exportieren)
     Export --> Commit(Daten in Repository committen)
     Commit --> DataUpdate(CSV in CKAN aktualiseren)
