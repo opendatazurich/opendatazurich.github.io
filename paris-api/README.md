@@ -28,7 +28,7 @@ Diese Dokumentation beschreibt die Programmierschnittstelle (API) des Parlaments
 
 Hier ein vereinfachtes konzeptuelles Datenmodell des Parlamentsinformationssystem:
 
-![Paris Datenmodell](<https://opendatazurich.github.io/ris-api/pics/Paris_Datenmodell.png>)
+![Paris Datenmodell](<https://opendatazurich.github.io/paris-api/pics/Paris_Datenmodell.png>)
 
 Diese Dokumentation bietet einen **Schnelleinstieg in das Paris-API**.
 Im Kapitel 1 werden pro Entität ein paar typische Beispiels-Abfragen erläutert. 
