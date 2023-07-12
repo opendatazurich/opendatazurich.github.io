@@ -11,7 +11,8 @@ from ckanapi import RemoteCKAN, NotFound
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
-
+# TELEGRAM_TOKEN bekommt man beim erstellen eines neuen Bots
+# Neuer Bot => Chatten mit BotFather auf Telegram
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_TO')
 
