@@ -29,7 +29,7 @@ D.h. bedeutet, dass initial ein neuer Datensatz manuell angelegt werden muss (en
 - [Hilfs-Worflows](#hilfs-workflows)
     * [Notifiy Datasets](#notify-datasets)
     * [Tagger](#tagger)
-    * [DK-ÜL Export](#dk-ul-export)
+    * [DK-ÜL Export](#dk-ül-export)
     * [Metadaten-Excel Export](#metadaten-excel-export)
     * [Ressourcen sortieren](#ressourcen-sortieren)
     * [Showcases ohne Datasets](#showcases-ohne-datasets)
