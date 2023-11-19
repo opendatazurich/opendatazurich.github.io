@@ -9,8 +9,10 @@ import requests
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
-user = os.getenv('SSZ_USER')
-pw = os.getenv('SSZ_PASS')
+#user = os.getenv('SSZ_USER')
+#pw = os.getenv('SSZ_PASS')
+user = os.getenv('VBZ_SSZ_USER')
+pw = os.getenv('VBZ_SSZ_PASS')
 
 try:
     # get locations
