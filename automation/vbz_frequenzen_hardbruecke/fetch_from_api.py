@@ -12,7 +12,7 @@ load_dotenv(find_dotenv())
 #user = os.getenv('SSZ_USER')
 #pw = os.getenv('SSZ_PASS')
 user = os.getenv('VBZ_SSZ_USER')
-pw = os.getenv('VBZ_SSZ_PASS')
+pw = os.getenv('VBZ_SSZ_PASSWORD')
 
 try:
     # get locations
