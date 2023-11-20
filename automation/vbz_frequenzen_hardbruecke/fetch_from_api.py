@@ -27,7 +27,7 @@ try:
     writer.writeheader()
 
     today = datetime.now().date()
-    total_days = 5
+    total_days = 3
     for loc in locations:
         for day in range(total_days):
             current_date = (today - timedelta(days=day))
