@@ -15,6 +15,9 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 # 1. Get current year file from CKAN
 year=$(date +'%Y')
 curl https://data.stadt-zuerich.ch/dataset/vbz_frequenzen_hardbruecke/download/frequenzen_hardbruecke_${year}.csv --output $DIR/frequenzen_hardbruecke.csv
+head $DIR/frequenzen_hardbruecke.csv
+echo "..."
+tail $DIR/frequenzen_hardbruecke.csv
 
 # 2. populate the database with the current CSV
 echo "Populating databases from CSV..."
