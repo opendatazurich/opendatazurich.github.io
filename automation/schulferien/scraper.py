@@ -23,7 +23,8 @@ __location__ = os.path.realpath(
 def get_ics_download_url(url):
     content = dl.download_content(url)
     soup = BeautifulSoup(content, 'html.parser')
-    download = soup.find('a', title=re.compile(r".*Import.*"))
+    #titles have different input over the years
+    download = soup.find('a', title=re.compile(r".*Import|Termin.*"))
     if not download:
         return None
     download_url = urljoin(url, download['href'])
