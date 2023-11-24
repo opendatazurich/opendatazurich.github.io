@@ -49,7 +49,7 @@ try:
         )
         '''
     )
-
+    print("SQLite Database Location:", DATABASE_NAME)
     # add entries
     query = "INSERT INTO data ("
     query += ", ".join(columns)
