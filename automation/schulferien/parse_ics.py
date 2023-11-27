@@ -7,7 +7,7 @@ import sys
 
 def convert_dates(v):
     if isinstance(v.dt, datetime.date):
-        return datetime.datetime.combine(v.dt, datetime.time(0, 0))
+        return datetime.datetime.combine(v.dt, datetime.time(0, 0)).isoformat() + 'Z'
     return v.dt
 
 
