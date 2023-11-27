@@ -26,10 +26,10 @@ try:
     c.execute(
         '''
         CREATE TABLE tmp (
-            start_date text,
-            end_date text,
+            start_date iso_date,
+            end_date iso_date,
             summary text,
-            created_date text,
+            created_date iso_date,
             UNIQUE(start_date, end_date, summary)
         )
         '''
