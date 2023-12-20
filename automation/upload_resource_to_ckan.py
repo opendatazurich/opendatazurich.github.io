@@ -56,6 +56,7 @@ try:
     if existing:
         res = existing[0]
         print("Updating existing resource %s" % res['name'])
+        print(path)
         ckan.action.resource_update(
             id=res['id'],
             upload=open(path, "rb")
