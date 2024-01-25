@@ -16,6 +16,9 @@ Options:
 """
 
 import pandas as pd
+import os
+from docopt import docopt
+from dotenv import load_dotenv, find_dotenv
 
 # Load environment variables from a .env file in the project directory
 load_dotenv(find_dotenv())
