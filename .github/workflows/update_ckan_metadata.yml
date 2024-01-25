@@ -4,6 +4,7 @@ on:
   schedule:
     - cron:  '18 * * * *' # every hour
   workflow_dispatch:
+  on: push
 
 jobs:
   update_data_py:
