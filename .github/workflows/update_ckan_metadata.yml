@@ -48,7 +48,7 @@ jobs:
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/xls_to_meta_xml.py -f automation/ogd_metadata/ogd_metadata_metadaten.xls  --outfile automation/ogd_metadata/meta.xml
-        python automation/update_metadata.py -d ogd_metadata -f automation/ogd_metadata/meta.xml
+        python automation/update_metadata.py -d prd_ssz_ogd_katalog_inventar -f automation/ogd_metadata/meta.xml
 
     - name: Notify telegram failure
       if: ${{ failure()  || cancelled() }}
