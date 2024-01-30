@@ -2,7 +2,7 @@ name: Update ckan_metadata data
 
 on:
   schedule:
-    - cron:  '18 * * * *' # every hour
+    - cron:  '0 0 * * *' # every midnight
   workflow_dispatch:
   push:
 
