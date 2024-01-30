@@ -17,7 +17,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python ${{ matrix.python-version}}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
@@ -28,10 +28,10 @@ jobs:
         
     - name: Prepare data
       run: |
-        python automation/ogd_metadata/fetch_from_api.py -f ogd_metadata.csv
-        head ogd_metadata.csv
+        python automation/ogd_metadata/fetch_from_api.py -f ogd_katalog_inventar.csv
+        head ogd_katalog_inventar.csv
         echo "..."
-        tail ogd_metadata.csv
+        tail ogd_katalog_inventar.csv
         
     - name: Upload files to CKAN
       env:
@@ -39,7 +39,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/upload_resource_to_ckan.py -f ogd_metadata.csv -d prd_ssz_ogd_katalog_inventar
+        python automation/upload_resource_to_ckan.py -f ogd_katalog_inventar.csv -d prd_ssz_ogd_katalog_inventar
 
     - name: Update CKAN metadata
       env:
