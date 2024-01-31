@@ -345,8 +345,7 @@ Nicht produktiv, Test-Scraper für die Sonnenscheindauer.
 
 ### Dateninventar OGD-Katalog
 
-=> [ogd_metadata/README.md](https://github.com/opendatazurich/opendatazurich.github.io/automation/ogd_metadatan/README.md)
-
+=> [ogd_metadata/README.md](https://github.com/opendatazurich/opendatazurich.github.io/tree/feature/action_metadata_documentation/automation/ogd_metadata)
 
 
 ## Hilfs-Workflows
