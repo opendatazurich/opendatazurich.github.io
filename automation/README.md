@@ -26,6 +26,7 @@ D.h. bedeutet, dass initial ein neuer Datensatz manuell angelegt werden muss (en
     * [Stimmbeteiligung](#stimmbeteiligung)
     * [WAPO Wetterstationen](#wapo-wetterstationen)
     * [VBZ Passagierfrequenz](#vbz-passagierfrequenz)
+    * [Dateninventar OGD-Katalog](#dateninventar-ogd-katalog)
 - [Hilfs-Worflows](#hilfs-workflows)
     * [Notifiy Datasets](#notify-datasets)
     * [Tagger](#tagger)
@@ -342,13 +343,18 @@ Nicht produktiv, Test-Scraper für die Sonnenscheindauer.
 
 => [wapo_wetterstationen/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/wapo_wetterstationen/README.md)
 
+### Dateninventar OGD-Katalog
+
+=> [ogd_metadata/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/action_metadata_documentation/automation/ogd_metadata)
+
+
 ## Hilfs-Workflows
 
 Neben den Datensatz-Workflows gibt es auch noch einige Hilfs-Workflows, die bei der täglichen Arbeit unterstützen.
 
 ### Notify Datasets
 
-Dieser [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/notify_datasets.yml) (meht Infos im [README](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/notify_datasets/README.md)) sendet jeden Morgen automatisch eine Nachricht in einen definierten Telegram-Kanale mit den Informationen über die neuen oder geänderten Datensätze für jeden Harvester.
+Dieser [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/notify_datasets.yml) (mehr Infos im [README](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/notify_datasets/README.md)) sendet jeden Morgen automatisch eine Nachricht in einen definierten Telegram-Kanale mit den Informationen über die neuen oder geänderten Datensätze für jeden Harvester.
 Es dient als eine Kontrolle, ob die Harvester korrekt laufen.
 
 ### Tagger
