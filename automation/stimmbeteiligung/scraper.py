@@ -81,7 +81,8 @@ try:
             raise
    
     soup = BeautifulSoup(content, 'html.parser')
-    div = soup.select_one('div.mainparsys')
+    # div = soup.select_one('div.mainparsys')
+    div = soup.select_one('div.mod_pagetitle')
     match = re.search(r'Urnengang vom (.+):.*?Stimmbeteiligung.*beträgt.*?(\d+,?\d?)\s*Prozent.*?\((\d+\.\d+\.\d+)\)', div.text.strip())
 
     data = {
