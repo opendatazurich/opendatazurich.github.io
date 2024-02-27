@@ -18,6 +18,7 @@ print(user)
 
 try:
 
+    url = "https://zuerich.pas.ch/v2/api/Auth/login"
     payload = {
         'username':user,  # ENTER THE USERNAME
         'password': pw,  # ENTER THE PASSWORD
