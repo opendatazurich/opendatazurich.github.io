@@ -7,23 +7,25 @@ import traceback
 from datetime import datetime, timedelta
 import requests
 from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv())
+# load_dotenv(find_dotenv())
 
 user = os.getenv('VBZ_SSZ_USER_N')
 pw = os.getenv('VBZ_SSZ_USER')
 #user = os.getenv('VBZ_SSZ_USER')
 #pw = os.getenv('VBZ_SSZ_PASSWORD')
 
-try:
+print(user)
 
-    payload = {
-        'username':user,  # ENTER THE USERNAME
-        'password': pw,  # ENTER THE PASSWORD
-    }
-
-    bearer = requests.request("POST", url, json=payload)
-    token = bearer.json()['accessToken']
-    print(token)
+# try:
+#
+#     payload = {
+#         'username':user,  # ENTER THE USERNAME
+#         'password': pw,  # ENTER THE PASSWORD
+#     }
+#
+#     bearer = requests.request("POST", url, json=payload)
+#     token = bearer.json()['accessToken']
+#     print(token)
     # get locations
     # s = requests.Session()
     # s.auth = (user, pw)
@@ -59,9 +61,10 @@ try:
 #                     'Timestamp': obs['Timestamp'],
 #                     'Name': loc['Name']
 #                 })
-except Exception as e:
-    print("Error: %s" % e, file=sys.stderr)
-    print(traceback.format_exc(), file=sys.stderr)
-    sys.exit(1)
-finally:
-    sys.stdout.flush()
+
+# except Exception as e:
+#     print("Error: %s" % e, file=sys.stderr)
+#     print(traceback.format_exc(), file=sys.stderr)
+#     sys.exit(1)
+# finally:
+#     sys.stdout.flush()
