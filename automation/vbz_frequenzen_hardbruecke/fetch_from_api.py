@@ -25,6 +25,9 @@ try:
     print(user)
 
     bearer = requests.request("POST", url, json=payload)
+    type(bearer)
+    bearer
+    print(bearer)
     token = bearer.json()['accessToken']
     print(token)
     # get locations
