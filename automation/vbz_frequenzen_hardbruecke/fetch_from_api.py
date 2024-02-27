@@ -14,15 +14,15 @@ pw = os.getenv('VBZ_SSZ_USER')
 #user = os.getenv('VBZ_SSZ_USER')
 #pw = os.getenv('VBZ_SSZ_PASSWORD')
 
-print(user)
 
 try:
-
     url = "https://zuerich.pas.ch/v2/api/Auth/login"
     payload = {
         'username':user,  # ENTER THE USERNAME
         'password': pw,  # ENTER THE PASSWORD
     }
+    print(url)
+    print(user)
 
     bearer = requests.request("POST", url, json=payload)
     token = bearer.json()['accessToken']
