@@ -10,7 +10,7 @@ from dotenv import load_dotenv, find_dotenv
 # load_dotenv(find_dotenv())
 
 user = os.getenv('VBZ_SSZ_USER_N')
-pw = os.getenv('VBZ_SSZ_USER')
+pw = os.getenv('VBZ_SSZ_USER_N')
 #user = os.getenv('VBZ_SSZ_USER')
 #pw = os.getenv('VBZ_SSZ_PASSWORD')
 
@@ -18,7 +18,7 @@ pw = os.getenv('VBZ_SSZ_USER')
 try:
     url = "https://zuerich.pas.ch/v2/api/Auth/login"
     payload = {
-        'username':user,  # ENTER THE USERNAME
+        'username': user,  # ENTER THE USERNAME
         'password': pw,  # ENTER THE PASSWORD
     }
     print(url)
@@ -29,7 +29,6 @@ try:
     bearer
     print(bearer)
     # token = bearer.json()['accessToken']
-    print(token)
     # get locations
     # s = requests.Session()
     # s.auth = (user, pw)
