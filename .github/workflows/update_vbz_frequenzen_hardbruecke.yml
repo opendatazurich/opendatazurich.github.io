@@ -26,7 +26,11 @@ jobs:
         pip install -r automation/automation-requirements.txt
 
     - name: Tryout
-      run: python automation/vbz_frequenzen_hardbruecke/fetch_from_api.py
+      env:
+        VBZ_SSZ_USER_N: ${{ secrets.VBZ_SSZ_USER_N }}
+        VBZ_SSZ_USER: ${{ secrets.VBZ_SSZ_USER }}
+      run: |
+        python automation/vbz_frequenzen_hardbruecke/fetch_from_api.py
 #
 #    - name: Prepare data
 #      env:
