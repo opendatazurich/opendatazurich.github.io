@@ -28,7 +28,7 @@ jobs:
     - name: Tryout
       env:
         VBZ_SSZ_USER_N: ${{ secrets.VBZ_SSZ_USER_N }}
-        VBZ_SSZ_USER: ${{ secrets.VBZ_SSZ_USER_N }}
+        VBZ_SSZ_PASSWORD_N: ${{ secrets.VBZ_SSZ_PASSWORD_N }}
       run: |
         python automation/vbz_frequenzen_hardbruecke/fetch_from_api.py
 

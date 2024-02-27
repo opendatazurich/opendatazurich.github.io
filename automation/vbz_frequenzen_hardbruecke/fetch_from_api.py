@@ -10,7 +10,7 @@ from dotenv import load_dotenv, find_dotenv
 # load_dotenv(find_dotenv())
 
 user = os.getenv('VBZ_SSZ_USER_N')
-pw = os.getenv('VBZ_SSZ_USER_N')
+pw = os.getenv('VBZ_SSZ_PASSWORD_N')
 #user = os.getenv('VBZ_SSZ_USER')
 #pw = os.getenv('VBZ_SSZ_PASSWORD')
 
@@ -21,8 +21,7 @@ try:
         'username': user,  # ENTER THE USERNAME
         'password': pw,  # ENTER THE PASSWORD
     }
-    print(url)
-    print(user)
+    print(payload)
 
     bearer = requests.request("POST", url, json=payload)
     type(bearer)
