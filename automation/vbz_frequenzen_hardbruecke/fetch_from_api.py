@@ -27,7 +27,8 @@ try:
     type(bearer)
     bearer
     print(bearer)
-    # token = bearer.json()['accessToken']
+    token = bearer.json()['accessToken']
+    print(token)
     # get locations
     # s = requests.Session()
     # s.auth = (user, pw)
