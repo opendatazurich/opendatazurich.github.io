@@ -30,7 +30,7 @@ jobs:
         VBZ_SSZ_USER_N: ${{ secrets.VBZ_SSZ_USER_N }}
         VBZ_SSZ_USER: ${{ secrets.VBZ_SSZ_USER }}
       run: |
-        python automation/vbz_frequenzen_hardbruecke/test_fetch_from_api.py
+        python automation/vbz_frequenzen_hardbruecke/fetch_from_api.py
 
 #
 #    - name: Prepare data
