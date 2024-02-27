@@ -16,16 +16,16 @@ pw = os.getenv('VBZ_SSZ_USER')
 
 print(user)
 
-# try:
-#
-#     payload = {
-#         'username':user,  # ENTER THE USERNAME
-#         'password': pw,  # ENTER THE PASSWORD
-#     }
-#
-#     bearer = requests.request("POST", url, json=payload)
-#     token = bearer.json()['accessToken']
-#     print(token)
+try:
+
+    payload = {
+        'username':user,  # ENTER THE USERNAME
+        'password': pw,  # ENTER THE PASSWORD
+    }
+
+    bearer = requests.request("POST", url, json=payload)
+    token = bearer.json()['accessToken']
+    print(token)
     # get locations
     # s = requests.Session()
     # s.auth = (user, pw)
@@ -62,9 +62,9 @@ print(user)
 #                     'Name': loc['Name']
 #                 })
 
-# except Exception as e:
-#     print("Error: %s" % e, file=sys.stderr)
-#     print(traceback.format_exc(), file=sys.stderr)
-#     sys.exit(1)
-# finally:
-#     sys.stdout.flush()
+except Exception as e:
+    print("Error: %s" % e, file=sys.stderr)
+    print(traceback.format_exc(), file=sys.stderr)
+    sys.exit(1)
+finally:
+    sys.stdout.flush()
