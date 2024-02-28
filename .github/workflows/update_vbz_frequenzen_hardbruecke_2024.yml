@@ -30,10 +30,10 @@ jobs:
         VBZ_SSZ_USER_N: ${{ secrets.VBZ_SSZ_USER_N }}
         VBZ_SSZ_PASSWORD_N: ${{ secrets.VBZ_SSZ_PASSWORD_N }}
       run: |
-        python automation/vbz_frequenzen_hardbruecke/fetch_from_api.py
+        python automation/vbz_frequenzen_hardbruecke/fetch_from_api_2024.py
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ github.event.inputs.dataset }}_metadata
-        path: ${{ github.event.inputs.dataset }}_metadata.xlsx
+        name: vbz_frequenzen_2024_raw
+        path: vbz_frequenzen_2024_raw.csv
