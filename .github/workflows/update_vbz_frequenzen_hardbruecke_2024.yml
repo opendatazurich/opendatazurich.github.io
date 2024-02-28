@@ -1,0 +1,39 @@
+name: Update vbz_frequenzen_hardbruecke data
+
+on:
+#  schedule:
+#    - cron:  '*/15 * * * *' # every 15min
+  workflow_dispatch:
+
+jobs:
+  update_data_py:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment: production
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r automation/automation-requirements.txt
+
+    - name: Tryout
+      env:
+        VBZ_SSZ_USER_N: ${{ secrets.VBZ_SSZ_USER_N }}
+        VBZ_SSZ_PASSWORD_N: ${{ secrets.VBZ_SSZ_PASSWORD_N }}
+      run: |
+        python automation/vbz_frequenzen_hardbruecke/fetch_from_api.py
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ github.event.inputs.dataset }}_metadata
+        path: ${{ github.event.inputs.dataset }}_metadata.xlsx
