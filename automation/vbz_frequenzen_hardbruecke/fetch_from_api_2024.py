@@ -38,9 +38,8 @@ url2 = "https://zuerich.pas.ch/v2" # EDIT THIS TO PUT THE BASE URL
 
 payload = {
     'username': os.getenv('VBZ_SSZ_USER_N'),         # ENTER THE USERNAME
-    'password': os.getenv('VBZ_SSZ_USER'),           # ENTER THE PASSWORD
+    'password': os.getenv('VBZ_SSZ_PASSWORD_N'),           # ENTER THE PASSWORD
 }
-
 
 bearer = requests.request("POST", url, json=payload)
 token = bearer.json()['accessToken']
