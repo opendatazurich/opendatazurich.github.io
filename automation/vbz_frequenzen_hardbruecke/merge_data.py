@@ -38,7 +38,8 @@ try:
         dr = csv.DictReader(f) 
         for r in dr:
             to_db.append(dict(r))
-    
+
+    print(type(to_db))
     print("succsesfully read in today data to database")
 
     db_path = arguments['--database']
