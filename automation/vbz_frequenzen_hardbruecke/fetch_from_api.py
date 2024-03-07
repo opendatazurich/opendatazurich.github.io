@@ -130,7 +130,7 @@ try:
     # Replace old values with new values in column 'Name'
     df_count_final['Name'] = df_count_final['Name'].replace(value_mapping)
 
-    print(df_count_final.columns)
+    # print(df_count_final.columns)
 
     # writing file out
     df_count_final.to_csv("sys.stdout", index = False)
