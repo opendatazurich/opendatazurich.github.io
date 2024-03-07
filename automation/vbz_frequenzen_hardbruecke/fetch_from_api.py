@@ -68,7 +68,7 @@ try:
         locations = pd.concat([locations, pd.DataFrame.from_dict(location_json, orient='columns')], ignore_index=True)
         locations["IsIncludedForParent"] = locations["IsIncludedForParent"].astype(bool)  # Explicitly cast to bool dtype to avoid the warning about future version
 
-    df_count = pd.DataFrame.from_dict(count)
+    df_count_final = pd.DataFrame.from_dict(count)
 
     ## data wrangling
 
