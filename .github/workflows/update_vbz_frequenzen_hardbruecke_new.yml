@@ -1,4 +1,4 @@
-name: Update vbz_frequenzen_hardbruecke data
+name: Update vbz_frequenzen_hardbruecke data NEW
 
 on:
   schedule:
