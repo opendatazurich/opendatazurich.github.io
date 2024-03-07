@@ -8,6 +8,7 @@ import traceback
 from datetime import datetime, timedelta
 import requests
 from dotenv import load_dotenv, find_dotenv
+import re
 load_dotenv(find_dotenv())
 
 # api access
