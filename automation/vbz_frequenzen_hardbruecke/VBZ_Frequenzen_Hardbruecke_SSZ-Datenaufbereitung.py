@@ -200,4 +200,4 @@ df_count_final['Name'] = df_count_final['Name'].replace(value_mapping)
 df_count_final.head(10)
 
 # write df to csv
-df_count_final.to_csv("vbz_frequenzen_hardbruecke/data/resulting.csv", index = False)
+df_count_final.to_csv("vbz_frequenzen_hardbruecke/data/vbz_hardbruecke_frequenzen_2024.csv", index = False)

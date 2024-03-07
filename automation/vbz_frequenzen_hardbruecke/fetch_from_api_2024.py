@@ -20,7 +20,7 @@ import os
 # USER INPUTS
 ######################################################################
 start_date = 20240101                 # ENTER THE START DATE in YYYYMMDD FORMAT
-end_date = 202403045                  # ENTER THE END DATE in YYYYMMDD FORMAT
+end_date = 20240505                  # ENTER THE END DATE in YYYYMMDD FORMAT
 granularity = "FiveMinutes"           # change granularity if needed (e.g. "Hour")
 required_location_names = ["TVH Ost", "TVH West"] # Ost und West separat
 
