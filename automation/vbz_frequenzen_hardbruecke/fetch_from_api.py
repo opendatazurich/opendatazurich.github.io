@@ -20,9 +20,6 @@ payload = {
     'password': os.getenv('VBZ_SSZ_PASSWORD_N'),           # ENTER THE PASSWORD
 }
 
-user = os.getenv('SSZ_USER')
-pw = os.getenv('SSZ_PASS')
-
 # defining start- end date
 today = datetime.today()
 start_date = today - timedelta(days=3) # look 3 days back > if error occurs and fixed within 3 days, downtime data will be reincluded

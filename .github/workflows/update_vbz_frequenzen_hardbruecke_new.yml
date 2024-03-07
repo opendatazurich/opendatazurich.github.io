@@ -28,8 +28,8 @@ jobs:
         
     - name: Prepare data
       env:
-        SSZ_USER: ${{ secrets.vbz_ssz_user_n }}
-        SSZ_PASS: ${{ secrets.vbz_ssz_password_n }}
+        SSZ_USER: ${{ secrets.VBZ_SSZ_USER_N }}
+        SSZ_PASS: ${{ secrets.VBZ_SSZ_PASSWORD_N }}
       run: automation/vbz_frequenzen_hardbruecke/update_data.sh
 
     - name: Upload file to CKAN
