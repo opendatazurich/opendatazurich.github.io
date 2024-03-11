@@ -169,7 +169,6 @@ try:
     # print(df_count_final)
     # df_count_final.to_csv("sys.stdout", index = False)
 
-
 except Exception as e:
     print("Error: %s" % e, file=sys.stderr)
     print(traceback.format_exc(), file=sys.stderr)
