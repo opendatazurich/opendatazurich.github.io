@@ -149,8 +149,24 @@ try:
     # print(df_count_final['Name'].unique())
     # # print(df_count_final.head())
 
-    # writing file out
-    print(df_count_final)
+    # writing file out > trying to write it out the same way Odi did it
+    field_names = ['In', 'Out', 'Timestamp', 'Name']
+    writer = csv.DictWriter(sys.stdout, field_names, quoting=csv.QUOTE_NONNUMERIC)
+    writer.writeheader()
+
+    # df to dict
+    dict_from_df = df.to_dict(orient='records')
+
+    # looping an writing
+    for obs in dict_from_df:
+    writer.writerow({
+        'In': obs['In'],
+        'Out': obs['Out'],
+        'Timestamp': obs['Timestamp'],
+        'Name': loc['Name']
+    })
+
+    # print(df_count_final)
     # df_count_final.to_csv("sys.stdout", index = False)
 
 

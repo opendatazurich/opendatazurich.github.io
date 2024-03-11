@@ -11,6 +11,7 @@ function cleanup {
 trap "cleanup" EXIT
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
+echo DIR
 
 # 1. Get current year file from CKAN
 year=$(date +'%Y')

@@ -25,3 +25,20 @@ with open(filename, 'r') as f:
     dr = csv.DictReader(f)
     for r in dr:
         to_db.append(dict(r))
+
+
+
+#
+data = {'Name': ['Alice', 'Bob', 'Charlie', 'David'],
+        'Age': [25, 30, 35, 28],
+        'City': ['New York', 'San Francisco', 'Los Angeles', 'Chicago']}
+
+df = pd.DataFrame(data)
+
+
+dict_from_df = df.to_dict(orient='records')
+for obs in dict_from_df:
+    print(obs['Name'])
+
+
+df_arry[0]

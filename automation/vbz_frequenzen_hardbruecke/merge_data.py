@@ -41,8 +41,8 @@ try:
         for r in dr:
             to_db.append(dict(r))
 
-    print(to_db[1])
-    print(len(to_db))
+    # print(to_db[1])
+    # print(len(to_db))
     print("succsesfully read in today data to database")
 
     db_path = arguments['--database']
