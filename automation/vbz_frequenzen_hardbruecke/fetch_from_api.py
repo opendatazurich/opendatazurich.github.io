@@ -163,7 +163,7 @@ try:
             'In': obs['In'],
             'Out': obs['Out'],
             'Timestamp': obs['Timestamp'],
-            'Name': loc['Name']
+            'Name': obs['Name']
         })
 
     # print(df_count_final)
