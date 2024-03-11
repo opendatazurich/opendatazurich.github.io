@@ -150,7 +150,8 @@ try:
     # # print(df_count_final.head())
 
     # writing file out
-    df_count_final.to_csv("sys.stdout", index = False)
+    print(df_count_final)
+    # df_count_final.to_csv("sys.stdout", index = False)
 
 
 except Exception as e:
