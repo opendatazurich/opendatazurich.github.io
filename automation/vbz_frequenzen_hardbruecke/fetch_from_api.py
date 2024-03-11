@@ -131,6 +131,7 @@ try:
     df_count_final['Name'] = df_count_final['Name'].replace(value_mapping)
 
     # print(df_count_final.columns)
+    print(f'Fetching from API/n: {df_count_final.head()}')
 
     # writing file out
     df_count_final.to_csv("sys.stdout", index = False)
