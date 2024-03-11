@@ -35,6 +35,7 @@ data = {'Name': ['Alice', 'Bob', 'Charlie', 'David'],
 
 df = pd.DataFrame(data)
 
+df[1:20]
 
 dict_from_df = df.to_dict(orient='records')
 for obs in dict_from_df:
