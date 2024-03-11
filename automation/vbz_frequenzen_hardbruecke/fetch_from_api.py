@@ -145,9 +145,9 @@ try:
     df_count_final['Name'] = df_count_final['Name'].replace(value_mapping,)
 
     # print(df_count_final.columns)
-    print('Fetching from API - check')
-    print(df_count_final['Name'].unique())
-    # print(df_count_final.head())
+    # print('Fetching from API - check')
+    # print(df_count_final['Name'].unique())
+    # # print(df_count_final.head())
 
     # writing file out
     df_count_final.to_csv("sys.stdout", index = False)
