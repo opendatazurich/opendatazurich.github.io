@@ -94,12 +94,12 @@ try:
     df_count_final['TimeId'] = df_count_final['TimeId'].apply(lambda x: '0' + x if isinstance(x, str) and len(x) == 3 and (pd.isna(x) or pd.notna(x)) else x)
     df_count_final['TimeId'] = df_count_final['TimeId'].apply(lambda x: '00' + x if isinstance(x, str) and len(x) == 2 and (pd.isna(x) or pd.notna(x)) else x)
     df_count_final['TimeId'] = df_count_final['TimeId'].apply(lambda x: '000' + x if isinstance(x, str) and len(x) == 1 and (pd.isna(x) or pd.notna(x)) else x)
-    print(df_count_final)
+    # print(df_count_final)
 
 
     # @LB drop rows with Null values in DateId
     rows_with_missing_values = df_count_final[df_count_final.isnull().any(axis=1)]
-    print(rows_with_missing_values)
+    # print(rows_with_missing_values)
     # Drop NAs wenn kein Value bei Datum
     df_count_final = df_count_final.dropna(subset=['DateId'])
 
@@ -131,7 +131,7 @@ try:
     df_count_final['Name'] = df_count_final['Name'].replace(value_mapping)
 
     # print(df_count_final.columns)
-    print('Fetching from API')
+    print('Fetching from API - check')
     print(df_count_final.head())
 
     # writing file out
