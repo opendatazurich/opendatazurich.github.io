@@ -159,12 +159,12 @@ try:
 
     # looping an writing
     for obs in dict_from_df:
-    writer.writerow({
-        'In': obs['In'],
-        'Out': obs['Out'],
-        'Timestamp': obs['Timestamp'],
-        'Name': loc['Name']
-    })
+        writer.writerow({
+            'In': obs['In'],
+            'Out': obs['Out'],
+            'Timestamp': obs['Timestamp'],
+            'Name': loc['Name']
+        })
 
     # print(df_count_final)
     # df_count_final.to_csv("sys.stdout", index = False)
