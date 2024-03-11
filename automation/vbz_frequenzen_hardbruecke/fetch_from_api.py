@@ -117,7 +117,6 @@ try:
     # Reorder columns and keep only certain columns
     columns_to_keep = ['In', 'Out', 'Timestamp', 'Name']  # Define the columns you want to keep and their desired order
     df_count_final = df_count_final[columns_to_keep]
-    df_count_final.head(5)
 
     # unique_values_locations = df_count_final['Name'].unique()
     # print(unique_values_locations)

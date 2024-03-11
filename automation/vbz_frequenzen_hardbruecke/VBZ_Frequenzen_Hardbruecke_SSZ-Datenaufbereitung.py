@@ -81,6 +81,7 @@ required_location_names = ["TVH Ost", "TVH West"] # Ost und West separat
 
 ## readin csv from workflow >> delete code line when uncommenting code above
 df_count = pd.read_csv("vbz_frequenzen_hardbruecke/data/vbz_frequenzen_2024_raw.csv")
+df_count.columns
 
 #Aufsplitten nach TVH Ost und TVH West für gewünschte locations:
 
@@ -187,6 +188,7 @@ df_count_final.head(5)
 unique_values_locations = df_count_final['Name'].unique()
 print(unique_values_locations)
 
+df_count_final['Name'].unique()
 
 # Define the mapping of old values to new values @LB Umlaute angepasst (aequivalent zu Vorjahresdaten)
 value_mapping = {'vbz_ost_nord': 'Ost-Nord total', 'vbz_ost_sbb': 'Ost-SBB total', 'vbz_ost_sued': 'Ost-Süd total',
@@ -198,6 +200,6 @@ df_count_final['Name'] = df_count_final['Name'].replace(value_mapping)
 
 
 df_count_final.head(10)
-
+df_count_final['Name'].unique()
 # write df to csv
 df_count_final.to_csv("vbz_frequenzen_hardbruecke/data/vbz_hardbruecke_frequenzen_2024.csv", index = False)
