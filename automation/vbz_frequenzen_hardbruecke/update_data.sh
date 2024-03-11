@@ -29,6 +29,9 @@ sqlite3 $DIR/frequenzen_hardbruecke.sqlite -cmd 'create unique index ix_timestam
 # 3. fetch data from api, update the db
 echo "Fetch from API..."
 python $DIR/fetch_from_api.py > $DIR/frequenzen_hardbruecke_today.csv
+head $DIR/frequenzen_hardbruecke_today.csv
+echo "..."
+tail $DIR/frequenzen_hardbruecke_today.csv
 
 # 4. Merge events
 echo "Merge data..."
