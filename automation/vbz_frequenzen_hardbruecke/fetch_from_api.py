@@ -84,6 +84,22 @@ try:
         "sbb": "Zugang SBB"
     }
 
+    # @LB replace for filter process
+    location_data = df_count[df_count['LocationName'].isin(tvh_ost + tvh_west)].copy()
+    # location_data.loc[:, 'Zugang'] = zugang_name # alle eintrage in LocationName die vbz_ost_* sin
+
+    location_data['Zugang'] = location_data['LocationName']
+    location_data['Zugang'] = location_data['Zugang'].str.replace('vbz_ost.*',r'TVH Ost',regex = True)
+    location_data['Zugang'] = location_data['Zugang'].str.replace('vbz_west.*',r'TVH West',regex = True)
+
+    # tmp = location_data['LocationName'].str.split('_', expand=True)
+    # location_data['LocationName'] = tmp.replace({2: locations})[2]
+
+    columns_to_keep = ['DateId', 'Granularity', 'Zugang','LocationName','TimeId', 'InCount', 'OutCount']
+    location_data = location_data[columns_to_keep]
+
+    df_count_final = location_data.copy()
+
     # Date und Time zusammen nehmen
     # zuerst die eine O mit vier 0000 ersetzen, damit Mitternacht auch richtig dargestellt wird
     # als String definieren
@@ -127,7 +143,7 @@ try:
                      'vbz_west_sued': 'West-Süd total', 'vbz_west_vbz': 'West-VBZ total'}
 
     # Replace old values with new values in column 'Name'
-    df_count_final['Name'] = df_count_final['Name'].replace(value_mapping)
+    df_count_final['Name'] = df_count_final['Name'].replace(value_mapping,)
 
     # print(df_count_final.columns)
     print('Fetching from API - check')
