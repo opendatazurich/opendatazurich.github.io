@@ -69,7 +69,7 @@ try:
         locations = pd.concat([locations, pd.DataFrame.from_dict(location_json, orient='columns')], ignore_index=True)
         locations["IsIncludedForParent"] = locations["IsIncludedForParent"].astype(bool)  # Explicitly cast to bool dtype to avoid the warning about future version
 
-    df_count_final = pd.DataFrame.from_dict(count)
+    df_count = pd.DataFrame.from_dict(count)
 
     ## data wrangling
 
@@ -97,7 +97,6 @@ try:
 
     columns_to_keep = ['DateId', 'Granularity', 'Zugang','LocationName','TimeId', 'InCount', 'OutCount']
     location_data = location_data[columns_to_keep]
-
     df_count_final = location_data.copy()
 
     # Date und Time zusammen nehmen
