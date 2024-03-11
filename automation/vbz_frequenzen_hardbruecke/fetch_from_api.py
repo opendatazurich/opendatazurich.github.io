@@ -155,7 +155,7 @@ try:
     writer.writeheader()
 
     # df to dict
-    dict_from_df = df.to_dict(orient='records')
+    dict_from_df = df_count_final.to_dict(orient='records')
 
     # looping an writing
     for obs in dict_from_df:
