@@ -59,7 +59,7 @@ try:
         print("Updating existing resource %s" % res['name'])
 
         with open(path, 'rb') as file:
-            file_size = os.path.getsize(path) / 1024
+            file_size_kb = os.path.getsize(path) / 1024
         print(f"The size of the file '{path}' is {file_size_kb:.2f} KB.")
 
         print(path)
