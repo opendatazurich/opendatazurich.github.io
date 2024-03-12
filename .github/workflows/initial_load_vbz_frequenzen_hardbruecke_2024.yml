@@ -1,9 +1,8 @@
-name: Update vbz_frequenzen_hardbruecke 2024 NEW
+name: Initial load vbz_frequenzen_hardbruecke 2024
 
 on:
-#  schedule:
-#    - cron:  '*/15 * * * *' # every 15min
   workflow_dispatch:
+  push:
 
 jobs:
   update_data_py:
@@ -25,12 +24,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r automation/automation-requirements.txt
 
-    - name: Tryout
+    - name: Fetch from API
       env:
         VBZ_SSZ_USER_N: ${{ secrets.VBZ_SSZ_USER_N }}
         VBZ_SSZ_PASSWORD_N: ${{ secrets.VBZ_SSZ_PASSWORD_N }}
       run: |
-        python automation/vbz_frequenzen_hardbruecke/fetch_from_api_2024.py
+        python automation/vbz_frequenzen_hardbruecke/initial_fetch_from_api.py
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
