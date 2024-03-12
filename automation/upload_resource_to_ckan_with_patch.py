@@ -62,7 +62,6 @@ try:
         file_size_kb = os.path.getsize(path) / 1024
         print(f"The size of the file '{path}' is {file_size_kb:.2f} KB.")
         with open(path, 'rb') as file:
-            file_size_kb = os.path.getsize(path) / 1024
             df = pd.read_csv(file)
         print(f"The number of rows of the file '{path}' is '{len(df)}'")
 
