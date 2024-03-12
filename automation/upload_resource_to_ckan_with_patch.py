@@ -57,15 +57,15 @@ try:
 
     if existing:
         res = existing[0]
-        print(os.path.getsize(path))
         print("Updating existing resource %s" % res['name'])
+
+        file_size_kb = os.path.getsize(path) / 1024
+        print(f"The size of the file '{path}' is {file_size_kb:.2f} KB.")
 
         with open(path, 'rb') as file:
             file_size_kb = os.path.getsize(path) / 1024
             df = pd.read_csv(file)
-        print(f"The size of the file '{path}' is {file_size_kb:.2f} KB.")
         print(f"The number of rows of the file '{path}' is '{len(df)}'")
-        print(path)
 
         ckan.action.resource_patch(
             id=res['id'],
