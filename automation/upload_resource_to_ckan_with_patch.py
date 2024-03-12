@@ -22,6 +22,7 @@ import requests
 from docopt import docopt
 from ckanapi import RemoteCKAN, NotFound
 from dotenv import load_dotenv, find_dotenv
+import pandas as pd
 load_dotenv(find_dotenv())
 arguments = docopt(__doc__, version='Upload resource to CKAN 1.0')
 
@@ -60,9 +61,11 @@ try:
 
         with open(path, 'rb') as file:
             file_size_kb = os.path.getsize(path) / 1024
+            df = pd.read_csv(file)
         print(f"The size of the file '{path}' is {file_size_kb:.2f} KB.")
-
+        print(f"The number of rows of the file '{path}' is '{len(df)}'")
         print(path)
+
         ckan.action.resource_patch(
             id=res['id'],
             upload=open(path, "rb")
