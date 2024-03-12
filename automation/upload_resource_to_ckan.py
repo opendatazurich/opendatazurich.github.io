@@ -56,7 +56,10 @@ try:
     if existing:
         res = existing[0]
         print("Updating existing resource %s" % res['name'])
-        print(path)
+      
+        file_size_kb = os.path.getsize(path) / 1024
+        print(f"The size of the file '{path}' is {file_size_kb:.2f} KB.")
+      
         ckan.action.resource_update(
             id=res['id'],
             upload=open(path, "rb")
