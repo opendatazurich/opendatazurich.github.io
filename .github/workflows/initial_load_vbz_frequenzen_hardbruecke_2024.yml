@@ -2,7 +2,6 @@ name: Initial load vbz_frequenzen_hardbruecke 2024
 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   update_data_py:
