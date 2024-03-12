@@ -53,9 +53,15 @@ try:
 
     resources = ckan_dataset['resources']
     existing = list(filter(lambda r: r['name'].lower() == filename, resources))
+
     if existing:
         res = existing[0]
         print("Updating existing resource %s" % res['name'])
+
+        with open(path, 'rb') as file:
+            file_size = os.path.getsize(path)
+        print(f"The size of the file '{path}' is {file_size} bytes.")
+
         print(path)
         ckan.action.resource_patch(
             id=res['id'],
