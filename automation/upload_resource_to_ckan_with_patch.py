@@ -57,6 +57,7 @@ try:
 
     if existing:
         res = existing[0]
+        print(os.path.getsize(path))
         print("Updating existing resource %s" % res['name'])
 
         with open(path, 'rb') as file:
@@ -70,6 +71,7 @@ try:
             id=res['id'],
             upload=open(path, "rb")
         )
+
     else:
         print("Create new resource %s" % filename)
         ckan.action.resource_create(
