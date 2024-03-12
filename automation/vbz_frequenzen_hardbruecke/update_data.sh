@@ -16,8 +16,7 @@ echo DIR
 # 1. Get current year file from CKAN
 year=$(date +'%Y')
 echo "Get current year file from CKAN..."
-#curl -L https://data.stadt-zuerich.ch/dataset/vbz_frequenzen_hardbruecke/download/frequenzen_hardbruecke_${year}.csv --output $DIR/frequenzen_hardbruecke_${year}.csv # production
-curl -L https://data.integ.stadt-zuerich.ch/dataset/vbz_frequenzen_hardbruecke/download/frequenzen_hardbruecke_${year}.csv --output $DIR/frequenzen_hardbruecke.csv # integration
+curl -L https://data.stadt-zuerich.ch/dataset/vbz_frequenzen_hardbruecke/download/frequenzen_hardbruecke_${year}.csv --output $DIR/frequenzen_hardbruecke.csv # integration
 cat $DIR/frequenzen_hardbruecke.csv | wc -l
 head $DIR/frequenzen_hardbruecke.csv
 echo "..."

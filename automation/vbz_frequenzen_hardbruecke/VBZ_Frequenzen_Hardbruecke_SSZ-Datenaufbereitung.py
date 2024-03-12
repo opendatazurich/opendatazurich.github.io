@@ -19,10 +19,10 @@ import os
 ######################################################################
 # USER INPUTS
 ######################################################################
-start_date = 20240101                 # ENTER THE START DATE in YYYYMMDD FORMAT // start date is included in outout
-end_date = 20240219                   # ENTER THE END DATE in YYYYMMDD FORMAT // end date is not included in output
-granularity = "FiveMinutes"           # change granularity if needed (e.g. "Hour")
-required_location_names = ["TVH Ost", "TVH West"] # Ost und West separat
+# start_date = 20240101                 # ENTER THE START DATE in YYYYMMDD FORMAT // start date is included in outout
+# end_date = 20240219                   # ENTER THE END DATE in YYYYMMDD FORMAT // end date is not included in output
+# granularity = "FiveMinutes"           # change granularity if needed (e.g. "Hour")
+# required_location_names = ["TVH Ost", "TVH West"] # Ost und West separat
 
 # Alternativ dynamische Start- und Enddaten 
 # today = datetime.today()
@@ -202,4 +202,4 @@ df_count_final['Name'] = df_count_final['Name'].replace(value_mapping)
 df_count_final.head(10)
 df_count_final['Name'].unique()
 # write df to csv
-df_count_final.to_csv("vbz_frequenzen_hardbruecke/data/vbz_hardbruecke_frequenzen_2024.csv", index = False)
+df_count_final.to_csv("vbz_frequenzen_hardbruecke/data/frequenzen_hardbruecke_2024.csv", index = False)
