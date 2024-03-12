@@ -1,0 +1,37 @@
+name: Initial load vbz_frequenzen_hardbruecke 2024
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update_data_py:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment: production
+    strategy:
+      matrix:
+        python-version: [3.7]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r automation/automation-requirements.txt
+
+    - name: Fetch from API
+      env:
+        VBZ_SSZ_USER_N: ${{ secrets.VBZ_SSZ_USER_N }}
+        VBZ_SSZ_PASSWORD_N: ${{ secrets.VBZ_SSZ_PASSWORD_N }}
+      run: |
+        python automation/vbz_frequenzen_hardbruecke/initial_fetch_from_api.py
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: vbz_frequenzen_2024_raw
+        path: vbz_frequenzen_2024_raw.csv

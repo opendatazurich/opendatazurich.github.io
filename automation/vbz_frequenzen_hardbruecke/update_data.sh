@@ -11,10 +11,13 @@ function cleanup {
 trap "cleanup" EXIT
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
+echo DIR
 
 # 1. Get current year file from CKAN
 year=$(date +'%Y')
-curl -L https://data.stadt-zuerich.ch/dataset/vbz_frequenzen_hardbruecke/download/frequenzen_hardbruecke_${year}.csv --output $DIR/frequenzen_hardbruecke.csv
+echo "Get current year file from CKAN..."
+curl -L https://data.stadt-zuerich.ch/dataset/vbz_frequenzen_hardbruecke/download/frequenzen_hardbruecke_${year}.csv --output $DIR/frequenzen_hardbruecke.csv # integration
+cat $DIR/frequenzen_hardbruecke.csv | wc -l
 head $DIR/frequenzen_hardbruecke.csv
 echo "..."
 tail $DIR/frequenzen_hardbruecke.csv
@@ -28,6 +31,10 @@ sqlite3 $DIR/frequenzen_hardbruecke.sqlite -cmd 'create unique index ix_timestam
 # 3. fetch data from api, update the db
 echo "Fetch from API..."
 python $DIR/fetch_from_api.py > $DIR/frequenzen_hardbruecke_today.csv
+cat $DIR/frequenzen_hardbruecke_today.csv  | wc -l
+head $DIR/frequenzen_hardbruecke_today.csv
+echo "..."
+tail $DIR/frequenzen_hardbruecke_today.csv
 
 # 4. Merge events
 echo "Merge data..."
@@ -38,3 +45,4 @@ rm $DIR/frequenzen_hardbruecke_today.csv
 echo "Export database to CSV..."
 sqlite3 -header -csv $DIR/frequenzen_hardbruecke.sqlite "select * from data order by Timestamp asc, Name asc;" > $DIR/frequenzen_hardbruecke_${year}.csv
 sed -i 's/""//g' $DIR/frequenzen_hardbruecke_${year}.csv
+cat $DIR/frequenzen_hardbruecke_${year}.csv | wc -l

@@ -11,3 +11,4 @@ pyenv3.7
 !sonnenscheindauer/sonnenscheindauer.csv
 !mrz_patolu/mrz_patolu.csv
 __pycache__/*
+**/.data/

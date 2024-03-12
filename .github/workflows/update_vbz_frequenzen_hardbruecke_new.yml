@@ -1,4 +1,4 @@
-name: Update vbz_frequenzen_hardbruecke data
+name: Update vbz_frequenzen_hardbruecke data NEW
 
 on:
   schedule:
@@ -27,10 +27,10 @@ jobs:
         
     - name: Prepare data
       env:
-        SSZ_USER: ${{ secrets.vbz_ssz_user }}
-        SSZ_PASS: ${{ secrets.vbz_ssz_password }}
+        VBZ_SSZ_USER_N: ${{ secrets.VBZ_SSZ_USER_N }}
+        VBZ_SSZ_PASSWORD_N: ${{ secrets.VBZ_SSZ_PASSWORD_N }}
       run: automation/vbz_frequenzen_hardbruecke/update_data.sh
-        
+
     - name: Upload file to CKAN
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
@@ -38,7 +38,7 @@ jobs:
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         year=$(date +'%Y')
-        python automation/upload_resource_to_ckan.py -f automation/vbz_frequenzen_hardbruecke/frequenzen_hardbruecke_${year}.csv -d vbz_frequenzen_hardbruecke
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/vbz_frequenzen_hardbruecke/frequenzen_hardbruecke_${year}.csv -d vbz_frequenzen_hardbruecke
 
     - name: Update CKAN metadata
       env:
