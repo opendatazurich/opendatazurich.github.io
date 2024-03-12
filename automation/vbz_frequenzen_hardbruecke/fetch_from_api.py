@@ -23,7 +23,7 @@ payload = {
 
 # defining start- end date
 today = datetime.today()
-start_date = today - timedelta(days=1) # look 3 days back > if error occurs and fixed within 3 days, downtime data will be reincluded
+start_date = today - timedelta(days=3) # look 3 days back > if error occurs and fixed within 3 days, downtime data will be reincluded
 start_date = start_date.strftime("%Y%m%d")
 end_date = today + timedelta(days=1) # some date in the future > will include the latest data
 end_date = end_date.strftime("%Y%m%d")
@@ -155,7 +155,7 @@ try:
     writer.writeheader()
 
     # df to dict
-    df_count_final = df_count_final[1:30]
+    df_count_final = df_count_final[1:30] # test - delete line after testing CKAN upload
     dict_from_df = df_count_final.to_dict(orient='records')
 
     # looping an writing

@@ -57,7 +57,6 @@ try:
         res = existing[0]
         print("Updating existing resource %s" % res['name'])
         print(path)
-        print("row of uploading file",len(open(path, "rb")))
         ckan.action.resource_patch(
             id=res['id'],
             upload=open(path, "rb")
