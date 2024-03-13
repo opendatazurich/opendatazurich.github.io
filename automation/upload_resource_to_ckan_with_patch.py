@@ -43,8 +43,8 @@ try:
 
     path = arguments['--file']
     dataset = arguments['--dataset']
-
     filename = os.path.basename(path).lower()
+
     try:
         print("Getting dataset %s..." % dataset)
         ckan_dataset = ckan.call_action('package_show', {'id': dataset})
