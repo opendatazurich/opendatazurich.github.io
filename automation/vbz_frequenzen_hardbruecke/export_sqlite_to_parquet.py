@@ -2,9 +2,9 @@
 """Export data from SQLite db to parquet
 
 Usage:
-  merge_data.py --file <path-to-file> --database <path-to-db>
-  merge_data.py (-h | --help)
-  merge_data.py --version
+  export_sqlite_to_parquet.py --file <path-to-file> --database <path-to-db>
+  export_sqlite_to_parquet.py (-h | --help)
+  export_sqlite_to_parquet.py --version
 
 Options:
   -h, --help                   Show this screen.
@@ -16,7 +16,6 @@ Options:
 
 import sqlite3
 import pandas as pd
-import csv
 import traceback
 import os
 import sys
@@ -33,11 +32,10 @@ __location__ = os.path.realpath(
 try:
     print("trying to read in sqlite")
     filename_db = arguments['--database']
-    conn = sqlite3.connect(filename)
+    conn = sqlite3.connect(filename_db)
     c = conn.cursor()
 
     df = pd.read_sql_query('select * from data order by Timestamp asc, Name asc;', conn)
-    print("")
 
     filename_parquet = arguments['--file']
     df.to_parquet(filename_parquet, index=False)
