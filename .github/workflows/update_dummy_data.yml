@@ -2,7 +2,6 @@ name: Update dummy_data
 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   update_data_py:

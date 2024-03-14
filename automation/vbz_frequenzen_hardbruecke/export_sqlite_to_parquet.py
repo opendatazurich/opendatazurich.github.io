@@ -37,6 +37,7 @@ try:
     c = conn.cursor()
 
     df = pd.read_sql_query('select * from data order by Timestamp asc, Name asc;', conn)
+    print("")
 
     filename_parquet = arguments['--file']
     df.to_parquet(filename_parquet, index=False)
