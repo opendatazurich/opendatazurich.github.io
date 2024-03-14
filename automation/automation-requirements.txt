@@ -16,3 +16,5 @@ pandas
 markdown
 lxml
 geojson
+pyarrow
+fastparquet
