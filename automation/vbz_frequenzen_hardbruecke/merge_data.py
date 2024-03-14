@@ -33,7 +33,7 @@ __location__ = os.path.realpath(
 print("trying to read in data")
 
 try:
-    # read in csv file (today data)
+    # read in sql database
     filename = arguments['--file']
     to_db = []
     with open(filename, 'r') as f:

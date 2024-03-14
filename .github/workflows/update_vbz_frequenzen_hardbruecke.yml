@@ -1,15 +1,16 @@
-name: Update vbz_frequenzen_hardbruecke data NEW
+name: Update vbz_frequenzen_hardbruecke data with parquet
 
 on:
   schedule:
     - cron:  '*/15 * * * *' # every 15min
   workflow_dispatch:
+  push:
 
 jobs:
   update_data_py:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    environment: production
+    environment: integration
     strategy:
       matrix:
         python-version: [3.7]
@@ -39,6 +40,7 @@ jobs:
       run: |
         year=$(date +'%Y')
         python automation/upload_resource_to_ckan_with_patch.py -f automation/vbz_frequenzen_hardbruecke/frequenzen_hardbruecke_${year}.csv -d vbz_frequenzen_hardbruecke
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/vbz_frequenzen_hardbruecke/frequenzen_hardbruecke_${year}.parquet -d vbz_frequenzen_hardbruecke
 
     - name: Update CKAN metadata
       env:
