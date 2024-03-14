@@ -48,4 +48,4 @@ res_pd.to_csv(csv_path, index=False, encoding='utf-8', date_format='%Y-%m-%dT%H:
 # saving as parquet
 print("saving as parquet")
 parquet_path = arguments['--parquet']
-res_pd.to_parquet(parquet_path, index=False, encoding='utf-8', date_format='%Y-%m-%dT%H:%M:%SZ')
+res_pd.to_parquet(parquet_path, index=False)
