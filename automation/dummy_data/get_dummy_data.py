@@ -2,15 +2,15 @@
 """Fetch CSV from CKAN API
 
 Usage:
-  fetch_from_api.py --file <path-to-csv> [--no-verify]
-  fetch_from_api.py (-h | --help)
-  fetch_from_api.py --version
+  get_dummy_data.py --file <path-to-csv> --parquet <path-to-parquet> [--no-verify]
+  get_dummy_data.py (-h | --help)
+  get_dummy_data.py --version
 
 Options:
   -h, --help                      Show this screen.
   --version                       Show version.
   -f, --file <path-to-csv>        Path to CSV file
-  -p, --parquet <path-to-geojson> Path to parquet file
+  -p, --parquet <path-to-parquet> Path to parquet file
   --no-verify                     Option to disable SSL verification for reqests.
 
 """
