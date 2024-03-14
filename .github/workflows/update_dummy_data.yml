@@ -34,8 +34,8 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/upload_resource_to_ckan.py -f dummy_resource.csv -d dummy_dataset
-        python automation/upload_resource_to_ckan.py -p dummy_resource.parquet -d dummy_dataset
+        python automation/upload_resource_to_ckan.py -f dummy_data.csv -d dummy_dataset
+        python automation/upload_resource_to_ckan.py -p dummy_data.parquet -d dummy_dataset
 
 #    - name: Update CKAN metadata
 #      env:
