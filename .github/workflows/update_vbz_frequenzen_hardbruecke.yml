@@ -1,4 +1,4 @@
-name: Update vbz_frequenzen_hardbruecke data with parquet
+name: Update vbz_frequenzen_hardbruecke data
 
 on:
   schedule:
