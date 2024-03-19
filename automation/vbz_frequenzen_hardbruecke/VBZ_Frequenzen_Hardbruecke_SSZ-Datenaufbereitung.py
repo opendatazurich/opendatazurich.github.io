@@ -10,6 +10,8 @@
 
 import requests
 import pandas as pd
+import pyarrow
+import fastparquet
 import numpy as np
 import json
 import re
@@ -201,5 +203,13 @@ df_count_final['Name'] = df_count_final['Name'].replace(value_mapping)
 
 df_count_final.head(10)
 df_count_final['Name'].unique()
+
+
 # write df to csv
 df_count_final.to_csv("vbz_frequenzen_hardbruecke/data/frequenzen_hardbruecke_2024.csv", index = False)
+
+# write df to parquet
+df_count_final = df_count_final.astype({'In': 'int', 'Out': 'int', 'Name': 'str'})
+df_count_final["Timestamp"] = pd.to_datetime(df_count_final["Timestamp"])
+
+df_count_final.to_parquet("vbz_frequenzen_hardbruecke/data/frequenzen_hardbruecke_2024.parquet", index=False)

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# ORIGINAL FILE, WIE VON DER VBZ GELIEFERT
 # ## Datenabfrage von REST API von ASE Daten Hardbrücke
 
 # #### Einstellungen

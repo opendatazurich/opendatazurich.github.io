@@ -155,7 +155,6 @@ try:
     writer.writeheader()
 
     # df to dict
-    df_count_final = df_count_final[1:30] # test - delete line after testing CKAN upload
     dict_from_df = df_count_final.to_dict(orient='records')
 
     # looping an writing
