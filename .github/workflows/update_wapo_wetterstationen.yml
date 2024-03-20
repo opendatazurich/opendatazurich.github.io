@@ -4,6 +4,7 @@ on:
   schedule:
   - cron: '3/10 * * * *' # every 10min
   workflow_dispatch:
+  push:
 
 jobs:
   update_data_py:
