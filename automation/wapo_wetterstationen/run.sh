@@ -50,3 +50,8 @@ sqlite3 -header -csv $DIR/mythenquai.sqlite "select * from data order by timesta
 sqlite3 -header -csv $DIR/tiefenbrunnen.sqlite "select * from data order by timestamp_utc asc;" > $DIR/messwerte_tiefenbrunnen_seit2007-heute.csv
 sed -i 's/""//g' $DIR/messwerte_mythenquai_seit2007-heute.csv
 sed -i 's/""//g' $DIR/messwerte_tiefenbrunnen_seit2007-heute.csv
+
+# 7. Export the database as parquet
+echo "Export database to parquet..."
+python $DIR/export_sqlite_to_parquet.py -d $DIR/mythenquai.sqlite -f $DIR/messwerte_mythenquai_seit2007-heute.parquet
+python $DIR/export_sqlite_to_parquet.py -d $DIR/tiefenbrunnen.sqlite -f $DIR/messwerte_tiefenbrunnen_seit2007-heute.parquet
