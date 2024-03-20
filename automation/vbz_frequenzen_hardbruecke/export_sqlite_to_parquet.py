@@ -41,7 +41,7 @@ try:
 
     # change type of column
     df = df.astype({'In': 'int', 'Out': 'int', 'Name': 'str'})
-    df["Timestamp"] = pd.to_datetime(df["Timestamp"])
+    df["Timestamp"] = pd.to_datetime(df["Timestamp"], unit = "m")
 
     df.to_parquet(filename_parquet, index=False)
 
