@@ -22,12 +22,12 @@ import sys
 from docopt import docopt
 
 arguments = docopt(__doc__, version='Merge data from CSV to a database 1.0')
-__location__ = os.path.realpath(
-    os.path.join(
-        os.getcwd(),
-        os.path.dirname(__file__)
-    )
-)
+# __location__ = os.path.realpath(
+#     os.path.join(
+#         os.getcwd(),
+#         os.path.dirname(__file__)
+#     )
+# )
 
 try:
     print("trying to read in sqlite")
