@@ -50,3 +50,6 @@ cat $DIR/frequenzen_hardbruecke_${year}.csv | wc -l
 # 6. Export the database as parquet
 echo "Export database to parquet..."
 python $DIR/export_sqlite_to_parquet.py -d $DIR/frequenzen_hardbruecke.sqlite -f $DIR/frequenzen_hardbruecke_${year}.parquet
+
+
+
