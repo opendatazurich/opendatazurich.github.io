@@ -1,9 +1,9 @@
 """
 This script describes how to scrape eidg. Abstimmungsresultate for all political levels (eidg / kanton zh / stadt zuerich / zaehlkreise zuerich)
 """
-import pandas as pd
 
-from hilfsfunktionen import *
+from abstimmungsergebnisse.hilfsfunktionen import *
+import pandas as pd
 
 Nr_Politische_Ebene = 1
 Name_Politische_Ebene = "Eidgenossenschaft"
@@ -12,12 +12,12 @@ url_list = make_url_list(url, headers, SSL_VERIFY)
 
 
 # get one abstimmung
-res = get_request(url_list[0], headers, SSL_VERIFY) # eine URL entspricht einem Abstimmungstag >> kann mehrere Abstimmungen enthalten
-url_list[0]
-i = url_list[126]
-
-i = "https://dam-api.bfs.admin.ch/hub/api/dam/assets/7686378/master"
-i = "https://dam-api.bfs.admin.ch/hub/api/dam/assets/7686459/master"
+# res = get_request(url_list[0], headers, SSL_VERIFY) # eine URL entspricht einem Abstimmungstag >> kann mehrere Abstimmungen enthalten
+# url_list[0]
+# i = url_list[126]
+#
+# i = "https://dam-api.bfs.admin.ch/hub/api/dam/assets/7686378/master"
+# i = "https://dam-api.bfs.admin.ch/hub/api/dam/assets/7686459/master"
 
 df_eidg_tot = []
 df_ktzuerich_tot = []

@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import json
 import re
-from flatten_json import flatten
+import pandas as pd
 
 headers = {'Accept': 'application/json'}
 SSL_VERIFY = True
