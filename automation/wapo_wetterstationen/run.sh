@@ -13,6 +13,7 @@ trap "cleanup" EXIT
 DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # 1. Get current year file from CKAN
+echo "Get current year file from CKAN (Mythenquai and Tiefenbrunnen)"
 wget https://data.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen/download/messwerte_mythenquai_seit2007-heute.csv -O $DIR/messwerte_mythenquai.csv
 wget https://data.stadt-zuerich.ch/dataset/sid_wapo_wetterstationen/download/messwerte_tiefenbrunnen_seit2007-heute.csv -O $DIR/messwerte_tiefenbrunnen.csv
 
