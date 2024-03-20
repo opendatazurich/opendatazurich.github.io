@@ -37,31 +37,26 @@ try:
     conn = sqlite3.connect(filename_db)
     c = conn.cursor()
 
-    import pandas as pd
-    test = pd.read_parquet("https://data.stadt-zuerich.ch/dataset/vbz_frequenzen_hardbruecke/download/frequenzen_hardbruecke_2024.parquet")
-    test.dtypes
+    # dtype_dict = {
+    #             'timestamp_utc': "datetime64[m]",
+    #             'timestamp_cet': "datetime64[m]",
+    #             'air_temperature': float,
+    #             'water_temperature': float,
+    #             'wind_gust_max_10min': float,
+    #             'wind_speed_avg_10min': float,
+    #             'wind_force_avg_10min': float,
+    #             'wind_direction': int,
+    #             'windchill': float,
+    #             'barometric_pressure_qfe': float,
+    #             'precipitation': float,
+    #             'dew_point': float,
+    #             'global_radiation': float,
+    #             'humidity': float,
+    #             'water_level': float,
+    #         }
 
 
-    dtype_dict = {
-                'timestamp_utc': "datetime64[m]",
-                'timestamp_cet': "datetime64[m]",
-                'air_temperature': np.float,
-                'water_temperature': np.float,
-                'wind_gust_max_10min': np.float,
-                'wind_speed_avg_10min': np.float,
-                'wind_force_avg_10min': np.float,
-                'wind_direction': np.int,
-                'windchill': np.float,
-                'barometric_pressure_qfe': np.float,
-                'precipitation': np.float,
-                'dew_point': np.float,
-                'global_radiation': np.float,
-                'humidity': np.float,
-                'water_level': np.float,
-            }
-
-
-    df = pd.read_sql_query('select * from data order by timestamp_utc asc;', conn, dtype=dtype_dict)
+    df = pd.read_sql_query('select * from data order by timestamp_utc asc;', con=conn, parse_dates=["timestamp_utc","timestamp_cet"])
 
     filename_parquet = arguments['--file']
 
