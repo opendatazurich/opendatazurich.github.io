@@ -18,6 +18,7 @@ url_list = make_url_list(url, headers, SSL_VERIFY)
 #
 # i = "https://dam-api.bfs.admin.ch/hub/api/dam/assets/7686378/master"
 # i = "https://dam-api.bfs.admin.ch/hub/api/dam/assets/7686459/master"
+i = url_list[0]
 
 df_eidg_tot = []
 df_ktzuerich_tot = []
@@ -33,14 +34,15 @@ for i in url_list:
     df_eidg["vorlagenTitel"] = [df_eidg['vorlagenTitel'][i][0]['text'] for i in range(len(df_eidg['vorlagenTitel']))]
     df_eidg.iloc[0]["vorlagenTitel"]
     df_eidg.columns
-    ## Resultatebene: Kanton Zürich
 
+
+    ## Resultatebene: Kanton Zürich
     df_eidg_tot.append(df_eidg)
 
     # normalize json
     df_ktzuerich = pd.json_normalize(res, record_path=["schweiz", "vorlagen", "kantone"],
-                                     meta=[["abstimmtag"], ["schweiz", "vorlagen", "vorlagenTitel"],
-                                           ["schweiz", "vorlagen", "vorlagenId"]], errors='ignore')
+                      meta=[['abstimmtag'],['schweiz','vorlagen','vorlagenId']], errors='ignore')
+
     df_ktzuerich = df_ktzuerich.astype({'geoLevelnummer': 'int'}, copy=True)
     df_ktzuerich = df_ktzuerich[df_ktzuerich['geoLevelnummer'] == 1]  # subset kanton zh
 

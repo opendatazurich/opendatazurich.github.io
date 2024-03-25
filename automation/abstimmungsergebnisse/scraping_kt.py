@@ -3,7 +3,7 @@ This script describes how to scrape kant. Abstimmungsresultate for all political
 """
 import pandas as pd
 
-from hilfsfunktionen import *
+from abstimmungsergebnisse.hilfsfunktionen import *
 
 Nr_Politische_Ebene = 2
 Name_Politische_Ebene = "Kanton Zürich"

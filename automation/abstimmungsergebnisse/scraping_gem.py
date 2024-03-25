@@ -1,7 +1,7 @@
 """
 This script describes how to scrape kant. Abstimmungsresultate for all political levels (kanton zh / stadt zuerich / zaehlkreise zuerich)
 """
-from hilfsfunktionen import *
+from abstimmungsergebnisse.hilfsfunktionen import *
 
 url = base_absitmmung_url()['Stadt Zürich']
 url_list = make_url_list(url, headers, SSL_VERIFY)
