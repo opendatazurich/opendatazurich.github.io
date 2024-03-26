@@ -18,7 +18,7 @@ df_ktzuerich_tot = []
 df_stadtzuerich_tot = []
 df_stadtzuerichkreise_tot = []
 
-i = url_list[0]
+i = url_list[2]
 i = "https://app-prod-static-voteinfo.s3.eu-central-1.amazonaws.com/v1/ogd/sd-t-17-02-20220925-kantAbstimmung.json"
 
 for i in url_list:
@@ -30,7 +30,11 @@ for i in url_list:
     df_kanton = pd.json_normalize(res, record_path=["kantone","vorlagen"], meta=[['kantone','geoLevelnummer']], errors='ignore')
     df_kanton["abstimmtag"] = res["abstimmtag"]
     df_kanton = df_kanton[df_kanton['kantone.geoLevelnummer'] == 1]
-    df_kanton["vorlagenTitel"] = [df_kanton['vorlagenTitel'][i][0]['text'] for i in range(len(df_kanton['vorlagenTitel']))]
+
+
+    # df_kanton["vorlagenTitel"] = [df_kanton['vorlagenTitel'][i][0]['text'] for i in range(len(df_kanton['vorlagenTitel']))]
+    {int(df_kanton['vorlagenId'].iloc[i]): get_de(df_kanton['vorlagenTitel'].iloc[i]) for i in range(len(df_kanton))}
+
     df_ktzuerich_tot.append(df_kanton)
 
     ## Resultatebene: Stadt Zürich

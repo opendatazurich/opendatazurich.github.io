@@ -25,15 +25,24 @@ df_ktzuerich_tot = []
 df_stadtzuerich_tot = []
 df_stadtzuerichkreise_tot = []
 
+
 for i in url_list:
+
     print(i)
-    res = get_request(i, headers, SSL_VERIFY) # eine URL entspricht einem Abstimmungstag >> kann mehrere Abstimmungen enthalten
+
+    # initializing empty dicionary for vorlagenId and VorlagenTitel
+    vorlagen_id_titel = {}
+
+    # URL reflects one voting day > can hold several votes
+    res = get_request(i, headers, SSL_VERIFY)
 
     ## Resultatebene: Eidgenössisch
     df_eidg = pd.json_normalize(res, record_path=["schweiz", "vorlagen"], errors='ignore')
-    df_eidg["vorlagenTitel"] = [df_eidg['vorlagenTitel'][i][0]['text'] for i in range(len(df_eidg['vorlagenTitel']))]
-    df_eidg.iloc[0]["vorlagenTitel"]
-    df_eidg.columns
+
+    # updating dicitonary
+    vorlagen_id_titel.update({int(df_eidg['vorlagenId'].iloc[i]): get_de(df_eidg['vorlagenTitel'].iloc[i]) for i in range(len(df_eidg))})
+
+    cleaning_names(df_eidg.columns)
 
 
     ## Resultatebene: Kanton Zürich
@@ -45,6 +54,7 @@ for i in url_list:
 
     df_ktzuerich = df_ktzuerich.astype({'geoLevelnummer': 'int'}, copy=True)
     df_ktzuerich = df_ktzuerich[df_ktzuerich['geoLevelnummer'] == 1]  # subset kanton zh
+
 
     # adding further columns
     df_ktzuerich['Nr_Resultat_Gebiet'] = 2

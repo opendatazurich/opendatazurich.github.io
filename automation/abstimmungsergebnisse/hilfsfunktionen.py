@@ -29,6 +29,14 @@ def make_url_list(url, headers, verify):
     url_list = daten["url"]
     return url_list
 
+
+def get_de(list_with_dict):
+    """
+    Return all strings in a list of dictionaries where an entry's key 'langKey' equals the value 'de'
+    """
+    vorlagenTitel = [entry['text'] for entry in list_with_dict if entry['langKey'] == 'de'][0]
+    return vorlagenTitel
+
 def rename_columns(panda_data_frame):
     """
     Renaming columns of a panda data.frame.
@@ -50,9 +58,8 @@ def cleaning_names(list_of_names):
     returns a dictionary with existing names as keys and cleaned names as values
     """
     r = re.compile("([^\\.]+$)")
-    col_new = [r.search(x).group() for x in col_old]
-    df_col_dict = dict(map(lambda i,j : (i,j) , col_old,col_new))
-    return df_col_dict
+    col_new = [r.search(x).group() for x in list_of_names]
+    return col_new
 
 def zaehlkreis_daten(df, ch_single, zaehlkreis_alle):
         """
