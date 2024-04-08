@@ -10,13 +10,14 @@ url = base_absitmmung_url()['Eidgenössisch']
 url_list = make_url_list(url, headers, SSL_VERIFY)
 
 # i = url_list[0]
-# url_list = url_list[:20]
+url_list = url_list[:20]
+# i=url_list[2]
 
 # initalizing empty list to store all data.frames
 df_tot = pd.DataFrame()
 
-# initializing empty dicionary for vorlagenId and VorlagenTitel
-vorlagen_id_titel = {}
+# initializing empty dicionary for all general infos about a vorlage
+vorlagen_info = {}
 
 for i in url_list:
 
@@ -30,8 +31,12 @@ for i in url_list:
     df_eidg = add_columns_resultat_gebiet(df_eidg, 1)
     df_eidg.rename(columns=clean_names(df_eidg.columns), inplace=True)
 
-    # updating dictionary
-    vorlagen_id_titel.update({int(df_eidg['vorlagenId'].iloc[i]): get_de(df_eidg['vorlagenTitel'].iloc[i]) for i in range(len(df_eidg))})
+    # updating vorlagen_info
+    i_vorlagen_info = {int(df_eidg['vorlagenId'].iloc[i]): [get_de(df_eidg['vorlagenTitel'].iloc[i]),
+                                          df_eidg['vorlageBeendet'].iloc[i],
+                                          df_eidg['provisorisch'].iloc[i],
+                                          df_eidg['vorlagenArtId'].iloc[i]] for i in range(len(df_eidg))}
+    vorlagen_info.update(i_vorlagen_info)
 
     ## Resultatebene: Kanton Zürich
     df_ktzuerich = pd.json_normalize(res, record_path=["schweiz", "vorlagen", "kantone"],meta=[['abstimmtag'],['schweiz','vorlagen','vorlagenId']], errors='ignore')
@@ -57,25 +62,24 @@ for i in url_list:
         df_stadtzuerich.drop(["geoLevelnummer","geoLevelname","geoLevelParentnummer"], axis=1, inplace=True)
 
     ## Bereinigung (renaming, dropping columns, appending df to list)
-    df_eidg.drop(["vorlagenTitel","kantone","vorlagenArtId","hauptvorlagenId","reserveInfoText"], axis=1, inplace=True)
+    df_eidg.drop(["vorlagenTitel","kantone","vorlagenArtId","hauptvorlagenId","reserveInfoText","vorlageBeendet","provisorisch"], axis=1, inplace=True)
     df_ktzuerich.drop(["bezirke","gemeinden","geoLevelnummer","geoLevelname"], axis=1, inplace=True)
 
-    ##
     df_tot = pd.concat([df_tot,df_eidg, df_ktzuerich, df_stadtzuerich, df_stadtzuerichkreise])
 
 
-# adding
-df_tot = add_columns_politische_ebene(df_tot,1)
+# joining vorlagen_info
+rows = [{'vorlagenId': key, 'vorlagenTitel': values[0], 'vorlageBeendet': values[1], 'provisorisch': values[2], 'vorlagenArtId': values[3]} for key, values in vorlagen_info.items()]
+vorlagen_info = pd.DataFrame(rows)
+df_tot = pd.merge(df_tot, vorlagen_info, how='left', on="vorlagenId")
+df_tot = pd.merge(df_tot, get_zaehlkreise_translation(), how='left', on="geoLevelnummer")
 
 # filtering results (only valid result)
 df_tot = df_tot[(df_tot['provisorisch'] == False) & (df_tot['vorlageBeendet'] == True)]
 
-# joining vorlagenTitel
-vorlagen_id_titel = pd.DataFrame({"vorlagenId":vorlagen_id_titel.keys(), "vorlagenTitel":vorlagen_id_titel.values()})
-df_tot = pd.merge(df_tot, vorlagen_id_titel, how='left', on="vorlagenId")
-df_tot = pd.merge(df_tot, get_zaehlkreise_translation(), how='left', on="geoLevelnummer")
-
 # adding columns
+df_tot = add_columns_politische_ebene(df_tot,1)
+
 df_tot = add_columns_politische_ebene(df_tot, 1)
 df_tot["StaendeJa"] = df_tot["jaStaendeGanz"] + df_tot["jaStaendeHalb"] * 0.5
 df_tot["StaendeJa"] = df_tot["StaendeJa"].fillna(0)
@@ -88,13 +92,18 @@ df_tot["StaendeNein"] = [float_to_mixed_number(x) for x in  df_tot["StaendeNein"
 df_tot["StaendeNein"] = df_tot["StaendeNein"].str.replace(r'0', '')
 
 # subsetting an renaming columns
-df_tot.rename(rename_dict, axis = 'columns', inplace=True)
+df_tot.rename(get_rename_dict(), axis = 'columns', inplace=True)
 
 # Subset columns based on dictionary keys (old column names)
-subset_columns = list(rename_dict.values())
+subset_columns = list(get_rename_dict().values())
 df_tot = df_tot[subset_columns]
 
 
 import openpyxl
 with pd.ExcelWriter("abstimmungsergebnisse/eidg_test.xlsx") as writer:
     df_tot.to_excel(writer, sheet_name="eidg", index=False)
+
+
+
+old_dat = pd.read_csv("https://data.stadt-zuerich.ch/dataset/politik_abstimmungen_seit1933/download/abstimmungen_seit1933.csv")
+old_dat.to_excel("abstimmungsergebnisse/data/abstimmungsergebnisse.xlsx", sheet_name="eidg", index=False)
