@@ -50,7 +50,25 @@ def rename_columns(panda_data_frame):
     panda_data_frame_new = panda_data_frame.rename(columns = df_col_dict)
     return panda_data_frame_new
 
-def cleaning_names(list_of_names):
+
+def float_to_mixed_number(float_num):
+    """
+    Converting a fractional part of a float number (only .5 values) in a mixed number in text format
+    """
+    integer_part = int(float_num)
+    fractional_part = float_num - integer_part
+
+    if fractional_part != 0:
+        denominator = 1/fractional_part
+        denominator = int(denominator)
+        mixed_number = f"{integer_part} {1}/{denominator}"
+    else:
+        mixed_number = str(integer_part)
+
+    return(mixed_number)
+
+
+def clean_names(list_of_names):
     """
     Cleaning names (org column names)
     Existing  names are turned into new one given only the string after the last dot (.)
@@ -58,8 +76,68 @@ def cleaning_names(list_of_names):
     returns a dictionary with existing names as keys and cleaned names as values
     """
     r = re.compile("([^\\.]+$)")
-    col_new = [r.search(x).group() for x in list_of_names]
-    return col_new
+    dict_old_new = {x:r.search(x).group() for x in list_of_names}
+    return dict_old_new
+
+def get_zaehlkreise_translation():
+    """
+    Defining DataFrame which translates geoLevelnummer into Wahlkreise number and text
+    """
+    zaehlkreise_df = pd.DataFrame({"geoLevelnummer":[10261, 20261, 30261, 40261, 50261, 60261, 70261, 80261,90261],
+                               "Nr_Wahlkreis_StZH":[2,3,4,5,6,7,8,9,10],
+                               "Name_Wahlkreis_StZH":['Kreis 1+2','Kreis 3','Kreis 4+5','Kreis 6','Kreis 7+8','Kreis 9','Kreis 10','Kreis 11','Kreis 12']})
+
+    return zaehlkreise_df
+
+
+def get_ebene_gebiet_dict():
+    """
+    Defining ditionary with ebene/gebiet information
+    """
+    gebiet_dict = {1:'Eidgenossenschaft', 2:'Kanton Zürich', 3:'Stadt Zürich'}
+    return gebiet_dict
+
+def add_columns_resultat_gebiet(pandas_data_frame, nr_resultat_gebiet):
+    """
+    Adding two columns to a pandas data frame based on one input parameter (nr_result_gebiet)
+    """
+    pandas_data_frame['Nr_Resultat_Gebiet'] = nr_resultat_gebiet
+    pandas_data_frame['Name_Resultat_Gebiet'] = get_ebene_gebiet_dict()[nr_resultat_gebiet]
+
+    return pandas_data_frame
+
+def add_columns_politische_ebene(pandas_data_frame, nr_politische_ebene):
+    """
+    Adding two columns to a pandas data frame based on one input parameter (nr_politische_ebene)
+    """
+    pandas_data_frame['Nr_Politische_Ebene'] = nr_politische_ebene
+    pandas_data_frame['Name_Politische_Ebene'] = get_ebene_gebiet_dict()[nr_politische_ebene]
+
+    return pandas_data_frame
+
+
+def get_rename_dict():
+    """
+    Defining dicitonary with columns from json as keys and output columns as values. Contains all columns in correct order.
+    """
+    rename_dict = {"abstimmtag":"Abstimmungs_Datum",
+               "Nr_Politische_Ebene":"Nr_Politische_Ebene",
+               "Name_Politische_Ebene":"Name_Politische_Ebene",
+               "vorlagenTitel":"Abstimmungs_Text",
+               "Nr_Resultat_Gebiet":"Nr_Resultat_Gebiet",
+               "Name_Resultat_Gebiet":"Name_Resultat_Gebiet",
+               "Nr_Wahlkreis_StZH":"Nr_Wahlkreis_StZH",
+               "Name_Wahlkreis_StZH":"Name_Wahlkreis_StZH",
+               "anzahlStimmberechtigte":"Stimmberechtigt",
+               "jaStimmenAbsolut":"Ja",
+               "neinStimmenAbsolut":"Nein",
+               "stimmbeteiligungInProzent":"Stimmbeteiligung (%)",
+               "jaStimmenInProzent":"Ja (%)",
+               "neinStimmenAbsolut":"Nein (%)",
+               "StaendeJa":"StaendeJa",
+               "StaendeNein":"StaendeNein"}
+
+    return rename_dict
 
 def zaehlkreis_daten(df, ch_single, zaehlkreis_alle):
         """

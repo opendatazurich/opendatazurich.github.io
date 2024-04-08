@@ -5,115 +5,96 @@ This script describes how to scrape eidg. Abstimmungsresultate for all political
 from abstimmungsergebnisse.hilfsfunktionen import *
 import pandas as pd
 
-Nr_Politische_Ebene = 1
-Name_Politische_Ebene = "Eidgenossenschaft"
+
 url = base_absitmmung_url()['Eidgenössisch']
 url_list = make_url_list(url, headers, SSL_VERIFY)
 
+# i = url_list[0]
+# url_list = url_list[:20]
 
-# get one abstimmung
-# res = get_request(url_list[0], headers, SSL_VERIFY) # eine URL entspricht einem Abstimmungstag >> kann mehrere Abstimmungen enthalten
-# url_list[0]
-# i = url_list[126]
-#
-# i = "https://dam-api.bfs.admin.ch/hub/api/dam/assets/7686378/master"
-# i = "https://dam-api.bfs.admin.ch/hub/api/dam/assets/7686459/master"
-i = url_list[0]
+# initalizing empty list to store all data.frames
+df_tot = pd.DataFrame()
 
-df_eidg_tot = []
-df_ktzuerich_tot = []
-df_stadtzuerich_tot = []
-df_stadtzuerichkreise_tot = []
-
+# initializing empty dicionary for vorlagenId and VorlagenTitel
+vorlagen_id_titel = {}
 
 for i in url_list:
 
     print(i)
 
-    # initializing empty dicionary for vorlagenId and VorlagenTitel
-    vorlagen_id_titel = {}
-
     # URL reflects one voting day > can hold several votes
     res = get_request(i, headers, SSL_VERIFY)
 
     ## Resultatebene: Eidgenössisch
-    df_eidg = pd.json_normalize(res, record_path=["schweiz", "vorlagen"], errors='ignore')
+    df_eidg = pd.json_normalize(res, record_path=["schweiz", "vorlagen"], meta=['abstimmtag'], errors='ignore')
+    df_eidg = add_columns_resultat_gebiet(df_eidg, 1)
+    df_eidg.rename(columns=clean_names(df_eidg.columns), inplace=True)
 
-    # updating dicitonary
+    # updating dictionary
     vorlagen_id_titel.update({int(df_eidg['vorlagenId'].iloc[i]): get_de(df_eidg['vorlagenTitel'].iloc[i]) for i in range(len(df_eidg))})
 
-    cleaning_names(df_eidg.columns)
-
-
     ## Resultatebene: Kanton Zürich
-    df_eidg_tot.append(df_eidg)
-
-    # normalize json
-    df_ktzuerich = pd.json_normalize(res, record_path=["schweiz", "vorlagen", "kantone"],
-                      meta=[['abstimmtag'],['schweiz','vorlagen','vorlagenId']], errors='ignore')
-
+    df_ktzuerich = pd.json_normalize(res, record_path=["schweiz", "vorlagen", "kantone"],meta=[['abstimmtag'],['schweiz','vorlagen','vorlagenId']], errors='ignore')
     df_ktzuerich = df_ktzuerich.astype({'geoLevelnummer': 'int'}, copy=True)
     df_ktzuerich = df_ktzuerich[df_ktzuerich['geoLevelnummer'] == 1]  # subset kanton zh
+    df_ktzuerich = add_columns_resultat_gebiet(df_ktzuerich, 2)
+    df_ktzuerich.rename(columns=clean_names(df_ktzuerich.columns), inplace=True)
 
-
-    # adding further columns
-    df_ktzuerich['Nr_Resultat_Gebiet'] = 2
-    df_ktzuerich['Name_Resultat_Gebiet'] = "Kanton Zürich"
-    df_ktzuerich.iloc[0]
-    df_ktzuerich.columns
-    df_ktzuerich_tot.append(df_ktzuerich)
-
-    ## Resultatebene: Stadt Zürich
-
-    # Gesamtebene
+    ## Resultatebene: Total Stadt Zürich
     df_stadtzuerich = pd.json_normalize(res, record_path=["schweiz", "vorlagen", "kantone", "gemeinden"],meta=[["abstimmtag"], ["schweiz", "vorlagen", "vorlagenId"]], errors='ignore')
     df_stadtzuerich = df_stadtzuerich.astype({'geoLevelnummer': 'int'}, copy=True)
     df_stadtzuerich = df_stadtzuerich[df_stadtzuerich['geoLevelnummer'] == 261]  # subset stadt zürich zh
-    if(len(df_stadtzuerich) > 0):
-            df_stadtzuerich_tot.append(df_stadtzuerich)
+    df_stadtzuerich = add_columns_resultat_gebiet(df_stadtzuerich, 3)
+    df_stadtzuerich.rename(columns=clean_names(df_stadtzuerich.columns), inplace=True)
 
-    # Zählkreisebene (nicht immer vorhanden)
+    ## Resultatebene: Zaehlkreise Stadt Zürich (nicht immer vorhanden)
+
     if('zaehlkreise' in df_ktzuerich.columns.tolist()):
-        df_stadtzuerichkreise = [pd.json_normalize(dict(df_ktzuerich.iloc[i]), record_path=["zaehlkreise"], meta=["schweiz.vorlagen.vorlagenId"]) for i in range(len(df_ktzuerich))]
+        df_stadtzuerichkreise = [pd.json_normalize(dict(df_ktzuerich.iloc[i]), record_path=["zaehlkreise"], meta=["vorlagenId"]) for i in range(len(df_ktzuerich))]
         df_stadtzuerichkreise = pd.concat(df_stadtzuerichkreise)
         df_stadtzuerichkreise = df_stadtzuerichkreise[df_stadtzuerichkreise['geoLevelname'].str.contains("Zürich")]  # subsetting to zaehlkreise of stadt zuerich
-        df_stadtzuerichkreise_tot.append(df_stadtzuerichkreise)
+        df_stadtzuerichkreise.rename(columns=clean_names(df_stadtzuerichkreise.columns), inplace=True)
+        df_stadtzuerich.drop(["geoLevelnummer","geoLevelname","geoLevelParentnummer"], axis=1, inplace=True)
+
+    ## Bereinigung (renaming, dropping columns, appending df to list)
+    df_eidg.drop(["vorlagenTitel","kantone","vorlagenArtId","hauptvorlagenId","reserveInfoText"], axis=1, inplace=True)
+    df_ktzuerich.drop(["bezirke","gemeinden","geoLevelnummer","geoLevelname"], axis=1, inplace=True)
+
+    ##
+    df_tot = pd.concat([df_tot,df_eidg, df_ktzuerich, df_stadtzuerich, df_stadtzuerichkreise])
 
 
-df_eidg_tot =  pd.concat(df_eidg_tot)
-df_ktzuerich_tot = pd.concat(df_ktzuerich_tot)
-df_stadtzuerich_tot = pd.concat(df_stadtzuerich_tot)
-df_stadtzuerichkreise_tot = pd.concat(df_stadtzuerichkreise_tot)
+# adding
+df_tot = add_columns_politische_ebene(df_tot,1)
 
+# filtering results (only valid result)
+df_tot = df_tot[(df_tot['provisorisch'] == False) & (df_tot['vorlageBeendet'] == True)]
 
-vorlagen = [*df_ktzuerich_tot[df_ktzuerich_tot["abstimmtag"] == "20240303"]["schweiz.vorlagen.vorlagenId"]]
+# joining vorlagenTitel
+vorlagen_id_titel = pd.DataFrame({"vorlagenId":vorlagen_id_titel.keys(), "vorlagenTitel":vorlagen_id_titel.values()})
+df_tot = pd.merge(df_tot, vorlagen_id_titel, how='left', on="vorlagenId")
+df_tot = pd.merge(df_tot, get_zaehlkreise_translation(), how='left', on="geoLevelnummer")
+
+# adding columns
+df_tot = add_columns_politische_ebene(df_tot, 1)
+df_tot["StaendeJa"] = df_tot["jaStaendeGanz"] + df_tot["jaStaendeHalb"] * 0.5
+df_tot["StaendeJa"] = df_tot["StaendeJa"].fillna(0)
+df_tot["StaendeJa"] = [float_to_mixed_number(x) for x in  df_tot["StaendeJa"]]
+df_tot["StaendeJa"] = df_tot["StaendeJa"].str.replace(r'0', '')
+
+df_tot["StaendeNein"] = df_tot["neinStaendeGanz"] + df_tot["neinStaendeHalb"] * 0.5
+df_tot["StaendeNein"] = df_tot["StaendeNein"].fillna(0)
+df_tot["StaendeNein"] = [float_to_mixed_number(x) for x in  df_tot["StaendeNein"]]
+df_tot["StaendeNein"] = df_tot["StaendeNein"].str.replace(r'0', '')
+
+# subsetting an renaming columns
+df_tot.rename(rename_dict, axis = 'columns', inplace=True)
+
+# Subset columns based on dictionary keys (old column names)
+subset_columns = list(rename_dict.values())
+df_tot = df_tot[subset_columns]
+
 
 import openpyxl
-df_eidg_tot = df_eidg_tot[df_eidg_tot["vorlagenId"].isin(vorlagen)]
-df_ktzuerich_tot = df_ktzuerich_tot[df_ktzuerich_tot["schweiz.vorlagen.vorlagenId"].isin(vorlagen)]
-df_stadtzuerich_tot = df_stadtzuerich_tot[df_stadtzuerich_tot["schweiz.vorlagen.vorlagenId"].isin(vorlagen)]
-df_stadtzuerichkreise_tot = df_stadtzuerichkreise_tot[df_stadtzuerichkreise_tot["schweiz.vorlagen.vorlagenId"].isin(vorlagen)]
-
-
-with pd.ExcelWriter("eidg.xlsx") as writer:
-
-    # use to_excel function and specify the sheet_name and index
-    # to store the dataframe in specified sheet
-    df_eidg_tot.to_excel(writer, sheet_name="eidg", index=False)
-    df_ktzuerich_tot.to_excel(writer, sheet_name="kant", index=False)
-    df_stadtzuerich_tot.to_excel(writer, sheet_name="stadt", index=False)
-    df_stadtzuerichkreise_tot.to_excel(writer, sheet_name="kreis", index=False)
-
-
-# # adding further columns
-# df_ktzuerich['Nr_Resultat_Gebiet'] = 1
-# df_ktzuerich['Name_Resultat_Gebiet'] = "Eidgenossenschaft"
-
-
-
-
-
-# joining vorlagenTitel by vorlagenId
-# [res["schweiz"]['vorlagen'][i]['vorlagenTitel'][0]['text'] for i in range(len(res["schweiz"]['vorlagen']))]
-
-
+with pd.ExcelWriter("abstimmungsergebnisse/eidg_test.xlsx") as writer:
+    df_tot.to_excel(writer, sheet_name="eidg", index=False)
