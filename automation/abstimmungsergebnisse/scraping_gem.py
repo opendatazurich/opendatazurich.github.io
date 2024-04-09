@@ -10,9 +10,6 @@ i = url_list[0]
 i = "https://app-prod-static-voteinfo.s3.eu-central-1.amazonaws.com/v1/ogd/kommunale_resultate_2024_03_03.json"
 ###
 
-i = 1 #
-i = 3 #
-url_list[i]
 
 # Stadt Zürich Gesamt
 res = get_request(url_list[i], headers, SSL_VERIFY) # eine URL entspricht einem Abstimmungstag >> kann mehrere Abstimmungen enthalten
@@ -30,8 +27,6 @@ df_stadtzuerichkreise_tot.append(res)
 ###
 i = "https://app-prod-static-voteinfo.s3.eu-central-1.amazonaws.com/v1/ogd/kommunale_resultate_2024_01_28.json"
 
-df_stadtzuerich_tot = []
-df_stadtzuerichkreise_tot = []
 
 for i in url_list:
 
@@ -58,19 +53,4 @@ df_stadtzuerichkreise_tot = pd.concat(df_stadtzuerichkreise_tot)
 
 df_stadtzuerichkreise_tot.iloc[0]
 
-
-    # # trying to squeeze all in one
-    # mynewlist=[]
-    # for j in range(len(url_list)):
-    #     mynewlist.append(get_request(url_list[j], headers, SSL_VERIFY))
-    #
-    # result_dict = dict(zip([mynewlist[i]['abstimmtag'] for i in range(len(mynewlist))], mynewlist))
-    #
-    # {abstimmungen: [{stimmtag: XY}, {INHALT}]} # Versuche diese Struktur nachzubilden, und dann alles durchlassen
-    #
-    # res = pd.json_normalize(result_dict, record_path=["kantone","vorlagen"],meta = ['abstimmtag'], errors='ignore')
-    # res = res.astype({'geoLevelnummer': 'int'}, copy = True)
-    # res = res[(res['geoLevelnummer'] == 261) & (res['nochKeineInformation'] == False)] # subset stadt zürich zh
-    # res["vorlagenTitel"] = [res['vorlagenTitel'][i][0]['text'] for i in range(len(res['vorlagenTitel']))]
-    #
 

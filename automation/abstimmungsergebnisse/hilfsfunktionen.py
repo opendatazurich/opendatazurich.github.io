@@ -83,10 +83,11 @@ def get_zaehlkreise_translation():
     """
     Defining DataFrame which translates geoLevelnummer into Wahlkreise number and text
     """
-    zaehlkreise_df = pd.DataFrame({"geoLevelnummer":[10261, 20261, 30261, 40261, 50261, 60261, 70261, 80261,90261],
+    zaehlkreise_df = pd.DataFrame({"geoLevelnummer":[10261, 20261, 30261, 40261, 50261, 60261, 70261, 80261, 90261],
                                "Nr_Wahlkreis_StZH":[2,3,4,5,6,7,8,9,10],
                                "Name_Wahlkreis_StZH":['Kreis 1+2','Kreis 3','Kreis 4+5','Kreis 6','Kreis 7+8','Kreis 9','Kreis 10','Kreis 11','Kreis 12']})
 
+    zaehlkreise_df["geoLevelnummer"] = zaehlkreise_df["geoLevelnummer"].astype(str)
     return zaehlkreise_df
 
 
@@ -133,7 +134,7 @@ def get_rename_dict():
                "neinStimmenAbsolut":"Nein",
                "stimmbeteiligungInProzent":"Stimmbeteiligung (%)",
                "jaStimmenInProzent":"Ja (%)",
-               "neinStimmenAbsolut":"Nein (%)",
+               "neinStimmenInProzent":"Nein (%)",
                "StaendeJa":"StaendeJa",
                "StaendeNein":"StaendeNein"}
 
