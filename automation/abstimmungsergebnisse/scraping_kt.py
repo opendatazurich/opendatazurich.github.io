@@ -69,3 +69,10 @@ df_tot = add_columns_politische_ebene(df_tot,2)
 
 with pd.ExcelWriter("abstimmungsergebnisse/data/kant_test.xlsx") as writer:
     df_tot.to_excel(writer, sheet_name="kant", index=False)
+
+
+
+import duckdb
+i="https://app-prod-static-voteinfo.s3.eu-central-1.amazonaws.com/v1/ogd/sd-t-17-02-20210425-kantAbstimmung.json"
+res = get_request(i, headers, SSL_VERIFY) # eine URL entspricht einem Abstimmungstag >> kann mehrere Abstimmungen enthalten
+r = duckdb.read_json(res)
