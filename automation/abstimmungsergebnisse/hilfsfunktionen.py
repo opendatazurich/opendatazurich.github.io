@@ -1,11 +1,6 @@
-# Import Packages
 import requests
 import pandas as pd
-import numpy as np
-import json
 import re
-import pandas as pd
-
 headers = {'Accept': 'application/json'}
 SSL_VERIFY = True
 
@@ -28,6 +23,9 @@ def make_url_list(url, headers, verify):
     daten = pd.json_normalize(data, record_path=["result", "resources"])
     url_list = daten["url"]
     return url_list
+
+def columns_to_drop():
+    return ['abstimmtag', 'annahmekriteriumTyp', 'annahmekriteriumTypId', 'bezirke', 'gemeinden', 'geoLevelLevel', 'geoLevelParentnummer', 'geoLevelname', 'geoLevelnummer', 'geschaeftsArt', 'geschaeftsArtId', 'geschaeftsSubTyp', 'geschaeftsSubTypId', 'geschaeftsTyp', 'geschaeftsTypId', 'hauptvorlagenId', 'kantone', 'nochKeineInformation', 'notfalltext', 'provisorisch', 'reihenfolgeAnzeige', 'reserveInfoText', 'timestamp', 'vorlageAngenommen', 'vorlageAngenommenGesamtbetrachtung', 'vorlageBeendet', 'vorlagenArtId', 'vorlagenTitel', 'zaehlkreise']
 
 
 def get_de(list_with_dict):

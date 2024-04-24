@@ -1,10 +1,9 @@
-# Import Packages
 import requests
 import pandas as pd
-import numpy as np
-import json
 import re
-import pandas as pd
+headers = {'Accept': 'application/json'}
+SSL_VERIFY = True
+
 
 headers = {'Accept': 'application/json'}
 SSL_VERIFY = True
@@ -140,29 +139,9 @@ def get_rename_dict():
 
     return rename_dict
 
-def zaehlkreis_daten(df, ch_single, zaehlkreis_alle):
-        """
-        Sucht Zählkreisdaten aus df heraus (dafür muss die Spalte "zaehlkreise" vorhanden sein).
-        Output ist zaehlkreis_alle
-        """
-        df_zk = df[df['zaehlkreise'].notna()]
-
-        for i in list(df_zk["zaehlkreise"].keys()):
-            zk = df['zaehlkreise'][i]
-            zaehlkreise_norm = pd.json_normalize(zk)
-            zaehlkreise_norm['i'] = i
-            zaehlkreise_norm['schweiz.vorlagen.vorlagenId'] = df['schweiz.vorlagen.vorlagenId'][i]
-            zaehlkreise_norm['abstimmtag'] = df['abstimmtag'][i]
-            #print(zaehlkreise_norm)
-            # join stände vorlage zaehlkreis-resultate
-            join_zk = pd.merge(ch_single, zaehlkreise_norm, how='inner', on = ["schweiz.vorlagen.vorlagenId", "abstimmtag"])
-            zaehlkreis_alle = pd.concat([zaehlkreis_alle, join_zk], ignore_index=True, sort=False)
-
-        return zaehlkreis_alle
-
 def base_absitmmung_url():
     """
-    Defining base urls from where data can get scraped
+    Defining base urls from where data can get fetched
     """
     urls = {'Eidgenössisch':'https://ckan.opendata.swiss/api/3/action/package_show?id=echtzeitdaten-am-abstimmungstag-zu-eidgenoessischen-abstimmungsvorlagen',
             'Kanton Zürich':'https://ckan.opendata.swiss/api/3/action/package_show?id=echtzeitdaten-am-abstimmungstag-zu-kantonalen-abstimmungsvorlagen',
@@ -171,21 +150,10 @@ def base_absitmmung_url():
     return urls
 
 
-if __name__ == "__main__":
-    # zum Testen des Moduls
-    headers = {'Accept': 'application/json'}
-    SSL_VERIFY = True
-    url = 'https://ckan.opendata.swiss/api/3/action/package_show?id=echtzeitdaten-am-abstimmungstag-zu-eidgenoessischen-abstimmungsvorlagen'
-    print(make_url_list(url, headers, SSL_VERIFY))
+def columns_to_drop():
+    """
+    Defining list with column names to drop after fetching results
+    """
+    return ['abstimmtag', 'annahmekriteriumTyp', 'annahmekriteriumTypId', 'bezirke', 'gemeinden', 'geoLevelLevel', 'geoLevelParentnummer', 'geoLevelname', 'geoLevelnummer', 'geschaeftsArt', 'geschaeftsArtId', 'geschaeftsSubTyp', 'geschaeftsSubTypId', 'geschaeftsTyp', 'geschaeftsTypId', 'hauptvorlagenId', 'kantone', 'nochKeineInformation', 'notfalltext', 'provisorisch', 'reihenfolgeAnzeige', 'reserveInfoText', 'timestamp', 'vorlageAngenommen', 'vorlageAngenommenGesamtbetrachtung', 'vorlageBeendet', 'vorlagenArtId', 'vorlagenTitel', 'zaehlkreise']
 
-    # zähkreisdaten
-    url_data = 'https://dam-api.bfs.admin.ch/hub/api/dam/assets/7686380/master'
-    data = get_request(url, headers, SSL_VERIFY)
-    ch_single = pd.DataFrame({
-        'text': ['Volksinitiative «Nationalbankgewinne für die AHV»', 'Bundesgesetz über die Ausländerinnen und Auslä...','Änderung des Asylgesetzes'],
-        'abstimmtag': [20060924,20060924,20060924],
-        'schweiz.vorlagen.vorlagenId': [5230, 5240, 5250],
-    })
-    df = pd.json_normalize(data, record_path=["schweiz", "vorlagen", "kantone"], meta=[["abstimmtag"],["schweiz", "vorlagen", "vorlagenId"]] , errors='ignore')
-    zaehlkreis_alle = pd.DataFrame()
-    print(zaehlkreis_daten(df, ch_single, zaehlkreis_alle))
+

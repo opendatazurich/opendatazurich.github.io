@@ -10,5 +10,5 @@ url_list = make_url_list(url, headers, SSL_VERIFY)
 i = url_list[1]
 
 
-with pd.ExcelWriter("abstimmungsergebnisse/data/stadt_test.xlsx") as writer:
+with pd.ExcelWriter("abstimmungsergebnisse/data/test_error.xlsx") as writer:
     df_tot.to_excel(writer, sheet_name="kant", index=False)
