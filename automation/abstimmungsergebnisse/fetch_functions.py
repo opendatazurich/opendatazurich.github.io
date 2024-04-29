@@ -62,8 +62,6 @@ def get_kommunale_resultate(url_list):
     df_tot = pd.merge(df_tot, vorlagen_info, how='left', on="vorlagenId")
     df_tot = add_columns_politische_ebene(df_tot, 3)
 
-    # filtering results (only valid result)
-    df_tot = df_tot[(df_tot['vorlageBeendet'] == True) & (df_tot['gebietAusgezaehlt'] == True)]
     return df_tot
 
 def get_kantonale_resultate(url_list):
@@ -132,11 +130,10 @@ def get_kantonale_resultate(url_list):
     df_tot = pd.merge(df_tot, vorlagen_info, how='left', on="vorlagenId")
     df_tot = add_columns_politische_ebene(df_tot, 2)
 
-    # filtering results (only valid result)
-    df_tot = df_tot[(df_tot['vorlageBeendet'] == True) & (df_tot['gebietAusgezaehlt'] == True)]
-
     return df_tot
 
+#bugfix
+i = "https://app-prod-static-voteinfo.s3.eu-central-1.amazonaws.com/v1/ogd/sd-t-17-02-20240303-eidgAbstimmung.json"
 def get_eidgenoessische_resultate(url_list):
     # initalizing empty list to store all data.frames / empty dicionary for all general infos about a vorlage
     df_tot = pd.DataFrame()
@@ -213,8 +210,5 @@ def get_eidgenoessische_resultate(url_list):
     vorlagen_info = pd.DataFrame(rows)
     df_tot = pd.merge(df_tot, vorlagen_info, how='left', on="vorlagenId")
     df_tot = add_columns_politische_ebene(df_tot, 1)
-
-    # filtering results (only valid result)
-    df_tot = df_tot[(df_tot['provisorisch'] == False) & (df_tot['vorlageBeendet'] == True)]
 
     return df_tot

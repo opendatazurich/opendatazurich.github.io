@@ -20,6 +20,8 @@ for i in url_list:
     df_eidg['url'] = i
     df_tot = pd.concat([df_tot, df_eidg])
 
+df_tot.dtypes
+df_tot[df_tot['abstimmtag'] == "20240303"].iloc[2]['url']
 
 df_tot = pd.merge(df_tot, get_zaehlkreise_translation(), how='left', on="geoLevelnummer")
 

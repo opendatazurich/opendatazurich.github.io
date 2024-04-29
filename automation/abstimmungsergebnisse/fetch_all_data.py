@@ -18,19 +18,22 @@ df_komm = get_kommunale_resultate(url_list_komm)
 # Concatenating all togheter
 df_tot = pd.concat([df_eidg, df_kant, df_komm])
 
+# filtering results (only valid result)
+df_tot = df_tot[(df_tot['vorlageBeendet'] == True) & (df_tot['gebietAusgezaehlt'] == True)]
+
 # adding columns
 df_tot = pd.merge(df_tot, get_zaehlkreise_translation(), how='left', on="geoLevelnummer")
 df_tot["neinStimmenInProzent"] = 100 - df_tot["jaStimmenInProzent"]
 
-df_tot["StaendeJa"] = df_tot["jaStaendeGanz"] + df_tot["jaStaendeHalb"] * 0.5
-df_tot["StaendeJa"] = df_tot["StaendeJa"].fillna(0)
-df_tot["StaendeJa"] = [float_to_mixed_number(x) for x in  df_tot["StaendeJa"]]
-df_tot["StaendeJa"] = df_tot["StaendeJa"].str.replace(r'0', '')
+df_tot['jaStaendeGanz'] = df_tot['jaStaendeGanz'].apply(lambda x: str(int(x)) if not pd.isna(x) else '')
+df_tot['jaStaendeHalb'] = df_tot['jaStaendeHalb'].apply(lambda x: str(int(x)) if not pd.isna(x) else '')
+df_tot.loc[df_tot['jaStaendeGanz'] == "", 'StaendeJa'] = ""
+df_tot.loc[df_tot['jaStaendeGanz'] != "", 'StaendeJa'] = df_tot['jaStaendeGanz'] + " " + df_tot['jaStaendeHalb'] + "/2"
 
-df_tot["StaendeNein"] = df_tot["neinStaendeGanz"] + df_tot["neinStaendeHalb"] * 0.5
-df_tot["StaendeNein"] = df_tot["StaendeNein"].fillna(0)
-df_tot["StaendeNein"] = [float_to_mixed_number(x) for x in  df_tot["StaendeNein"]]
-df_tot["StaendeNein"] = df_tot["StaendeNein"].str.replace(r'0', '')
+df_tot['neinStaendeGanz'] = df_tot['neinStaendeGanz'].apply(lambda x: str(int(x)) if not pd.isna(x) else '')
+df_tot['neinStaendeHalb'] = df_tot['neinStaendeHalb'].apply(lambda x: str(int(x)) if not pd.isna(x) else '')
+df_tot.loc[df_tot['neinStaendeGanz'] == "", 'StaendeNein'] = ""
+df_tot.loc[df_tot['neinStaendeGanz'] != "", 'StaendeNein'] = df_tot['neinStaendeGanz'] + " " + df_tot['neinStaendeHalb'] + "/2"
 
 # subsetting an renaming columns
 df_tot.rename(get_rename_dict(), axis = 'columns', inplace=True)
@@ -43,6 +46,7 @@ df_tot = df_tot[subset_columns]
 df_tot['Abstimmungs_Datum'] = df_tot['Abstimmungs_Datum'].str.replace('-', '')
 df_tot['Abstimmungs_Datum'] = pd.to_datetime(df_tot['Abstimmungs_Datum'], format='%Y%m%d')
 df_tot['Abstimmungs_Datum'] = df_tot['Abstimmungs_Datum'].dt.date
+df_tot["Stimmbeteiligung (%)"] = round(df_tot["Stimmbeteiligung (%)"], 1)
 df_tot["Nein (%)"] = round(df_tot["Nein (%)"], 1)
 df_tot["Ja (%)"] = round(df_tot["Ja (%)"], 1)
 
