@@ -15,11 +15,21 @@ url = base_absitmmung_url()['Stadt Zürich']
 url_list_komm = make_url_list(url, headers, SSL_VERIFY)
 df_komm = get_kommunale_resultate(url_list_komm)
 
-# Concatenating all togheter
+# type casting
+df_eidg[['geoLevelnummer']] = df_eidg[['geoLevelnummer']].fillna(value=-1)
+df_kant[['geoLevelnummer']] = df_kant[['geoLevelnummer']].fillna(value=-1)
+df_komm[['geoLevelnummer']] = df_komm[['geoLevelnummer']].fillna(value=-1)
+
+df_eidg = df_eidg.astype({'geoLevelnummer':'int64'})
+df_kant = df_kant.astype({'geoLevelnummer':'int64'})
+df_komm = df_komm.astype({'geoLevelnummer':'int64'})
+
+# Concatenating all pd's together
 df_tot = pd.concat([df_eidg, df_kant, df_komm])
 
 # filtering results (only valid result)
 df_tot = df_tot[(df_tot['vorlageBeendet'] == True) & (df_tot['gebietAusgezaehlt'] == True)]
+df_tot.drop_duplicates(inplace=True)
 
 # adding columns
 df_tot = pd.merge(df_tot, get_zaehlkreise_translation(), how='left', on="geoLevelnummer")
@@ -53,3 +63,18 @@ df_tot["Ja (%)"] = round(df_tot["Ja (%)"], 1)
 df_tot.sort_values(by=['Abstimmungs_Datum',"Nr_Politische_Ebene",'Abstimmungs_Text','Nr_Resultat_Gebiet','Nr_Wahlkreis_StZH'], ascending=[False, True, True, True, True], inplace=True)
 
 df_tot.to_excel("abstimmungsergebnisse/data/total_test.xlsx")
+
+
+
+# Issues
+
+# Zeitreihe nicht vorhanden
+# - Eidgenössische Abstimmungen gehen nur bis und mit 19810614 zurück
+# - Kantonale Abstimmungen gehen nur bis und mit 20190210
+# - Die Kommunalen Abstimmungen gehen nur bis und mit 2021-09-26 zurück
+
+# Check vorhandene Zeitreihen
+# -
+
+#TODO
+#

@@ -8,8 +8,6 @@ SSL_VERIFY = True
 headers = {'Accept': 'application/json'}
 SSL_VERIFY = True
 
-
-# für Funktionen, die in mehreren Skripten gebraucht werden können
 def get_request(url, headers, verify):
     """
     GET Request from url and return data as json
@@ -49,24 +47,6 @@ def rename_columns(panda_data_frame):
     panda_data_frame_new = panda_data_frame.rename(columns = df_col_dict)
     return panda_data_frame_new
 
-
-def float_to_mixed_number(float_num):
-    """
-    Converting a fractional part of a float number (only .5 values) in a mixed number in text format
-    """
-    integer_part = int(float_num)
-    fractional_part = float_num - integer_part
-
-    if fractional_part != 0:
-        denominator = 1/fractional_part
-        denominator = int(denominator)
-        mixed_number = f"{integer_part} {1}/{denominator}"
-    else:
-        mixed_number = str(integer_part)
-
-    return(mixed_number)
-
-
 def clean_names(list_of_names):
     """
     Cleaning names (org column names)
@@ -86,7 +66,7 @@ def get_zaehlkreise_translation():
                                "Nr_Wahlkreis_StZH":[2,3,4,5,6,7,8,9,10],
                                "Name_Wahlkreis_StZH":['Kreis 1+2','Kreis 3','Kreis 4+5','Kreis 6','Kreis 7+8','Kreis 9','Kreis 10','Kreis 11','Kreis 12']})
 
-    zaehlkreise_df["geoLevelnummer"] = zaehlkreise_df["geoLevelnummer"].astype(str)
+    # zaehlkreise_df["geoLevelnummer"] = zaehlkreise_df["geoLevelnummer"].astype('int64')
     return zaehlkreise_df
 
 
@@ -135,7 +115,8 @@ def get_rename_dict():
                "jaStimmenInProzent":"Ja (%)",
                "neinStimmenInProzent":"Nein (%)",
                "StaendeJa":"StaendeJa",
-               "StaendeNein":"StaendeNein"}
+               "StaendeNein":"StaendeNein",
+                "url":"url"}
 
     return rename_dict
 
@@ -154,6 +135,6 @@ def columns_to_drop():
     """
     Defining list with column names to drop after fetching results
     """
-    return ['abstimmtag', 'annahmekriteriumTyp', 'annahmekriteriumTypId', 'bezirke', 'gemeinden', 'geoLevelLevel', 'geoLevelParentnummer', 'geoLevelname', 'geoLevelnummer', 'geschaeftsArt', 'geschaeftsArtId', 'geschaeftsSubTyp', 'geschaeftsSubTypId', 'geschaeftsTyp', 'geschaeftsTypId', 'hauptvorlagenId', 'kantone', 'nochKeineInformation', 'notfalltext', 'provisorisch', 'reihenfolgeAnzeige', 'reserveInfoText', 'timestamp', 'vorlageAngenommen', 'vorlageAngenommenGesamtbetrachtung', 'vorlageBeendet', 'vorlagenArtId', 'vorlagenTitel', 'zaehlkreise']
+    return ['abstimmtag', 'annahmekriteriumTyp', 'annahmekriteriumTypId', 'bezirke', 'gemeinden', 'geoLevelLevel', 'geoLevelParentnummer', 'geoLevelname', 'geschaeftsArt', 'geschaeftsArtId', 'geschaeftsSubTyp', 'geschaeftsSubTypId', 'geschaeftsTyp', 'geschaeftsTypId', 'hauptvorlagenId', 'kantone', 'nochKeineInformation', 'notfalltext', 'provisorisch', 'reihenfolgeAnzeige', 'reserveInfoText', 'timestamp', 'vorlageAngenommen', 'vorlageAngenommenGesamtbetrachtung', 'vorlageBeendet', 'vorlagenArtId', 'vorlagenTitel', 'zaehlkreise']
 
-
+# , 'geoLevelnummer'

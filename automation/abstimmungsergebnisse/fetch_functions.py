@@ -4,7 +4,7 @@ from abstimmungsergebnisse.helper_functions import *
 
 def get_kommunale_resultate(url_list):
     """
-    ......
+    @ ......
     """
     # initalizing empty list to store all data.frames / empty dicionary for all general infos about a vorlage
     df_tot = pd.DataFrame()
@@ -12,7 +12,6 @@ def get_kommunale_resultate(url_list):
 
     for i in url_list:
 
-        i_url = i
         res = get_request(i, headers,SSL_VERIFY)  # eine URL entspricht einem Abstimmungstag >> kann mehrere Abstimmungen enthalten
 
         ## Resultatebene: Stadt Zürich
@@ -22,6 +21,7 @@ def get_kommunale_resultate(url_list):
 
         if (len(df_stadtzuerich) > 0):
 
+            df_stadtzuerich["url"] = i
             df_stadtzuerich = add_columns_resultat_gebiet(df_stadtzuerich, 3)
             df_stadtzuerich.rename(columns=clean_names(df_stadtzuerich.columns), inplace=True)
 
@@ -40,20 +40,10 @@ def get_kommunale_resultate(url_list):
                 df_stadtzuerichkreise = df_stadtzuerichkreise[df_stadtzuerichkreise['geoLevelname'].str.contains("Zürich")]  # subsetting to zaehlkreise of stadt zuerich
                 df_stadtzuerichkreise = add_columns_resultat_gebiet(df_stadtzuerichkreise, 3)
                 df_stadtzuerichkreise.rename(columns=clean_names(df_stadtzuerichkreise.columns), inplace=True)
-                # df_stadtzuerichkreise.drop(["geoLevelParentnummer", "geoLevelname", "timestamp"], axis=1, inplace=True, errors='ignore')
                 df_stadtzuerichkreise.drop(columns_to_drop(), axis=1, inplace=True,errors='ignore')
 
             ## Bereinigung (renaming, dropping columns, appending df to list)
-            # df_stadtzuerich.drop(
-            #     ["nochKeineInformation", "geoLevelname", "geoLevelnummer", "geoLevelLevel", "notfalltext",
-            #      "vorlagenTitel", "vorlageBeendet", "vorlageAngenommen",
-            #      "geschaeftsTypId", "geschaeftsTyp", "geschaeftsSubTypId", "geschaeftsSubTyp", "geschaeftsArtId",
-            #      "geschaeftsArt", "hauptvorlagenId",
-            #      "annahmekriteriumTypId", "annahmekriteriumTyp", "bezirke", "gemeinden", "zaehlkreise",
-            #      "vorlageAngenommenGesamtbetrachtung",
-            #      "abstimmtag"], axis=1, inplace=True, errors='ignore')
             df_stadtzuerich.drop(columns_to_drop(), axis=1, inplace=True,errors='ignore')
-
             df_tot = pd.concat([df_tot, df_stadtzuerich, df_stadtzuerichkreise])
 
     # joining vorlagen_info
@@ -73,15 +63,13 @@ def get_kantonale_resultate(url_list):
     vorlagen_info = {}
 
     for i in url_list:
-
-        i_url = i
         res = get_request(i, headers, SSL_VERIFY)  # eine URL entspricht einem Abstimmungstag >> kann mehrere Abstimmungen enthalten
 
         ## Resultatebene: Kanton Zürich
         df_ktzuerich = pd.json_normalize(res, record_path=["kantone", "vorlagen"],meta=[['abstimmtag'], ['kantone', 'geoLevelnummer']], errors='ignore')
         df_ktzuerich = df_ktzuerich[df_ktzuerich['kantone.geoLevelnummer'] == 1]
 
-        df_ktzuerich["url"] = i_url
+        df_ktzuerich["url"] = i
 
         if (len(df_ktzuerich) > 0):
 
@@ -99,6 +87,7 @@ def get_kantonale_resultate(url_list):
             df_stadtzuerich = pd.json_normalize(res, record_path=["kantone", "vorlagen", "gemeinden"],
                                                 meta=[['kantone', 'geoLevelnummer'],
                                                       ['kantone', 'vorlagen', 'vorlagenId']], errors='ignore')
+            df_stadtzuerich.drop(["kantone.geoLevelnummer"], axis=1, inplace=True,errors='ignore')
             df_stadtzuerich = df_stadtzuerich[df_stadtzuerich['geoLevelnummer'] == "261"]
             df_stadtzuerich = add_columns_resultat_gebiet(df_stadtzuerich, 3)
             df_stadtzuerich.rename(columns=clean_names(df_stadtzuerich.columns), inplace=True)
@@ -113,13 +102,9 @@ def get_kantonale_resultate(url_list):
                     df_stadtzuerichkreise = df_stadtzuerichkreise[df_stadtzuerichkreise['geoLevelname'].str.contains("Zürich")]  # subsetting to zaehlkreise of stadt zuerich
                     df_stadtzuerichkreise = add_columns_resultat_gebiet(df_stadtzuerichkreise, 3)
                     df_stadtzuerichkreise.rename(columns=clean_names(df_stadtzuerichkreise.columns), inplace=True)
-                    # df_stadtzuerichkreise.drop(["geoLevelParentnummer", "geoLevelname","vorlageBeendet"], axis=1, inplace=True,errors='ignore')
                     df_stadtzuerichkreise.drop(columns_to_drop(), axis=1, inplace=True,errors='ignore')
 
-
             ## Bereinigung (renaming, dropping columns, appending df to list)
-            # df_ktzuerich.drop(["vorlagenTitel", "kantone", "vorlagenArtId", "hauptvorlagenId", "reserveInfoText", "vorlageAngenommen","vorlageBeendet","reihenfolgeAnzeige", "bezirke", "gemeinden", "zaehlkreise", "geoLevelnummer", "abstimmtag"], axis=1, inplace=True, errors='ignore')
-            # df_stadtzuerich.drop(["geoLevelParentnummer", "geoLevelname", "geoLevelnummer","vorlageBeendet"], axis=1, inplace=True,errors='ignore')
             df_ktzuerich.drop(columns_to_drop(), axis=1, inplace=True, errors='ignore')
             df_stadtzuerich.drop(columns_to_drop(), axis=1, inplace=True,errors='ignore')
             df_tot = pd.concat([df_tot, df_ktzuerich, df_stadtzuerich, df_stadtzuerichkreise])
@@ -132,16 +117,12 @@ def get_kantonale_resultate(url_list):
 
     return df_tot
 
-#bugfix
-i = "https://app-prod-static-voteinfo.s3.eu-central-1.amazonaws.com/v1/ogd/sd-t-17-02-20240303-eidgAbstimmung.json"
 def get_eidgenoessische_resultate(url_list):
     # initalizing empty list to store all data.frames / empty dicionary for all general infos about a vorlage
     df_tot = pd.DataFrame()
     vorlagen_info = {}
 
     for i in url_list:
-
-        i_url = i
 
         # URL reflects one voting day > can hold several votes
         res = get_request(i, headers, SSL_VERIFY)
@@ -150,7 +131,7 @@ def get_eidgenoessische_resultate(url_list):
         df_eidg = pd.json_normalize(res, record_path=["schweiz", "vorlagen"], meta=['abstimmtag'], errors='ignore')
         df_eidg = add_columns_resultat_gebiet(df_eidg, 1)
         df_eidg.rename(columns=clean_names(df_eidg.columns), inplace=True)
-        df_eidg["url"] = i_url
+        df_eidg["url"] = i
 
         # updating vorlagen_info
         i_vorlagen_info = {int(df_eidg['vorlagenId'].iloc[v]): [get_de(df_eidg['vorlagenTitel'].iloc[v]),
@@ -188,20 +169,11 @@ def get_eidgenoessische_resultate(url_list):
             df_stadtzuerichkreise = df_stadtzuerichkreise[df_stadtzuerichkreise['geoLevelname'].str.contains("Zürich")]  # subsetting to zaehlkreise of stadt zuerich
             df_stadtzuerichkreise = add_columns_resultat_gebiet(df_stadtzuerichkreise, 3)
             df_stadtzuerichkreise.rename(columns=clean_names(df_stadtzuerichkreise.columns), inplace=True)
-            # df_stadtzuerich.drop(["geoLevelname","geoLevelParentnummer"], axis=1, inplace=True)
             df_stadtzuerich.drop(columns_to_drop(), axis=1, inplace=True, errors='ignore')
 
-
         ## Bereinigung (renaming, dropping columns, appending df to list)
-        # df_eidg.drop(
-        #     ["vorlagenTitel", "kantone", "vorlagenArtId", "hauptvorlagenId", "reserveInfoText", "vorlageBeendet",
-        #      "provisorisch", "abstimmtag"], axis=1, inplace=True, errors='ignore')
-        # df_ktzuerich.drop(["bezirke", "gemeinden", "geoLevelnummer", "geoLevelname", "vorlageBeendet", "zaehlkreise"],
-        #                   axis=1, inplace=True, errors='ignore')
         df_eidg.drop(columns_to_drop(), axis=1, inplace=True, errors='ignore')
         df_ktzuerich.drop(columns_to_drop(), axis=1, inplace=True, errors='ignore')
-
-
         df_tot = pd.concat([df_tot, df_eidg, df_ktzuerich, df_stadtzuerich, df_stadtzuerichkreise])
 
     # joining vorlagen_info
