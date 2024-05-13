@@ -73,8 +73,10 @@ df_tot.to_excel("abstimmungsergebnisse/data/total_test.xlsx")
 # - Kantonale Abstimmungen gehen nur bis und mit 20190210
 # - Die Kommunalen Abstimmungen gehen nur bis und mit 2021-09-26 zurück
 
+# - es gibt Doppelzählungen bei den Eidg. Abstimmungen
+
 # Check vorhandene Zeitreihen
-# -
+#
 
 #TODO
 #

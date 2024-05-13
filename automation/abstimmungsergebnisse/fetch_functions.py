@@ -159,7 +159,7 @@ def get_eidgenoessische_resultate(url_list):
         df_stadtzuerich.rename(columns=clean_names(df_stadtzuerich.columns), inplace=True)
 
         ## Resultatebene: Zaehlkreise Stadt Zürich (nicht immer vorhanden)
-        df_stadtzuerich = pd.DataFrame()
+        df_stadtzuerichkreise = pd.DataFrame()
 
         if ('zaehlkreise' in df_ktzuerich.columns.tolist()):
             df_stadtzuerichkreise = [
