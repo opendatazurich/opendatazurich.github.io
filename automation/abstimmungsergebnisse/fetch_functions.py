@@ -63,6 +63,7 @@ def get_kantonale_resultate(url_list):
     vorlagen_info = {}
 
     for i in url_list:
+
         res = get_request(i, headers, SSL_VERIFY)  # eine URL entspricht einem Abstimmungstag >> kann mehrere Abstimmungen enthalten
 
         ## Resultatebene: Kanton Zürich
@@ -100,6 +101,7 @@ def get_kantonale_resultate(url_list):
                 if (len(df_stadtzuerichkreise) > 0):
                     df_stadtzuerichkreise = pd.concat(df_stadtzuerichkreise)
                     df_stadtzuerichkreise = df_stadtzuerichkreise[df_stadtzuerichkreise['geoLevelname'].str.contains("Zürich")]  # subsetting to zaehlkreise of stadt zuerich
+
                     df_stadtzuerichkreise = add_columns_resultat_gebiet(df_stadtzuerichkreise, 3)
                     df_stadtzuerichkreise.rename(columns=clean_names(df_stadtzuerichkreise.columns), inplace=True)
                     df_stadtzuerichkreise.drop(columns_to_drop(), axis=1, inplace=True,errors='ignore')

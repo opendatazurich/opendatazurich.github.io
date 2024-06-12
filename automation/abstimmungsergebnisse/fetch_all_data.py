@@ -62,6 +62,13 @@ df_tot["Ja (%)"] = round(df_tot["Ja (%)"], 1)
 
 df_tot.sort_values(by=['Abstimmungs_Datum',"Nr_Politische_Ebene",'Abstimmungs_Text','Nr_Resultat_Gebiet','Nr_Wahlkreis_StZH'], ascending=[False, True, True, True, True], inplace=True)
 
+
+# Concat past Abstimmungen
+# - laod file
+# - Concat file (check column types)
+
+
+# dummy export
 df_tot.to_excel("abstimmungsergebnisse/data/total_test.xlsx")
 
 
@@ -76,7 +83,4 @@ df_tot.to_excel("abstimmungsergebnisse/data/total_test.xlsx")
 # - es gibt Doppelzählungen bei den Eidg. Abstimmungen
 
 # Check vorhandene Zeitreihen
-#
-
-#TODO
 #
