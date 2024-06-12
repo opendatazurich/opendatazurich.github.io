@@ -264,8 +264,6 @@ Es kann eine Datei und ein Dataset-Slug angegeben werden, die angegebene Datei w
 Sollte es bereits eine Datei mit diesem Namen als Ressource auf dem Dataset geben, so wird diese Datei aktualisiert.
 Andernfalls wird eine neue Ressource hinzugefügt.
 
-__UPDATE__: Im Skript [`upload_resource_to_ckan.py`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan.py) verwendet, beim Update einer Resource die CKAN API Funktion ```ckan.action.resource_update```. Wie auf der CKAN API Dokumentation vermerkt, ist es sicherer, die Funktion ```ckan.action.resource_patch``` zu verwenden ('Update methods may delete parameters not explicitly provided in the data_dict. If you want to edit only a specific attribute use resource_patch instead.'). Dafür kann das geannte Skript einfach mit folgendem ersetzt werden: [`upload_resource_to_ckan.py_with_patch`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan_with_patch.py). Zukünftig macht es Sinn, in allen Pipelines diese Skripte entsprechend auszutauschen.
-
 ```yaml
 - name: Upload file to CKAN
   if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
@@ -276,6 +274,7 @@ __UPDATE__: Im Skript [`upload_resource_to_ckan.py`](https://github.com/opendata
   run: |
     python automation/upload_resource_to_ckan.py -f automation/abstimmungsparolen/abstimmungsparolen.csv -d politik_abstimmungsparolen_gemeindeabstimmung_seit2012
 ```
+__UPDATE__: Im Skript [`upload_resource_to_ckan.py`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan.py) verwendet, beim Update einer Resource die CKAN API Funktion ```ckan.action.resource_update```. Wie auf der CKAN API Dokumentation vermerkt, ist es sicherer, die Funktion ```ckan.action.resource_patch``` zu verwenden ('Update methods may delete parameters not explicitly provided in the data_dict. If you want to edit only a specific attribute use resource_patch instead.'). Dafür kann das geannte Skript einfach mit folgendem ersetzt werden: [`upload_resource_to_ckan.py_with_patch`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan_with_patch.py). Zukünftig macht es Sinn, in allen Pipelines diese Skripte entsprechend auszutauschen.
 
 ### Metadaten in CKAN aktualisieren
 
