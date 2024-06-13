@@ -116,7 +116,8 @@ def get_rename_dict():
                "neinStimmenInProzent":"Nein (%)",
                "StaendeJa":"StaendeJa",
                "StaendeNein":"StaendeNein",
-                "url":"url"}
+                #"url":"url"
+    }
 
     return rename_dict
 

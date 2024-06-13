@@ -31,23 +31,22 @@ jobs:
         echo "..."
         tail abstimmungen.csv
         
-#    - name: Upload files to CKAN
-#      env:
-#        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
-#        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
-#        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
-#      run: |
-#        python automation/upload_resource_to_ckan.py -f abstimmungen.csv -d politik_abstimmungen_seit1933
-#        python automation/upload_resource_to_ckan.py -f abstimmungen.parquet -d politik_abstimmungen_seit1933
-#
-#    - name: Update CKAN metadata
-#      env:
-#        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
-#        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
-#        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
-#      run: |
-#        python automation/xls_to_meta_xml.py -f automation/abstimmungsergebnisse/politik_abstimmungen_seit1933_metadata.xlsx  --outfile automation/abstimmungsergebnisse/meta.xml
-#        python automation/update_metadata.py -d politik_abstimmungen_seit1933 -f automation/abstimmungsergebnisse/meta.xml
+    - name: Upload files to CKAN
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+      run: |
+        python automation/upload_resource_to_ckan.py -f abstimmungen.csv -d politik_abstimmungen_seit1933
+
+    - name: Update CKAN metadata
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+      run: |
+        python automation/xls_to_meta_xml.py -f automation/abstimmungsergebnisse/politik_abstimmungen_seit1933_metadata.xlsx  --outfile automation/abstimmungsergebnisse/meta.xml
+        python automation/update_metadata.py -d politik_abstimmungen_seit1933 -f automation/abstimmungsergebnisse/meta.xml
 
     - name: Notify telegram failure
       if: ${{ failure()  || cancelled() }}

@@ -80,31 +80,11 @@ df_tot["Ja (%)"] = round(df_tot["Ja (%)"], 1)
 
 df_tot.sort_values(by=['Abstimmungs_Datum',"Nr_Politische_Ebene",'Abstimmungs_Text','Nr_Resultat_Gebiet','Nr_Wahlkreis_StZH'], ascending=[False, True, True, True, True], inplace=True)
 
-#TODO
+# TODO: Subset df_tot to abstimmungen from the beginning of 2021
+# TODO: Save existing file to repo > subset abstimmungen from the very start to end of 2020
+# TODO: Load existing file from repo and concat it to the subsetted df_tot
+# TODO: Write out df_tot to parquet > control dtypes
 
 # writing pdf out as csv
 csv_path = arguments['--file']
 df_tot.to_csv(csv_path, index = False)
-
-
-# Concat past Abstimmungen
-# - laod file
-# - Concat file (check column types)
-
-
-# dummy export
-# df_tot.to_excel("abstimmungsergebnisse/data/total_test.xlsx")
-
-
-
-# Issues
-
-# Zeitreihe nicht vorhanden
-# - Eidgenössische Abstimmungen gehen nur bis und mit 19810614 zurück
-# - Kantonale Abstimmungen gehen nur bis und mit 20190210
-# - Die Kommunalen Abstimmungen gehen nur bis und mit 2021-09-26 zurück
-
-# - es gibt Doppelzählungen bei den Eidg. Abstimmungen
-
-# Check vorhandene Zeitreihen
-#
