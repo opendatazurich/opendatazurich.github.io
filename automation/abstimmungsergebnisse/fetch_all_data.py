@@ -1,3 +1,17 @@
+# -*- coding: utf-8 -*-
+"""Fetch json from BFS API
+
+Usage:
+  fetch_all_data.py --file <path-to-csv> [--no-verify]
+  fetch_from_api.py (-h | --help)
+  fetch_from_api.py --version
+
+Options:
+  -h, --help                      Show this screen.
+  --version                       Show version.
+  -f, --file <path-to-csv>        Path to CSV file
+
+"""
 from abstimmungsergebnisse.fetch_functions import *
 
 # Fetching eidgenoessische Abstimmungen
@@ -62,6 +76,10 @@ df_tot["Ja (%)"] = round(df_tot["Ja (%)"], 1)
 
 df_tot.sort_values(by=['Abstimmungs_Datum',"Nr_Politische_Ebene",'Abstimmungs_Text','Nr_Resultat_Gebiet','Nr_Wahlkreis_StZH'], ascending=[False, True, True, True, True], inplace=True)
 
+# writing pdf out as csv
+csv_path = arguments['--file']
+df_tot.to_csv(csv_path, index = False)
+
 
 # Concat past Abstimmungen
 # - laod file
@@ -69,7 +87,7 @@ df_tot.sort_values(by=['Abstimmungs_Datum',"Nr_Politische_Ebene",'Abstimmungs_Te
 
 
 # dummy export
-df_tot.to_excel("abstimmungsergebnisse/data/total_test.xlsx")
+# df_tot.to_excel("abstimmungsergebnisse/data/total_test.xlsx")
 
 
 
