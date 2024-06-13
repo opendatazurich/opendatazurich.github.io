@@ -12,7 +12,7 @@ Options:
   -f, --file <path-to-csv>        Path to CSV file
 
 """
-from abstimmungsergebnisse.fetch_functions import *
+from fetch_functions import *
 
 # Fetching eidgenoessische Abstimmungen
 url = base_absitmmung_url()['Eidgenössisch']

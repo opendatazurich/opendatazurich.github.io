@@ -27,7 +27,6 @@ jobs:
     - name: Prepare data
       run: |
         python automation/abstimmungsergebnisse/fetch_all_data.py -f abstimmungen.csv
-#        python automation/abstimmungsergebnisse/fetch_all_data.py -f abstimmungen.csv -p abstimmungen.parquet
         head abstimmungen.csv
         echo "..."
         tail abstimmungen.csv

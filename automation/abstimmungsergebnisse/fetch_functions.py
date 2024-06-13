@@ -1,5 +1,5 @@
 import pandas as pd
-from abstimmungsergebnisse.helper_functions import *
+from helper_functions import *
 
 def get_kommunale_resultate(url_list):
     """
