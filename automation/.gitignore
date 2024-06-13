@@ -12,3 +12,4 @@ pyenv3.7
 !mrz_patolu/mrz_patolu.csv
 __pycache__/*
 **/.data/
+**/data/
