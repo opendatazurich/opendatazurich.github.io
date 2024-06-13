@@ -18,4 +18,3 @@ lxml
 geojson
 pyarrow
 fastparquet
-re
