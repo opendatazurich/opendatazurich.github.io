@@ -84,7 +84,7 @@ df_tot.sort_values(by=['Abstimmungs_Datum',"Nr_Politische_Ebene",'Abstimmungs_Te
 
 # get historical Abstimmungsdaten up to cutoff date
 cutoff_date = '2021-12-31'
-hist_cut = get_historical_data('abstimmungsergebnisse/historical_data/Abstimmungsdatenbank.xlsx', cutoff_date)
+hist_cut = get_historical_data('automation/abstimmungsergebnisse/historical_data/Abstimmungsdatenbank.xlsx', cutoff_date)
 
 # concat with new data
 df_export = pd.concat([
