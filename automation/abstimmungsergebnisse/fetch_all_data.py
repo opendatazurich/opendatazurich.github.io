@@ -80,11 +80,19 @@ df_tot["Ja (%)"] = round(df_tot["Ja (%)"], 1)
 
 df_tot.sort_values(by=['Abstimmungs_Datum',"Nr_Politische_Ebene",'Abstimmungs_Text','Nr_Resultat_Gebiet','Nr_Wahlkreis_StZH'], ascending=[False, True, True, True, True], inplace=True)
 
-# TODO: Subset df_tot to abstimmungen from the beginning of 2021
-# TODO: Save existing file to repo > subset abstimmungen from the very start to end of 2020
-# TODO: Load existing file from repo and concat it to the subsetted df_tot
 # TODO: Write out df_tot to parquet > control dtypes
+
+# get historical Abstimmungsdaten up to cutoff date
+cutoff_date = '2021-12-31'
+hist_cut = get_historical_data('abstimmungsergebnisse/historical_data/Abstimmungsdatenbank.xlsx', cutoff_date)
+
+# concat with new data
+df_export = pd.concat([
+  df_tot[df_tot['Abstimmungs_Datum']>pd.to_datetime(cutoff_date).date()],
+  hist_cut,
+], axis=0)
+
 
 # writing pdf out as csv
 csv_path = arguments['--file']
-df_tot.to_csv(csv_path, index = False)
+df_export.to_csv(csv_path, index = False)

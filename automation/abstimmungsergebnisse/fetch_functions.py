@@ -185,3 +185,14 @@ def get_eidgenoessische_resultate(url_list):
     df_tot = add_columns_politische_ebene(df_tot, 1)
 
     return df_tot
+
+
+def get_historical_data(hist_path, cutoff_date):
+    """
+    Load historical Abstimmungsdatenbank from :hist_path
+    Cut off newer data from cutoff_date
+    """
+    hist = pd.read_excel(hist_path)
+    hist_cut = hist[hist['Abstimmungs_Datum']<=cutoff_date].copy()
+    hist_cut['Abstimmungs_Datum'] = hist_cut['Abstimmungs_Datum'].astype(str)
+    return hist_cut
