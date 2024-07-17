@@ -1,8 +1,10 @@
 name: Update Abstimmungsergebnisse
 
 on:
+  schedule:
+    - cron:  '0 8 * * 1' # jeden Montag um 8 Uhr
   workflow_dispatch:
-  push:
+
 
 jobs:
   update_data_py:
