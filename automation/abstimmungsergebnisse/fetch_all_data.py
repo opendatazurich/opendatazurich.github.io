@@ -95,7 +95,7 @@ df_export = pd.concat([
 
 # writing pdf out as csv
 csv_path = arguments['--file']
-df_export.head(100).to_csv(csv_path, 
+df_export.head(200).to_csv(csv_path, 
                 index = False,
                 # encoding="UTF-8-sig",
                 quotechar='"',
