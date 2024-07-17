@@ -26,7 +26,7 @@ jobs:
 
     - name: Prepare data
       run: |
-        python automation/abstimmungsergebnisse/fetch_all_data.py -f abstimmungen_seit1933.csv
+        python automation/abstimmungsergebnisse/fetch_all_data.py -f abstimmungen_seit1933.csv -p abstimmungen_seit1933.parquet
         head abstimmungen_seit1933.csv
         echo "..."
         tail abstimmungen_seit1933.csv
@@ -38,6 +38,7 @@ jobs:
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/upload_resource_to_ckan.py -f abstimmungen_seit1933.csv -d politik_abstimmungen_seit1933
+        python automation/upload_resource_to_ckan.py -f abstimmungen_seit1933.parquet -d politik_abstimmungen_seit1933
 
     - name: Update CKAN metadata
       env:

@@ -2,7 +2,7 @@
 """Fetch json from BFS API
 
 Usage:
-  fetch_all_data.py --file <path-to-csv> [--no-verify]
+  fetch_all_data.py --file <path-to-csv> --parquet <path-to-parquet> [--no-verify]
   fetch_all_data.py (-h | --help)
   fetch_all_data.py --version
 
@@ -10,6 +10,7 @@ Options:
   -h, --help                      Show this screen.
   --version                       Show version.
   -f, --file <path-to-csv>        Path to CSV file
+  -p, --parquet <path-to-parquet> Path to parquet file
   --no-verify                     Option to disable SSL verification for reqests.
 """
 from fetch_functions import *
@@ -101,3 +102,10 @@ df_export.head(200).to_csv(csv_path,
                 quotechar='"',
                 quoting=2,
 )
+
+# dtypes für parquet
+df_export['Abstimmungs_Datum'] = pd.to_datetime(df_export['Abstimmungs_Datum'])
+
+# write to parquet
+parquet_path = arguments['--parquet']
+df_export.to_parquet(parquet_path, index=False)
