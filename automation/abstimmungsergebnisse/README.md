@@ -3,7 +3,7 @@ Abstimmungsresultate
 
 ||Beschreibung|
 |---|---|
-|**Status:**|[![Update abstimmungsparolen data](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_abstimmungsergebnisse.yml/badge.svg)](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_abstimmungsergebnisse.yml)|
+|**Status:**|[![Update abstimmungsparolen data](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_abstimmungsergebnisse.yml/badge.svg)](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_abstimmungsergebnisse.yml)|
 |**Workflow:**|[`update_abstimmungsparolen.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_abstimmungsergebnisse.yml)|
 |**Quelle:**| Daten vor 2022: Abstimmungsdatenbank von Statistik Stadt Zürich / Daten ab 2022: API von opendata.swiss|
 |**Datensatz INT:**|[Abstimmungsresultate der Stadt Zürich, seit 1933 (data.integ.stadt-zuerich.ch)](https://data.integ.stadt-zuerich.ch/dataset/politik_abstimmungen_seit1933)|
