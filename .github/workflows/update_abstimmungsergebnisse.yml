@@ -1,14 +1,17 @@
 name: Update Abstimmungsergebnisse
 
 on:
-  workflow_dispatch:
   push:
+  schedule:
+    - cron:  '0 8 * * 1' # jeden Montag um 8 Uhr
+  workflow_dispatch:
+
 
 jobs:
   update_data_py:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    environment: integration
+    environment: production
     strategy:
       matrix:
         python-version: [3.7]
@@ -26,10 +29,10 @@ jobs:
 
     - name: Prepare data
       run: |
-        python automation/abstimmungsergebnisse/fetch_all_data.py -f abstimmungen.csv
-        head abstimmungen.csv
+        python automation/abstimmungsergebnisse/fetch_all_data.py -f abstimmungen_seit1933.csv -p abstimmungen_seit1933.parquet
+        head abstimmungen_seit1933.csv
         echo "..."
-        tail abstimmungen.csv
+        tail abstimmungen_seit1933.csv
         
     - name: Upload files to CKAN
       env:
@@ -37,7 +40,8 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/upload_resource_to_ckan.py -f abstimmungen.csv -d politik_abstimmungen_seit1933
+        python automation/upload_resource_to_ckan.py -f abstimmungen_seit1933.csv -d politik_abstimmungen_seit1933
+        python automation/upload_resource_to_ckan.py -f abstimmungen_seit1933.parquet -d politik_abstimmungen_seit1933
 
     - name: Update CKAN metadata
       env:
