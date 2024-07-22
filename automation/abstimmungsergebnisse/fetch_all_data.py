@@ -81,7 +81,6 @@ df_tot["Ja (%)"] = round(df_tot["Ja (%)"], 1)
 
 df_tot.sort_values(by=['Abstimmungs_Datum',"Nr_Politische_Ebene",'Abstimmungs_Text','Nr_Resultat_Gebiet','Nr_Wahlkreis_StZH'], ascending=[False, True, True, True, True], inplace=True)
 
-# TODO: Write out df_tot to parquet > control dtypes
 
 # get historical Abstimmungsdaten up to cutoff date
 cutoff_date = '2021-12-31'
@@ -99,7 +98,7 @@ df_export['Nr_Wahlkreis_StZH'] = df_export['Nr_Wahlkreis_StZH'].astype('Int64')
 
 # writing pdf out as csv
 csv_path = arguments['--file']
-df_export.head(200).to_csv(csv_path, 
+df_export.to_csv(csv_path, 
                 index = False,
                 encoding="UTF-8-sig",
                 quotechar='"',
