@@ -94,11 +94,14 @@ df_export = pd.concat([
 ], axis=0)
 
 
+# dtypes for csv
+df_export['Nr_Wahlkreis_StZH'] = df_export['Nr_Wahlkreis_StZH'].astype(int)
+
 # writing pdf out as csv
 csv_path = arguments['--file']
 df_export.head(200).to_csv(csv_path, 
                 index = False,
-                # encoding="UTF-8-sig",
+                encoding="UTF-8-sig",
                 quotechar='"',
                 quoting=2,
 )
