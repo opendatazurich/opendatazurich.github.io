@@ -95,7 +95,7 @@ df_export = pd.concat([
 
 
 # dtypes for csv
-df_export['Nr_Wahlkreis_StZH'] = df_export['Nr_Wahlkreis_StZH'].astype(int)
+df_export['Nr_Wahlkreis_StZH'] = df_export['Nr_Wahlkreis_StZH'].astype('Int64')
 
 # writing pdf out as csv
 csv_path = arguments['--file']
