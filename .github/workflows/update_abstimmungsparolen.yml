@@ -55,7 +55,7 @@ jobs:
       uses: github-actions-x/commit@v2.9
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        push-branch: master
+        push-branch: bugfix_abstimmungsparolen
         name: GitHub Action Bot
         email: opendata@zuerich.ch
         commit-message: Update abstimmungsparolen.csv with latest data
