@@ -14,7 +14,7 @@ jobs:
   update_data_py:
     runs-on: ubuntu-latest
     timeout-minutes: 45
-    environment: integration
+    environment: production
     strategy:
       matrix:
         python-version: [3.7]
@@ -55,7 +55,7 @@ jobs:
       uses: github-actions-x/commit@v2.9
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        push-branch: bugfix_abstimmungsparolen
+        push-branch: master
         name: GitHub Action Bot
         email: opendata@zuerich.ch
         commit-message: Update abstimmungsparolen.csv with latest data
