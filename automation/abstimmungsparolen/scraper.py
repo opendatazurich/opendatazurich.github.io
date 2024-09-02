@@ -113,7 +113,7 @@ try:
             for kapitel in erlaut['kapitel']:
                 prev_title = ''
                 for comp in kapitel['komponenten']:
-                    if comp['typ'] == 'parole' and prev_title.startswith('Abstimmungsparolen'):
+                    if comp['typ'] == 'parole':
                         m = re.match(r"(.+): (.*)", comp['parole']['text'])
                         if not m:
                             continue
@@ -132,7 +132,9 @@ try:
                         question = comp['text']['text']
                     elif comp['typ'] == 'title':
                         prev_title = comp['title']['text']
-    
+    print("---------Top 50 Parolen---------")
+    print(pd.DataFrame(paroles).head(50))
+
     # insert paroles in db
     for parole in paroles:
         insert_or_update(parole, conn)
