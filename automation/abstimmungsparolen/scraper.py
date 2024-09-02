@@ -79,6 +79,11 @@ def insert_or_update(parole, conn):
     finally:
         conn.commit()
 
+def remove_html_tags(text):
+    """Removes html tags from strings"""
+    html_pattern = re.compile('<.*?>')
+    clean_text = re.sub(html_pattern, '', text)
+    return clean_text
 
 try:
     DATABASE_NAME = os.path.join(__location__, 'data.sqlite')
@@ -122,7 +127,7 @@ try:
                             parole = {
                                 'datum': datum,
                                 'titel': title,
-                                'abstimmungstext': question,
+                                'abstimmungstext': remove_html_tags(question), # Some texts contained html tags. Remove them
                                 'partei': party.strip(),
                                 'parole': m[1],
                             }
