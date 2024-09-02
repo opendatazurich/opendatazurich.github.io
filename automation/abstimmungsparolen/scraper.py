@@ -94,6 +94,8 @@ try:
     next_vote = next(a for a in vote_dates if not a['value'].startswith('N'))
     m = re.match(r"(?P<day>\d{2}).(?P<month>\d{2}).(?P<year>\d{4})", next_vote['value'])
     datum = f"{m['year']}-{m['month']}-{m['day']}"
+    # nur zum daten nachtragen. Unbedingt wieder löschen!
+    datum = '2024-06-09'
 
     # get paroles of current votes
     geolevel = 3
