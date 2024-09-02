@@ -79,6 +79,11 @@ def insert_or_update(parole, conn):
     finally:
         conn.commit()
 
+def remove_html_tags(text):
+    """Removes html tags from strings"""
+    html_pattern = re.compile('<.*?>')
+    clean_text = re.sub(html_pattern, '', text)
+    return clean_text
 
 try:
     DATABASE_NAME = os.path.join(__location__, 'data.sqlite')
@@ -113,7 +118,7 @@ try:
             for kapitel in erlaut['kapitel']:
                 prev_title = ''
                 for comp in kapitel['komponenten']:
-                    if comp['typ'] == 'parole' and prev_title.startswith('Abstimmungsparolen'):
+                    if comp['typ'] == 'parole':
                         m = re.match(r"(.+): (.*)", comp['parole']['text'])
                         if not m:
                             continue
@@ -122,7 +127,7 @@ try:
                             parole = {
                                 'datum': datum,
                                 'titel': title,
-                                'abstimmungstext': question,
+                                'abstimmungstext': remove_html_tags(question), # Some texts contained html tags. Remove them
                                 'partei': party.strip(),
                                 'parole': m[1],
                             }
@@ -132,7 +137,9 @@ try:
                         question = comp['text']['text']
                     elif comp['typ'] == 'title':
                         prev_title = comp['title']['text']
-    
+    print("---------Top 50 Parolen---------")
+    print(pd.DataFrame(paroles).head(50))
+
     # insert paroles in db
     for parole in paroles:
         insert_or_update(parole, conn)
