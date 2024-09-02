@@ -75,6 +75,12 @@ df_tot = df_tot[subset_columns]
 df_tot['Abstimmungs_Datum'] = df_tot['Abstimmungs_Datum'].str.replace('-', '')
 df_tot['Abstimmungs_Datum'] = pd.to_datetime(df_tot['Abstimmungs_Datum'], format='%Y%m%d')
 df_tot['Abstimmungs_Datum'] = df_tot['Abstimmungs_Datum'].dt.date
+# explicit typecasting for rounding
+df_tot = df_tot.astype({
+    "Stimmbeteiligung (%)": float,
+    "Nein (%)": float,
+    "Ja (%)": float,
+})
 df_tot["Stimmbeteiligung (%)"] = round(df_tot["Stimmbeteiligung (%)"], 1)
 df_tot["Nein (%)"] = round(df_tot["Nein (%)"], 1)
 df_tot["Ja (%)"] = round(df_tot["Ja (%)"], 1)
