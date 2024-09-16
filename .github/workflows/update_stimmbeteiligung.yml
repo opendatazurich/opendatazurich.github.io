@@ -74,7 +74,7 @@ jobs:
         python automation/xls_to_meta_xml.py -f automation/stimmbeteiligung/Meta_Stimmbeteiligung.xlsx --outfile automation/stimmbeteiligung/meta.xml
         python automation/update_metadata.py --no-verify -d politik_stimmbeteiligung-vor-urnengangen -f automation/stimmbeteiligung/meta.xml
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
       with:
         name: meta.xml
