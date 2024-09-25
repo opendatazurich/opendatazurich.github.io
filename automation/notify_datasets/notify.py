@@ -111,7 +111,7 @@ try:
                 
             
             # generate links for new/updated datasets
-            text = f"<b><a href='https://ckan-ogdzh.clients.liip.ch/harvest/{name}/job/{job_id}'>{source_info['title']}</a></b>"
+            text = f"<b><a href='https://ckan-prod.zurich.datopian.com/harvest/{name}/job/{job_id}'>{source_info['title']}</a></b>"
             text += f'\n{status} {start_datetime}'
             text += f'\n🏁 {end_datetime}'
             text += f'\n⏱ {duration}'
