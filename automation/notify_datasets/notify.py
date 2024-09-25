@@ -131,7 +131,7 @@ try:
 
             try:
                 # send_telegram_message(TELEGRAM_TOKEN, TELEGRAM_CHAT_ID, text)
-                send_teams_message(MSTEAMS_WEBHOOK, text, title="Notofy Datasets")
+                send_teams_message(MSTEAMS_WEBHOOK, text, title=None)
             except requests.HTTPError as e:
                 print(f"Error when sending message to telegram/teams for harvester {harvester}: {e}", file=sys.stderr)
                 raise
