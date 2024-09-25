@@ -31,6 +31,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
         TELEGRAM_TO: ${{ secrets.TELEGRAM_TO }}
+        MSTEAMS_WEBHOOK: ${{ secrets.MSTEAMS_WEBHOOK }}
       run: |
         python automation/notify_datasets/notify.py
     
