@@ -8,6 +8,7 @@ import pytz
 import math
 import requests
 from ckanapi import RemoteCKAN, NotFound
+import teams_webhook
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
@@ -15,6 +16,7 @@ load_dotenv(find_dotenv())
 # Neuer Bot => Chatten mit BotFather auf Telegram
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_TO')
+MSTEAMS_WEBHOOK = os.getenv('MSTEAMS_WEBHOOK')
 
 
 def convert_to_localtime(str):
@@ -36,6 +38,13 @@ def send_telegram_message(token, chat_id, message):
     r = requests.post(url, json=params, headers=headers)
     print(f"Telegram response: {r.content}", file=sys.stderr)
     r.raise_for_status()
+
+def send_teams_message(webhook, message, title=None):
+    myTeamsMessage = teams_webhook.ConnectorCard(webhook)
+    if title:
+        myTeamsMessage.title(title)
+    myTeamsMessage.text(message)
+    myTeamsMessage.send()
 
 
 try:
@@ -121,9 +130,10 @@ try:
             text += f"\n<b>Fehler</b>: {last_job_stats['errored']}"
 
             try:
-                send_telegram_message(TELEGRAM_TOKEN, TELEGRAM_CHAT_ID, text)
+                # send_telegram_message(TELEGRAM_TOKEN, TELEGRAM_CHAT_ID, text)
+                send_teams_message(MSTEAMS_WEBHOOK, text, title="Notofy Datasets")
             except requests.HTTPError as e:
-                print(f"Error when sending message to telegram for harvester {harvester}: {e}", file=sys.stderr)
+                print(f"Error when sending message to telegram/teams for harvester {harvester}: {e}", file=sys.stderr)
                 raise
         except Exception as e:
             print(f"Failed for harvester {harvester} with error: {e}", file=sys.stderr)
