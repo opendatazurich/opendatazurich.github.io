@@ -38,7 +38,7 @@ arguments = docopt(__doc__, version='Fetch CSV from CKAN API 1.0')
 
 # Getting dummy_resource.csv vom INT (dataset: dummy_dataset)
 url = "https://data.integ.stadt-zuerich.ch/dataset/dummy_dataset/download/dummy_resource.csv"
-res_pd = pd.read_csv(url)
+res_pd = pd.read_csv(url, storage_options={'verify': False})
 
 # saving as csv
 print("Saving csv")
