@@ -10,7 +10,7 @@ jobs:
     environment: integration
     strategy:
       matrix:
-        python-version: [3.7]
+        python-version: [3.9]
 
     steps:
     - uses: actions/checkout@v3
