@@ -39,8 +39,8 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/upload_resource_to_ckan.py -f abstimmungen_seit1933.csv -d politik_abstimmungen_seit1933
-        python automation/upload_resource_to_ckan.py -f abstimmungen_seit1933.parquet -d politik_abstimmungen_seit1933
+        python automation/upload_resource_to_ckan_with_patch.py -f abstimmungen_seit1933.csv -d politik_abstimmungen_seit1933
+        python automation/upload_resource_to_ckan_with_patch.py -f abstimmungen_seit1933.parquet -d politik_abstimmungen_seit1933
 
     - name: Update CKAN metadata
       env:

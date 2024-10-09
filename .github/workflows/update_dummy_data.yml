@@ -10,7 +10,7 @@ jobs:
     environment: integration
     strategy:
       matrix:
-        python-version: [3.7]
+        python-version: [3.9]
 
     steps:
     - uses: actions/checkout@v3
@@ -33,8 +33,8 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/upload_resource_to_ckan.py -f dummy_resource.csv -d dummy_dataset
-        python automation/upload_resource_to_ckan.py -f dummy_resource.parquet -d dummy_dataset
+        python automation/upload_resource_to_ckan_with_patch.py -f dummy_resource.csv -d dummy_dataset
+        python automation/upload_resource_to_ckan_with_patch.py -f dummy_resource.parquet -d dummy_dataset
 
 #    - name: Update CKAN metadata
 #      env:

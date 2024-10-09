@@ -38,7 +38,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/upload_resource_to_ckan.py -f ogd_katalog_inventar.csv -d prd_ssz_ogd_katalog_inventar
+        python automation/upload_resource_to_ckan_with_patch.py -f ogd_katalog_inventar.csv -d prd_ssz_ogd_katalog_inventar
 
     - name: Update CKAN metadata
       env:

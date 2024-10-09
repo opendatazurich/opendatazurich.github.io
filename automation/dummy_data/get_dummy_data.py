@@ -16,12 +16,10 @@ Options:
 """
 
 import pandas as pd
-import os
 from docopt import docopt
 from dotenv import load_dotenv, find_dotenv
-import pyarrow
-import fastparquet
-from ckanapi import RemoteCKAN, NotFound
+import ssl  
+ssl._create_default_https_context = ssl._create_unverified_context
 
 # Load environment variables from a .env file in the project directory
 load_dotenv(find_dotenv())
