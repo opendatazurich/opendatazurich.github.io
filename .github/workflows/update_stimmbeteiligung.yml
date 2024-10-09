@@ -25,6 +25,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
+        cache: 'pip'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -62,7 +63,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/upload_resource_to_ckan.py --no-verify -f automation/stimmbeteiligung/stimmbeteiligung.csv -d politik_stimmbeteiligung-vor-urnengangen
+        python automation/upload_resource_to_ckan_with_patch.py --no-verify -f automation/stimmbeteiligung/stimmbeteiligung.csv -d politik_stimmbeteiligung-vor-urnengangen
 
     - name: Update CKAN metadata
       if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
