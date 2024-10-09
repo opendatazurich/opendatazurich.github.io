@@ -20,6 +20,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
+        cache: 'pip'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -40,8 +41,8 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/upload_resource_to_ckan.py -f hystreet_fussgaengerfrequenzen_seit2021.csv -d hystreet_fussgaengerfrequenzen
-        python automation/upload_resource_to_ckan.py -f hystreet_locations.json -d hystreet_fussgaengerfrequenzen
+        python automation/upload_resource_to_ckan_with_patch.py -f hystreet_fussgaengerfrequenzen_seit2021.csv -d hystreet_fussgaengerfrequenzen
+        python automation/upload_resource_to_ckan_with_patch.py -f hystreet_locations.json -d hystreet_fussgaengerfrequenzen
 
     - name: Update CKAN metadata
       env:
