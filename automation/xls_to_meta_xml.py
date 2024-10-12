@@ -16,6 +16,9 @@ Options:
 
 from docopt import docopt
 import xlrd
+# xlrd quickfix: https://stackoverflow.com/questions/64264563/attributeerror-elementtree-object-has-no-attribute-getiterator-when-trying
+xlrd.xlsx.ensure_elementtree_imported(False, None)
+xlrd.xlsx.Element_has_iter = True
 import xml.etree.ElementTree as ET
 import codecs
 import os
