@@ -6,7 +6,7 @@ pytz
 sruthi
 beautifulsoup4
 defusedxml
-xlrd==1.2.0
+xlrd
 openpyxl
 pyyaml==5.4
 dateparser
