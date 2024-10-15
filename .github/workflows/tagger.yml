@@ -9,10 +9,10 @@ jobs:
   tagger:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    environment: production
+    environment: integration
     strategy:
       matrix:
-        python-version: [3.9]
+        python-version: [3.12]
 
     steps:
     # checkout repos
