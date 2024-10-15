@@ -35,7 +35,7 @@ try:
     conn = sqlite3.connect(filename_db)
     c = conn.cursor()
 
-    df = pd.read_sql_query('select * from data order by Timestamp asc, Name asc;', conn)
+    df = pd.read_sql_query('select * from data order by Timestamp asc, Name asc limit 10;', conn)
 
     filename_parquet = arguments['--file']
 
