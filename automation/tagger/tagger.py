@@ -66,7 +66,7 @@ try:
                 tags_dict = [{'name': t} for t in tags]
                 datasets.append({'id': res['name'], 'tags': tags_dict}) 
             except NotFound:
-                print('Dataset %s not found!' % dataset, file=sys.stderr)
+                print('Dataset %s not found!' % d, file=sys.stderr)
                 raise
 
         # run queries to get list of datasets
@@ -83,7 +83,7 @@ try:
             try:
                 ckan.call_action('package_patch', d, requests_kwargs={'verify': verify})
             except NotFound:
-                print('Dataset %s not found!' % dataset, file=sys.stderr)
+                print('Dataset %s not found!' % d, file=sys.stderr)
                 raise
         print(f"Finished processing config {k}.")
 except Exception as e:
