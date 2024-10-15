@@ -36,7 +36,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.ckan_api_key }}
         CKAN_BASE_URL: ${{ secrets.ckan_base_url }}
       run: |
-        python automation/tagger/tagger.py -c automation/tagger/config.yml --no-verify
+        python automation/tagger/tagger.py -c automation/tagger/config.yml
       
     - name: Notify telegram failure
       if: ${{ failure()  || cancelled() }}
