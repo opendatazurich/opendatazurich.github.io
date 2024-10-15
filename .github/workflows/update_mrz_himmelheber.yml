@@ -9,7 +9,7 @@ jobs:
   update_data:
     runs-on: ubuntu-latest
     timeout-minutes: 45
-    environment: production
+    environment: integration
     strategy:
       matrix:
         python-version: [3.9]
