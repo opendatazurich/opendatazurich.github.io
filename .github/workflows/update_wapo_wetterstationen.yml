@@ -44,8 +44,8 @@ jobs:
         tb_path=$(ls automation/wapo_wetterstationen/messwerte_tiefenbrunnen_*.csv | head -n1)
         python automation/upload_resource_to_ckan_with_patch.py -f $my_path -d sid_wapo_wetterstationen
         python automation/upload_resource_to_ckan_with_patch.py -f $tb_path -d sid_wapo_wetterstationen
-#        python automation/upload_resource_to_ckan_with_patch.py -f automation/wapo_wetterstationen/messwerte_mythenquai_seit2007-heute.parquet -d sid_wapo_wetterstationen
-#        python automation/upload_resource_to_ckan_with_patch.py -f automation/wapo_wetterstationen/messwerte_tiefenbrunnen_seit2007-heute.parquet -d sid_wapo_wetterstationen
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/wapo_wetterstationen/messwerte_mythenquai_seit2007-heute.parquet -d sid_wapo_wetterstationen
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/wapo_wetterstationen/messwerte_tiefenbrunnen_seit2007-heute.parquet -d sid_wapo_wetterstationen
 
 
     - name: Update CKAN metadata
