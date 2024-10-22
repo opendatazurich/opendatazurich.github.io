@@ -37,30 +37,33 @@ try:
     conn = sqlite3.connect(filename_db)
     c = conn.cursor()
 
-    # dtype_dict = {
-    #             'timestamp_utc': "datetime64[m]",
-    #             'timestamp_cet': "datetime64[m]",
-    #             'air_temperature': float,
-    #             'water_temperature': float,
-    #             'wind_gust_max_10min': float,
-    #             'wind_speed_avg_10min': float,
-    #             'wind_force_avg_10min': float,
-    #             'wind_direction': int,
-    #             'windchill': float,
-    #             'barometric_pressure_qfe': float,
-    #             'precipitation': float,
-    #             'dew_point': float,
-    #             'global_radiation': float,
-    #             'humidity': float,
-    #             'water_level': float,
-    #         }
+    dtype_dict = {
+                #'timestamp_utc': "datetime64[m]",
+                #'timestamp_cet': "datetime64[m]",
+                'air_temperature': float,
+                'water_temperature': float,
+                'wind_gust_max_10min': float,
+                'wind_speed_avg_10min': float,
+                'wind_force_avg_10min': float,
+                'wind_direction': int,
+                'windchill': float,
+                'barometric_pressure_qfe': float,
+                'precipitation': float,
+                'dew_point': float,
+                'global_radiation': float,
+                'humidity': float,
+                'water_level': float,
+            }
 
     df = pd.read_sql_query('select * from data order by timestamp_utc asc;', con=conn)
 
     filename_parquet = arguments['--file']
 
-    # # change type of column
-    # df = df.astype(dtype_dict)
+    # change type of column
+    df = df.astype(dtype_dict)
+    # special treatment for datetime cols
+    df['timestamp_utc'] = pd.to_datetime(df['timestamp_utc'],utc=True)
+    df['timestamp_cet'] = df['timestamp_utc'].dt.tz_convert('Europe/Zurich')
 
     df.to_parquet(filename_parquet, index=False)
 
