@@ -60,7 +60,7 @@ try:
     filename_parquet = arguments['--file']
 
     # change type of column
-    df = df.astype(dtype_dict)
+    df = df.astype(dtype_dict, errors='ignore')
     # special treatment for datetime cols
     df['timestamp_utc'] = pd.to_datetime(df['timestamp_utc'],utc=True)
     df['timestamp_cet'] = df['timestamp_utc'].dt.tz_convert('Europe/Zurich')
