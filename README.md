@@ -9,6 +9,7 @@
 1. [ParkenDD API](/parkendd-api/)
 1. [Geoportal der Stadt Zürich](/geoportal/)
 1. [RPK-API (Finanzdaten der Stadt Zürich), Finanzverwaltung](/rpk-api/)
+1. [SRU-API des Stadtarchivs Zürich](/sar-sru-api/)
 
 ## Trainingsmaterial
 
