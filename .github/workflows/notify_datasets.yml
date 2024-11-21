@@ -2,7 +2,7 @@ name: Notify about new/updated datasets
 
 on:
   schedule:
-    - cron:  '25 7 * * *' # 7:25 UTC -> 8:25 CET -> 9:25 CEST 
+    - cron:  '45 7 * * *' # 7:45 UTC -> 8:45 CET -> 9:45 CEST 
   workflow_dispatch:
 
 jobs:
