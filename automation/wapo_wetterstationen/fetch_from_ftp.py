@@ -137,7 +137,7 @@ def convert_csv_delim(output_path, input_path, input_delim=';', input_encoding='
 
 try:
     # login on FTP
-    ftp = FTP(host, timeout=30)
+    ftp = FTP(host, timeout=50)
     ftp.login(user, pw)
 
     for station in stations:
