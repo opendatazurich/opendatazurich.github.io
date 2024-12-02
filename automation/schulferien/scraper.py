@@ -70,18 +70,19 @@ try:
     conn = sqlite3.connect(DATABASE_NAME)
 
     # city of zurich - start url
-    start_url = 'https://www.stadt-zuerich.ch/ssd/de/index/volksschule/schulferien.html'
+    start_url = 'https://www.stadt-zuerich.ch/de/bildung/volksschule/schulferien.html'
 
     # page for each year
     content = dl.download_content(start_url)
     soup = BeautifulSoup(content, 'html.parser')
-    nav = soup.find('li', {'class': 'var_wrapping_node var_active'})
-    pages = nav.find_all('a', string=re.compile(r'^\d{4}/\d{2}$'))
+    # Finde alle <stzh-datalist-item> Tags mit einem href-Attribut
+    ics_links = soup.find_all('stzh-datalist-item', href=True)
+    # Extrahiere das href-Attribut (URL) jedes Links
+    pages = [link['href'] for link in ics_links if link['href'].endswith('.ics')]
 
     for page in pages:
-        year_href = page.get('href')
-        year_url = urljoin(start_url, year_href)
-        download_url = get_ics_download_url(year_url)
+        year_href = page
+        download_url = urljoin(start_url, year_href)
         filename = os.path.basename(download_url)
         file_path = os.path.join(__location__, filename)
         dl.download_file(download_url, file_path)
