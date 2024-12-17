@@ -29,8 +29,10 @@ jobs:
           jq -r '..|.url? // empty' data.json > urls.txt
 
       - name: Link Checker for JSON
-        run: |
-          lychee --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest . < urls.txt
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: urls.txt --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest . 
+          fail: false
         id: lychee_json
 
       - name: Create Issue From File
