@@ -21,22 +21,20 @@ jobs:
           args: --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest . --exclude 'https://data.integ.stadt-zuerich.ch/*|https://confluence-ssz.szh.loc*|https://github.com/opendatazurich/opendatazurich.github.io/settings/*' 
           fail: false
 
-      - name: Download OGD Catalogue JSON
-        run: curl --insecure -o data.json https://data.stadt-zuerich.ch/api/3/action/package_search?q=&rows=999
+      - name: Download JSON
+        run: curl --insecure -o data.json https://api.example.com/data
 
       - name: Extract Links from JSON
         run: |
           jq -r '..|.url? // empty' data.json > urls.txt
 
       - name: Link Checker for JSON
+        run: |
+          lychee --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest . < urls.txt
         id: lychee_json
-        uses: lycheeverse/lychee-action@v2
-        with:
-          args: urls.txt --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest .
-          fail: false
 
       - name: Create Issue From File
-        if: steps.lychee_repo.outputs.exit_code != 0 || steps.lychee_json.outputs.exit_code != 0
+        if: steps.lychee_repo.outputs.exit_code != 0 || steps.lychee_json.outcome != 'success'
         uses: peter-evans/create-issue-from-file@v5
         with:
           title: Link Checker Report
