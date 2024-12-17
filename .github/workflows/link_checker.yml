@@ -22,7 +22,7 @@ jobs:
           fail: false
 
       - name: Download JSON
-        run: curl --insecure -o data.json https://api.example.com/data
+        run: curl --insecure -o data.json https://data.stadt-zuerich.ch/api/3/action/package_search?q=&rows=999
 
       - name: Extract Links from JSON
         run: |
