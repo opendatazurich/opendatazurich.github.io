@@ -69,96 +69,48 @@ Unter [https://api.parkendd.de/Zuerich](https://api.parkendd.de/Zuerich) befinde
 }
 ```
 
-Es lassen sich jeweils 7 Tage pro Requests abfragen, Beispiel alle Werte der Parkgarage am Central vom 24.9.-30.9.2019:
+Es lassen sich jeweils 7 Tage pro Requests abfragen, Beispiel alle Werte des Parkhaus Albisriederplatz vom 24.9.-30.9.2024:
 
-[https://api.parkendd.de/Zuerich/zuerichparkgarageamcentral/timespan?version=1.1&from=2019-09-23T23:59:59&to=2019-09-30T23:59:59](https://api.parkendd.de/Zuerich/zuerichparkgarageamcentral/timespan?version=1.1&from=2019-09-23T23:59:59&to=2019-09-30T23:59:59)
+[https://api.parkendd.de/Zuerich/zuerichparkhausalbisriederplatz/timespan?version=1.1&from=2024-09-23T23:59:59&to=2024-09-30T23:59:59](https://api.parkendd.de/Zuerich/zuerichparkhausalbisriederplatz/timespan?version=1.1&from=2024-09-23T23:59:59&to=2024-09-30T23:59:59)
 
 ```
 {
     "data": [
         {
-            "free": 0,
-            "timestamp": "2019-09-24T00:05:02"
+            "free": 62,
+            "timestamp": "2024-09-24T00:05:08"
         },
         {
-            "free": 0,
-            "timestamp": "2019-09-24T00:00:07"
+            "free": 62,
+            "timestamp": "2024-09-24T00:10:03"
         },
         {
-            "free": 0,
-            "timestamp": "2019-09-24T00:15:02"
+            "free": 62,
+            "timestamp": "2024-09-24T00:45:03"
         },
         {
-            "free": 0,
-            "timestamp": "2019-09-24T00:20:02"
+            "free": 62,
+            "timestamp": "2024-09-24T00:55:08"
         },
         {
-            "free": 0,
-            "timestamp": "2019-09-24T00:25:02"
+            "free": 62,
+            "timestamp": "2024-09-24T01:10:08"
         },
         {
-            "free": 0,
-            "timestamp": "2019-09-24T01:05:02"
+            "free": 62,
+            "timestamp": "2024-09-24T01:20:08"
         },
         {
-            "free": 0,
-            "timestamp": "2019-09-24T01:10:03"
+            "free": 62,
+            "timestamp": "2024-09-24T01:25:03"
         },
         {
-            "free": 0,
-            "timestamp": "2019-09-24T01:20:02"
+            "free": 62,
+            "timestamp": "2024-09-24T01:30:03"
         },
         {
-            "free": 0,
-            "timestamp": "2019-09-24T01:25:02"
-        },
-        {
-            "free": 0,
-            "timestamp": "2019-09-24T01:30:03"
-        },
-        {
-            "free": 0,
-            "timestamp": "2019-09-24T01:40:02"
-        },
-        {
-            "free": 0,
-            "timestamp": "2019-09-24T01:45:02"
-        },
-        {
-            "free": 0,
-            "timestamp": "2019-09-24T01:55:02"
-        },
-        {
-            "free": 0,
-            "timestamp": "2019-09-24T02:10:07"
-        },
-        {
-            "free": 0,
-            "timestamp": "2019-09-24T02:15:02"
-        },
-        {
-            "free": 0,
-            "timestamp": "2019-09-24T02:35:02"
-        },
-        {
-            "free": 0,
-            "timestamp": "2019-09-24T02:45:07"
-        },
-        {
-            "free": 0,
-            "timestamp": "2019-09-24T02:50:02"
-        },
-        {
-            "free": 0,
-            "timestamp": "2019-09-24T03:00:07"
-        },
-        {
-            "free": 0,
-            "timestamp": "2019-09-24T03:10:02"
-        },
-        {
-            "free": 0,
-            "timestamp": "2019-09-24T03:25:02"
+            "free": 62,
+            "timestamp": "2024-09-24T01:35:03"
         },
         ...
     ]
