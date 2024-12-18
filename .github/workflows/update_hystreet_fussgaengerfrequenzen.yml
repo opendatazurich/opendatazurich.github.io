@@ -9,7 +9,7 @@ jobs:
   update_data_py:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    environment: integration
+    environment: production
     strategy:
       matrix:
         python-version: [3.12]
@@ -42,8 +42,9 @@ jobs:
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         python automation/upload_resource_to_ckan_with_patch.py -f hystreet_fussgaengerfrequenzen_seit2021.csv -d hystreet_fussgaengerfrequenzen
-        python automation/upload_resource_to_ckan_with_patch.py -f hystreet_locations.json -d hystreet_fussgaengerfrequenzen
         python automation/upload_resource_to_ckan_with_patch.py -f hystreet_fussgaengerfrequenzen_seit2021.parquet -d hystreet_fussgaengerfrequenzen
+        python automation/upload_resource_to_ckan_with_patch.py -f hystreet_locations.json -d hystreet_fussgaengerfrequenzen
+        
 
     - name: Update CKAN metadata
       env:
