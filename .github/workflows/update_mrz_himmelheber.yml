@@ -9,7 +9,7 @@ jobs:
   update_data:
     runs-on: ubuntu-latest
     timeout-minutes: 45
-    environment: integration
+    environment: production
     strategy:
       matrix:
         python-version: [3.12]
@@ -41,9 +41,9 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        # python automation/upload_resource_to_ckan_with_patch.py -f automation/mrz_himmelheber/mrz_himmelheber_fotos.csv -d mrz_himmelheber_fotos
-        python automation/upload_resource_to_ckan_with_patch.py -f automation/mrz_himmelheber/mrz_himmelheber_objekte.csv -d mrz_himmelheber_objekte
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/mrz_himmelheber/mrz_himmelheber_fotos.csv -d mrz_himmelheber_fotos
         python automation/upload_resource_to_ckan_with_patch.py -f automation/mrz_himmelheber/mrz_himmelheber_fotos.parquet -d mrz_himmelheber_fotos
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/mrz_himmelheber/mrz_himmelheber_objekte.csv -d mrz_himmelheber_objekte
         python automation/upload_resource_to_ckan_with_patch.py -f automation/mrz_himmelheber/mrz_himmelheber_objekte.parquet -d mrz_himmelheber_objekte
 
     - name: Update CKAN metadata
