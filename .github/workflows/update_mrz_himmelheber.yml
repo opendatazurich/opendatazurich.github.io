@@ -9,7 +9,7 @@ jobs:
   update_data:
     runs-on: ubuntu-latest
     timeout-minutes: 45
-    environment: production
+    environment: integration
     strategy:
       matrix:
         python-version: [3.12]
@@ -30,7 +30,10 @@ jobs:
         MRZ_BASE_URL: ${{ secrets.MRZ_BASE_URL }}
         MRZ_USER: ${{ secrets.MRZ_USER }}
         MRZ_PASS: ${{ secrets.MRZ_PASS }}
-      run: automation/mrz_himmelheber/prepare_data.sh
+      run: |
+        automation/mrz_himmelheber/prepare_data.sh
+        python automation/csv_to_parquet.py -i automation/mrz_himmelheber/mrz_himmelheber_fotos.csv -e automation/mrz_himmelheber/mrz_himmelheber_fotos.parquet
+        python automation/csv_to_parquet.py -i automation/mrz_himmelheber/mrz_himmelheber_objekte.csv -e automation/mrz_himmelheber/mrz_himmelheber_objekte.parquet
 
     - name: Upload file to CKAN
       env:
@@ -40,6 +43,8 @@ jobs:
       run: |
         python automation/upload_resource_to_ckan_with_patch.py -f automation/mrz_himmelheber/mrz_himmelheber_fotos.csv -d mrz_himmelheber_fotos
         python automation/upload_resource_to_ckan_with_patch.py -f automation/mrz_himmelheber/mrz_himmelheber_objekte.csv -d mrz_himmelheber_objekte
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/mrz_himmelheber/mrz_himmelheber_fotos.parquet -d mrz_himmelheber_fotos
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/mrz_himmelheber/mrz_himmelheber_objekte.parquet -d mrz_himmelheber_objekte
 
     - name: Update CKAN metadata
       env:
