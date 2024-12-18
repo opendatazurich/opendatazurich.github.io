@@ -2,7 +2,7 @@
 """Fetch CSV and from Hystreet API
 
 Usage:
-  fetch_from_api.py --file <path-to-csv> --geojson <path-to-geojson> [--no-verify]
+  fetch_from_api.py --file <path-to-csv> --geojson <path-to-geojson> --parquet <path-to-parquet> [--no-verify]
   fetch_from_api.py (-h | --help)
   fetch_from_api.py --version
 
@@ -11,6 +11,7 @@ Options:
   --version                       Show version.
   -f, --file <path-to-csv>        Path to CSV file
   -g, --geojson <path-to-geojson> Path to GeoJSON file
+  -p, --parquet <path-to-parquet> Path to Parquet file
   --no-verify                     Option to disable SSL verification for reqests.
 
 """
@@ -126,7 +127,8 @@ df = df.sort_values(by=['timestamp', 'location_name'])
 
 csv_path =  arguments['--file']
 df_today = df[df.timestamp <= 'today'].reset_index(drop=True)
-df_today.to_csv(csv_path, index=False, encoding='utf-8', date_format='%Y-%m-%dT%H:%M:%SZ')
+df_today.tail(20).to_csv(csv_path, index=False, encoding='utf-8', date_format='%Y-%m-%dT%H:%M:%SZ')
+df_today.to_parquet(arguments['--fparquet'])
 
 # get GeoJSON of locations
 locations = hystreet_request(location_api)
