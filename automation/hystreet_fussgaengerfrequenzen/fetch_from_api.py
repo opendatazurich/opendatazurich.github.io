@@ -127,8 +127,10 @@ df = df.sort_values(by=['timestamp', 'location_name'])
 
 csv_path =  arguments['--file']
 df_today = df[df.timestamp <= 'today'].reset_index(drop=True)
+# save to csv
 df_today.tail(20).to_csv(csv_path, index=False, encoding='utf-8', date_format='%Y-%m-%dT%H:%M:%SZ')
-df_today.to_parquet(arguments['--fparquet'])
+# save to parquet
+df_today.to_parquet(arguments['--parquet'])
 
 # get GeoJSON of locations
 locations = hystreet_request(location_api)
