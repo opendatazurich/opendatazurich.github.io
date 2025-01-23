@@ -195,4 +195,11 @@ def get_historical_data(hist_path, cutoff_date):
     hist = pd.read_excel(hist_path)
     hist_cut = hist[hist['Abstimmungs_Datum']<=cutoff_date].copy()
     hist_cut['Abstimmungs_Datum'] = hist_cut['Abstimmungs_Datum'].astype(str)
+
+    # data cleaning
+    # replace line break
+    hist_cut['Abstimmungs_Text'] = hist_cut['Abstimmungs_Text'].str.replace('_x000D_\n', ' ', regex=False)
+    # remove " for it is used as quote char in csv
+    hist_cut['Abstimmungs_Text'] = hist_cut['Abstimmungs_Text'].str.replace('"', "'", regex=False)
+
     return hist_cut
