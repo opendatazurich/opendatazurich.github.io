@@ -1,6 +1,7 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 # Open Data Zurich API Dokumentation
+This repository serves as a central hub for accessing Zurich's open data resources, providing interfaces and training materials to support the exploration and utilization of open data. It is designed for developers, researchers, and citizens interested in leveraging Zurich's open data for various projects and analyses.
 
 ## Verfügbare Schnittstellen/APIs
 
