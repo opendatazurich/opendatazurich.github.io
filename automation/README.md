@@ -9,32 +9,31 @@ D.h. bedeutet, dass initial ein neuer Datensatz manuell angelegt werden muss (en
 **Inhaltsverzeichnis:**
 
 - [GitHub Action](#github-actions)
-    * [Grundgerüst eines Workflows](#grundgerüst-eines-workflows)
-    * [Secrets](#secrets)
-    * [Artifakte](#artifakte)
-    * [Dateien in Repository pushen](#dateien-in-repository-pushen)
-    * [Daten in CKAN aktualiseren](#daten-in-ckan-aktualiseren)
-    * [Metadaten in CKAN aktualisieren](#metadaten-in-ckan-aktualisieren)
+  * [Grundgerüst eines Workflows](#grundgerüst-eines-workflows)
+  * [Secrets](#secrets)
+  * [Artifakte](#artifakte)
+  * [Dateien in Repository pushen](#dateien-in-repository-pushen)
+  * [Daten in CKAN aktualiseren](#daten-in-ckan-aktualiseren)
+  * [Metadaten in CKAN aktualisieren](#metadaten-in-ckan-aktualisieren)
 - [Datensatz-Worflows](#einzelne-workflows)
-    * [Abstimmungsparolen](#abstimmungsparolen)
-    * [Hystreet Fussgängerfrequenzen](#hystreet-fussgängerfrequenzen)
-    * [Museum Rietbert: Himmelheber](#museum-rietbert-himmelheber)
-    * [Museum Rietberg: Patolu](#museum-rietberg-patolu)
-    * [Stadtarchiv: Geschäftsberichte](#stadtarchiv-geschäftsberichte)
-    * [Schulferien](#schulferien)
-    * [Sonnenscheindauer](#sonnenscheindauer)
-    * [Stimmbeteiligung](#stimmbeteiligung)
-    * [WAPO Wetterstationen](#wapo-wetterstationen)
-    * [VBZ Passagierfrequenz](#vbz-passagierfrequenz)
-    * [Dateninventar OGD-Katalog](#dateninventar-ogd-katalog)
+  * [Abstimmungsparolen](#abstimmungsparolen)
+  * [Hystreet Fussgängerfrequenzen](#hystreet-fussgängerfrequenzen)
+  * [Museum Rietbert: Himmelheber](#museum-rietbert-himmelheber)
+  * [Museum Rietberg: Patolu](#museum-rietberg-patolu)
+  * [Stadtarchiv: Geschäftsberichte](#stadtarchiv-geschäftsberichte)
+  * [Schulferien](#schulferien)
+  * [Sonnenscheindauer](#sonnenscheindauer)
+  * [Stimmbeteiligung](#stimmbeteiligung)
+  * [WAPO Wetterstationen](#wapo-wetterstationen)
+  * [VBZ Passagierfrequenz](#vbz-passagierfrequenz)
+  * [Dateninventar OGD-Katalog](#dateninventar-ogd-katalog)
 - [Hilfs-Worflows](#hilfs-workflows)
-    * [Notifiy Datasets](#notify-datasets)
-    * [Tagger](#tagger)
-    * [DK-ÜL Export](#dk-ül-export)
-    * [Metadaten-Excel Export](#metadaten-excel-export)
-    * [Ressourcen sortieren](#ressourcen-sortieren)
-    * [Showcases ohne Datasets](#showcases-ohne-datasets)
-
+  * [Notifiy Datasets](#notify-datasets)
+  * [Tagger](#tagger)
+  * [DK-ÜL Export](#dk-ül-export)
+  * [Metadaten-Excel Export](#metadaten-excel-export)
+  * [Ressourcen sortieren](#ressourcen-sortieren)
+  * [Showcases ohne Datasets](#showcases-ohne-datasets)
 
 ## GitHub Actions
 
@@ -93,16 +92,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r automation/automation-requirements.txt
         sudo apt-get install sqlite3
-        
+      
     - name: Prepare data
       run: automation/abstimmungsparolen/run_scraper.sh
-    
+  
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: abstimmungsparolen
         path: automation/abstimmungsparolen/abstimmungsparolen.csv
-    
+  
     - name: Check if there are changes in the repo
       run: |
         if git diff -w --no-ext-diff --quiet
@@ -112,7 +111,7 @@ jobs:
           echo '::set-output name=changed::1'
         fi
       id: changes
-        
+      
     - name: Commit and push to repo
       if: steps.changes.outputs.changed == 1 # only try to commit if there are actually changes
       uses: github-actions-x/commit@v2.9
@@ -165,7 +164,7 @@ name: Update my_dataset                    # Name des Workflows
 
 on:                                        # Trigger für den Workflow
   schedule:                                # Zeitgesteuerter Trigger mit Cron-Syntax
-    - cron:  '15 14 * * *'          
+    - cron:  '15 14 * * *'        
   workflow_dispatch:                       # Manueller Trigger für Workflows
 
 jobs:
@@ -186,7 +185,6 @@ jobs:
         pip install -r automation/automation-requirements.txt
         sudo apt-get install sqlite3
 ```
-
 
 ### Secrets
 
@@ -238,7 +236,7 @@ Einige Workflow pflegen die Daten direkt im Repository, wenn also eine Datei ver
       echo '::set-output name=changed::1'
     fi
   id: changes
-        
+      
 - name: Commit and push to repo
   if: steps.changes.outputs.changed == 1 # only try to commit if there are actually changes
   uses: github-actions-x/commit@v2.9
@@ -274,7 +272,8 @@ Andernfalls wird eine neue Ressource hinzugefügt.
   run: |
     python automation/upload_resource_to_ckan.py -f automation/abstimmungsparolen/abstimmungsparolen.csv -d politik_abstimmungsparolen_gemeindeabstimmung_seit2012
 ```
-__UPDATE__: Im Skript [`upload_resource_to_ckan.py`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan.py) verwendet, beim Update einer Resource die CKAN API Funktion ```ckan.action.resource_update```. Wie auf der CKAN API Dokumentation vermerkt, ist es sicherer, die Funktion ```ckan.action.resource_patch``` zu verwenden ('Update methods may delete parameters not explicitly provided in the data_dict. If you want to edit only a specific attribute use resource_patch instead.'). Dafür kann das geannte Skript einfach mit folgendem ersetzt werden: [`upload_resource_to_ckan.py_with_patch`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan_with_patch.py). Zukünftig macht es Sinn, in allen Pipelines diese Skripte entsprechend auszutauschen.
+
+__UPDATE__: Im Skript [`upload_resource_to_ckan.py`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan.py) verwendet, beim Update einer Resource die CKAN API Funktion ``ckan.action.resource_update``. Wie auf der CKAN API Dokumentation vermerkt, ist es sicherer, die Funktion ``ckan.action.resource_patch`` zu verwenden ('Update methods may delete parameters not explicitly provided in the data_dict. If you want to edit only a specific attribute use resource_patch instead.'). Dafür kann das geannte Skript einfach mit folgendem ersetzt werden: [`upload_resource_to_ckan.py_with_patch`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan_with_patch.py). Zukünftig macht es Sinn, in allen Pipelines diese Skripte entsprechend auszutauschen.
 
 ### Metadaten in CKAN aktualisieren
 
@@ -283,6 +282,8 @@ Dazu sind zwei Skripte im Einsatz:
 
 - [`xls_to_meta_xml.py`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/xls_to_meta_xml.py): Skript das aus einem OGD-Metadaten-Excel ein `meta.xml` generiert
 - [`update_metadata.py`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/update_metadata.py): Aktualisierung von Metadaten auf CKAN basierend auf dem `meta.xml`
+
+Bei der Generierung des meta.xml aus Excel ist darauf zu achten, dass einige der zwingenden Felder nur mit bestimmten Inhalten aus einer vorgefertigten Liste befüllt werden dürfen (z.B. Kategorien, Datentyp, Aktualisierungsintervall, Lizenz). Diese sind in den zusätzlichen Tabellenblättern im Excel aufgelistet.
 
 Alle Datensätze, die via GitHub Action aktualisiert werden, haben ein OGD-Metadaten-Excel im zugehörigen Ordner. Aus diesem wird das `meta.xml` generiert und anschliessend die Metadaten auf CKAN aktualisiert.
 
@@ -347,7 +348,6 @@ Nicht produktiv, Test-Scraper für die Sonnenscheindauer.
 ### Dateninventar OGD-Katalog
 
 => [ogd_metadata/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/ogd_metadata/README.md)
-
 
 ## Hilfs-Workflows
 
