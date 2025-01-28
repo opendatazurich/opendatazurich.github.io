@@ -201,5 +201,7 @@ def get_historical_data(hist_path, cutoff_date):
     hist_cut['Abstimmungs_Text'] = hist_cut['Abstimmungs_Text'].str.replace('_x000D_\n', ' ', regex=False)
     # remove " for it is used as quote char in csv
     hist_cut['Abstimmungs_Text'] = hist_cut['Abstimmungs_Text'].str.replace('"', "'", regex=False)
+    # some values in Stimmberechtigt are 0. These are errors and should be NaN
+    hist_cut['Stimmberechtigt'] = hist_cut['Stimmberechtigt'].replace(0, pd.NA)
 
     return hist_cut
