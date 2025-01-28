@@ -110,7 +110,7 @@ df_export['Stimmberechtigt'] = df_export['Stimmberechtigt'].astype('Int64')
 
 # writing pdf out as csv
 csv_path = arguments['--file']
-df_export.to_csv(csv_path, 
+df_export.head(500).to_csv(csv_path, 
                 index = False,
                 encoding="UTF-8-sig",
                 quotechar='"',
