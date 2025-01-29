@@ -9,6 +9,7 @@ import dateparser
 import sys
 import os
 import traceback
+from datetime import datetime
 
 
 __location__ = os.path.realpath(
@@ -67,7 +68,10 @@ try:
 
 
     # city of zurich - url of voter participation
-    url = 'https://www.stadt-zuerich.ch/portal/de/index/politik_u_recht/abstimmungen_u_wahlen/aktuell/stand-stimmbeteiligung.html'
+    # old website
+    #url = 'https://www.stadt-zuerich.ch/portal/de/index/politik_u_recht/abstimmungen_u_wahlen/aktuell/stand-stimmbeteiligung.html'
+    current_year = datetime.now().year
+    url = f'https://www.stadt-zuerich.ch/de/aktuell/news/{current_year}/stimmbeteiligung.html'
 
     # parse page
     try:
@@ -81,14 +85,16 @@ try:
             raise
    
     soup = BeautifulSoup(content, 'html.parser')
-    # div = soup.select_one('div.mainparsys')
-    div = soup.select_one('div.mod_pagetitle')
-    match = re.search(r'Urnengang vom (.+):.*?Stimmbeteiligung.*beträgt.*?(\d+,?\d?)\s*Prozent.*?\((\d+\.\d+\.\d+)\)', div.text.strip())
+    # get Urnengang info
+    description_content = soup.select_one('stzh-text')
+    match = re.search(r'Urnengang vom (.+):.*?Stimmbeteiligung.*beträgt.*?(\d+,?\d?)\s*Prozent', description_content.text.strip())
+    # get date info
+    date_info = soup.select_one('stzh-pagetitle')
 
     data = {
         'abst_datum': dateparser.parse(match[1], languages=['de']).date().isoformat(),
         'stimmbeteiligung': float(match[2].replace(',', '.')),
-        'akt_datum': dateparser.parse(match[3], languages=['de']).date().isoformat(),
+        'akt_datum': dateparser.parse(date_info['dateline'], languages=['de']).date().isoformat(),
     }
     insert_or_update(data, conn)
 
