@@ -107,6 +107,8 @@ df_export = df_export[subset_columns]
 # dtypes for csv
 df_export['Nr_Wahlkreis_StZH'] = df_export['Nr_Wahlkreis_StZH'].astype('Int64')
 df_export['Stimmberechtigt'] = df_export['Stimmberechtigt'].astype('Int64')
+df_export['Ja_Absolut'] = df_export['Ja_Absolut'].astype('Int64')
+df_export['Nein_Absolut'] = df_export['Nein_Absolut'].astype('Int64')
 
 # writing pdf out as csv
 csv_path = arguments['--file']
