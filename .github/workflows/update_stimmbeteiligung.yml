@@ -39,14 +39,14 @@ jobs:
       run: |
         if git diff -w --no-ext-diff --quiet
         then
-          echo '::set-output name=changed::0'
+          echo 'changed=0' >> $GITHUB_ENV
         else
-          echo '::set-output name=changed::1'
+          echo 'changed=1' >> $GITHUB_ENV
         fi
       id: changes
         
     - name: Commit and push to repo
-      if: steps.changes.outputs.changed == 1 # only try to commit if there are actually changes
+      if: steps.changes.outputs.changed == '1' # only try to commit if there are actually changes
       uses: github-actions-x/commit@v2.9
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -57,7 +57,7 @@ jobs:
         rebase: 'true'
 
     - name: Upload file to CKAN
-      if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
+      if: ${{ steps.changes.outputs.changed == '1' || github.event.inputs.force_update != 'false' }}
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
@@ -66,7 +66,7 @@ jobs:
         python automation/upload_resource_to_ckan_with_patch.py --no-verify -f automation/stimmbeteiligung/stimmbeteiligung.csv -d politik_stimmbeteiligung-vor-urnengangen
 
     - name: Update CKAN metadata
-      if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
+      if: ${{ steps.changes.outputs.changed == '1' || github.event.inputs.force_update != 'false' }}
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
@@ -76,7 +76,7 @@ jobs:
         python automation/update_metadata.py --no-verify -d politik_stimmbeteiligung-vor-urnengangen -f automation/stimmbeteiligung/meta.xml
 
     - uses: actions/upload-artifact@v4
-      if: ${{ steps.changes.outputs.changed == 1 || github.event.inputs.force_update != 'false' }}
+      if: ${{ steps.changes.outputs.changed == '1' || github.event.inputs.force_update != 'false' }}
       with:
         name: meta.xml
         path: automation/stimmbeteiligung/meta.xml
@@ -84,7 +84,7 @@ jobs:
     - name: Get current unix timestamp
       if: always()
       id: date
-      run: echo "::set-output name=ts::$(date +'%s')"
+      run: echo "ts=$(date +'%s')" >> $GITHUB_ENV
 
     - name: Notify telegram failure
       if: ${{ failure()  || cancelled() }}
