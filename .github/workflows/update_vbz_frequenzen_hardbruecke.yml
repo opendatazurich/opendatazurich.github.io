@@ -9,7 +9,7 @@ jobs:
   update_data_py:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    environment: integration
+    environment: production
     strategy:
       matrix:
         python-version: [3.12]
@@ -38,7 +38,7 @@ jobs:
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
         year=$(date +'%Y')
-        # python automation/upload_resource_to_ckan_with_patch.py -f automation/vbz_frequenzen_hardbruecke/frequenzen_hardbruecke_${year}.csv -d vbz_frequenzen_hardbruecke
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/vbz_frequenzen_hardbruecke/frequenzen_hardbruecke_${year}.csv -d vbz_frequenzen_hardbruecke
         python automation/upload_resource_to_ckan_with_patch.py -f automation/vbz_frequenzen_hardbruecke/frequenzen_hardbruecke_${year}.parquet -d vbz_frequenzen_hardbruecke
 
     - name: Update CKAN metadata
