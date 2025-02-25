@@ -67,7 +67,8 @@ try:
             final_df = pd.concat([final_df, df], ignore_index=True)
         count = pd.concat([count, final_df], ignore_index=True)
         locations = pd.concat([locations, pd.DataFrame.from_dict(location_json, orient='columns')], ignore_index=True)
-        locations["IsIncludedForParent"] = locations["IsIncludedForParent"].astype(bool)  # Explicitly cast to bool dtype to avoid the warning about future version
+        # the field IsIncludedForParent is no longer in the data (and is not used in this skript)
+        # locations["IsIncludedForParent"] = locations["IsIncludedForParent"].astype(bool)  # Explicitly cast to bool dtype to avoid the warning about future version
 
     df_count = pd.DataFrame.from_dict(count)
 
