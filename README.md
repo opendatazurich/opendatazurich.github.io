@@ -2,6 +2,7 @@
 
 > [!Note]
 > This repository collects descriptions and instructions for the City of Zurich's APIs. It also contains workflows for automatic data updates of the open data catalogue.
+> 
 > In diesem Repository werden Beschreibungen und Anleitungen zu APIs der Stadt Zürich gesammelt. Ausserdem enthält es Workflows für automatische Datenaktualisierungen des Open Data Katalogs.
 
 # Open Data Zurich API Dokumentation
