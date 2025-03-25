@@ -100,7 +100,6 @@ def save_df_to_file(df,
 
 if __name__ == "__main__":
 
-    # Beispiel für env Variablen in Github bei Hystreet
     WEBDAV_USER = os.getenv('WEBDAV_USER')
     WEBDAV_PASSWORD = os.getenv('WEBDAV_PASSWORD')
 
@@ -114,4 +113,4 @@ if __name__ == "__main__":
     # prepare data
     prepared_df = data_preparation(combined_df)
     # save prepared df
-    save_df_to_file(prepared_df, output_filename = "SKZ-Beschluesse", output_cols = ["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement","Link"])
+    save_df_to_file(prepared_df, output_filename="SKZ-Beschluesse", output_cols=["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement","Link"])
