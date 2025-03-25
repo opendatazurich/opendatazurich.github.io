@@ -37,6 +37,23 @@ jobs:
         run: |
             python automation/stadtratsbeschluesse/strb_data_preparation.py
 
+      - name: Upload files to CKAN
+        env:
+          CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+          CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+          SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+        run: |
+          python automation/upload_resource_to_ckan_with_patch.py -f SKZ-Beschluesse.csv -d int_av_av_skz_strb_oe_datum
+          python automation/upload_resource_to_ckan_with_patch.py -f SKZ-Beschluesse.parquet -d int_av_av_skz_strb_oe_datum
+
+      - name: Update CKAN metadata
+        env:
+          CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+          CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+          SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+        run: |
+          python automation/xls_to_meta_xml.py -f automation/stadtratsbeschluesse/SKZ_Beschluesse_Metadaten.xlsx  --outfile automation/stadtratsbeschluesse/meta.xml
+          python automation/update_metadata.py -d int_av_av_skz_strb_oe_datum -f automation/stadtratsbeschluesse/meta.xml
 
       - name: Notify telegram failure
         if: ${{ failure()  || cancelled() }}
