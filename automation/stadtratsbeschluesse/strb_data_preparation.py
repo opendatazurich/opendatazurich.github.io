@@ -108,10 +108,10 @@ if __name__ == "__main__":
     url = 'https://www.ssz-webdav.stadt-zuerich.ch/OGD_Dropzone/'
     client = Client(url, auth=(WEBDAV_USER, WEBDAV_PASSWORD), verify=False)
     # download files from webdav
-    csv_files = download_csv(client, webdav_folder='/INT_AV/av_skz_strb_oe_datum', local_folder="STRB/files/")
+    csv_files = download_csv(client, webdav_folder='/INT_AV/av_skz_strb_oe_datum', local_folder="")
     # load files into pandas
     combined_df = concat_files(csv_files)
     # prepare data
     prepared_df = data_preparation(combined_df)
     # save prepared df
-    save_df_to_file(prepared_df, output_filename = "STRB/files/SKZ-Beschluesse", output_cols = ["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement","Link"])
+    save_df_to_file(prepared_df, output_filename = "SKZ-Beschluesse", output_cols = ["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement","Link"])
