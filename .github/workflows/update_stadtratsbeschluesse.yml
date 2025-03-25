@@ -4,9 +4,6 @@ on:
   schedule:
     - cron:  '18 13 * * *' 
   workflow_dispatch:
-  push:
-    branches:
-      - stadtratsbeschluesse
 
 jobs:
   update_data_py:
