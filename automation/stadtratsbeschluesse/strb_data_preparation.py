@@ -55,7 +55,7 @@ def data_preparation(df):
     """
     print("Preparing data")
     # drop duplicates
-    df = df.drop_duplicates()
+    df = df.drop_duplicates(subset=["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement"], keep='last').copy()
 
     # parse dates
     df['Beschlussdatum'] = pd.to_datetime(df['Beschlussdatum'], format="%d.%m.%Y")
