@@ -1,0 +1,63 @@
+name: Update Stadtratsbeschluesse
+
+on:
+  schedule:
+    - cron:  '18 13 * * *' 
+  workflow_dispatch:
+
+jobs:
+  update_data_py:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Install requirements
+        run: uv pip install -r automation/automation-requirements.txt
+        env:
+          UV_SYSTEM_PYTHON: 1
+  
+      - name: Prepare data
+        env:
+          WEBDAV_USER: ${{ secrets.WEBDAV_USER }}
+          WEBDAV_PASSWORD: ${{ secrets.WEBDAV_PASSWORD }}
+        run: |
+            python automation/stadtratsbeschluesse/strb_data_preparation.py
+
+      - name: Upload files to CKAN
+        env:
+          CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+          CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+          SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+        run: |
+          python automation/upload_resource_to_ckan_with_patch.py -f SKZ-Beschluesse.csv -d av_skz_strb_oe_datum
+          python automation/upload_resource_to_ckan_with_patch.py -f SKZ-Beschluesse.parquet -d av_skz_strb_oe_datum
+
+      - name: Update CKAN metadata
+        env:
+          CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+          CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+          SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+        run: |
+          python automation/xls_to_meta_xml.py -f automation/stadtratsbeschluesse/SKZ_Beschluesse_Metadaten.xlsx  --outfile automation/stadtratsbeschluesse/meta.xml
+          python automation/update_metadata.py -d av_skz_strb_oe_datum -f automation/stadtratsbeschluesse/meta.xml
+
+      - name: Notify telegram failure
+        if: ${{ failure()  || cancelled() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_ERROR_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            🔴 [Stadtratsbeschluesse Job Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
