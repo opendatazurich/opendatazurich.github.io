@@ -39,9 +39,9 @@ jobs:
       run: |
         if git diff -w --no-ext-diff --quiet
         then
-          echo 'changed=0' >> $GITHUB_ENV
+          echo 'changed=0' >> $GITHUB_OUTPUT
         else
-          echo 'changed=1' >> $GITHUB_ENV
+          echo 'changed=1' >> $GITHUB_OUTPUT
         fi
       id: changes
         
