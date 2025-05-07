@@ -32,7 +32,7 @@ jobs:
           python automation/ckan_to_xls.py --file ${DATASET}_metadata.xlsx --dataset ${DATASET}
           
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ github.event.inputs.dataset }}_metadata
           path: ${{ github.event.inputs.dataset }}_metadata.xlsx
