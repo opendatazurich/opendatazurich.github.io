@@ -1,7 +1,6 @@
 name: Update Download Statistics
 
 on:
-  push:
   schedule:
     - cron: '0 3 * * *' # daily at 03:00 UTC
   workflow_dispatch:
