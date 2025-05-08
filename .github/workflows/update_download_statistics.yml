@@ -39,6 +39,8 @@ jobs:
         
     - name: Update data
       env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
         USE_ROLLING_1_MONTH: ${{ github.event.inputs.USE_ROLLING_1_MONTH || 'false' }}
       run: |
