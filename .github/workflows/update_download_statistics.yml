@@ -43,7 +43,7 @@ jobs:
         USE_ROLLING_1_MONTH: ${{ github.event.inputs.USE_ROLLING_1_MONTH || 'false' }}
       run: |
         year=$(date +'%Y')
-        automation/download_statistics/download_statistics.py ${year}
+        python automation/download_statistics/download_statistics.py ${year}
 
     - name: Upload file to CKAN
       env:

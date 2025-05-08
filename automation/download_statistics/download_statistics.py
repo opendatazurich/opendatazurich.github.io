@@ -125,6 +125,7 @@ def save_updated_data_to_file(df, upload_filename, year):
 
 # arguments
 year = sys.argv[1]
+print("year", year)
 
 # only for local testing
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ogd/webstatistiken/google-download-tracking-sa.json"
