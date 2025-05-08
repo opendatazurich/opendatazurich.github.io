@@ -146,7 +146,7 @@ bucket_name = "ssz-download-tracking"
 BASE_URL = os.getenv('CKAN_BASE_URL')
 API_KEY = os.getenv('CKAN_API_KEY')
 ckan = RemoteCKAN(BASE_URL, apikey=API_KEY)
-
+df_all = get_historical_data(ckan, resource_id = "c17a0cbd-f303-4f51-80e1-d01edec3373f", year=year)
 
 destination_file_name = download_from_gcs(use_rolling_1_month_bool, bucket_name)
 df_new = load_current_file(destination_file_name)
@@ -154,7 +154,7 @@ print(df_new)
 
 
 
-df_all = get_historical_data(ckan, resource_id = "c17a0cbd-f303-4f51-80e1-d01edec3373f", year=year)
+
 # add additional metadata here
 # ...
 
