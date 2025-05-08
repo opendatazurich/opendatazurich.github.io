@@ -36,16 +36,22 @@ jobs:
       run: uv pip install -r automation/automation-requirements.txt
       env:
         UV_SYSTEM_PYTHON: 1
+  
+    - name: Write GCP credentials to file
+      run: echo '${{ secrets.GCP_SA_KEY }}' > gcp-key.json
         
     - name: Update data
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+        GOOGLE_APPLICATION_CREDENTIALS: gcp-key.json
         USE_ROLLING_1_MONTH: ${{ github.event.inputs.USE_ROLLING_1_MONTH || 'false' }}
       run: |
         year=$(date +'%Y')
         python automation/download_statistics/download_statistics.py ${year}
+  
+    - name: Clean up
+      run: rm gcp-key.json
 
     - name: Upload file to CKAN
       env:
