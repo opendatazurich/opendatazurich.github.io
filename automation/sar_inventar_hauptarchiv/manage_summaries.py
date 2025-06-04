@@ -62,7 +62,7 @@ if count_datasets_without_summary > 0:
         time.sleep(4)
 else:
     print("Zusammenfassungen zu allen downloadbaren Dokumenten sind vorhanden. Es keine keine neuen erstellt")
-quit()
+
 output_filename = 'sar_inventar_hauptarchiv'
 ouptut_cols = ['signatur', 'titel', 'jahr', 'stufe', 'link_query', 'dateiname', 'download_url', 'zusammenfassung']
 print(f"Schreibe {output_filename}.parquet")
