@@ -127,6 +127,7 @@ df = sort_signature(df)
 filepath_out = "download_sru" 
 #df.to_csv(f'{filepath_out}.csv', index=False)
 #df.to_excel(f'{filepath_out}.xlsx', index=False)
+
 print(f"Schreibe {filepath_out}.parquet mit {df.shape[0]} Zeilen")
 df.to_parquet(f'{filepath_out}.parquet', index=False)
 
