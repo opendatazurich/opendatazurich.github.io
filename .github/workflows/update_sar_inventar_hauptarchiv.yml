@@ -4,7 +4,6 @@ on:
   schedule:
     - cron:  '40 21 * * 5' # Friday 21:40 UTC
   workflow_dispatch:
-  push:
 
 jobs:
   update_sar_inventar_hauptarchiv:
