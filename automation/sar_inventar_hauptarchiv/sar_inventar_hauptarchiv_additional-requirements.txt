@@ -1,4 +1,0 @@
-pypdf
-google-genai
-openai
-huggingface-hub
