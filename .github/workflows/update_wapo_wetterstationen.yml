@@ -55,7 +55,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/xls_to_meta_xml.py -f automation/wapo_wetterstationen/Metadaten_wetterstationen_my.xlsx --outfile automation/wapo_wetterstationen/meta.xml
+        python automation/xls_to_meta_xml.py -f automation/wapo_wetterstationen/Metadaten_wetterstationen_my.xlsx --outfile automation/wapo_wetterstationen/meta.xml --tag github
         python automation/update_metadata.py -d sid_wapo_wetterstationen -f automation/wapo_wetterstationen/meta.xml
 
     - name: Notify telegram failure

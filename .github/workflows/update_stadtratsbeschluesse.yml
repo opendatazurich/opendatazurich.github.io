@@ -49,7 +49,7 @@ jobs:
           CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
           SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
         run: |
-          python automation/xls_to_meta_xml.py -f automation/stadtratsbeschluesse/SKZ_Beschluesse_Metadaten.xlsx  --outfile automation/stadtratsbeschluesse/meta.xml
+          python automation/xls_to_meta_xml.py -f automation/stadtratsbeschluesse/SKZ_Beschluesse_Metadaten.xlsx  --outfile automation/stadtratsbeschluesse/meta.xml --tag github
           python automation/update_metadata.py -d av_skz_strb_oe_datum -f automation/stadtratsbeschluesse/meta.xml
 
       - name: Notify telegram failure
