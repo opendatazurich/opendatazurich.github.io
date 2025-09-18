@@ -53,7 +53,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/xls_to_meta_xml.py -f automation/hystreet_fussgaengerfrequenzen/hystreet_fussgaenger_metadata.xlsx  --outfile automation/hystreet_fussgaengerfrequenzen/meta.xml
+        python automation/xls_to_meta_xml.py -f automation/hystreet_fussgaengerfrequenzen/hystreet_fussgaenger_metadata.xlsx  --outfile automation/hystreet_fussgaengerfrequenzen/meta.xml --tag github
         python automation/update_metadata.py -d hystreet_fussgaengerfrequenzen -f automation/hystreet_fussgaengerfrequenzen/meta.xml
 
     - name: Notify telegram failure

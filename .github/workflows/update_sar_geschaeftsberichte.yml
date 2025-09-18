@@ -45,7 +45,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/xls_to_meta_xml.py -f automation/sar_geschaeftsberichte/OGD-Metadaten_Geschaeftsberichte.xlsx --outfile automation/sar_geschaeftsberichte/meta.xml
+        python automation/xls_to_meta_xml.py -f automation/sar_geschaeftsberichte/OGD-Metadaten_Geschaeftsberichte.xlsx --outfile automation/sar_geschaeftsberichte/meta.xml --tag github
         python automation/update_metadata.py -d sar_geschaeftsberichte -f automation/sar_geschaeftsberichte/meta.xml
 
     - name: Get current unix timestamp

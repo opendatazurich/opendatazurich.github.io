@@ -52,9 +52,9 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/xls_to_meta_xml.py -f automation/mrz_himmelheber/Meta_Himmelheber_Fotos.xlsx --outfile automation/mrz_himmelheber/foto_meta.xml
+        python automation/xls_to_meta_xml.py -f automation/mrz_himmelheber/Meta_Himmelheber_Fotos.xlsx --outfile automation/mrz_himmelheber/foto_meta.xml --tag github
         python automation/update_metadata.py -d mrz_himmelheber_fotos -f automation/mrz_himmelheber/foto_meta.xml
-        python automation/xls_to_meta_xml.py -f automation/mrz_himmelheber/Meta_Himmelheber_Objekte.xlsx --outfile automation/mrz_himmelheber/objekte_meta.xml
+        python automation/xls_to_meta_xml.py -f automation/mrz_himmelheber/Meta_Himmelheber_Objekte.xlsx --outfile automation/mrz_himmelheber/objekte_meta.xml --tag github
         python automation/update_metadata.py -d mrz_himmelheber_objekte -f automation/mrz_himmelheber/objekte_meta.xml
         
     - name: Notify telegram failure

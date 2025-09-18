@@ -72,7 +72,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/xls_to_meta_xml.py -f automation/stimmbeteiligung/Meta_Stimmbeteiligung.xlsx --outfile automation/stimmbeteiligung/meta.xml
+        python automation/xls_to_meta_xml.py -f automation/stimmbeteiligung/Meta_Stimmbeteiligung.xlsx --outfile automation/stimmbeteiligung/meta.xml --tag github
         python automation/update_metadata.py --no-verify -d politik_stimmbeteiligung-vor-urnengangen -f automation/stimmbeteiligung/meta.xml
 
     - uses: actions/upload-artifact@v4

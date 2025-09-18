@@ -74,7 +74,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/xls_to_meta_xml.py -f automation/mrz_patolu/Meta_Patolu.xlsx --outfile automation/mrz_patolu/meta.xml
+        python automation/xls_to_meta_xml.py -f automation/mrz_patolu/Meta_Patolu.xlsx --outfile automation/mrz_patolu/meta.xml --tag github
         python automation/update_metadata.py -d mrz_patolu -f automation/mrz_patolu/meta.xml
         
     - name: Notify telegram failure
