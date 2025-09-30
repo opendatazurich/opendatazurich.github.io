@@ -2,7 +2,7 @@ name: Update Abstimmungsergebnisse
 
 on:
   schedule:
-    - cron: '0 6 * * 1' # jeden Montag um 8 Uhr
+    - cron: '0 5 * * 1' # jeden Montag um 7 Uhr
   workflow_dispatch:
 
 
