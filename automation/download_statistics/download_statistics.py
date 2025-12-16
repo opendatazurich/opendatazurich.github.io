@@ -61,18 +61,23 @@ def add_missing_metadata():
 
 
 
-def get_historical_data(ckan, resource_id, year):
+def get_historical_data(ckan, year, dataset_name):
     """
-    Download parquet with historical data from OGD catalogue.
+    Download parquet with historical data from OGD catalogue. Checks if there is a ressource for the current year.
         Needs 
-        - Resource ID to parquet file
         - ckan connection
+        - year
+        - dataset_name
     return pandas df
     """
-    resource = ckan.action.resource_show(id=resource_id)
+    dataset = ckan.action.package_show(id=dataset_name)
+    resources = dataset["resources"]
+    # check, if we already have a parquet file for the current year
+    for resource in resources:
+        if f"{year}.parquet" in resource["filename"]:
+            resource_id = resource["id"]
 
-    dataset_id = resource['package_id']
-    download_url = f"{BASE_URL}/dataset/{dataset_id}/resource/{resource_id}/download"
+    download_url = f"{BASE_URL}/dataset/{dataset_name}/resource/{resource_id}/download"
     print("Download URL:", download_url)
 
     # Versuche Datei herunterzuladen
@@ -147,8 +152,7 @@ bucket_name = "ssz-download-tracking"
 BASE_URL = os.getenv('CKAN_BASE_URL')
 API_KEY = os.getenv('CKAN_API_KEY')
 ckan = RemoteCKAN(BASE_URL, apikey=API_KEY)
-df_all = get_historical_data(ckan, resource_id = "c17a0cbd-f303-4f51-80e1-d01edec3373f", year=year)
-
+df_all = get_historical_data(ckan, year=year, dataset_name = "prd_ssz_ogd_katalog_downloads")
 destination_file_name = download_from_gcs(use_rolling_1_month_bool, bucket_name)
 df_new = load_current_file(destination_file_name)
 print(df_new)

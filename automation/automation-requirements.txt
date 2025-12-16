@@ -17,6 +17,5 @@ markdown
 lxml
 geojson
 pyarrow
-fastparquet
 webdav4
 google-cloud-storage

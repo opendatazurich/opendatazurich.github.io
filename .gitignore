@@ -4,5 +4,6 @@ verkehrszaehlung-miv/sid_dav_verkehrszaehlung_miv_OD2031_2019.csv
 *.pks
 opendatazurich.github.io.code-workspace
 env
+.env
 .idea
 __pycache__/
