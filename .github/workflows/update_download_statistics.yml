@@ -46,7 +46,7 @@ jobs:
         GOOGLE_APPLICATION_CREDENTIALS: gcp-key.json
         USE_ROLLING_1_MONTH: ${{ github.event.inputs.USE_ROLLING_1_MONTH || 'false' }}
       run: |
-        year=$(date +'%Y')
+        year=$(date -d "yesterday" +'%Y')
         python automation/download_statistics/download_statistics.py ${year}
   
     - name: Clean up

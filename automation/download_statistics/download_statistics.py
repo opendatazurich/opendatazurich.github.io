@@ -76,6 +76,7 @@ def get_historical_data(ckan, year, dataset_name):
     for resource in resources:
         if f"{year}.parquet" in resource["filename"]:
             resource_id = resource["id"]
+            break
 
     download_url = f"{BASE_URL}/dataset/{dataset_name}/resource/{resource_id}/download"
     print("Download URL:", download_url)
@@ -94,7 +95,7 @@ def get_historical_data(ckan, year, dataset_name):
 
     return df
 
-def concat_historical_and_current_data(df_all, df_new):
+def concat_historical_and_current_data(df_all, df_new, year):
     """
     Check if current data is already in historical data (and delete if so).
     Add current data to historical data
@@ -108,6 +109,9 @@ def concat_historical_and_current_data(df_all, df_new):
 
     # concat dfs
     df_compl = pd.concat([df_all_filtered, df_new])
+    # only use data from current year
+    first_day_of_year = f"{year}-01-01"
+    df_compl[df_compl["date"]>=first_day_of_year]
     # drop duplicaes
     df_compl = df_compl.drop_duplicates()
     # sort
@@ -124,7 +128,7 @@ def save_updated_data_to_file(df, upload_filename, year):
     upload_filename_year = upload_filename + "_" + year
     print("write parquet and csv to: ", upload_filename)
     df.to_parquet(f"{upload_filename_year}.parquet")
-    df.to_csv(f"{upload_filename_year}.csv")
+    df.to_csv(f"{upload_filename_year}.csv", index=False)
 
 
 
@@ -163,6 +167,6 @@ print(df_new)
 # add additional metadata here
 # ...
 
-df_compl = concat_historical_and_current_data(df_all, df_new)
+df_compl = concat_historical_and_current_data(df_all, df_new, year)
 
 save_updated_data_to_file(df_compl, upload_filename='ogd_katalog_downloads', year=year)
