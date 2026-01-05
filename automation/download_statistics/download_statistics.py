@@ -110,8 +110,8 @@ def concat_historical_and_current_data(df_all, df_new, year):
     # concat dfs
     df_compl = pd.concat([df_all_filtered, df_new])
     # only use data from current year
-    first_day_of_year = f"{year}-01-01"
-    df_compl[df_compl["date"]>=first_day_of_year]
+    first_day_of_year = pd.Timestamp(year)
+    df_compl = df_compl[df_compl["date"]>=first_day_of_year]
     # drop duplicaes
     df_compl = df_compl.drop_duplicates()
     # sort
