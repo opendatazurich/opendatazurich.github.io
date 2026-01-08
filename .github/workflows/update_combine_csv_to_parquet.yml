@@ -1,6 +1,9 @@
 name: Update Kombiniere CSVs zu Parquet
 
 on:
+  push:
+    branches:
+      - miv_parquet
   schedule:
     - cron:  '0 6 * * *' # 06:00 UTC
   workflow_dispatch:
