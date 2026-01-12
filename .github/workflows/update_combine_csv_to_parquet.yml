@@ -40,8 +40,8 @@ jobs:
           CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
           SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
         run: |
-          python automation/upload_resource_to_ckan_with_patch.py -f sid_dav_verkehrszaehlung_miv_OD2031.parquet -d int_dwh_sid_dav_verkehrszaehlung_miv_od2031
-          python automation/upload_resource_to_ckan_with_patch.py -f verkehrszaehlungen_werte_fussgaenger_velo.parquet -d int_dwh_ted_taz_verkehrszaehlungen_werte_fussgaenger_velo
+          python automation/upload_resource_to_ckan_with_patch.py -f sid_dav_verkehrszaehlung_miv_OD2031_alle_jahre.parquet -d int_dwh_sid_dav_verkehrszaehlung_miv_od2031
+          python automation/upload_resource_to_ckan_with_patch.py -f verkehrszaehlungen_werte_fussgaenger_velo_alle_jahre.parquet -d int_dwh_ted_taz_verkehrszaehlungen_werte_fussgaenger_velo
 
       - name: Notify telegram failure
         if: ${{ failure()  || cancelled() }}

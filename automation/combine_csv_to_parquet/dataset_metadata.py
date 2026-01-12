@@ -2,7 +2,7 @@ dataset_metadata = [
     # Dataset https://data.stadt-zuerich.ch/dataset/sid_dav_verkehrszaehlung_miv_od2031
     {
     "dataset_id": "sid_dav_verkehrszaehlung_miv_od2031",
-    "parquet_filename": "sid_dav_verkehrszaehlung_miv_OD2031.parquet",
+    "parquet_filename": "sid_dav_verkehrszaehlung_miv_OD2031_alle_jahre.parquet",
     "date_col": "MessungDatZeit",
     "date_format_input": "%Y-%m-%dT%H:%M:%S",
     "dtypes": {
@@ -32,7 +32,7 @@ dataset_metadata = [
     # Dataset: https://data.stadt-zuerich.ch/dataset/ted_taz_verkehrszaehlungen_werte_fussgaenger_velo
     {
         "dataset_id": "ted_taz_verkehrszaehlungen_werte_fussgaenger_velo",
-        "parquet_filename": "verkehrszaehlungen_werte_fussgaenger_velo.parquet",
+        "parquet_filename": "verkehrszaehlungen_werte_fussgaenger_velo_alle_jahre.parquet",
         #"date_col": "DATUM",
         #"date_format_input": "%Y-%m-%dT%H:%M",
         "dtypes": {
