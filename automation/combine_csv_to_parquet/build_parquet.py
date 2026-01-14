@@ -108,5 +108,5 @@ if __name__ == "__main__":
         print(df.info())
         print(df)
         filepath = f"{parquet_filename}"
-        write_file(df.tail(100), filepath=filepath)
+        write_file(df, filepath=filepath)
         print("Datei geschrieben nach:", filepath)

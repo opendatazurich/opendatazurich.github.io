@@ -1,9 +1,6 @@
 name: Update Kombiniere CSVs zu Parquet
 
 on:
-  push:
-    branches:
-      - miv_parquet
   schedule:
     - cron:  '0 6 * * *' # 06:00 UTC
   workflow_dispatch:
@@ -12,7 +9,7 @@ jobs:
   update_data_py:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    environment: integration
+    environment: production
 
     steps:
       - uses: actions/checkout@v4
@@ -40,8 +37,8 @@ jobs:
           CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
           SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
         run: |
-          python automation/upload_resource_to_ckan_with_patch.py -f sid_dav_verkehrszaehlung_miv_OD2031_alle_jahre.parquet -d int_dwh_sid_dav_verkehrszaehlung_miv_od2031
-          python automation/upload_resource_to_ckan_with_patch.py -f verkehrszaehlungen_werte_fussgaenger_velo_alle_jahre.parquet -d int_dwh_ted_taz_verkehrszaehlungen_werte_fussgaenger_velo
+          python automation/upload_resource_to_ckan_with_patch.py -f sid_dav_verkehrszaehlung_miv_OD2031_alle_jahre.parquet -d sid_dav_verkehrszaehlung_miv_od2031
+          python automation/upload_resource_to_ckan_with_patch.py -f verkehrszaehlungen_werte_fussgaenger_velo_alle_jahre.parquet -d ted_taz_verkehrszaehlungen_werte_fussgaenger_velo
 
       - name: Notify telegram failure
         if: ${{ failure()  || cancelled() }}

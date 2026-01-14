@@ -10,7 +10,7 @@ Kombiniere CSVs zu Parquets
 | **Datensatz PROD:** | [Daten der Verkehrszählung zum motorisierten Individualverkehr (Stundenwerte), seit 2012](https://data.stadt-zuerich.ch/dataset/sid_dav_verkehrszaehlung_miv_od2031), [Daten der automatischen Fussgänger- und Velozählung - Viertelstundenwerte](https://data.stadt-zuerich.ch/dataset/ted_taz_verkehrszaehlungen_werte_fussgaenger_velo) |
 
 
-Datenlieferanten können in einigen Fällen nur CSV Dateien zur Verfügung stellen. Wenn die CSV Dateien sehr gross sind, wird meist eine Datei für jedes Jahr erstellt. Wenn die Nutzenden die Daten desgesamten Zeitraums verwenden wollen, müssen sie unter Umständen also viele CSV Datei einlesen. Dieser Workflow soll des Prozess vereinfachen, in dem er alle CSV Dateien zu einer einzigen Parquet-Dateizusammenfasst und auf dem [OGD-Katalog](https://data.stadt-zuerich.ch/) zur Verfügung stellt.
+Datenlieferanten können in einigen Fällen nur CSV Dateien zur Verfügung stellen. Wenn die CSV Dateien sehr gross sind, wird meist eine Datei für jedes Jahr erstellt. Wenn die Nutzenden die Daten des gesamten Zeitraums verwenden wollen, müssen sie unter Umständen viele CSV Datei einlesen. Dieser Workflow soll den Prozess vereinfachen, in dem er alle CSV Dateien zu einer einzigen Parquet-Datei zusammenfasst und auf dem [OGD-Katalog](https://data.stadt-zuerich.ch/) zur Verfügung stellt.
 
 Um diesem Workflow einen weiteren Datensatz hinzuzufügen muss man im [dataset_metadata.py](dataset_metadata.py) die Liste `dataset_metadata` um einen Dictionairy-Eintrag ergänzen. Hier ein Beispiel:
 ```python
