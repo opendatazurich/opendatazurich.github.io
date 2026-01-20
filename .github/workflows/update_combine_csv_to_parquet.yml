@@ -2,7 +2,8 @@ name: Update Kombiniere CSVs zu Parquet
 
 on:
   schedule:
-    - cron:  '0 6 * * *' # 06:00 UTC
+    - cron:  '30 5 * * *' # 05:30 UTC
+    - cron:  '30 11 * * *' # 11:30 UTC
   workflow_dispatch:
 
 jobs:
