@@ -54,7 +54,7 @@ def load_and_merge_csvs(csv_list, metadata):
         else:
             print(f"- KEINE Datetime Formatierung, weil date_col oder date_format_input nicht in dataset_metadata von  {metadata["dataset_id"]}")
 
-        df = df._append(csv_df)
+        df = pd.concat([df, csv_df], ignore_index=True)
 
     return df
 
