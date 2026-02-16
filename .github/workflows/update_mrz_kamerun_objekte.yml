@@ -39,7 +39,7 @@ jobs:
           dir_exports="automation/mrz_kamerun_objekte/export"
           f_name_json="kamerun_objekte.json"
           f_name_csv="kamerun_objekte.csv"
-          echo "DIR=$DIR" >> $GITHUB_ENV
+          echo "dir_exports=$dir_exports" >> $GITHUB_ENV
           echo "f_name_json=$f_name_json" >> $GITHUB_ENV
           echo "f_name_csv=$f_name_csv" >> $GITHUB_ENV
 
