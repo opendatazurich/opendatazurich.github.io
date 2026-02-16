@@ -1,27 +1,20 @@
 # -*- coding: utf-8 -*-
-"""Convert data from json to tabular format
 
-Read json file and normalize in pandas df. Export tp CSV or parquet
-
-Usage:
-  convert_to_table.py  --dir <dir> --filename_json <filename_json> --filename_csv <filename_csv>
-  convert_to_table.py (-h | --help)
-  convert_to_table.py --version
-
-Options:
-  -h, --help                            Show this screen.
-  --version                             Show version.
-  -d, --dir <dir>                       Directory to write fi
-  -fi, --filename_json <filename_json>  Name of the json to read.
-  -fi, --filename_csv <filename_csv>    Name of the csv to write.
-
+# -*- coding: utf-8 -*-
 """
-from docopt import docopt
+Convert data from JSON to tabular format.
 
+Reads a JSON file, normalizes selected nested fields into columns,
+and exports the result to CSV.
 
-# get arguments
-arguments = docopt(__doc__, version='Export data from MuseumPlus 1.0')
+Example:
+    python convert_to_table.py \
+        --dir automation/mrz_kamerun_objekte/export \
+        --filename_json kamerun_objekte.json \
+        --filename_csv kamerun_objekte.csv
+"""
 
+import argparse
 import pandas as pd
 import os
 
@@ -40,13 +33,40 @@ EXTRACT_IN_COL_JSON_COLNAMES = [
     'Herstellungsort',
 ]
 
-data_dir = arguments['--dir'] #"automation/mrz_kamerun_objekte/export"
-filename_json = arguments['--filename_json'] #"kamerun_objekte.json"
-filename_csv = arguments['--filename_csv'] #"kamerun_objekte.csv"
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Convert MuseumPlus JSON export to tabular CSV."
+    )
 
-# functions
+    parser.add_argument(
+        "--dir",
+        "-d",
+        required=True,
+        help="Directory where input JSON is located and CSV will be written.",
+    )
+
+    parser.add_argument(
+        "--filename_json",
+        required=True,
+        help="Name of the JSON file to read.",
+    )
+
+    parser.add_argument(
+        "--filename_csv",
+        required=True,
+        help="Name of the output CSV file.",
+    )
+
+    parser.add_argument(
+        "--version",
+        action="version",
+        version="Export data from MuseumPlus 1.0",
+    )
+
+    return parser.parse_args()
+
 
 def normalize_to_cols(df, colname_list):
     """
@@ -89,7 +109,13 @@ def extract_json(x, sep_level1="\n", sep_level2= " "):
 
 
 
-if __name__ == "__main__":
+def main():
+    args = parse_args()
+
+    data_dir = args.dir
+    filename_json = args.filename_json
+    filename_csv = args.filename_csv
+
     filepath_json = os.path.join(data_dir, filename_json)
     print("Reading", filepath_json)
     df = pd.read_json(filepath_json)
@@ -99,12 +125,17 @@ if __name__ == "__main__":
 
     for col in EXTRACT_IN_COL_JSON_COLNAMES:
         print("extract_json for:", col)
-        df[col]= df[col].apply(extract_json, sep_level1="\n", sep_level2= " ")
+        df[col] = df[col].apply(extract_json, sep_level1="\n", sep_level2=" ")
 
-    print("Columns in Final df:", df.columns)
+    print("Columns in final df:", df.columns)
     print(df)
-
 
     filepath_csv = os.path.join(data_dir, filename_csv)
     print("Writing", filepath_csv)
     df.to_csv(filepath_csv, index=False)
+
+
+if __name__ == "__main__":
+    main()
+
+
