@@ -1,0 +1,73 @@
+name: Update MRZ Kamerun Objekte
+
+on:
+  schedule:
+    - cron:  '30 20 * * 5' # Freitags 20:30 UTC
+  workflow_dispatch:
+
+jobs:
+  update_data_py:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Install requirements
+        run: uv pip install -r automation/automation-requirements.txt
+        env:
+          UV_SYSTEM_PYTHON: 1
+        
+      - name: Prepare data
+        env:
+          MRZ_BASE_URL: ${{ secrets.MRZ_BASE_URL }}
+          MRZ_USER: ${{ secrets.MRZ_USER }}
+          MRZ_PASS: ${{ secrets.MRZ_PASS }}
+        run: |
+          dir_exports="automation/mrz_kamerun_objekte/export"
+          f_name_json="kamerun_objekte.json"
+          f_name_csv="kamerun_objekte.csv"
+          echo "dir_exports=$dir_exports" >> $GITHUB_ENV
+          echo "f_name_json=$f_name_json" >> $GITHUB_ENV
+          echo "f_name_csv=$f_name_csv" >> $GITHUB_ENV
+
+          python automation/mrz_kamerun_objekte/download_export.py --export 71028 --item-id 51030 --module Object --field ObjObjectGroupsRef --dir "$dir_exports" --limit 1000 --filename "$f_name_json"
+          python automation/mrz_kamerun_objekte/convert_to_table.py --dir "$dir_exports" --filename_json "$f_name_json" --filename_csv "$f_name_csv"
+
+
+      - name: Upload file to CKAN
+        env:
+          CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+          CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+          SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+        run: |
+          python automation/upload_resource_to_ckan_with_patch.py -f "$dir_exports/$f_name_json" -d mrz_kamerun_objekte
+          python automation/upload_resource_to_ckan_with_patch.py -f "$dir_exports/$f_name_csv" -d mrz_kamerun_objekte
+
+      - name: Update CKAN metadata
+        env:
+          CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+          CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+          SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+        run: |
+          python automation/xls_to_meta_xml.py -f automation/mrz_kamerun_objekte/Meta_Kamerun_Objekte.xlsx --outfile automation/mrz_kamerun_objekte/meta.xml --tag github
+          python automation/update_metadata.py -d mrz_kamerun_objekte -f automation/mrz_kamerun_objekte/meta.xml
+          
+      - name: Notify telegram failure
+        if: ${{ failure()  || cancelled() }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_ERROR_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            🔴 [MRZ Patolu Job Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
