@@ -448,4 +448,4 @@ Beispiel: https://www.gemeinderat-zuerich.ch/sitzungen/ratspost/?Id=3b0204f0-f9a
 Hinweis für **Python**: wir empfehlen für den Zugriff auf die Schnittstelle den API-Wrapper [**goifer**](https://pypi.org/project/goifer/) zu verwenden.
 Dies vereinfacht die Zugriffe auf die einzelnen Entitäten sehr.
 
-Im [Jupyter-Notebook Paris-API-Beispiele.ipynb](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/paris-api/Paris-API-Beispiele.ipynb) sind einige Python-Beispiele im Umgang mit dem API beschrieben.
+Im **Jupyter-Notebook [«Paris-API-Tutorial»](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/paris-api/paris_api_gemeinderat_zuerich_tutorial.ipynb)** sind einige Python-Beispiele im Umgang mit der API beschrieben. 
