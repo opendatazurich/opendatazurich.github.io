@@ -34,7 +34,7 @@ Diese Dokumentation bietet einen **Schnelleinstieg in das Paris-API**.
 Im Kapitel 1 werden pro Entität ein paar typische Beispiels-Abfragen erläutert. 
 Im Kapitel 2 wird ein konkretes Programmier-Beispiel mit Python als Jupyter-Notebook zur Verfügung gestellt. Dieses kann ausserdem auch auf Binder aufgerufen werden, wodurch der Code interaktiv im Browser gestartet werden kann.
 
-Eine Übersicht über alle Funktionen der API mit Beispielen bietet auch die [**PDF-Anleitung der Paris-API**](https://data.stadt-zuerich.ch/dataset/parlamentsdienste_paris_api/download/Anleitung_Paris_API_Gemeinderat_Zuerich.pdf).
+Eine Übersicht über alle Funktionen der API mit Beispielen bietet auch die [**PDF-Anleitung der Paris-API**](https://data.stadt-zuerich.ch/dataset/parlamentsdienste_paris_api/resource/644f2549-06e9-4ed6-b6dc-7b3d6de2f14d).
 
 **Inhaltsverzeichnis**
 
