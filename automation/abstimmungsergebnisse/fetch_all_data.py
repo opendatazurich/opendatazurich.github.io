@@ -23,18 +23,22 @@ arguments = docopt(__doc__, version='Fetch CSV from CKAN API 1.0')
 url = base_absitmmung_url()['Eidgenössisch']
 url_list_eidg = make_url_list(url, headers, SSL_VERIFY)
 df_eidg = get_eidgenoessische_resultate(url_list_eidg)
+print("------------------ Finished Eidgenössische Resultate ---------------\n\n\n")
 
 # Fetching kantonale Abstimmungen
 url = base_absitmmung_url()['Kanton Zürich']
 url_list_kant = make_url_list(url, headers, SSL_VERIFY)
 df_kant = get_kantonale_resultate(url_list_kant)
+print("------------------ Finished Kantonale Resultate ---------------\n\n\n")
 
 # Fetching kommunale Abstimmungen
 url = base_absitmmung_url()['Stadt Zürich']
 url_list_komm = make_url_list(url, headers, SSL_VERIFY)
 df_komm = get_kommunale_resultate(url_list_komm)
+print("------------------ Finished Kommunale Resultate ---------------\n\n\n")
 
 # type casting
+print("type casting")
 df_eidg[['geoLevelnummer']] = df_eidg[['geoLevelnummer']].fillna(value=-1)
 df_kant[['geoLevelnummer']] = df_kant[['geoLevelnummer']].fillna(value=-1)
 df_komm[['geoLevelnummer']] = df_komm[['geoLevelnummer']].fillna(value=-1)
@@ -44,13 +48,16 @@ df_kant = df_kant.astype({'geoLevelnummer':'int64'})
 df_komm = df_komm.astype({'geoLevelnummer':'int64'})
 
 # Concatenating all pd's together
+print("Concatenating all pd's together")
 df_tot = pd.concat([df_eidg, df_kant, df_komm])
 
 # filtering results (only valid result)
+print("filtering results (only valid result)")
 df_tot = df_tot[(df_tot['vorlageBeendet'] == True) & (df_tot['gebietAusgezaehlt'] == True)]
 df_tot.drop_duplicates(inplace=True)
 
 # adding columns
+print("adding columns")
 df_tot = pd.merge(df_tot, get_zaehlkreise_translation(), how='left', on="geoLevelnummer")
 df_tot["neinStimmenInProzent"] = 100 - df_tot["jaStimmenInProzent"]
 
@@ -67,6 +74,7 @@ df_tot.loc[df_tot['neinStaendeGanz'] != "", 'StaendeNein'] = df_tot['neinStaende
 
 
 # format and sort columns
+print("format and sort columns")
 df_tot['abstimmtag'] = df_tot['abstimmtag'].str.replace('-', '')
 df_tot['abstimmtag'] = pd.to_datetime(df_tot['abstimmtag'], format='%Y%m%d')
 df_tot['abstimmtag'] = df_tot['abstimmtag'].dt.date
@@ -83,13 +91,16 @@ df_tot["jaStimmenInProzent"] = round(df_tot["jaStimmenInProzent"], 1)
 df_tot.sort_values(by=['abstimmtag',"Nr_Politische_Ebene",'vorlagenTitel','Nr_Resultat_Gebiet','Nr_Wahlkreis_StZH'], ascending=[False, True, True, True, True], inplace=True)
 
 # subsetting an renaming columns to match the historical data
+print("subsetting columns")
 df_tot.rename(get_rename_dict(), axis = 'columns', inplace=True)
 # Subset columns based on dictionary keys (old column names)
 subset_columns = list(get_rename_dict().values())
 df_tot = df_tot[subset_columns]
 
 # get historical Abstimmungsdaten up to cutoff date
+
 cutoff_date = '2021-12-31'
+print("get historical Abstimmungsdaten up to cutoff date", cutoff_date)
 hist_cut = get_historical_data('automation/abstimmungsergebnisse/historical_data/Abstimmungsdatenbank.xlsx', cutoff_date)
 
 # concat with new data
@@ -105,12 +116,14 @@ subset_columns = list(get_rename_dict_output_table().values())
 df_export = df_export[subset_columns]
 
 # dtypes for csv
+print("dtypes for csv")
 df_export['Nr_Wahlkreis_StZH'] = df_export['Nr_Wahlkreis_StZH'].astype('Int64')
 df_export['Stimmberechtigt'] = df_export['Stimmberechtigt'].astype('Int64')
 df_export['Ja_Absolut'] = df_export['Ja_Absolut'].astype('Int64')
 df_export['Nein_Absolut'] = df_export['Nein_Absolut'].astype('Int64')
 
 # writing pdf out as csv
+print("writing pdf out as csv")
 csv_path = arguments['--file']
 df_export.to_csv(csv_path, 
                 index = False,
@@ -120,8 +133,10 @@ df_export.to_csv(csv_path,
 )
 
 # dtypes für parquet
+print("dtypes für parquet")
 df_export['Abstimmungs_Datum'] = pd.to_datetime(df_export['Abstimmungs_Datum'])
 
 # write to parquet
+print("write to parquet")
 parquet_path = arguments['--parquet']
 df_export.to_parquet(parquet_path, index=False)
