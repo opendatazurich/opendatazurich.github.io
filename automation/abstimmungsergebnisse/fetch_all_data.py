@@ -129,7 +129,7 @@ df_export['Nein_Absolut'] = df_export['Nein_Absolut'].astype('Int64')
 # writing pdf out as csv
 print("writing pdf out as csv")
 csv_path = arguments['--file']
-df_export.to_csv(csv_path, 
+df_export.head(100).to_csv(csv_path, 
                 index = False,
                 encoding="UTF-8-sig",
                 quotechar='"',
