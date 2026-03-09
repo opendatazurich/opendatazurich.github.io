@@ -48,6 +48,9 @@ df_tot = pd.concat([df_eidg, df_kant, df_komm])
 
 # filtering results (only valid result)
 df_tot = df_tot[(df_tot['vorlageBeendet'] == True) & (df_tot['gebietAusgezaehlt'] == True)]
+
+# drop_duplicates needs hashable datatypes: Find unhashable and cast to string
+df_tot = treat_unhashable_datatypes(df_tot)
 df_tot.drop_duplicates(inplace=True)
 
 # adding columns
