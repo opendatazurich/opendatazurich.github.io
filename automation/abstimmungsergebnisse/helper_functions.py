@@ -166,19 +166,3 @@ def columns_to_drop():
     return ['abstimmtag', 'annahmekriteriumTyp', 'annahmekriteriumTypId', 'bezirke', 'gemeinden', 'geoLevelLevel', 'geoLevelParentnummer', 'geoLevelname', 'geschaeftsArt', 'geschaeftsArtId', 'geschaeftsSubTyp', 'geschaeftsSubTypId', 'geschaeftsTyp', 'geschaeftsTypId', 'hauptvorlagenId', 'kantone', 'nochKeineInformation', 'notfalltext', 'provisorisch', 'reihenfolgeAnzeige', 'reserveInfoText', 'timestamp', 'vorlageAngenommen', 'vorlageAngenommenGesamtbetrachtung', 'vorlageBeendet', 'vorlagenArtId', 'vorlagenTitel', 'zaehlkreise']
 
 # , 'geoLevelnummer'
-
-
-def treat_unhashable_datatypes(df):
-    """
-    drop_duplicates() needs hashable datatypes to find duplicates.
-    But some columns contain json-like substructures (e.g. list).
-    So, we cast them to string to prevent errors.
-    
-    :param df: pd.DataFrame
-    """
-    for col in df.columns:
-        if df[col].apply(lambda x: isinstance(x, list)).any():
-            print("List found in:", col, ". Cast column to string")
-            df = df.astype({col: "string"})
-
-    return df

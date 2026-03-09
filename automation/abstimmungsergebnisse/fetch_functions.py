@@ -18,6 +18,9 @@ def get_kommunale_resultate(url_list):
         df_stadtzuerich = df_stadtzuerich.astype({'geoLevelnummer': 'int'}, copy=True)
         df_stadtzuerich = df_stadtzuerich[(df_stadtzuerich['geoLevelnummer'] == 261)]
 
+        # do NOT use election data ("Wahlen")
+        df_stadtzuerich = df_stadtzuerich[~df_stadtzuerich["geschaeftsTyp"].isin(["Majorzwahl", "Proporzwahl"])]
+
         if (len(df_stadtzuerich) > 0):
 
             df_stadtzuerich["url"] = i
