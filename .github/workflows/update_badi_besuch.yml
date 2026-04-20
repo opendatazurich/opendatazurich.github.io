@@ -1,0 +1,66 @@
+name: Update Badi Besuch (ASE)
+
+on:
+  schedule:
+    - cron:  '*/15 * * * *' # every 15min
+  workflow_dispatch:
+  push:
+    branches:
+      - setup-ase
+
+
+jobs:
+  update_data_py:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment: integration
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      
+    - name: "Set up Python"
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+
+    - name: Install requirements
+      run: uv pip install -r automation/automation-requirements.txt
+      env:
+        UV_SYSTEM_PYTHON: 1
+        
+    - name: Prepare data
+      env:
+        ASE_USERNAME: ${{ secrets.ASE_USERNAME }}
+        ASE_PASSWORD: ${{ secrets.ASE_PASSWORD }}
+      run: automation/badi_besuch_ase/ase_api_call.py
+
+    - name: Upload file to CKAN
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+      run: |
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/badi_besuch_ase/Koordinaten.csv -d ssd_spo_badi_besuch
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/badi_besuch_ase/Badi_Besuch.csv -d ssd_spo_badi_besuch
+
+    - name: Update CKAN metadata
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+      run: |
+        python automation/xls_to_meta_xml.py -f automation/badi_besuch_ase/meta_ssd_badibesuch.xlsx --outfile automation/badi_besuch_ase/meta.xml --tag github
+        python automation/update_metadata.py -d ssd_spo_badi_besuch -f automation/badi_besuch_ase/meta.xml
+
+    - name: Notify telegram failure
+      if: ${{ failure()  || cancelled() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_ERROR_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        format: markdown
+        message: |
+          🔴 [Update Badi Besuch (ASE)](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
