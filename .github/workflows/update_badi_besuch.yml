@@ -4,9 +4,6 @@ on:
   schedule:
     - cron:  '7/15 * * * *' # every 15min
   workflow_dispatch:
-  push:
-    branches:
-      - setup_ase
 
 
 jobs:
