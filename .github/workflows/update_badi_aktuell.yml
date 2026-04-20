@@ -4,9 +4,6 @@ on:
   schedule:
     - cron:  '3/5 * * * *' # every 5min
   workflow_dispatch:
-  push:
-    branches:
-      - setup_crowdmonitor
 
 
 jobs:
