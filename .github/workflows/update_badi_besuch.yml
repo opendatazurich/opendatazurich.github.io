@@ -43,8 +43,8 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/upload_resource_to_ckan_with_patch.py -f automation/badi_besuch_ase/Koordinaten.csv -d ssd_spo_badi_besuch
-        python automation/upload_resource_to_ckan_with_patch.py -f automation/badi_besuch_ase/Badi_Besuch.csv -d ssd_spo_badi_besuch
+        python automation/upload_resource_to_ckan_with_patch.py -f Koordinaten.csv -d ssd_spo_badi_besuch
+        python automation/upload_resource_to_ckan_with_patch.py -f Badi_Besuch.csv -d ssd_spo_badi_besuch
 
     - name: Update CKAN metadata
       env:
