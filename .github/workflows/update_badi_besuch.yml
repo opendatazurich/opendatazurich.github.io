@@ -35,7 +35,7 @@ jobs:
       env:
         ASE_USERNAME: ${{ secrets.ASE_USERNAME }}
         ASE_PASSWORD: ${{ secrets.ASE_PASSWORD }}
-      run: automation/badi_besuch_ase/ase_api_call.py
+      run: python automation/badi_besuch_ase/ase_api_call.py
 
     - name: Upload file to CKAN
       env:
