@@ -19,7 +19,7 @@ API_URL = "https://api.ginto.guide/graphql"
 # Filter provided by Ginto/Pro Infirmis: Contains only Object with a pro informis entry
 FILTER_ID = "ff8c1e80-51b2-4972-871a-47e5341033c4"
 
-OUTPUT_DIR = "output"
+OUTPUT_DIR = "automation/immo_ginto_zugaenglichkeit"
 OUTPUT_FILENAME = "immo_ginto_zugaenglichkeit.csv"
 
 HEADERS = {
