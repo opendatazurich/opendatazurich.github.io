@@ -1,0 +1,62 @@
+name: Update Badi Aktuell (Crowd Monitor)
+
+on:
+  schedule:
+    - cron:  '3/5 * * * *' # every 5min
+  workflow_dispatch:
+
+
+jobs:
+  update_data_py:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: integration
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      
+    - name: "Set up Python"
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+
+    - name: Install requirements
+      run: uv pip install -r automation/automation-requirements.txt
+      env:
+        UV_SYSTEM_PYTHON: 1
+        
+    - name: Prepare data
+      env:
+        CROWD_MONITOR_USER: ${{ secrets.CROWD_MONITOR_USER }}
+        CROWD_MONITOR_PW: ${{ secrets.CROWD_MONITOR_PW }}
+      run: python automation/badi_aktuell_crowdmonitor/crowd-monitor.py
+
+    - name: Upload file to CKAN
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+      run: |
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/badi_aktuell_crowdmonitor/crowd-monitor.csv -d ssd_spo_badi_aktuell
+
+    - name: Update CKAN metadata
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+      run: |
+        python automation/xls_to_meta_xml.py -f automation/badi_aktuell_crowdmonitor/meta_ssd_badi_aktuell.xlsx --outfile automation/badi_aktuell_crowdmonitor/meta.xml --tag github
+        python automation/update_metadata.py -d ssd_spo_badi_aktuell -f automation/badi_aktuell_crowdmonitor/meta.xml
+
+    - name: Notify telegram failure
+      if: ${{ failure()  || cancelled() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_ERROR_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        format: markdown
+        message: |
+          🔴 [Update Badi Aktuell (Crowd Monitor) Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
