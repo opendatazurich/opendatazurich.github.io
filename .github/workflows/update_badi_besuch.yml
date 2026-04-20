@@ -2,11 +2,11 @@ name: Update Badi Besuch (ASE)
 
 on:
   schedule:
-    - cron:  '*/15 * * * *' # every 15min
+    - cron:  '7/15 * * * *' # every 15min
   workflow_dispatch:
   push:
     branches:
-      - setup-ase
+      - setup_ase
 
 
 jobs:
