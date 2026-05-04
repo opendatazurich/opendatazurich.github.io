@@ -112,5 +112,6 @@ if __name__ == "__main__":
     combined_df = concat_files(csv_files)
     # prepare data
     prepared_df = data_preparation(combined_df)
+    print(prepared_df[["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement","Link"]])
     # save prepared df
-    save_df_to_file(prepared_df, output_filename="SKZ-Beschluesse", output_cols=["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement","Link"])
+    save_df_to_file(prepared_df.head(50), output_filename="SKZ-Beschluesse", output_cols=["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement","Link"])
