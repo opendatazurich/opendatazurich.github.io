@@ -47,7 +47,7 @@ def concat_files(csv_files):
         csv['source'] = csv_file_name
         df_list.append(csv)
     #concat all
-    df = pd.concat([df, csv], ignore_index=True)
+    df = pd.concat(df_list, ignore_index=True)
     return df
 
 def data_preparation(df):
