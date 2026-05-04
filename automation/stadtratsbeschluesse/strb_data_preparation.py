@@ -38,14 +38,16 @@ def concat_files(csv_files):
     Load and concat locally stored csvs in pandas
     Return pandas dataframe
     """
-    df = pd.DataFrame()
+    df_list = []
     for csv_file in csv_files:
         csv_path = csv_file['local_path']
         csv_file_name = csv_file['display_name']
         print("Loading:", csv_path)
         csv = pd.read_csv(csv_path, sep=';', dtype=str)
         csv['source'] = csv_file_name
-        df = pd.concat([df, csv])
+        df_list.append(csv)
+    #concat all
+    df = pd.concat([df, csv], ignore_index=True)
     return df
 
 def data_preparation(df):
@@ -91,7 +93,7 @@ def save_df_to_file(df,
     """
     # write files
     print(f"Writing {output_filename}.csv")
-    df[output_cols].to_csv(f"{output_filename}.csv", index=False, sep=",", encoding="utf-8", quotechar='"')
+    # df[output_cols].to_csv(f"{output_filename}.csv", index=False, sep=",", encoding="utf-8", quotechar='"')
     print(f"Writing {output_filename}.parquet")
     df[output_cols].to_parquet(f"{output_filename}.parquet", index=False, )
 
@@ -114,4 +116,4 @@ if __name__ == "__main__":
     prepared_df = data_preparation(combined_df)
     print(prepared_df[["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement","Link"]])
     # save prepared df
-    save_df_to_file(prepared_df.head(50), output_filename="SKZ-Beschluesse", output_cols=["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement","Link"])
+    save_df_to_file(prepared_df, output_filename="SKZ-Beschluesse", output_cols=["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement","Link"])
