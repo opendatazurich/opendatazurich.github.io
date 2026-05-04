@@ -38,14 +38,16 @@ def concat_files(csv_files):
     Load and concat locally stored csvs in pandas
     Return pandas dataframe
     """
-    df = pd.DataFrame()
+    df_list = []
     for csv_file in csv_files:
         csv_path = csv_file['local_path']
         csv_file_name = csv_file['display_name']
         print("Loading:", csv_path)
         csv = pd.read_csv(csv_path, sep=';', dtype=str)
         csv['source'] = csv_file_name
-        df = pd.concat([df, csv])
+        df_list.append(csv)
+    #concat all
+    df = pd.concat(df_list, ignore_index=True)
     return df
 
 def data_preparation(df):
@@ -62,7 +64,7 @@ def data_preparation(df):
 
     # replace critical characters from string colums
     ## get str cols
-    str_cols = df.select_dtypes(include=['object']).columns
+    str_cols = df.select_dtypes(include=['object', 'str']).columns
     for col in str_cols:
         # replace " if present, as we will use them as quote char
         df[col] = df[col].str.replace('"',"'")
@@ -112,5 +114,6 @@ if __name__ == "__main__":
     combined_df = concat_files(csv_files)
     # prepare data
     prepared_df = data_preparation(combined_df)
+    print(prepared_df[["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement","Link"]])
     # save prepared df
     save_df_to_file(prepared_df, output_filename="SKZ-Beschluesse", output_cols=["Titel","Beschlussnummer","Beschlussdatum","Federführendes Departement","Link"])

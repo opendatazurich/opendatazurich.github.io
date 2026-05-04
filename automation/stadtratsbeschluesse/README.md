@@ -9,6 +9,8 @@ Stadtratsbeschlüsse: Daten zusammen fassen und aufbereiten
 | **Datensatz INT:**  | [Öffentliche Stadtratsbeschlüsse (data.integ.stadt-zuerich.ch)](https://data.integ.stadt-zuerich.ch/dataset/int_av_av_skz_strb_oe_datum)                                                                                                                                    |
 | **Datensatz PROD:** | [Öffentliche Stadtratsbeschlüsse (data.stadt-zuerich.ch)](https://data.stadt-zuerich.ch/dataset/av_skz_strb_oe_datum)                                                                                                                                                |
 
+# Aktualisierung
+
 Die Daten werden in den Ordner `/INT_AV/av_skz_strb_oe_datum` auf der OGD Dropzone geliefert. Es gibt ein CSV für jede Woche.
 
 Das Skript [`fetch_from_api.py`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/stadtratsbeschluesse/strb_data_preparation.py) fasst alle CSVs zu einer Datei zusammen. Die Daten werden nach den Anforderungen von OpenDataZurich aufbereitet. Ausserdem werden noch URLs zur Webseite der Stadt hinzugefügt, wo der jeweilige Stadtratsbeschluss heruntergeladen werden kann.
@@ -30,3 +32,11 @@ flowchart TB
     style ENDE stroke-width:5px
     classDef script fill:#EDF2AE,stroke:#666,stroke-width:4px
 ```
+
+# Historische Stadtratsbeschlüsse
+
+Die Stadtkanzlei liefert nur die aktuellen Stadtratsbeschlüsse ab dem 18.02.2025 in die Dropzone. Es können aber auch ältere STRB über diese Webseite bezogen werden:
+
+[https://www.stadt-zuerich.ch/de/politik-und-verwaltung/politik-und-recht/stadtratsbeschluesse.html](https://www.stadt-zuerich.ch/de/politik-und-verwaltung/politik-und-recht/stadtratsbeschluesse.html)
+
+Somit ist es möglich auch ältere STRB zum OGD Datensatz hinzuzufügen. Das wurde einmalig gemacht und der Datensatz wurde auf der Dropzone abgelegt. Falls dieser Schritt wiederholt werden müsste, liegt das verwendete Skript hier: [`scrape_strb.py`](scraper_historische_strb\scrape_strb.py).
