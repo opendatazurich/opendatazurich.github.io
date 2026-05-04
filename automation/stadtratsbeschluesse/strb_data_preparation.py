@@ -62,7 +62,7 @@ def data_preparation(df):
 
     # replace critical characters from string colums
     ## get str cols
-    str_cols = df.select_dtypes(include=['object']).columns
+    str_cols = df.select_dtypes(include=['object', 'str']).columns
     for col in str_cols:
         # replace " if present, as we will use them as quote char
         df[col] = df[col].str.replace('"',"'")
