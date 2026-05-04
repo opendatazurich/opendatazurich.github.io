@@ -95,7 +95,7 @@ def save_df_to_file(df,
     print(f"Writing {output_filename}.csv")
     df[output_cols].head().to_csv(f"{output_filename}.csv", index=False, sep=",", encoding="utf-8", quotechar='"')
     print(f"Writing {output_filename}.parquet")
-    df[output_cols].to_parquet(f"{output_filename}.parquet", index=False, )
+    df[output_cols].head(200).to_parquet(f"{output_filename}.parquet", index=False, )
 
 
 
