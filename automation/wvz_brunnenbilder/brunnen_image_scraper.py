@@ -27,7 +27,7 @@ BRUNNEN_URL_PREFIX = "https://www.stadt-zuerich.ch/content/web/de/umwelt-und-ene
 
 OUTPUT_COLUMNS = ["brunnennummer","brunnen_webseite","bild_url"]
 
-BASE_PATH = "wvz_brunnenbilder"
+BASE_PATH = "automation/wvz_brunnenbilder"
 
 OUT_DIR = os.path.join(BASE_PATH,"bilder")
 CSV_OUT = os.path.join(BASE_PATH, "brunnen_webseite_url.csv")
