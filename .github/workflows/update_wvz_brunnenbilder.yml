@@ -33,7 +33,7 @@ jobs:
         UV_SYSTEM_PYTHON: 1
         
     - name: Prepare data
-      run: python automation/wvz_brunnebilder/brunnen_image_scraper.py
+      run: python automation/wvz_brunnenbilder/brunnen_image_scraper.py
 
     - name: Upload file to CKAN
       env:
@@ -41,7 +41,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/upload_resource_to_ckan_with_patch.py -f automation/wvz_brunnebilder/brunnen_webseite_url.csv -d dib_wvz_brunnenbilder
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/wvz_brunnenbilder/brunnen_webseite_url.csv -d dib_wvz_brunnenbilder
 
     - name: Update CKAN metadata
       env:
@@ -49,8 +49,8 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/xls_to_meta_xml.py -f automation/wvz_brunnebilder/meta_wvz_brunnenbilder.xlsx --outfile automation/wvz_brunnebilder/meta.xml --tag github
-        python automation/update_metadata.py -d dib_wvz_brunnenbilder -f automation/wvz_brunnebilder/meta.xml
+        python automation/xls_to_meta_xml.py -f automation/wvz_brunnenbilder/meta_wvz_brunnenbilder.xlsx --outfile automation/wvz_brunnenbilder/meta.xml --tag github
+        python automation/update_metadata.py -d dib_wvz_brunnenbilder -f automation/wvz_brunnenbilder/meta.xml
 
     - name: Notify telegram failure
       if: ${{ failure()  || cancelled() }}
