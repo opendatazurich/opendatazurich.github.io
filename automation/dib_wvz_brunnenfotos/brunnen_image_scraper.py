@@ -25,13 +25,13 @@ BRUNNEN_WFS_URL = "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Brunnen?servic
 
 BRUNNEN_URL_PREFIX = "https://www.stadt-zuerich.ch/content/web/de/umwelt-und-energie/wasser/trinkwasser/brunnen/kreis"
 
-OUTPUT_COLUMNS = ["brunnennummer","brunnen_webseite","bild_url"]
+OUTPUT_COLUMNS = ["brunnennummer","brunnen_webseite","foto_url"]
 
-BASE_PATH = "automation/wvz_brunnenbilder"
+BASE_PATH = "automation/dib_wvz_brunnenfotos"
 
-OUT_DIR = os.path.join(BASE_PATH,"bilder")
+OUT_DIR = os.path.join(BASE_PATH,"fotos")
 CSV_OUT = os.path.join(BASE_PATH, "brunnen_webseite_url.csv")
-ZIP_OUT = os.path.join(BASE_PATH, "bilder.zip")
+ZIP_OUT = os.path.join(BASE_PATH, "fotos.zip")
 
 
 # ---------------------------------------------------------------------
@@ -120,12 +120,12 @@ def get_image_url(page_url: str) -> str | None:
 
 def scrape_image_urls(df: pd.DataFrame, url_col: str) -> pd.DataFrame:
     """
-    Fügt dem DataFrame eine neue Spalte 'bild_url'
+    Fügt dem DataFrame eine neue Spalte 'foto_url'
     mit dem zweiten Brunnenbild jeder Seite hinzu.
     """
     df = df.copy()
     logger.info("Scrape Bild-URLs")
-    df["bild_url"] = df[url_col].apply(get_image_url)
+    df["foto_url"] = df[url_col].apply(get_image_url)
     return df
 
 
@@ -135,7 +135,7 @@ def scrape_image_urls(df: pd.DataFrame, url_col: str) -> pd.DataFrame:
 
 def download_images(
     df: pd.DataFrame,
-    url_col: str = "bild_url",
+    url_col: str = "foto_url",
     out_dir: str = OUT_DIR,
     filename_col: str | None = "brunnennummer",
     timeout: int = 15,
@@ -202,7 +202,7 @@ def main() -> None:
     brunnen = build_brunnen_webseiten(brunnen)
     brunnen = scrape_image_urls(brunnen, "brunnen_webseite")
 
-    na = int(brunnen["bild_url"].isna().sum())
+    na = int(brunnen["foto_url"].isna().sum())
     total = len(brunnen)
     logger.info(
         "Fehlende Bild-URLs: %d von %d (%.1f%%)",
