@@ -13,3 +13,4 @@ pyenv3.7
 __pycache__/*
 **/.data/
 **/data/
+**/*.claude
