@@ -20,9 +20,9 @@ jobs:
         python-version: [3.12]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
@@ -35,7 +35,7 @@ jobs:
       run: automation/abstimmungsparolen/run_scraper.sh
     
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: abstimmungsparolen
         path: automation/abstimmungsparolen/abstimmungsparolen.csv
