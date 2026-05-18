@@ -14,16 +14,16 @@ jobs:
 
     steps:
     # checkout repos
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
     - name: Checkout ckan-admin-scripts repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
       with:
         repository: metaodi/ckan-admin-scripts
         path: ckan-admin-scripts
 
    # Setup Python
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
 
