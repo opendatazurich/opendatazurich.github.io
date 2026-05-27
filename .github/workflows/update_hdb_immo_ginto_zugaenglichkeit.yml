@@ -4,16 +4,13 @@ on:
   schedule:
     - cron:  '18 18 * * 5' # Friday 18:18
   workflow_dispatch:
-  push:
-    branches:
-     - ginto-on-prod
 
 
 jobs:
   update_data_py:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    environment: integration
+    environment: production
 
     steps:
     - uses: actions/checkout@v6
