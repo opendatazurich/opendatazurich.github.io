@@ -1,4 +1,4 @@
-name: Update immo_ginto_zugaenglichkeit
+name: Update hdb_immo_ginto_zugaenglichkeit
 
 on:
   schedule:
@@ -31,7 +31,7 @@ jobs:
     - name: Prepare data
       env:
         GINTO_API_TOKEN: ${{ secrets.GINTO_API_TOKEN }}
-      run: python automation/immo_ginto_zugaenglichkeit/ginto_api.py
+      run: python automation/hdb_immo_ginto_zugaenglichkeit/ginto_api.py
 
     - name: Upload file to CKAN
       env:
@@ -39,7 +39,7 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/upload_resource_to_ckan_with_patch.py -f automation/immo_ginto_zugaenglichkeit/immo_ginto_zugaenglichkeit.csv -d immo_ginto_zugaenglichkeit
+        python automation/upload_resource_to_ckan_with_patch.py -f automation/hdb_immo_ginto_zugaenglichkeit/hdb_immo_ginto_zugaenglichkeit.csv -d hdb_immo_ginto_zugaenglichkeit
 
     - name: Update CKAN metadata
       env:
@@ -47,8 +47,8 @@ jobs:
         CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
         SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
       run: |
-        python automation/xls_to_meta_xml.py -f automation/immo_ginto_zugaenglichkeit/Meta_IMMO_Ginto.xlsx --outfile automation/immo_ginto_zugaenglichkeit/meta.xml --tag github
-        python automation/update_metadata.py -d immo_ginto_zugaenglichkeit -f automation/immo_ginto_zugaenglichkeit/meta.xml
+        python automation/xls_to_meta_xml.py -f automation/hdb_immo_ginto_zugaenglichkeit/Meta_IMMO_Ginto.xlsx --outfile automation/hdb_immo_ginto_zugaenglichkeit/meta.xml --tag github
+        python automation/update_metadata.py -d hdb_immo_ginto_zugaenglichkeit -f automation/hdb_immo_ginto_zugaenglichkeit/meta.xml
 
     - name: Notify telegram failure
       if: ${{ failure()  || cancelled() }}
@@ -58,4 +58,4 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         format: markdown
         message: |
-          🔴 [Update immo_ginto_zugaenglichkeit Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
+          🔴 [Update hdb_immo_ginto_zugaenglichkeit Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
