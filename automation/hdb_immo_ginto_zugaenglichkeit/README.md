@@ -1,13 +1,13 @@
-Update immo_ginto_zugaenglichkeit
+Update hdb_immo_ginto_zugaenglichkeit
 ====================
 
 |  | Beschreibung |
 | - | - |
-| **Status:**  | [![Update immo_ginto_zugaenglichkeit](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_immo_ginto_zugaenglichkeit.yml/badge.svg)](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_immo_ginto_zugaenglichkeit.yml) |
-| **Workflow:**       | [`update_immo_ginto_zugaenglichkeit.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_immo_ginto_zugaenglichkeit.yml) |
+| **Status:**  | [![Update hdb_immo_ginto_zugaenglichkeit](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_hdb_immo_ginto_zugaenglichkeit.yml/badge.svg)](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_hdb_immo_ginto_zugaenglichkeit.yml) |
+| **Workflow:**       | [`update_hdb_immo_ginto_zugaenglichkeit.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_hdb_immo_ginto_zugaenglichkeit.yml) |
 | **Quelle:**         | [Ginto API](https://api.ginto.guide/graphql) |
-| **Datensatz INT:**  | [Informationen zur Zugänglichkeit öffentlicher Gebäude der Stadt Zürich (data.integ.stadt-zuerich.ch)](https://data.integ.stadt-zuerich.ch/dataset/immo_ginto_zugaenglichkeit) |
-| **Datensatz PROD:** | [Informationen zur Zugänglichkeit öffentlicher Gebäude der Stadt Zürich (data.stadt-zuerich.ch)](https://data.stadt-zuerich.ch/dataset/immo_ginto_zugaenglichkeit)  |
+| **Datensatz INT:**  | [Informationen zur Zugänglichkeit öffentlicher Gebäude der Stadt Zürich (data.integ.stadt-zuerich.ch)](https://data.integ.stadt-zuerich.ch/dataset/hdb_immo_ginto_zugaenglichkeit) |
+| **Datensatz PROD:** | [Informationen zur Zugänglichkeit öffentlicher Gebäude der Stadt Zürich (data.stadt-zuerich.ch)](https://data.stadt-zuerich.ch/dataset/hdb_immo_ginto_zugaenglichkeit)  |
 
 Dieser Workflow lädt Daten von der GraphQL-API von [Ginto](https://www.ginto.guide/). Details zur Schnittstelle finden sich hier: https://about.ginto.guide/course/api. Über den Postman Account von OpenDataZurich können die Queries auch genauer inspiziert werden.
 
