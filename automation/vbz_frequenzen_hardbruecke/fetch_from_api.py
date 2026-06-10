@@ -28,9 +28,9 @@ payload = {
 
 # defining start- end date
 today = datetime.today()
-start_date = today - timedelta(days=5) # look 3 days back > if error occurs and fixed within 3 days, downtime data will be reincluded
+start_date = today - timedelta(days=4) # look 3 days back > if error occurs and fixed within 3 days, downtime data will be reincluded
 start_date = start_date.strftime("%Y%m%d")
-end_date = today + timedelta(days=-3) # some date in the future > will include the latest data
+end_date = today + timedelta(days=-2) # some date in the future > will include the latest data
 end_date = end_date.strftime("%Y%m%d")
 
 # defining granularity of data / select locations
