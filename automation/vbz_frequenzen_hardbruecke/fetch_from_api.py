@@ -11,19 +11,24 @@ from dotenv import load_dotenv, find_dotenv
 import re
 load_dotenv(find_dotenv())
 
+TOKEN_URL = "https://identity.ase.solutions/realms/production/protocol/openid-connect/token"
+BASE_URL = "https://arlas.ase.solutions/v2"
+
 # api access
-url = "https://zuerich.pas.ch/v2/api/Auth/login"
-url2 = "https://zuerich.pas.ch/v2" # EDIT THIS TO PUT THE BASE URL
+url = f"{BASE_URL}/api/Auth/login"
+
 
 # credentials
 payload = {
     'username': os.getenv('VBZ_SSZ_USER_N'),         # ENTER THE USERNAME
     'password': os.getenv('VBZ_SSZ_PASSWORD_N'),           # ENTER THE PASSWORD
+    'grant_type': 'password',
+    'client_id': 'arlas-api',
 }
 
 # defining start- end date
 today = datetime.today()
-start_date = today - timedelta(days=3) # look 3 days back > if error occurs and fixed within 3 days, downtime data will be reincluded
+start_date = today - timedelta(days=1) # look 3 days back > if error occurs and fixed within 3 days, downtime data will be reincluded
 start_date = start_date.strftime("%Y%m%d")
 end_date = today + timedelta(days=1) # some date in the future > will include the latest data
 end_date = end_date.strftime("%Y%m%d")
@@ -36,9 +41,12 @@ try:
 
     ## getting data
 
-    bearer = requests.request("POST", url, json=payload)
-    token = bearer.json()['accessToken']
-    headers = {"Authorization": "Bearer " + token}
+    # auth for session
+    session = requests.Session()
+    response = session.post(TOKEN_URL, data=payload)
+    response.raise_for_status()
+    token = response.json()["access_token"]
+    session.headers.update({"Authorization": f"Bearer {token}"})
 
     count = pd.DataFrame(columns=['DateId', 'Granularity', 'LocationName', 'TimeId', 'InCount', 'OutCount'])
     locations = pd.DataFrame(columns=['Id', 'LocalName', 'Code', 'CodeAlt', 'GlobalName', 'PathId', 'GeoCoordinateId', 'Type'])
@@ -47,18 +55,18 @@ try:
 
         final_df = pd.DataFrame(columns=['DateId', 'Granularity', 'LocationId', 'TimeId', 'InCount', 'OutCount'])
         # Fetch the locationid for the required location
-        response = requests.get(url2 + "/api/location?$filter=LocalName eq '" + location_name + "'", headers=headers)
+        response = session.get(BASE_URL + "/api/location?$filter=LocalName eq '" + location_name + "'")
         location_json = response.json()['value']
 
         # Fetch the count for the required location. This will return us count data of all the sublocations, if the selected location is not a leaf node.
-        count_url = url2 + "/api/count(" + location_json[0]['Id'] + ")" + "?$filter=DateId ge " + str(
+        count_url = BASE_URL + "/api/count(" + location_json[0]['Id'] + ")" + "?$filter=DateId ge " + str(
             start_date) + " and DateId lt " + str(end_date) + " and Granularity eq '" + granularity + "'"
         count_json = {'@odata.nextLink': count_url}
 
         while '@odata.nextLink' in count_json:
             # print('url: ' + count_json['@odata.nextLink'])
             count_url = count_json['@odata.nextLink']
-            response = requests.get(count_url, headers=headers)
+            response = session.get(count_url)
 
             count_json = response.json()
             values = count_json['value']
