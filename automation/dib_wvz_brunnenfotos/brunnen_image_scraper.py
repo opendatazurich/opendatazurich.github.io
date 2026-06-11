@@ -77,7 +77,7 @@ def build_brunnen_webseiten(df: pd.DataFrame) -> pd.DataFrame:
 
     df["brunnen_webseite"] = (
         BRUNNEN_URL_PREFIX
-        + df["stadtkreis"].astype(str)
+        + df["stadtkreis"].astype("Int64").astype(str)
         + "/"
         + df["brunnennummer"].str.replace(".", "_", regex=False)
     )
