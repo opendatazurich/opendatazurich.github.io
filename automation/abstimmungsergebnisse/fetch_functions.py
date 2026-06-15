@@ -63,6 +63,8 @@ def get_kantonale_resultate(url_list):
     # initalizing empty list to store all data.frames / empty dicionary for all general infos about a vorlage
     df_tot = pd.DataFrame()
     vorlagen_info = {}
+    # quickfix: DO NOT USE IN PROD! drop wrong url in https://opendata.swiss/de/dataset/echtzeitdaten-am-abstimmungstag-zu-kantonalen-abstimmungsvorlagen/resource/241f8fb3-ff6c-4e5c-9895-ff3fdb8ed26a
+    url_list = [url for url in url_list if url != "http:// "]
 
     for i in url_list:
 
