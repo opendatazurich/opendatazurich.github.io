@@ -6,14 +6,14 @@ from datetime import datetime, timedelta
 # Documentation:https://zuerich.pas.ch/v2/swagger/index.html
 # functions
 
-def get_auth_header(url, credentials, headers, proxies, verify):
-    bearer = requests.post(url + "/v2/api/Auth/login", json=credentials, headers=headers, 
+def get_auth_header(url, payload, proxies, verify):
+    response = requests.post(url, data=payload, 
                             proxies=proxies, 
                             verify=verify)
-    if bearer.status_code != 200:
-        raise Exception("Failed to authenticate: {bearer.text}")
+    if response.status_code != 200:
+        raise Exception(f"Failed to authenticate: {response.status_code} | {response.text}")
 
-    token = bearer.json().get('accessToken')
+    token = response.json().get('access_token')
     headers = {"Authorization": "Bearer " + token}
 
     return headers
