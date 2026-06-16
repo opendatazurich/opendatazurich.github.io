@@ -1,7 +1,9 @@
 # some parameters and constants to control the ase_api_call.py
 
 # base url for api
-BASE_URL = "https://zuerich.pas.ch"
+BASE_URL = "https://arlas.ase.solutions"
+# token url for auth
+TOKEN_URL = "https://identity.ase.solutions/realms/production/protocol/openid-connect/token"
 
 # export filenames
 FILEPATH_LOCATIONS = "Koordinaten.csv"
@@ -11,7 +13,7 @@ FILEPATH_COUNTER = "Badi_Besuch.csv"
 LOCAL_EXECUTION = False
 
 # Laut Schnittstellenbeschreibung: Je nach Granularity kann man verschieden viele Tage abfragen
-# https://zuerich.pas.ch/v2/swagger/index.html
+# https://arlas.ase.solutions/v2/swagger/index.html
 GRANULARITY_RANGE = {
     "OneMinute": 1,
     "FiveMinutes": 5,

@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 # Einstellungen und constanten
 # base url
 url = ase_p.BASE_URL # base url for api
+token_url = ase_p.TOKEN_URL
 # filepaths for exports
 filepath_locations = ase_p.FILEPATH_LOCATIONS
 filepath_counter = ase_p.FILEPATH_COUNTER
@@ -38,14 +39,13 @@ start_date = ase.compute_start_date(end_date, granularity, granularity_range, da
 
 
 # setup for requests
-credentials = {
+payload = {
     'username': ASE_USERNAME, 
     'password': ASE_PASSWORD,
+    'grant_type': 'password',
+    'client_id': 'arlas-api',
 }
 
-headers = {
-    'Content-Type': 'application/json',
-}
 
 if local_execution:
     proxies = {
@@ -62,7 +62,7 @@ else:
 
 
 # get auth header for api calls
-ase_headers = ase.get_auth_header(url, credentials, headers, proxies, verify=verify)
+ase_headers = ase.get_auth_header(token_url, payload, proxies=proxies, verify=verify)
 
 # get location data
 location_df = ase.get_location_names_by_type(url,location_type="Mall", headers=ase_headers, proxies=proxies, verify=verify, filter_locations=valid_locations)
