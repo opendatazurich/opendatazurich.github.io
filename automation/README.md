@@ -106,9 +106,9 @@ jobs:
       run: |
         if git diff -w --no-ext-diff --quiet
         then
-          echo '::set-output name=changed::0'
+          echo "changed=0" >> $GITHUB_OUTPUT
         else
-          echo '::set-output name=changed::1'
+          echo "changed=1" >> $GITHUB_OUTPUT
         fi
       id: changes
       
@@ -231,9 +231,9 @@ Einige Workflow pflegen die Daten direkt im Repository, wenn also eine Datei ver
   run: |
     if git diff -w --no-ext-diff --quiet
     then
-      echo '::set-output name=changed::0'
+      echo "changed=0" >> $GITHUB_OUTPUT
     else
-      echo '::set-output name=changed::1'
+      echo "changed=1" >> $GITHUB_OUTPUT
     fi
   id: changes
       
