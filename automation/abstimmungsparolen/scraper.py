@@ -9,6 +9,8 @@ import sys
 import os
 import traceback
 
+from vote_dates import get_next_scheduled_vote
+
 
 __location__ = os.path.realpath(
     os.path.join(
@@ -23,14 +25,6 @@ def get_json(url):
     r = session.get(url)
     r.raise_for_status()
     return r.json()
-
-
-def get_vote_dates():
-    abst_dates = pd.read_html('https://www.bk.admin.ch/ch/d/pore/va/vab_1_3_3_1.html')[0]
-    abst_df = abst_dates.melt(id_vars=["Jahr"], value_vars=["1. Quartal", "2. Quartal", "3. Quartal", "4. Quartal"], var_name="Quartal")
-    abst_df = abst_df.dropna()
-    abst_df = abst_df.sort_values(by=['Jahr', 'Quartal']).reset_index(drop=True)
-    return abst_df.to_dict('records')
 
 
 def insert_or_update(parole, conn):
@@ -89,16 +83,17 @@ try:
     DATABASE_NAME = os.path.join(__location__, 'data.sqlite')
     conn = sqlite3.connect(DATABASE_NAME)
 
-    # get vote dates
-    vote_dates = get_vote_dates()
-    next_vote = next(a for a in vote_dates if not a['value'].startswith('N'))
-    m = re.match(r"(?P<day>\d{2}).(?P<month>\d{2}).(?P<year>\d{4})", next_vote['value'])
-    datum = f"{m['year']}-{m['month']}-{m['day']}"
+    # get next vote date (via LINDAS)
+    next_vote = get_next_scheduled_vote()
+    if next_vote is None:
+        print("No upcoming scheduled vote found", file=sys.stderr)
+        sys.exit(0)
+    datum = next_vote.isoformat()
 
     # get paroles of current votes
     geolevel = 3
     bfsnr = 261
-    vorlage_url = f"https://app.statistik.zh.ch/wahlen_abstimmungen/data_prod/geschaefte/{geolevel}_{bfsnr}_{m['year']}{m['month']}{m['day']}/Vorlagen.json"
+    vorlage_url = f"https://app.statistik.zh.ch/wahlen_abstimmungen/data_prod/geschaefte/{geolevel}_{bfsnr}_{next_vote:%Y%m%d}/Vorlagen.json"
     
     r = session.get(vorlage_url)
     if r.status_code != requests.codes.ok:
