@@ -29,7 +29,7 @@ jobs:
     - name: "Set up Python"
       uses: actions/setup-python@v6
       with:
-        python-version: 3.12
+        python-version: 3.14
 
     - name: Install requirements
       run: uv pip install -r automation/automation-requirements.txt
@@ -53,7 +53,7 @@ jobs:
       run: rm gcp-key.json
 
     - name: Upload dropped rows as artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: download-tracking-dropped
         path: ogd_katalog_downloads_*_dropped.parquet
