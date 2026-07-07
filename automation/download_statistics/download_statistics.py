@@ -175,7 +175,7 @@ if __name__ == "__main__":
     logger.info(f"Jahr: {year}")
 
     # only for local testing
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\\Users\\sszgua\\Python\\jupyter\\ogd\\webstatistiken\\google-download-tracking-sa.json" #"ogd/webstatistiken/google-download-tracking-sa.json"
+    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ogd/webstatistiken/google-download-tracking-sa.json"
 
 
     load_dotenv(override=True)
