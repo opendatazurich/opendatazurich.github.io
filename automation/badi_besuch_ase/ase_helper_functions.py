@@ -149,7 +149,7 @@ def export_badi_counter(badi_counter, export_filepath):
     :param export_filepath: Path and filename of the output file
     """
     cols = ["LocationId","LocationName", "Datetime", "InCount", "OutCount", "OccupancyMax"]
-    badi_counter[cols].tail(50).to_csv(export_filepath, index=False)
+    badi_counter[cols].to_csv(export_filepath, index=False)
     print("Exported Badi counter data to:", export_filepath)
 
 def format_timestamp(df):
