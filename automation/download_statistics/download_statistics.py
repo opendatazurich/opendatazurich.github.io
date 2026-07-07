@@ -1,7 +1,7 @@
-# pip install google-cloud-storage
 import os
 import io
 import sys
+import logging
 import pandas as pd
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
@@ -9,12 +9,27 @@ from google.cloud import storage
 from ckanapi import RemoteCKAN, NotFound, NotAuthorized
 import requests
 
-#functions
+import add_metadata
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+logger = logging.getLogger(__name__)
+
+
+# functions
 
 def download_from_gcs(use_rolling_1_month_bool, bucket_name, download_folder=""):
     """
-    Decide if we need the file from yesterday or from the complete last month and download it from google cloud storage.
-    Return the path to the downloaded file
+    Download file from Google Cloud Storage.
+    Decides based on use_rolling_1_month_bool whether to fetch yesterday's file or the rolling 1-month file.
+
+    :param use_rolling_1_month_bool: if True, download rolling 1-month file; otherwise download yesterday's file
+    :param bucket_name: name of the GCS bucket
+    :param download_folder: local folder to download the file to
+    :return: path to the downloaded file
+    :rtype: str
     """
 
     if use_rolling_1_month_bool:
@@ -22,14 +37,14 @@ def download_from_gcs(use_rolling_1_month_bool, bucket_name, download_folder="")
     else:
         # get yesterdays date
         yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y_%m_%d') # for daily triggering (override for manual date)
-        print("yesterday:", yesterday)
+        logger.info(f"Gestriges Datum: {yesterday}")
         source_blob_name = f"download_tracking_{yesterday}.csv"
 
     # The path to which the file should be downloaded
     destination_file_name = os.path.join(download_folder, source_blob_name)
 
     storage_client = storage.Client()
-    print("Get bucket:", bucket_name)
+    logger.info(f"Hole Bucket: {bucket_name}")
     bucket = storage_client.bucket(bucket_name)
 
 
@@ -38,7 +53,7 @@ def download_from_gcs(use_rolling_1_month_bool, bucket_name, download_folder="")
     # any content from Google Cloud Storage. As we don't need additional data,
     # using `Bucket.blob` is preferred here.
     blob = bucket.blob(source_blob_name)
-    print("Downloading", source_blob_name,"to",destination_file_name)
+    logger.info(f"Lade {source_blob_name} herunter nach {destination_file_name}")
     blob.download_to_filename(destination_file_name)
 
     return destination_file_name
@@ -46,30 +61,31 @@ def download_from_gcs(use_rolling_1_month_bool, bucket_name, download_folder="")
 
 def load_current_file(filename):
     """
-    Load the file that what downloaded into df
+    Load CSV file into a dataframe.
+
+    :param filename: path to the CSV file
+    :return: dataframe with parsed date column
+    :rtype: pd.DataFrame
     """
     df_new = pd.read_csv(filename, parse_dates=['date'])
     return df_new
 
 
 
-def add_missing_metadata():
+def get_historical_data(year, dataset_name, base_url, api_key):
     """
-    Add metadata from CKAN-API in case it is missing
-    """
-    pass
+    Download parquet with historical data from OGD catalogue.
+    Checks if there is a resource for the current year.
 
-
-
-def get_historical_data(ckan, year, dataset_name):
+    :param year: year to look for (e.g. "2026")
+    :param dataset_name: CKAN dataset name
+    :param base_url: CKAN base URL
+    :param api_key: CKAN API key
+    :return: dataframe with historical data
+    :rtype: pd.DataFrame
     """
-    Download parquet with historical data from OGD catalogue. Checks if there is a ressource for the current year.
-        Needs 
-        - ckan connection
-        - year
-        - dataset_name
-    return pandas df
-    """
+    ckan = RemoteCKAN(base_url, apikey=api_key)
+
     dataset = ckan.action.package_show(id=dataset_name)
     resources = dataset["resources"]
     # check, if we already have a parquet file for the current year
@@ -78,31 +94,43 @@ def get_historical_data(ckan, year, dataset_name):
             resource_id = resource["id"]
             break
 
-    download_url = f"{BASE_URL}/dataset/{dataset_name}/resource/{resource_id}/download"
-    print("Download URL:", download_url)
+    download_url = f"{base_url}/dataset/{dataset_name}/resource/{resource_id}/download"
+    logger.info(f"Download-URL: {download_url}")
 
     # Versuche Datei herunterzuladen
-    headers = {"Authorization": API_KEY}
+    headers = {"Authorization": api_key}
     response = requests.get(download_url, headers=headers)
 
     if response.status_code == 200:
         file_like = io.BytesIO(response.content)
         df = pd.read_parquet(file_like)
-        print("Datei geladen")
+        logger.info("Datei geladen")
     else:
-        print(f"Fehler beim Download: {response.status_code} - {response.text}")
+        logger.error(f"Fehler beim Download: {response.status_code} - {response.text}")
 
 
     return df
 
-def concat_historical_and_current_data(df_all, df_new, year):
+def concat_historical_and_current_data(df_all, df_new, year, cols_to_keep):
     """
-    Check if current data is already in historical data (and delete if so).
-    Add current data to historical data
+    Merge current data into historical data.
+    Removes any dates from the historical data that are also present in the new data to avoid duplicates.
+
+    :param df_all: historical data
+    :param df_new: new data to add
+    :param year: only keep data from this year onwards
+    :param cols_to_keep: list of columns to retain
+    :return: merged and deduplicated dataframe
+    :rtype: pd.DataFrame
     """
+
+    # select columns
+    df_all = df_all[cols_to_keep]
+    df_new = df_new[cols_to_keep]
+
     # Hole die eindeutigen Datumswerte aus df
     dates_to_remove = df_new['date'].unique()
-    print("dropping dates from existing data, if present:", dates_to_remove)
+    logger.info(f"Entferne folgende Daten aus bestehenden Daten (falls vorhanden): {dates_to_remove}")
 
     # Entferne die Zeilen aus df_all, deren 'date' in dates_to_remove enthalten ist
     df_all_filtered = df_all[~df_all['date'].isin(dates_to_remove)]
@@ -117,56 +145,73 @@ def concat_historical_and_current_data(df_all, df_new, year):
     # sort
     df_compl = df_compl.sort_values(by=list(df_compl))
 
-    print("New df has dates from:", df_compl['date'].min(), " to ", df_compl['date'].max())
+    logger.info(f"Neuer Datensatz enthält Daten von {df_compl['date'].min()} bis {df_compl['date'].max()}")
 
     return df_compl
 
-def save_updated_data_to_file(df, upload_filename, year):
+def save_updated_data_to_file(df, upload_filename, year, dropped):
     """
-    Save to CSV and parquet
+    Save dataframe to CSV and parquet.
+    Also saves dropped rows as a parquet artifact for debugging.
+
+    :param df: main dataframe to save
+    :param upload_filename: base filename (year will be appended)
+    :param year: year suffix for the filename
+    :param dropped: rows that were dropped, saved as a separate parquet for debugging
     """
     upload_filename_year = upload_filename + "_" + year
-    print("write parquet and csv to: ", upload_filename)
+    logger.info(f"Schreibe Parquet und CSV nach: {upload_filename_year}")
     df.to_parquet(f"{upload_filename_year}.parquet")
     df.to_csv(f"{upload_filename_year}.csv", index=False)
+    # save this as artifact for debugging
+    dropped.to_parquet(f"{upload_filename_year}_dropped.parquet")
+
+if __name__ == "__main__":
+
+    COLS_TO_EXPORT = ["date","dataset_name","resource_name","resource_id","distinct_ips","user_agent","url","datastore_search_sql_query","hit_count"]
+
+    # arguments
+    year = sys.argv[1]
+    logger.info(f"Jahr: {year}")
+
+    # only for local testing
+    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ogd/webstatistiken/google-download-tracking-sa.json"
 
 
+    load_dotenv(override=True)
+    # for distinction: use file from yesterday, oder complete last month
+    # needs an input for the github workflow (default false)
 
-# arguments
-year = sys.argv[1]
-print("year", year)
+    USE_ROLLING_1_MONTH = os.getenv("USE_ROLLING_1_MONTH")
+    logger.info(f"USE_ROLLING_1_MONTH: {USE_ROLLING_1_MONTH}")
+    # convert string to bool
+    use_rolling_1_month_bool = bool(USE_ROLLING_1_MONTH.lower() == "true")
 
-# only for local testing
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "ogd/webstatistiken/google-download-tracking-sa.json"
+    # bucket name from google cloud
+    bucket_name = "ssz-download-tracking"
 
-
-load_dotenv(override=True)
-# for distinction: use file from yesterday, oder complete last month
-# needs an input for the github workflow (default false)
-
-USE_ROLLING_1_MONTH = os.getenv("USE_ROLLING_1_MONTH")
-print("USE_ROLLING_1_MONTH:", USE_ROLLING_1_MONTH)
-# convert string to bool
-use_rolling_1_month_bool = bool(USE_ROLLING_1_MONTH.lower() == "true")
-
-# bucket name from google cloud
-bucket_name = "ssz-download-tracking"
-
-#connect to ckan
-BASE_URL = os.getenv('CKAN_BASE_URL')
-API_KEY = os.getenv('CKAN_API_KEY')
-ckan = RemoteCKAN(BASE_URL, apikey=API_KEY)
-df_all = get_historical_data(ckan, year=year, dataset_name = "prd_ssz_ogd_katalog_downloads")
-destination_file_name = download_from_gcs(use_rolling_1_month_bool, bucket_name)
-df_new = load_current_file(destination_file_name)
-print(df_new)
+    #connect to ckan
+    BASE_URL = os.getenv('CKAN_BASE_URL')
+    API_KEY = os.getenv('CKAN_API_KEY')
+    df_all = get_historical_data(year=year, dataset_name = "prd_ssz_ogd_katalog_downloads", base_url=BASE_URL, api_key=API_KEY)
+    destination_file_name = download_from_gcs(use_rolling_1_month_bool, bucket_name)
+    df_new = load_current_file(destination_file_name)
+    logger.info(f"\n{df_new}")
 
 
+    # add additional metadata here
+    to_keep, to_drop = add_metadata.add_metadata(df_new)
 
+    df_compl = concat_historical_and_current_data(
+        df_all, 
+        to_keep, 
+        year,
+        COLS_TO_EXPORT
+    )
 
-# add additional metadata here
-# ...
-
-df_compl = concat_historical_and_current_data(df_all, df_new, year)
-
-save_updated_data_to_file(df_compl, upload_filename='ogd_katalog_downloads', year=year)
+    save_updated_data_to_file(
+        df_compl, 
+        upload_filename='ogd_katalog_downloads', 
+        year=year,
+        dropped=to_drop,
+    )

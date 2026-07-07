@@ -17,7 +17,7 @@ on:
 jobs:
   update_data_py:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 15
     environment: production
 
     steps:
@@ -29,7 +29,7 @@ jobs:
     - name: "Set up Python"
       uses: actions/setup-python@v6
       with:
-        python-version: 3.12
+        python-version: 3.14
 
     - name: Install requirements
       run: uv pip install -r automation/automation-requirements.txt
@@ -52,6 +52,13 @@ jobs:
     - name: Clean up
       run: rm gcp-key.json
 
+    - name: Upload dropped rows as artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: download-tracking-dropped
+        path: ogd_katalog_downloads_*_dropped.parquet
+        retention-days: 30
+
     - name: Upload file to CKAN
       env:
         CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
@@ -71,4 +78,4 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         format: markdown
         message: |
-          🔴 [VBZ Frequenzen Job Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
+          🔴 [Update Download Statistics Job Failed](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
