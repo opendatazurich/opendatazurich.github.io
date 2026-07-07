@@ -22,8 +22,14 @@ logger = logging.getLogger(__name__)
 
 def download_from_gcs(use_rolling_1_month_bool, bucket_name, download_folder=""):
     """
-    Decide if we need the file from yesterday or from the complete last month and download it from google cloud storage.
-    Return the path to the downloaded file
+    Download file from Google Cloud Storage.
+    Decides based on use_rolling_1_month_bool whether to fetch yesterday's file or the rolling 1-month file.
+
+    :param use_rolling_1_month_bool: if True, download rolling 1-month file; otherwise download yesterday's file
+    :param bucket_name: name of the GCS bucket
+    :param download_folder: local folder to download the file to
+    :return: path to the downloaded file
+    :rtype: str
     """
 
     if use_rolling_1_month_bool:
@@ -31,14 +37,14 @@ def download_from_gcs(use_rolling_1_month_bool, bucket_name, download_folder="")
     else:
         # get yesterdays date
         yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y_%m_%d') # for daily triggering (override for manual date)
-        logger.info(f"Yesterday: {yesterday}")
+        logger.info(f"Gestriges Datum: {yesterday}")
         source_blob_name = f"download_tracking_{yesterday}.csv"
 
     # The path to which the file should be downloaded
     destination_file_name = os.path.join(download_folder, source_blob_name)
 
     storage_client = storage.Client()
-    logger.info(f"Get bucket: {bucket_name}")
+    logger.info(f"Hole Bucket: {bucket_name}")
     bucket = storage_client.bucket(bucket_name)
 
 
@@ -47,7 +53,7 @@ def download_from_gcs(use_rolling_1_month_bool, bucket_name, download_folder="")
     # any content from Google Cloud Storage. As we don't need additional data,
     # using `Bucket.blob` is preferred here.
     blob = bucket.blob(source_blob_name)
-    logger.info(f"Downloading {source_blob_name} to {destination_file_name}")
+    logger.info(f"Lade {source_blob_name} herunter nach {destination_file_name}")
     blob.download_to_filename(destination_file_name)
 
     return destination_file_name
@@ -55,7 +61,11 @@ def download_from_gcs(use_rolling_1_month_bool, bucket_name, download_folder="")
 
 def load_current_file(filename):
     """
-    Load the file that what downloaded into df
+    Load CSV file into a dataframe.
+
+    :param filename: path to the CSV file
+    :return: dataframe with parsed date column
+    :rtype: pd.DataFrame
     """
     df_new = pd.read_csv(filename, parse_dates=['date'])
     return df_new
@@ -64,13 +74,15 @@ def load_current_file(filename):
 
 def get_historical_data(year, dataset_name, base_url, api_key):
     """
-    Download parquet with historical data from OGD catalogue. Checks if there is a ressource for the current year.
-        Needs 
-        - year
-        - dataset_name
-        - base_url
-        - api_key
-    return pandas df
+    Download parquet with historical data from OGD catalogue.
+    Checks if there is a resource for the current year.
+
+    :param year: year to look for (e.g. "2026")
+    :param dataset_name: CKAN dataset name
+    :param base_url: CKAN base URL
+    :param api_key: CKAN API key
+    :return: dataframe with historical data
+    :rtype: pd.DataFrame
     """
     ckan = RemoteCKAN(base_url, apikey=api_key)
 
@@ -83,7 +95,7 @@ def get_historical_data(year, dataset_name, base_url, api_key):
             break
 
     download_url = f"{base_url}/dataset/{dataset_name}/resource/{resource_id}/download"
-    logger.info(f"Download URL: {download_url}")
+    logger.info(f"Download-URL: {download_url}")
 
     # Versuche Datei herunterzuladen
     headers = {"Authorization": api_key}
@@ -101,8 +113,15 @@ def get_historical_data(year, dataset_name, base_url, api_key):
 
 def concat_historical_and_current_data(df_all, df_new, year, cols_to_keep):
     """
-    Check if current data is already in historical data (and delete if so).
-    Add current data to historical data
+    Merge current data into historical data.
+    Removes any dates from the historical data that are also present in the new data to avoid duplicates.
+
+    :param df_all: historical data
+    :param df_new: new data to add
+    :param year: only keep data from this year onwards
+    :param cols_to_keep: list of columns to retain
+    :return: merged and deduplicated dataframe
+    :rtype: pd.DataFrame
     """
 
     # select columns
@@ -111,7 +130,7 @@ def concat_historical_and_current_data(df_all, df_new, year, cols_to_keep):
 
     # Hole die eindeutigen Datumswerte aus df
     dates_to_remove = df_new['date'].unique()
-    logger.info(f"Dropping dates from existing data, if present: {dates_to_remove}")
+    logger.info(f"Entferne folgende Daten aus bestehenden Daten (falls vorhanden): {dates_to_remove}")
 
     # Entferne die Zeilen aus df_all, deren 'date' in dates_to_remove enthalten ist
     df_all_filtered = df_all[~df_all['date'].isin(dates_to_remove)]
@@ -126,16 +145,22 @@ def concat_historical_and_current_data(df_all, df_new, year, cols_to_keep):
     # sort
     df_compl = df_compl.sort_values(by=list(df_compl))
 
-    logger.info(f"New df has dates from: {df_compl['date'].min()} to {df_compl['date'].max()}")
+    logger.info(f"Neuer Datensatz enthält Daten von {df_compl['date'].min()} bis {df_compl['date'].max()}")
 
     return df_compl
 
 def save_updated_data_to_file(df, upload_filename, year, dropped):
     """
-    Save to CSV and parquet
+    Save dataframe to CSV and parquet.
+    Also saves dropped rows as a parquet artifact for debugging.
+
+    :param df: main dataframe to save
+    :param upload_filename: base filename (year will be appended)
+    :param year: year suffix for the filename
+    :param dropped: rows that were dropped, saved as a separate parquet for debugging
     """
     upload_filename_year = upload_filename + "_" + year
-    logger.info(f"Write parquet and csv to: {upload_filename_year}")
+    logger.info(f"Schreibe Parquet und CSV nach: {upload_filename_year}")
     df.to_parquet(f"{upload_filename_year}.parquet")
     df.to_csv(f"{upload_filename_year}.csv", index=False)
     # save this as artifact for debugging
@@ -147,7 +172,7 @@ if __name__ == "__main__":
 
     # arguments
     year = sys.argv[1]
-    logger.info(f"Year: {year}")
+    logger.info(f"Jahr: {year}")
 
     # only for local testing
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\\Users\\sszgua\\Python\\jupyter\\ogd\\webstatistiken\\google-download-tracking-sa.json" #"ogd/webstatistiken/google-download-tracking-sa.json"

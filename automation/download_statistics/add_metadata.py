@@ -45,7 +45,7 @@ def get_ckan_metadata(ckan_url):
     :return: df with metadata
     :rtype: pd.DataFrame
     """
-    logger.info(f"Getting CKAN metadata from {ckan_url}")
+    logger.info(f"Hole CKAN-Metadaten von {ckan_url}")
     r = requests.get(ckan_url)
     ckan = pd.DataFrame(json.loads(r.content)['result'])
 
@@ -82,12 +82,15 @@ def dataset_to_resource(all_packages, prefix_resource_cols, resource_cols_to_kee
 
 def get_historical_data(year, dataset_name, base_url, api_key):
     """
-    Download parquet with historical data from OGD catalogue. Checks if there is a ressource for the current year.
-        Needs
-        - ckan connection
-        - year
-        - dataset_name
-    return pandas df
+    Download parquet with historical data from OGD catalogue.
+    Checks if there is a resource for the current year.
+
+    :param year: year to look for (e.g. "2026")
+    :param dataset_name: CKAN dataset name
+    :param base_url: CKAN base URL
+    :param api_key: CKAN API key
+    :return: dataframe with historical data
+    :rtype: pd.DataFrame
     """
     ckan = RemoteCKAN(base_url, apikey=api_key)
     dataset = ckan.action.package_show(id=dataset_name)
@@ -98,7 +101,7 @@ def get_historical_data(year, dataset_name, base_url, api_key):
             resource_id = resource["id"]
 
     download_url = f"{base_url}/dataset/{dataset_name}/resource/{resource_id}/download"
-    logger.info(f"Download URL: {download_url}")
+    logger.info(f"Download-URL: {download_url}")
 
     # Versuche Datei herunterzuladen
     headers = {"Authorization": api_key}
@@ -118,19 +121,22 @@ def get_historical_data(year, dataset_name, base_url, api_key):
 
 def extract_resource_id_from_datastore_sql(datopian):
     """
-    Sonderbehandlung datastore_search_sql
-    Hier kann man der URL ein SQL mitgeben. Dabei muss nach dem `FROM` die resource_id kommen. 
-    In den meisten Fällen wird die ID schon korrekt von Datopian extrahiert. 
-    Es gibt aber ein paar Spezialfälle, die wir hier noch abholen.
+    Extract resource_id from datastore_search_sql URLs.
+    In most cases Datopian already extracts the resource_id correctly.
+    This handles edge cases where the resource_id is embedded in a SQL query after FROM.
 
+    Pattern: r'(?i)from(?:%20|[+])%22([0-9a-f-]{36})%22'
+    - (?i)              → case-insensitive (FROM, from, From, ...)
+    - from              → matches the FROM keyword
+    - (?:%20|[+])       → space encoded as %20 or +
+    - %22               → URL-encoded double quote (")
+    - ([0-9a-f-]{36})   → UUID captured as a group
+    - %22               → closing double quote
 
-    pattern = r'(?i)from(?:%20|[+])%22([0-9a-f-]{36})%22'
-    - (?i) → case-insensitive (FROM, from, From, ...)
-    - from → sucht das FROM-Keyword
-    - (?:%20|[+]) → Leerzeichen als %20 oder +
-    - %22 → URL-codiertes Anführungszeichen (")
-    - ([0-9a-f-]{36}) → UUID wird als Capture Group extrahiert
-    - %22 → schliessendes Anführungszeichen
+    :param datopian: dataframe with download stats, must contain columns `url` and `resource_id`
+    :type datopian: pd.DataFrame
+    :return: dataframe with updated resource_id column
+    :rtype: pd.DataFrame
     """
 
     logger.info("Extrahiere resource_id von datastore_search_sql")
@@ -156,12 +162,15 @@ def extract_resource_id_from_datastore_sql(datopian):
 
 def matching_via_resource_id(datopian: pd.DataFrame, ckan_exploded: pd.DataFrame):
     """
-    Matching über resource_id
-    
-    Idee: Teilweise ist die Resource_id schon vorhanden und kann deswegen mit der resource_id von den CKAN Metadaten verknüpft werden. 
-    Dadurch können wir diese Fälle nutzen um später, evtl. fehlende andere Metadaten (dataset_name, resource_name) hinzuzufügen.
+    Join CKAN metadata via resource_id.
+    Where resource_id is already present, it is used to look up dataset_name and resource_name from CKAN.
 
-    :return: merge_resource_id
+    :param datopian: dataframe with download stats
+    :type datopian: pd.DataFrame
+    :param ckan_exploded: CKAN metadata at resource level
+    :type ckan_exploded: pd.DataFrame
+    :return: merged dataframe
+    :rtype: pd.DataFrame
     """
 
     logger.info("Join Metadaten über resource_id")
@@ -193,14 +202,22 @@ def matching_via_resource_id(datopian: pd.DataFrame, ckan_exploded: pd.DataFrame
 
 def matching_via_resource_name(merge_resource_id: pd.DataFrame, ckan_exploded: pd.DataFrame, datopian: pd.DataFrame):
     """
-    Matching über resource_name 
-    Teilweise ist ein resource_name vorhanden, aber kein dataset_name. Deswegen matchen wir über den resource_name und können dann hoffentlich damit einie dataset_name auffüllen.
-    
-    Probleme: 
-    - Einige resource_names enthalten Artefakte am Ende des Dateinamens. Diese werden weggespalten: `ugz_ogd_meteo_h1_2020.csv%5C`
-    - Resource names sind nicht unique. Deswegen kann nur mit denen gematched werden, die unique sind.
+    Join CKAN metadata via resource_name.
+    For rows where resource_name is present but dataset_name is missing,
+    matches on resource_name to fill in dataset_name.
 
-    :return: merge_resource_name
+    Caveats:
+    - Some resource_names contain trailing artefacts (e.g. `ugz_ogd_meteo_h1_2020.csv%5C`) which are stripped first.
+    - Only unique resource_names in CKAN are used for matching to avoid ambiguity.
+
+    :param merge_resource_id: dataframe after resource_id matching
+    :type merge_resource_id: pd.DataFrame
+    :param ckan_exploded: CKAN metadata at resource level
+    :type ckan_exploded: pd.DataFrame
+    :param datopian: original dataframe (used for row count validation)
+    :type datopian: pd.DataFrame
+    :return: merged dataframe
+    :rtype: pd.DataFrame
     """
 
     logger.info("Join Metadaten über resource_name")
@@ -241,9 +258,15 @@ def matching_via_resource_name(merge_resource_id: pd.DataFrame, ckan_exploded: p
 
 def populate_dataset_name(merge_resource_name: pd.DataFrame):
     """
-    Auffüllen von dataset_name, nach fester Hierarchie.
+    Fill dataset_name column using a fixed priority:
+    1. existing dataset_name
+    2. name from resource_id match
+    3. name from resource_name match
 
-    :return: merge_resource_name
+    :param merge_resource_name: dataframe after both matching steps
+    :type merge_resource_name: pd.DataFrame
+    :return: dataframe with updated dataset_name column
+    :rtype: pd.DataFrame
     """
     logger.info("Auffüllen Spalte dataset_name")
 
@@ -264,9 +287,15 @@ def populate_dataset_name(merge_resource_name: pd.DataFrame):
 
 def populate_resource_name(merge_resource_name: pd.DataFrame):
     """
-    Auffüllen von resource_name in neuer Spalte, nach fester Hierarchie.
+    Fill resource_name column using a fixed priority:
+    1. existing resource_name
+    2. name from resource_id match
+    3. name from resource_name match
 
-    :return: merge_resource_name
+    :param merge_resource_name: dataframe after both matching steps
+    :type merge_resource_name: pd.DataFrame
+    :return: dataframe with updated resource_name column
+    :rtype: pd.DataFrame
     """
     logger.info("Auffüllen Spalte resource_name")
 
@@ -286,9 +315,15 @@ def populate_resource_name(merge_resource_name: pd.DataFrame):
 
 def populate_resource_id(merge_resource_name: pd.DataFrame):
     """
-    Auffüllen von Resource_id
+    Fill resource_id column using a fixed priority:
+    1. existing resource_id
+    2. id from resource_id match
+    3. id from resource_name match
 
-    :return: merge_resource_name
+    :param merge_resource_name: dataframe after both matching steps
+    :type merge_resource_name: pd.DataFrame
+    :return: dataframe with updated resource_id column
+    :rtype: pd.DataFrame
     """
     logger.info("Auffüllen Spalte resource_id")
 
@@ -367,7 +402,7 @@ def add_metadata(datopian: pd.DataFrame):
     """
 
 
-    logger.info("Start adding metadata")
+    logger.info("Starte Metadaten-Ergänzung")
 
     # # Hole CKAN Metadaten (auf dataset ebene)
     ckan_url = 'https://data.stadt-zuerich.ch/api/3/action/current_package_list_with_resources?limit=1000'
