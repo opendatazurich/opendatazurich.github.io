@@ -69,6 +69,14 @@ jobs:
         python automation/upload_resource_to_ckan_with_patch.py -f ogd_katalog_downloads_${year}.csv -d prd_ssz_ogd_katalog_downloads
         python automation/upload_resource_to_ckan_with_patch.py -f ogd_katalog_downloads_${year}.parquet -d prd_ssz_ogd_katalog_downloads
 
+    - name: Update CKAN metadata
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+      run: |
+        python automation/xls_to_meta_xml.py -f automation/download_statistics/meta_download_statistics.xlsx --outfile automation/download_statistics/meta.xml --tag github
+        python automation/update_metadata.py -d prd_ssz_ogd_katalog_downloads -f automation/download_statistics/meta.xml
 
     - name: Notify telegram failure
       if: ${{ failure()  || cancelled() }}
