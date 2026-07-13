@@ -10,7 +10,7 @@ jobs:
     environment: production
     strategy:
       matrix:
-        python-version: [3.12]
+        python-version: [3.14]
 
     steps:
     # checkout repos
