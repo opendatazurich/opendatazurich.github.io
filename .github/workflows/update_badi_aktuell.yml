@@ -9,8 +9,8 @@ on:
 jobs:
   update_data_py:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    environment: integration
+    timeout-minutes: 5
+    environment: production
 
     steps:
     - uses: actions/checkout@v6
