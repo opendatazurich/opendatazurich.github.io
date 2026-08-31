@@ -107,11 +107,13 @@ def get_image_url(page_url: str) -> str | None:
         imgs = soup.find_all("img")
         # Index 0: Logo, Index 1: erstes Brunnenbild (pageimage, gross)
         # Index 2: zweites Brunnenbild (texttitleimage, 876px)
-        if len(imgs) >= 3:
+        if len(imgs) >= 2:
             src = imgs[1].get("src")
             if src and src.startswith("/"):
                 src = "https://www.stadt-zuerich.ch" + src
             return src
+        else:
+            logger.info(f"Kein Foto vorhanden {page_url} - {imgs}")
     except Exception as e:
         logger.warning("Scraping fehlgeschlagen (%s): %s", page_url, e)
     return None
@@ -200,6 +202,8 @@ def zip_images(
 def main() -> None:
     brunnen = load_brunnen_data(BRUNNEN_WFS_URL)
     brunnen = build_brunnen_webseiten(brunnen)
+    print(brunnen)
+    brunnen = brunnen.head(100)
     brunnen = scrape_image_urls(brunnen, "brunnen_webseite")
 
     na = int(brunnen["foto_url"].isna().sum())
