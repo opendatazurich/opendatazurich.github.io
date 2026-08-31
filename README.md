@@ -26,6 +26,11 @@ Die Open Data Zurich API Dokumentation bietet eine Übersicht über verschiedene
 1. [Kurs «Crowdsourcing-Daten nutzen» (OpenSteetMap, Wikidata)](/kurs-crowdsourced-data/): Workshop in Form eines Jupyter Notebooks um städtische Daten mit OpenStreetMap und WikiData kombinieren.
 1. [Starter Code](/starter-code/): Einfache Code Vorlagen in Python und R für jeden Datensatz auf https://data.stadt-zuerich.ch/.
 
+## Weitere Projekte
+
+1. [Scientifica 2026 – OGD-Station](/ssz_odz_scientifica/): Interaktive Web-Applikation von Statistik Stadt Zürich für die Ausstellung Scientifica 2026, die den OGD-Katalog, Starter Code, MCP-Abfragen und bestehende OGD-Anwendungen an vier Stationen erlebbar macht.
+1. [Umfrage bei OGD-Katalog-Nutzenden](/umfrage-ogd-katalog/): Auswertung einer Online-Befragung von Statistik Stadt Zürich und der Universität Zürich dazu, wie die offenen Verwaltungsdaten der Stadt Zürich genutzt und wahrgenommen werden.
+
 # Automation
 
 Über das Repository [opendatazurich.github.io](https://github.com/opendatazurich/opendatazurich.github.io) werden einige Datenaktualisierungen des [OGD Katalogs](https://data.stadt-zuerich.ch/) verwaltet. Der Code dazu befindet sich im Unterordner "automation" und wird über Github Actions ausgeführt. Das Monitoring der workflows wird in diesem [Repository](https://github.com/opendatazurich/github_actions_monitor) verwaltet.
