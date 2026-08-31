@@ -8,32 +8,45 @@ D.h. bedeutet, dass initial ein neuer Datensatz manuell angelegt werden muss (en
 
 **Inhaltsverzeichnis:**
 
-- [GitHub Action](#github-actions)
+- [GitHub Actions](#github-actions)
   * [Grundgerüst eines Workflows](#grundgerüst-eines-workflows)
   * [Secrets](#secrets)
   * [Artifakte](#artifakte)
   * [Dateien in Repository pushen](#dateien-in-repository-pushen)
-  * [Daten in CKAN aktualiseren](#daten-in-ckan-aktualiseren)
+  * [Daten in CKAN aktualisieren](#daten-in-ckan-aktualisieren)
   * [Metadaten in CKAN aktualisieren](#metadaten-in-ckan-aktualisieren)
-- [Datensatz-Worflows](#einzelne-workflows)
+- [Datensatz-Workflows](#einzelne-workflows)
+  * [Abstimmungsergebnisse](#abstimmungsergebnisse)
   * [Abstimmungsparolen](#abstimmungsparolen)
+  * [Badi aktuell (Crowdmonitor)](#badi-aktuell-crowdmonitor)
+  * [Badi Besuche (ASE)](#badi-besuche-ase)
+  * [CSV zu Parquet kombinieren](#csv-zu-parquet-kombinieren)
+  * [Dateninventar OGD-Katalog](#dateninventar-ogd-katalog)
+  * [DIB WVZ Brunnenfotos](#dib-wvz-brunnenfotos)
+  * [Download-Statistiken](#download-statistiken)
+  * [HDB Immo Ginto Zugänglichkeit](#hdb-immo-ginto-zugänglichkeit)
   * [Hystreet Fussgängerfrequenzen](#hystreet-fussgängerfrequenzen)
-  * [Museum Rietbert: Himmelheber](#museum-rietbert-himmelheber)
+  * [Museum Rietberg: Himmelheber](#museum-rietberg-himmelheber)
+  * [Museum Rietberg: Kamerun-Objekte](#museum-rietberg-kamerun-objekte)
   * [Museum Rietberg: Patolu](#museum-rietberg-patolu)
-  * [Stadtarchiv: Geschäftsberichte](#stadtarchiv-geschäftsberichte)
   * [Schulferien](#schulferien)
   * [Sonnenscheindauer](#sonnenscheindauer)
+  * [Stadtarchiv: Geschäftsberichte](#stadtarchiv-geschäftsberichte)
+  * [Stadtratsbeschlüsse](#stadtratsbeschlüsse)
   * [Stimmbeteiligung](#stimmbeteiligung)
-  * [WAPO Wetterstationen](#wapo-wetterstationen)
   * [VBZ Passagierfrequenz](#vbz-passagierfrequenz)
-  * [Dateninventar OGD-Katalog](#dateninventar-ogd-katalog)
-- [Hilfs-Worflows](#hilfs-workflows)
-  * [Notifiy Datasets](#notify-datasets)
+  * [WAPO Wetterstationen](#wapo-wetterstationen)
+- [Hilfs-Workflows](#hilfs-workflows)
+  * [Notify Datasets](#notify-datasets)
   * [Tagger](#tagger)
   * [DK-ÜL Export](#dk-ül-export)
   * [Metadaten-Excel Export](#metadaten-excel-export)
   * [Ressourcen sortieren](#ressourcen-sortieren)
   * [Showcases ohne Datasets](#showcases-ohne-datasets)
+  * [Copy Hash](#copy-hash)
+  * [Link Checker](#link-checker)
+  * [Dummy Data](#dummy-data)
+  * [Initial Load VBZ Frequenzen Hardbrücke 2024](#initial-load-vbz-frequenzen-hardbrücke-2024)
 
 ## GitHub Actions
 
@@ -51,7 +64,7 @@ flowchart TD
     Manuell --> Start
     Start --> Repo{Daten geändert im Repo?}
     Repo -->|Ja| Commit(Commit + Push)
-    Repo -->|Nein| DataUpdate(Daten in CKAN aktualiseren)
+    Repo -->|Nein| DataUpdate(Daten in CKAN aktualisieren)
     Commit --> DataUpdate
     DataUpdate --> MetadataUpdate(Metadaten in CKAN aktualisieren)
     MetadataUpdate --> Ende
@@ -79,12 +92,12 @@ jobs:
     environment: production
     strategy:
       matrix:
-        python-version: [3.7]
+        python-version: [3.14]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
@@ -97,7 +110,7 @@ jobs:
       run: automation/abstimmungsparolen/run_scraper.sh
   
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v7
       with:
         name: abstimmungsparolen
         path: automation/abstimmungsparolen/abstimmungsparolen.csv
@@ -174,11 +187,11 @@ jobs:
     environment: production                # Umgebung, wichtig um die richtigen Environment Secrets zu laden (siehe unten)
 
     steps:
-    - uses: actions/checkout@v3            # Repository klonen
-    - name: Set up Python 3.8              # Python 3.8 installieren
-      uses: actions/setup-python@v4
+    - uses: actions/checkout@v6            # Repository klonen
+    - name: Set up Python 3.14             # Python 3.14 installieren
+      uses: actions/setup-python@v6
       with:
-        python-version: 3.8
+        python-version: 3.14
     - name: Install dependencies           # Abhängigkeiten installieren (Software-Pakete, Python Packages)
       run: |
         python -m pip install --upgrade pip
@@ -190,7 +203,7 @@ jobs:
 
 Überall dort wo Passwörter, API-Keys, etc. verwendet werden, können die sogenannten Secrets verwendet werden.
 
-Secrets sind ein Konzept von GitHub Actions, mit welchen sich nicht-öffentliche Informationen gespeichern lassen.
+Secrets sind ein Konzept von GitHub Actions, mit welchen sich nicht-öffentliche Informationen speichern lassen.
 Die [Secrets sind in den Settings ersichtlich](https://github.com/opendatazurich/opendatazurich.github.io/settings/secrets/actions).
 
 Es werden grundsätzlich zwei Arten von Secrets unterschieden: Repository Secrets und Environment Secrets.
@@ -216,7 +229,7 @@ Das kann sinnvoll sein, um besser Debuggen zu können (z.B. für ein Logfile) od
 
 ```yaml
 - name: Upload artifact
-  uses: actions/upload-artifact@v2
+  uses: actions/upload-artifact@v7
   with:
     name: abstimmungsparolen
     path: automation/abstimmungsparolen/abstimmungsparolen.csv
@@ -255,7 +268,7 @@ Falls dieser der Fall ist wird eine Variable `changed` auf `1` gesetzt.
 Die Action, die einen Commit macht, kann dann nur dann ausgeführt werden, wenn auch tatsächlich eine Änderung vorliegt (`if: steps.changes.outputs.changed == 1`).
 Der Commit wird mit dem Benutzer "GitHub Action Bot" und der Email Adresse "opendata@zuerich.ch" durchgeführt.
 
-### Daten in CKAN aktualiseren
+### Daten in CKAN aktualisieren
 
 Für den File-Upload wird das Skript [`upload_resource_to_ckan.py`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan.py) verwendet.
 Es kann eine Datei und ein Dataset-Slug angegeben werden, die angegebene Datei wird dann hochgeladen.
@@ -273,7 +286,7 @@ Andernfalls wird eine neue Ressource hinzugefügt.
     python automation/upload_resource_to_ckan.py -f automation/abstimmungsparolen/abstimmungsparolen.csv -d politik_abstimmungsparolen_gemeindeabstimmung_seit2012
 ```
 
-__UPDATE__: Im Skript [`upload_resource_to_ckan.py`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan.py) verwendet, beim Update einer Resource die CKAN API Funktion ``ckan.action.resource_update``. Wie auf der CKAN API Dokumentation vermerkt, ist es sicherer, die Funktion ``ckan.action.resource_patch`` zu verwenden ('Update methods may delete parameters not explicitly provided in the data_dict. If you want to edit only a specific attribute use resource_patch instead.'). Dafür kann das geannte Skript einfach mit folgendem ersetzt werden: [`upload_resource_to_ckan.py_with_patch`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan_with_patch.py). Zukünftig macht es Sinn, in allen Pipelines diese Skripte entsprechend auszutauschen.
+__UPDATE__: Im Skript [`upload_resource_to_ckan.py`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan.py) wird beim Update einer Resource die CKAN API Funktion ``ckan.action.resource_update`` verwendet. Wie auf der CKAN API Dokumentation vermerkt, ist es sicherer, die Funktion ``ckan.action.resource_patch`` zu verwenden ('Update methods may delete parameters not explicitly provided in the data_dict. If you want to edit only a specific attribute use resource_patch instead.'). Dafür kann das genannte Skript einfach mit folgendem ersetzt werden: [`upload_resource_to_ckan_with_patch.py`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/upload_resource_to_ckan_with_patch.py). Zukünftig macht es Sinn, in allen Pipelines diese Skripte entsprechend auszutauschen.
 
 ### Metadaten in CKAN aktualisieren
 
@@ -303,25 +316,57 @@ Alle Datensätze, die via GitHub Action aktualisiert werden, haben ein OGD-Metad
 
 Jeder Workflow ist in seinem Ordner im jeweiligen README beschrieben.
 
+### Abstimmungsergebnisse
+
+=> [abstimmungsergebnisse/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/abstimmungsergebnisse/README.md)
+
 ### Abstimmungsparolen
 
 => [abstimmungsparolen/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/abstimmungsparolen/README.md)
+
+### Badi aktuell (Crowdmonitor)
+
+=> [badi_aktuell_crowdmonitor/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/badi_aktuell_crowdmonitor/README.md)
+
+### Badi Besuche (ASE)
+
+=> [badi_besuch_ase/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/badi_besuch_ase/README.md)
+
+### CSV zu Parquet kombinieren
+
+=> [combine_csv_to_parquet/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/combine_csv_to_parquet/README.md)
+
+### Dateninventar OGD-Katalog
+
+=> [ogd_metadata/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/ogd_metadata/README.md)
+
+### DIB WVZ Brunnenfotos
+
+=> [dib_wvz_brunnenfotos/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/dib_wvz_brunnenfotos/README.md)
+
+### Download-Statistiken
+
+=> [download_statistics/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/download_statistics/README.md)
+
+### HDB Immo Ginto Zugänglichkeit
+
+=> [hdb_immo_ginto_zugaenglichkeit/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/hdb_immo_ginto_zugaenglichkeit/README.md)
 
 ### Hystreet Fussgängerfrequenzen
 
 => [hystreet_fussgaengerfrequenzen/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/hystreet_fussgaengerfrequenzen/README.md)
 
-### Museum Rietbert: Himmelheber
+### Museum Rietberg: Himmelheber
 
 => [mrz_himmelheber/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/mrz_himmelheber/README.md)
+
+### Museum Rietberg: Kamerun-Objekte
+
+=> [mrz_kamerun_objekte/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/mrz_kamerun_objekte/README.md)
 
 ### Museum Rietberg: Patolu
 
 => [mrz_patolu/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/mrz_patolu/README.md)
-
-### Stadtarchiv: Geschäftsberichte
-
-=> [sar_geschaeftsberichte/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/sar_geschaeftsberichte/README.md)
 
 ### Schulferien
 
@@ -332,6 +377,14 @@ Jeder Workflow ist in seinem Ordner im jeweiligen README beschrieben.
 Nicht produktiv, Test-Scraper für die Sonnenscheindauer.
 
 => [sonnenscheindauer/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/sonnenscheindauer/README.md)
+
+### Stadtarchiv: Geschäftsberichte
+
+=> [sar_geschaeftsberichte/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/sar_geschaeftsberichte/README.md)
+
+### Stadtratsbeschlüsse
+
+=> [stadtratsbeschluesse/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/stadtratsbeschluesse/README.md)
 
 ### Stimmbeteiligung
 
@@ -345,17 +398,13 @@ Nicht produktiv, Test-Scraper für die Sonnenscheindauer.
 
 => [wapo_wetterstationen/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/wapo_wetterstationen/README.md)
 
-### Dateninventar OGD-Katalog
-
-=> [ogd_metadata/README.md](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/ogd_metadata/README.md)
-
 ## Hilfs-Workflows
 
 Neben den Datensatz-Workflows gibt es auch noch einige Hilfs-Workflows, die bei der täglichen Arbeit unterstützen.
 
 ### Notify Datasets
 
-Dieser [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/notify_datasets.yml) (mehr Infos im [README](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/notify_datasets/README.md)) sendet jeden Morgen automatisch eine Nachricht in einen definierten Telegram-Kanale mit den Informationen über die neuen oder geänderten Datensätze für jeden Harvester.
+Dieser [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/notify_datasets.yml) (mehr Infos im [README](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/notify_datasets/README.md)) sendet jeden Morgen automatisch eine Nachricht in einen definierten Telegram-Kanal mit den Informationen über die neuen oder geänderten Datensätze für jeden Harvester.
 Es dient als eine Kontrolle, ob die Harvester korrekt laufen.
 
 ### Tagger
@@ -383,3 +432,19 @@ Basiert auf einem Skript aus dem [metaodi/ckan-admin-scripts Repository](https:/
 [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/showcases.yml) um CKAN Showcases aufzulisten, die zu keinem Datensatz verbunden sind.
 
 Basiert auf einem Skript aus dem [metaodi/ckan-admin-scripts Repository](https://github.com/metaodi/ckan-admin-scripts).
+
+### Copy Hash
+
+Manuell auslösbarer [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/copy_hash.yml), um Hashes von CKAN-Ressourcen zu kopieren. Basiert auf einem Skript aus dem [metaodi/ckan-admin-scripts Repository](https://github.com/metaodi/ckan-admin-scripts).
+
+### Link Checker
+
+[Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/link_checker.yml), der mittels [lychee](https://github.com/lycheeverse/lychee-action) alle Links im Repository prüft und bei defekten Links automatisch ein Issue eröffnet.
+
+### Dummy Data
+
+[Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_dummy_data.yml), der Test-/Dummy-Daten in der Integrations-Umgebung erzeugt. Dient primär zum Testen der Automations-Pipeline.
+
+### Initial Load VBZ Frequenzen Hardbrücke 2024
+
+Einmalig verwendeter, manuell auslösbarer [Workflow](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/initial_load_vbz_frequenzen_hardbruecke_2024.yml) für den initialen Nachlade-Job der VBZ-Frequenzdaten Hardbrücke für das Jahr 2024. Der reguläre Update-Job läuft über [VBZ Passagierfrequenz](#vbz-passagierfrequenz).
