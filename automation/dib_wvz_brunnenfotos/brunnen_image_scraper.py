@@ -202,8 +202,6 @@ def zip_images(
 def main() -> None:
     brunnen = load_brunnen_data(BRUNNEN_WFS_URL)
     brunnen = build_brunnen_webseiten(brunnen)
-    print(brunnen)
-    brunnen = brunnen.head(100)
     brunnen = scrape_image_urls(brunnen, "brunnen_webseite")
 
     na = int(brunnen["foto_url"].isna().sum())
