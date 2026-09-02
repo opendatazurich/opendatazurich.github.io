@@ -1,8 +1,9 @@
 name: Update wapo_wetterstationen data
 
 on:
-  schedule:
-  - cron: '3/10 * * * *' # every 10min
+  # deaktiviert, da scheduling hier über SSZ internes JS7 gemacht wird
+  # schedule:
+  # - cron: '3/10 * * * *' # every 10min
   workflow_dispatch:
 
 jobs:

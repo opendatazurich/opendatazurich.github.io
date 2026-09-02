@@ -14,6 +14,9 @@ Die Daten der beiden Wetterstationen Mythenquai und Tiefenbrunnen der Wasserschu
 Das [Workflow-YAML](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_wapo_wetterstationen.yml) beschreibt den Ablauf im Detail.
 Die Skripts werden alle in [`run.sh`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/wapo_wetterstationen/run.sh) ausgeführt und schlussendlich das erstellte CSV wieder in CKAN hochgeladen.
 
+Früher wurde der Workflow über einen cron-Schedule von Github getriggert. Das hat sich aber in letzter Zeit als unzuverlässig erwiesen, deswegen wird das deaktiviert. Das Triggering wird nun vom SSZ-internen JS7 gemacht via POST-Request. Deswegen braucht es den `workflow_dispatch` auch weiterhin.
+
+
 ```mermaid
 flowchart TB
     Zeit>"Zeitsteuerung ⌛️"]
