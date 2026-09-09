@@ -2,7 +2,7 @@
 """Fetch CSV from CKAN API
 
 Usage:
-  fetch_from_api.py --file <path-to-csv> [--no-verify]
+  fetch_from_api.py --file <path-to-csv>
   fetch_from_api.py (-h | --help)
   fetch_from_api.py --version
 
@@ -10,96 +10,112 @@ Options:
   -h, --help                      Show this screen.
   --version                       Show version.
   -f, --file <path-to-csv>        Path to CSV file
-  -g, --geojson <path-to-geojson> Path to GeoJSON file
-  --no-verify                     Option to disable SSL verification for reqests.
 
 """
 
-import pandas as pd
+import json
 import os
+import time
+
+import pandas as pd
+import requests
 from docopt import docopt
-from dotenv import load_dotenv, find_dotenv
-from ckanapi import RemoteCKAN, NotFound
 
-# Load environment variables from a .env file in the project directory
-load_dotenv(find_dotenv())
+# ---------------------------------------------------------------------------
+# Constants
+# ---------------------------------------------------------------------------
 
-# Parse command line arguments using docopt > __doc__ references to docstring (special attribute)
+CKAN_API_LINK = "https://data.stadt-zuerich.ch/api/3/action/current_package_list_with_resources"
+
+# Pagination settings: CKAN API uses limit/offset for pagination.
+# 500 results per page is a good balance between API calls and payload size.
+PAGE_LIMIT = 500
+PAGE_SLEEP = 2  # seconds between API requests to be nice to the server
+
+# Fieldmapping CKAN API columns -> published column names
+metadata = {
+    "title": "titel",
+    "notes": "beschreibung",
+    "groups": "kategorie",
+    "spatialRelationship": "raeumliche_beziehung",
+    "author": "quelle",
+    "timeRange": "zeitraum",
+    "dataType": "datentyp",
+    "updateInterval": "aktualisierungsdatum",
+    "name": "dataset_name",
+    "id": "dataset_id",
+    "license_id": "license_id",
+    "num_resources": "anzahl_ressourcen",
+}
+
+# Parse command line arguments using docopt
 arguments = docopt(__doc__, version='Fetch CSV from CKAN API 1.0')
 
-# Get the absolute path of the current working directory
-__location__ = os.path.realpath(os.getcwd())
 
-# Join the current working directory path with a subdirectory named "data"
-path = os.path.join(__location__, "data")
+def get_full_package_list(limit=500, sleep=2):
+    """Get full package list from CKAN API. Returns pandas df."""
+    offset = 0
+    frames = []
+    session = requests.Session()
 
-# ckan instance
-BASE_URL_PROD = "https://data.stadt-zuerich.ch"
-ckan_prod = RemoteCKAN(BASE_URL_PROD)
+    while True:
+        print(f"{offset} packages retrieved.")
+        url = CKAN_API_LINK + f"?limit={limit}&offset={offset}"
+        res = session.get(url)
+        data = json.loads(res.content)
+        if data["result"] == []:
+            break
+        data = pd.DataFrame(pd.json_normalize(data["result"]))
+        frames.append(data)
+        if len(data) < limit:
+            break
+        offset += limit
+        time.sleep(sleep)
+    data = pd.concat(frames)
+    data.reset_index(drop=True, inplace=True)
+    print("Number of datasets", data.shape[0])
+    return data
+
+def extract_keywords(x, sep=', '):
+    """
+    Extract keywords from ckan metadata json. To be used in pandas.apply()
+    Example: [{'description': '', 'display_name': 'Mobilität'},]
+    """
+    out_string = ''
+    for elem in x:
+        out_string += elem['display_name']+sep
+    return out_string.rstrip(sep)
+
+def extract_list(x, sep=', '):
+    """
+    Extract element from ckan metadata json list. To be used in pandas.apply()
+    Example: ['taeglich']
+    """
+    out_string = ''
+    for elem in x:
+        out_string += elem+sep
+    return out_string.rstrip(sep)
+    
+print("Getting metadata from CKAN")
+packages = get_full_package_list(limit=PAGE_LIMIT, sleep=PAGE_SLEEP)
+
+# flatten json sub elements
+print("Extracting values from json sub elements")
+packages["groups"] = packages["groups"].apply(extract_keywords)
+packages["dataType"] = packages["dataType"].apply(extract_list)
+packages["updateInterval"] = packages["updateInterval"].apply(extract_list)
 
 
-# mapping ckan metadata attributes to metadata fields
-def subsetting_datasets(metadata):
-    return{
-        'titel': metadata['title'],
-        'beschreibung': metadata['notes'],
-        'kategorie': ", ".join([g['title'] for g in metadata['groups']]),
-        'raeumliche_beziehung': metadata['spatialRelationship'],
-        'quelle': metadata['author'],
-        'zeitraum': metadata['timeRange'],
-        'datentyp': ','.join(metadata['dataType']),
-        'aktualisierungsdatum': ','.join(metadata['updateInterval']),
-        'dataset_name': metadata['name'],
-        'dataset_id': metadata['id'],
-        'license_id': metadata['license_id'],
-        'anzahl_ressourcen': metadata['num_resources']
+# prepare df for output
+print("Preparing df for output")
+output_df = packages[metadata.keys()]
+output_df = output_df.sort_values(by="name")
+output_df = output_df.rename(columns=metadata)
 
-        ## fields not used in metadata dataset
-        # 'schlagworte': ", ".join([g['name'] for g in metadata['tags']]),
-        # 'lieferant': metadata['dateLastUpdated'],
-	    # 'dataQuality': metadata['dataQuality'],
-        # 'maintainer_email': metadata['maintainer_email'],
-        # sszFields will no be mapped
-        # 'sszBemerkungen': metadata['sszBemerkungen'], # not in all datasets
-        # 'state': metadata['state'],
-        #'dateFirstPublished':  metadata['dateFirstPublished'], # would be cool do integrate this field
-        # 'version': metadata['version'],
-        # 'num_tags': metadata['num_tags'],
-        # # 'legalInformation': metadata['legalInformation'],
-        # 'license_id': metadata['license_id'],
-        # 'license_title': metadata['license_title'],
-        # 'license_url': metadata['license_url'],
-        # 'maintainer': metadata['maintainer'],
-        # organization will not be mapped
-        # 'owner_org': metadata['owner_org'],
-        # 'url': metadata['url'],
-        # 'data_publisher': metadata['data_publisher'],
-        # 'metadata_created': metadata['metadata_created'],
-        # 'metadata_modified': metadata['metadata_modified']
-    }
-
-
-# get all metadata measurements
-print("Get all packages from ckan")
-all_pkgs = ckan_prod.call_action("package_list")
-len(all_pkgs)
-
-# get medatadata of all pkgs and write it to empty list if type == dataset
-print("Subsetting package and retrieving metadata")
-all_details = [] # initialising empty list
-for p in all_pkgs:
-    p_detail = ckan_prod.call_action('package_show', {"id":p})
-    if p_detail['type'] == 'dataset' and p_detail['private'] == False:
-        p_detail['package_name'] = p
-        all_details.append(subsetting_datasets(p_detail))
-
-# list to csv
-res_pd = pd.DataFrame(all_details)
-
-# TODO getting around with encoding
+print(output_df)
 
 # saving as csv
-print("Saving csv")
 csv_path = arguments['--file']
-res_pd.to_csv(csv_path, index=False, encoding='utf-8', date_format='%Y-%m-%dT%H:%M:%SZ')
+print("Saving csv to ", csv_path)
+output_df.to_csv(csv_path, index=False, encoding='utf-8', date_format='%Y-%m-%dT%H:%M:%SZ')
 
