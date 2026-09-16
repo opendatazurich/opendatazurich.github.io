@@ -8,7 +8,8 @@ aus drei Quellen:
   3. notes                    — URLs im Fliesstext
 
 Ausgabe:
-  - .cache/catalog_urls.txt: Deduplizierte, sortierte URL-Liste (für Lychee --include)
+  - .cache/catalog_urls.txt: Deduplizierte, sortierte URL-Liste (für Post-Prozessor)
+  - .cache/lychee_catalog.toml: Lychee TOML-Config mit [include] Array
   - /tmp/url_dataset_map.json: Mapping URL → Dataset-Name (für Post-Prozessor)
 
 Abhängigkeiten: Nur Python-Standardbibliothek.
@@ -22,6 +23,7 @@ import urllib.request
 
 API_URL = "https://data.stadt-zuerich.ch/api/3/action/current_package_list_with_resources?limit=9999"
 URLS_PATH = ".cache/catalog_urls.txt"
+CONFIG_PATH = ".cache/lychee_catalog.toml"
 MAP_PATH = "/tmp/url_dataset_map.json"
 
 MD_LINK_RE = re.compile(r"\[([^\]]*)\]\((https?://[^)]+)\)")
@@ -114,10 +116,22 @@ def main():
     # Deduplizierte URL-Liste in .cache/catalog_urls.txt schreiben
     os.makedirs(".cache", exist_ok=True)
     all_urls = sorted(set(url_to_dataset.keys()))
+    
+    # URL-Liste (für Post-Prozessor)
     with open(URLS_PATH, "w", encoding="utf-8") as f:
         for url in all_urls:
             f.write(url + "\n")
     print(f"URL-Liste geschrieben: {URLS_PATH} ({len(all_urls)} URLs)", file=sys.stderr)
+
+    # Lychee TOML-Config generieren
+    config_lines = ["[include]"]
+    for url in all_urls:
+        config_lines.append(f'"{url}"')
+    config_lines.append("")
+
+    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+        f.write("\n".join(config_lines))
+    print(f"Lychee Config geschrieben: {CONFIG_PATH} ({len(all_urls)} Einträge)", file=sys.stderr)
 
 
 if __name__ == "__main__":
