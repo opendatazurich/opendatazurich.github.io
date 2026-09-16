@@ -126,7 +126,7 @@ def main():
     # Lychee TOML-Config generieren
     config_lines = ["[include]"]
     for url in all_urls:
-        config_lines.append(f'"{url}" = true')
+        config_lines.append(f'"{url}"')
     config_lines.append("")
 
     with open(CONFIG_PATH, "w", encoding="utf-8") as f:
