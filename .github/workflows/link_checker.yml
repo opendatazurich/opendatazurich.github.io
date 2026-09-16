@@ -1,5 +1,5 @@
 name: Link Checker
-# Checks URLs in Repo and creates issue, if url does not work
+# Checks URLs in Repo and CKAN Open Data Catalog, creates issues if urls do not work
 # see exclude list below
 # https://data.integ.stadt-zuerich.ch is excluded due to SSL problems
 
@@ -31,3 +31,36 @@ jobs:
           title: Link Checker Report
           content-filepath: ./lychee/out.md
           labels: report, automated issue
+
+  linkCheckerCatalog:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Extract URLs from CKAN Catalog API
+        id: extract_urls
+        run: |
+          python automation/link_checker/check_catalog_urls.py > /tmp/catalog_urls.txt
+          echo "url_count=$(wc -l < /tmp/catalog_urls.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: Link Checker for Open Data Catalog
+        id: lychee_catalog
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest . --max-concurrency 10 --config /tmp/lychee_catalog_config.yaml @/tmp/catalog_urls.txt
+          fail: false
+
+      - name: Create Issue From File
+        if: steps.lychee_catalog.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: Link Checker Report (Catalog)
+          content-filepath: ./lychee/out.md
+          labels: report, automated issue, catalog
