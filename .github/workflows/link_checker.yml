@@ -54,8 +54,11 @@ jobs:
         id: lychee_catalog
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest . --max-concurrency 10 --config /tmp/lychee_catalog_config.yaml @/tmp/catalog_urls.txt
+          args: --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest . --max-concurrency 10 @/tmp/catalog_urls.txt
           fail: false
+
+      - name: Enrich Report with Dataset Names
+        run: python automation/link_checker/enrich_report.py
 
       - name: Create Issue From File
         if: steps.lychee_catalog.outputs.exit_code != 0

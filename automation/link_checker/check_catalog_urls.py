@@ -8,8 +8,8 @@ aus drei Quellen:
   3. notes                    — URLs im Fliesstext
 
 Ausgabe:
-  - stdout: deduplizierte, sortierte URL-Liste pro Zeile
-  - /tmp/lychee_catalog_config.yaml: Lychee [include]-Config mit URL → Dataset-Namen Mapping
+  - stdout: deduplizierte, sortierte URL-Liste pro Zeile (für Lychee)
+  - /tmp/url_dataset_map.json: Mapping URL → Dataset-Name (für Post-Prozessor)
 
 Abhängigkeiten: Nur Python-Standardbibliothek.
 """
@@ -20,7 +20,7 @@ import sys
 import urllib.request
 
 API_URL = "https://data.stadt-zuerich.ch/api/3/action/current_package_list_with_resources?limit=9999"
-CONFIG_PATH = "/tmp/lychee_catalog_config.yaml"
+MAP_PATH = "/tmp/url_dataset_map.json"
 
 MD_LINK_RE = re.compile(r"\[([^\]]*)\]\((https?://[^)]+)\)")
 PLAIN_URL_RE = re.compile(r"https?://[^\s\)\"\']+(?=[\s\)\]\"']|$)")
@@ -97,26 +97,6 @@ def build_url_dataset_mapping(packages: list[dict]) -> dict[str, str]:
     return url_to_dataset
 
 
-def write_lychee_config(url_to_dataset: dict[str, str], config_path: str) -> None:
-    """Lychee TOML-Config schreiben.
-
-    Format:
-      [include]
-        "https://example.com/data.csv" = "geo_abstimmungsgeraete_taz"
-        "https://example.com/image.png" = "geo_erholungs__und_sporteinrichtungen"
-
-    Lychee zeigt dann im Markdown-Report "URL # Label" an.
-    """
-    lines = ["[include]"]
-    for url in sorted(url_to_dataset.keys()):
-        lines.append(f'"{url}" = "{url_to_dataset[url]}"')
-    lines.append("")
-
-    with open(config_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
-    print(f"Lychee Config geschrieben: {config_path} ({len(url_to_dataset)} Einträge)", file=sys.stderr)
-
-
 def main():
     print(f"Lade Pakete von {API_URL}", file=sys.stderr)
     packages = load_packages()
@@ -124,7 +104,10 @@ def main():
 
     url_to_dataset = build_url_dataset_mapping(packages)
 
-    write_lychee_config(url_to_dataset, CONFIG_PATH)
+    # Mapping als JSON speichern (für Post-Prozessor)
+    with open(MAP_PATH, "w", encoding="utf-8") as f:
+        json.dump(url_to_dataset, f, ensure_ascii=False, indent=2)
+    print(f"URL-Dataset-Mapping geschrieben: {MAP_PATH} ({len(url_to_dataset)} Einträge)", file=sys.stderr)
 
     # Deduplizierte URL-Liste auf stdout
     all_urls = set(url_to_dataset.keys())
