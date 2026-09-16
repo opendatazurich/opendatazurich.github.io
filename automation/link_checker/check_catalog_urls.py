@@ -98,18 +98,18 @@ def build_url_dataset_mapping(packages: list[dict]) -> dict[str, str]:
 
 
 def write_lychee_config(url_to_dataset: dict[str, str], config_path: str) -> None:
-    """Lychee [include]-Config schreiben.
+    """Lychee TOML-Config schreiben.
 
     Format:
       [include]
-        "https://example.com/data.csv": "geo_abstimmungsgeraete_taz"
-        "https://example.com/image.png": "geo_erholungs__und_sporteinrichtungen"
+        "https://example.com/data.csv" = "geo_abstimmungsgeraete_taz"
+        "https://example.com/image.png" = "geo_erholungs__und_sporteinrichtungen"
 
     Lychee zeigt dann im Markdown-Report "URL # Label" an.
     """
     lines = ["[include]"]
     for url in sorted(url_to_dataset.keys()):
-        lines.append(f'  "{url}": "{url_to_dataset[url]}"')
+        lines.append(f'"{url}" = "{url_to_dataset[url]}"')
     lines.append("")
 
     with open(config_path, "w", encoding="utf-8") as f:
