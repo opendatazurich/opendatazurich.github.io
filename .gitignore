@@ -8,3 +8,5 @@ env
 .idea
 __pycache__/
 .claude
+.cache/
+lychee/

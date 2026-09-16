@@ -8,18 +8,20 @@ aus drei Quellen:
   3. notes                    — URLs im Fliesstext
 
 Ausgabe:
-  - stdout: deduplizierte, sortierte URL-Liste pro Zeile (für Lychee)
+  - .cache/catalog_urls.txt: Deduplizierte, sortierte URL-Liste (für Lychee --include)
   - /tmp/url_dataset_map.json: Mapping URL → Dataset-Name (für Post-Prozessor)
 
 Abhängigkeiten: Nur Python-Standardbibliothek.
 """
 
 import json
+import os
 import re
 import sys
 import urllib.request
 
 API_URL = "https://data.stadt-zuerich.ch/api/3/action/current_package_list_with_resources?limit=9999"
+URLS_PATH = ".cache/catalog_urls.txt"
 MAP_PATH = "/tmp/url_dataset_map.json"
 
 MD_LINK_RE = re.compile(r"\[([^\]]*)\]\((https?://[^)]+)\)")
@@ -109,11 +111,13 @@ def main():
         json.dump(url_to_dataset, f, ensure_ascii=False, indent=2)
     print(f"URL-Dataset-Mapping geschrieben: {MAP_PATH} ({len(url_to_dataset)} Einträge)", file=sys.stderr)
 
-    # Deduplizierte URL-Liste auf stdout
-    all_urls = set(url_to_dataset.keys())
-    print(f"Ausgabe: {len(all_urls)} eindeutige URLs", file=sys.stderr)
-    for url in sorted(all_urls):
-        print(url)
+    # Deduplizierte URL-Liste in .cache/catalog_urls.txt schreiben
+    os.makedirs(".cache", exist_ok=True)
+    all_urls = sorted(set(url_to_dataset.keys()))
+    with open(URLS_PATH, "w", encoding="utf-8") as f:
+        for url in all_urls:
+            f.write(url + "\n")
+    print(f"URL-Liste geschrieben: {URLS_PATH} ({len(all_urls)} URLs)", file=sys.stderr)
 
 
 if __name__ == "__main__":

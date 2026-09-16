@@ -47,14 +47,14 @@ jobs:
       - name: Extract URLs from CKAN Catalog API
         id: extract_urls
         run: |
-          python automation/link_checker/check_catalog_urls.py > /tmp/catalog_urls.txt
-          echo "url_count=$(wc -l < /tmp/catalog_urls.txt)" >> "$GITHUB_OUTPUT"
+          python automation/link_checker/check_catalog_urls.py
+          echo "url_count=$(wc -l < .cache/catalog_urls.txt)" >> "$GITHUB_OUTPUT"
 
       - name: Link Checker for Open Data Catalog
         id: lychee_catalog
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest . --max-concurrency 10 @/tmp/catalog_urls.txt
+          args: --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest . --max-concurrency 10 --include .cache/catalog_urls.txt
           fail: false
 
       - name: Enrich Report with Dataset Names
