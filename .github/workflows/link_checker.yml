@@ -45,20 +45,20 @@ jobs:
           python-version: "3.11"
 
       - name: Extract URLs from CKAN Catalog API
-        id: extract_urls
-        run: |
-          python automation/link_checker/check_catalog_urls.py
-          echo "url_count=$(wc -l < .cache/catalog_urls.txt)" >> "$GITHUB_OUTPUT"
+        run: python automation/link_checker/check_catalog_urls.py
 
       - name: Link Checker for Open Data Catalog
         id: lychee_catalog
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest . --max-concurrency 10 --config .cache/lychee_catalog.toml
+          args: --accept '200..=204,403,429,500' --max-retries 5 --retry-wait-time 5 --max-concurrency 10 .cache/catalog_urls.txt
+          format: json
+          output: lychee/out.json
+          jobSummary: false
           fail: false
 
-      - name: Enrich Report with Dataset Names
-        run: python automation/link_checker/enrich_report.py
+      - name: Build Report with Dataset Names
+        run: python automation/link_checker/build_report.py
 
       - name: Create Issue From File
         if: steps.lychee_catalog.outputs.exit_code != 0
