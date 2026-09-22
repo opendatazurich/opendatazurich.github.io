@@ -8,24 +8,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment: production
-    strategy:
-      matrix:
-        python-version: [3.7]
 
     steps:
     # checkout repos
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
     - name: Checkout ckan-admin-scripts repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
       with:
         repository: metaodi/ckan-admin-scripts
         path: ckan-admin-scripts
 
     # Setup Python
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+    - name: Set up Python
+      uses: actions/setup-python@v6
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: "3.14"
 
     - name: Install dependencies
       run: |
