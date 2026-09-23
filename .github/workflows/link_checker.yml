@@ -21,7 +21,7 @@ jobs:
         id: lychee_repo
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest . --exclude 'https://data.integ.stadt-zuerich.ch/*|https://confluence-ssz.szh.loc*|https://github.com/opendatazurich/opendatazurich.github.io/settings/*' 
+          args: --accept '200..=204, 429, 403, 500' --max-retries 5 --retry-wait-time 5 --suggest --root-dir . --exclude 'https://data.integ.stadt-zuerich.ch/*|https://confluence-ssz.szh.loc*|https://github.com/opendatazurich/opendatazurich.github.io/settings/*|https://www.ssz-webdav.stadt-zuerich.ch/*' .
           fail: false
 
       - name: Create Issue From File

@@ -5,11 +5,11 @@ Badi Besuch (ASE)
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Status:**         | [![Update Badi Besuch (ASE)](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_badi_besuch.yml/badge.svg)](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_badi_besuch.yml) |
 | **Workflow:**       | [`update_badi_besuch.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_badi_besuch.yml)                                                                                                            |
-| **Quelle:**         | [ASE Diamond API](https://zuerich.pas.ch/)                                                                                                                                                               |
+| **Quelle:**         | [ASE Diamond API](https://arlas.ase.solutions/)                               |
 | **Datensatz INT:**  | [Badi Besuchende (data.integ.stadt-zuerich.ch)](https://data.integ.stadt-zuerich.ch/dataset/ssd_spo_badi_besuch)                                                                                                              |
 | **Datensatz PROD:** | [Badi Besuchende (data.stadt-zuerich.ch)](https://data.stadt-zuerich.ch/dataset/ssd_spo_badi_besuch)                                                                                                                          |
 
-Dieser Workflow lädt Daten von der [ASE Diamond API](https://zuerich.pas.ch/). Details zur Schnittstelle finden sich hier: https://zuerich.pas.ch/v2/swagger/index.html
+Dieser Workflow lädt Daten von der [ASE Diamond API](https://arlas.ase.solutions/). Details zur Schnittstelle finden sich hier: https://arlas.ase.solutions/v2/swagger/index.html
 
 Das Skript [**`ase_api_call.py`**](ase_api_call.py) steuert den gesamten Ablauf:
 - Authentifizierung

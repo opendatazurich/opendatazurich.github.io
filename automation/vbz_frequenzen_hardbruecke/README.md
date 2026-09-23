@@ -11,7 +11,7 @@ VBZ Passagierfrequenzen
 
 Die Daten werden von der VBZ via ein API zur Verfügung gestellt.
 
-Das [Workflow-YAML]([https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_vbz_frequenzen_hardbruecke.yml) beschreibt den Ablauf im Detail.
+Das [Workflow-YAML](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_vbz_frequenzen_hardbruecke.yml) beschreibt den Ablauf im Detail.
 Die Skripts werden alle in [`update_data.sh`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/automation/vbz_frequenzen_hardbruecke/update_data.sh) und schlussendlich das erstellte CSV in CKAN hochgeladen.
 
 ```mermaid
