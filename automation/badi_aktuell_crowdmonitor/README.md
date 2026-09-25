@@ -5,7 +5,7 @@ Update Badi Aktuell (Crowd Monitor)
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Status:**         | [![Update Badi Aktuell (Crowd Monitor)](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_badi_aktuell.yml/badge.svg)](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_badi_aktuell.yml) |
 | **Workflow:**       | [`update_badi_aktuell.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_badi_aktuell.yml)                                                                                                            |
-| **Quelle:**         | [ASE Diamond API](https://zuerich.pas.ch/)                                                                                                                                                               |
+| **Quelle:**         | [ASE Diamond API](https://premises.crowdmonitor.ch/)                               |
 | **Datensatz INT:**  | [Aktuelle Anzahl Badegäste (data.integ.stadt-zuerich.ch)](https://data.integ.stadt-zuerich.ch/dataset/ssd_spo_badi_aktuell)                                                                                                              |
 | **Datensatz PROD:** | [Aktuelle Anzahl Badegäste (data.stadt-zuerich.ch)](https://data.stadt-zuerich.ch/dataset/ssd_spo_badi_aktuell)                                                                                                                          |
 
