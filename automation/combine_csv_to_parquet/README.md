@@ -3,7 +3,7 @@ Kombiniere CSVs zu Parquets
 
 |                           | Beschreibung                         |
 | ------------------------- | ------------------------------------ |
-| **Status:**         | [![Update Kombiniere CSVs zu Parquets](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_combine_csv_to_parquet/badge.svg)](https://github.com/opendatazurich/opendatazurich.github.io/actions/workflows/update_combine_csv_to_parquet.yml) |
+| **Status:**         | Aus Stabilitätsgründen läuft dieser Workflow auf GitLab und nicht mehr auf GitHub Actions. |
 | **Workflow:**       | [`update_combine_csv_to_parquet.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_combine_csv_to_parquet.yml)  |
 | **Quelle:**         | CSVs aus dem PROD [OGD-Katalog](https://data.stadt-zuerich.ch/)      |
 | **Datensatz INT:**  | [Daten der Verkehrszählung zum motorisierten Individualverkehr (Stundenwerte), seit 2012](https://data.integ.stadt-zuerich.ch/dataset/int_dwh_sid_dav_verkehrszaehlung_miv_od2031), [Daten der automatischen Fussgänger- und Velozählung - Viertelstundenwerte](https://data.integ.stadt-zuerich.ch/dataset/int_dwh_ted_taz_verkehrszaehlungen_werte_fussgaenger_velo)                       |
