@@ -28,7 +28,7 @@ Die Open Data Zurich API Dokumentation bietet eine Übersicht über verschiedene
 
 ## Weitere Projekte
 
-1. [Scientifica 2026 – OGD-Station](https://opendatazurich.github.io/ssz_odz_scientifica/): Interaktive Web-Applikation von Statistik Stadt Zürich für die Ausstellung Scientifica 2026, die den OGD-Katalog, Starter Code, MCP-Abfragen und bestehende OGD-Anwendungen an vier Stationen erlebbar macht.
+1. [Schnelleinstieg ins Thema OGD](https://opendatazurich.github.io/ssz_odz_schnelleinstieg/): Der «Schnelleinstieg Open Government Data» bietet Ihnen einen direkten Zugang zum Thema. Entstanden ist er für das Wissenschaftsfestival Scientifica. Hier finden Sie Antworten zu den Fragen: Wo finde ich offene Verwaltungsdaten? Was wurde mit offenen Daten bereits erstellt? Wie kann ich diese mit natürlicher Sprache abfragen? Wie kann ich sofort offene Verwaltungsdaten analysieren?
 1. [Umfrage bei OGD-Katalog-Nutzenden](https://opendatazurich.github.io/umfrage-ogd-katalog/): Auswertung einer Online-Befragung von Statistik Stadt Zürich und der Universität Zürich dazu, wie die offenen Verwaltungsdaten der Stadt Zürich genutzt und wahrgenommen werden.
 
 # Automation
