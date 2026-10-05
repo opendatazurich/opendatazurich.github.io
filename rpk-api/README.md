@@ -697,7 +697,7 @@ Hinweise zur Antwort:
 Im [Jupyter-Notebook RPK-API-Beispiele.ipynb](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/rpk-api/RPK-API-Beispiele.ipynb) sind einige Python-Beispiele im Umgang mit dem API beschrieben.
 
 Jupyter-Notebook interaktiv im Browser starten: 
-
+[![Python - renku](https://renkulab.io/renku-badge.svg)](https://renkulab.io/p/opendatazurich/github-jupyter/sessions/01M3PPQJDDQZ4YD7CD7DZ5S5ER/start?GITHUB_FILEPATH=opendatazurich/opendatazurich.github.io/blob/master/rpk-api/RPK-API-Beispiele.ipynb)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=rpk-api/RPK-API-Beispiele.ipynb)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/opendatazurich/opendatazurich.github.io/blob/master/rpk-api/RPK-API-Beispiele.ipynb)
 
