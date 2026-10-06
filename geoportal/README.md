@@ -172,5 +172,6 @@ Um direkt die Tiles in EPSG:2056 vom WMTS nutzen zu können, muss Leaflet erweit
 Im [Jupyter-Notebook Geoportal-Beispiele.ipynb](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/geoportal/Geoportal-Beispiele.ipynb) sind einige Python-Beispiele gezeigt, u.a. wie Daten via WFS bezogen werden können oder eine Karte via WMS angezeigt werden kann
 
 Jupyter-Notebook interaktiv im Browser starten:
+[![Python - renku](https://renkulab.io/renku-badge.svg)](https://renkulab.io/p/opendatazurich/github-jupyter/sessions/01M3PPQJDDQZ4YD7CD7DZ5S5ER/start?GITHUB_FILEPATH=opendatazurich/opendatazurich.github.io/blob/master/geoportal/Geoportal-Beispiele.ipynb)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/opendatazurich/opendatazurich.github.io/master?filepath=geoportal/Geoportal-Beispiele.ipynb)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/opendatazurich/opendatazurich.github.io/blob/master/geoportal/Geoportal-Beispiele.ipynb)

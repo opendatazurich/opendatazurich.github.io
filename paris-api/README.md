@@ -49,7 +49,7 @@ Eine Übersicht über alle Funktionen der API mit Beispielen bietet auch die [**
 
 Alle Abfragen nutzen als Basis-URL [`http://www.gemeinderat-zuerich.ch/api/`](http://www.gemeinderat-zuerich.ch/api/), öffnet man über den Browser diese Seite, kann man sich die einzelnen Indizes anschauen und die gültigen Suchfelder anzeigen lassen.
 
-Jeder Index verfügbar auch über ein maschinenlesbares Schema: https://www.gemeinderat-zuerich.ch/api/{{index}}/schema z.B. https://www.gemeinderat-zuerich.ch/api/kontakt/schema
+Jeder Index verfügbar auch über ein maschinenlesbares Schema, wobei `{{index}}` in der URL durch den Indexnamen ersetzt werden muss (Platzhalter). Beispiel für den Index `kontakt`: `https://www.gemeinderat-zuerich.ch/api/kontakt/schema`
 
 Das API verwender die Abfragesprache CQL, mit der sich die Resultate eingrenzen und Sortieren lassen.
 Jeder Index hat definierte Suchfelder, die im CQL-Query verwendet werden können.

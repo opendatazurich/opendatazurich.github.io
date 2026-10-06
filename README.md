@@ -16,20 +16,20 @@ Die Open Data Zurich API Dokumentation bietet eine Übersicht über verschiedene
 1. [ParkenDD API](/parkendd-api/): Diese API liefert Daten zu Parkplätzen in Zürich, einschließlich Verfügbarkeit und Standorte.
 1. [Geoportal der Stadt Zürich](/geoportal/): Diese Dokumentation beschreibt den Umgang mit Daten aus dem [Geoportal der Stadt Zürich](https://www.stadt-zuerich.ch/geodaten/) ohne GIS-Software.
 1. [RPK-API (Finanzdaten der Stadt Zürich), Finanzverwaltung](/rpk-api/): Diese API stellt Finanzdaten der Stadt Zürich zur Verfügung, die von der Finanzverwaltung bereitgestellt werden.
-1. [SRU-API des Stadtarchivs Zürich](/sar-sru-api/): Diese API bietet Zugang zu historischen Daten und Archivmaterial des Stadtarchivs Zürich.
+1. [SRU-API des Stadtarchivs Zürich](https://opendatazurich.github.io/sar-sru-api/): Diese API bietet Zugang zu historischen Daten und Archivmaterial des Stadtarchivs Zürich.
 
 ## Trainingsmaterial
 
-1. [Wikidata Training](/wikidata-training/): Trainingsmaterial zu Wikidata Abfragen mit Python.
-1. [Crashkurs «Datenvisualisierung»](/crashkurs-dataviz/): Einfache Datenanalyse und -visualisierung mit Excel und Datawrapper.
-1. [Crashkurs «Power BI Datenvisualisierung»](/crashkurs-dataviz-powerbi/): Eine Anleitung für Power BI-Einsteiger:innen unter Verwendung von Open Data.
-1. [Kurs «Crowdsourcing-Daten nutzen» (OpenSteetMap, Wikidata)](/kurs-crowdsourced-data/): Workshop in Form eines Jupyter Notebooks um städtische Daten mit OpenStreetMap und WikiData kombinieren.
-1. [Starter Code](/starter-code/): Einfache Code Vorlagen in Python und R für jeden Datensatz auf https://data.stadt-zuerich.ch/.
+1. [Wikidata Training](https://opendatazurich.github.io/wikidata-training/): Trainingsmaterial zu Wikidata Abfragen mit Python.
+1. [Crashkurs «Datenvisualisierung»](https://opendatazurich.github.io/crashkurs-dataviz/): Einfache Datenanalyse und -visualisierung mit Excel und Datawrapper.
+1. [Crashkurs «Power BI Datenvisualisierung»](https://opendatazurich.github.io/crashkurs-dataviz-powerbi/): Eine Anleitung für Power BI-Einsteiger:innen unter Verwendung von Open Data.
+1. [Kurs «Crowdsourcing-Daten nutzen» (OpenSteetMap, Wikidata)](https://opendatazurich.github.io/kurs-crowdsourced-data/): Workshop in Form eines Jupyter Notebooks um städtische Daten mit OpenStreetMap und WikiData kombinieren.
+1. [Starter Code](https://opendatazurich.github.io/starter-code/): Einfache Code Vorlagen in Python und R für jeden Datensatz auf https://data.stadt-zuerich.ch/.
 
 ## Weitere Projekte
 
-1. [Scientifica 2026 – OGD-Station](/ssz_odz_scientifica/): Interaktive Web-Applikation von Statistik Stadt Zürich für die Ausstellung Scientifica 2026, die den OGD-Katalog, Starter Code, MCP-Abfragen und bestehende OGD-Anwendungen an vier Stationen erlebbar macht.
-1. [Umfrage bei OGD-Katalog-Nutzenden](/umfrage-ogd-katalog/): Auswertung einer Online-Befragung von Statistik Stadt Zürich und der Universität Zürich dazu, wie die offenen Verwaltungsdaten der Stadt Zürich genutzt und wahrgenommen werden.
+1. [Schnelleinstieg ins Thema OGD](https://opendatazurich.github.io/ssz_odz_schnelleinstieg/): Der «Schnelleinstieg Open Government Data» bietet Ihnen einen direkten Zugang zum Thema. Entstanden ist er für das Wissenschaftsfestival Scientifica. Hier finden Sie Antworten zu den Fragen: Wo finde ich offene Verwaltungsdaten? Was wurde mit offenen Daten bereits erstellt? Wie kann ich diese mit natürlicher Sprache abfragen? Wie kann ich sofort offene Verwaltungsdaten analysieren?
+1. [Umfrage bei OGD-Katalog-Nutzenden](https://opendatazurich.github.io/umfrage-ogd-katalog/): Auswertung einer Online-Befragung von Statistik Stadt Zürich und der Universität Zürich dazu, wie die offenen Verwaltungsdaten der Stadt Zürich genutzt und wahrgenommen werden.
 
 # Automation
 
