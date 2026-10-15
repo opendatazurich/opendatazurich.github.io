@@ -1,0 +1,83 @@
+name: Badi Besuch (ASE) — Jahres-Backfill
+
+on:
+  # schedule:
+  #   - cron: '0 0 2 1 *' # jährlich am 02.01. um 00:00 (UTC)
+  workflow_dispatch:
+    inputs:
+      year:
+        description: 'Zieljahr für den Backfill (leer = Vorjahr). Z.B. 2024'
+        required: false
+        default: ''
+        type: string
+      start:
+        description: 'Beliebiges Startdatum YYYYMMDD (z.B. 20250601). Leer = Vorjahr/Jahr'
+        required: false
+        default: ''
+        type: string
+      end:
+        description: 'Beliebiges Enddatum YYYYMMDD (z.B. 20250607). Leer = Vorjahr/Jahr'
+        required: false
+        default: ''
+        type: string
+
+jobs:
+  backfill_year:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment: production
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v8.1.0
+
+    - name: "Set up Python"
+      uses: actions/setup-python@v6
+      with:
+        python-version: 3.14
+
+    - name: Install requirements
+      run: uv pip install -r automation/automation-requirements.txt
+      env:
+        UV_SYSTEM_PYTHON: 1
+
+    - name: Backfill erzeugen
+      env:
+        ASE_USERNAME: ${{ secrets.ASE_USERNAME }}
+        ASE_PASSWORD: ${{ secrets.ASE_PASSWORD }}
+        BACKFILL_YEAR: ${{ github.event.inputs.year }}
+        BACKFILL_START: ${{ github.event.inputs.start }}
+        BACKFILL_END: ${{ github.event.inputs.end }}
+      run: python automation/badi_besuch_ase/ase_year_backfill.py
+
+    - name: Erzeugte Ressourcen bestimmen
+      id: out
+      run: |
+        echo "parquet=$(ls -t automation/badi_besuch_ase/Badi_Besuch_*.parquet | head -n1)" >> "$GITHUB_OUTPUT"
+        echo "csv=$(ls -t automation/badi_besuch_ase/Badi_Besuch_*.csv | head -n1)" >> "$GITHUB_OUTPUT"
+
+    - name: Parquet in CKAN hochladen
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+      run: python automation/upload_resource_to_ckan_with_patch.py -f ${{ steps.out.outputs.parquet }} -d ssd_spo_badi_besuch
+
+    - name: CSV in CKAN hochladen
+      env:
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+      run: python automation/upload_resource_to_ckan_with_patch.py -f ${{ steps.out.outputs.csv }} -d ssd_spo_badi_besuch
+
+    - name: Notify telegram failure
+      if: ${{ failure() || cancelled() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_ERROR_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        format: markdown
+        message: |
+          🔴 [Update Badi Besuch (ASE) Jahres-Backfill](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)

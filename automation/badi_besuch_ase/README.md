@@ -25,6 +25,17 @@ Das Skript [**`ase_api_call.py`**](ase_api_call.py) steuert den gesamten Ablauf:
 - `SUFFIX_TO_REMOVE`: Einige Bäder haben einen Suffix: " (Bis Mai 2026)". Das Sportamt ist sich nicht sicher, wieso der vorhanden ist und er soll entfernt werden.
 
 
+## Backfill: historischer Jahresdatensatz
+
+Zusätzlich zum Live-Feed (5-Tage-Fenster) kann ein historischer Datensatz für einen längeren Zeitraum (z.B. ein ganzes Jahr) erzeugt werden. Details zur Schnittstelle begrenzen den abfragbaren Lookback je nach Granularität (siehe `GRANULARITY_RANGE`). Um trotzdem ein ganzes Jahr in der gleichen Granularität (`FiveMinutes`) anbieten zu können, wird der Zeitraum in mehrere kleine Fenster zerlegt und nacheinander abgefragt ([`ase_year_backfill.py`](ase_year_backfill.py)).
+
+- `BACKFILL_GRANULARITY`: Granularität des Backfills (Standard `FiveMinutes`).
+- Zielzeitraum: Standard das gesamte **Vorjahr** (01.01. – 31.12.). Überschreibbar per Env-Var `BACKFILL_YEAR` (z.B. `2024`) für ein gesamtes Jahr, oder per `BACKFILL_START`/`BACKFILL_END` (YYYYMMDD, z.B. `20250601`/`20250607`) für ein beliebiges Zeitfenster. Lokal: auch per `BACKFILL_START_DATE`/`BACKFILL_END_DATE` in `ase_parameters.py` setzbar.
+- Ausgabe: In jedem Durchlauf werden **Parquet und CSV** des gleichen Dataframes geschrieben (`pyarrow` ist in `../automation-requirements.txt` vorhanden). Abschaltbar/steuerbar über `BACKFILL_WRITE_PARQUET`, `BACKFILL_WRITE_CSV` sowie `BACKFILL_PARQUET_NAME`, `BACKFILL_CSV_NAME` (jewils `Badi_Besuch_{jahr}.parquet`/`.csv`).
+- Der Datensatz wird als **zwei zusätzliche Ressourcen (Parquet + CSV) im gleichen CKAN-Datensatz** `ssd_spo_badi_besuch` hochgeladen (Struktur identisch, nur anderes Format).
+- Ausgelöst wird das über den Workflow [`update_badi_besuch_jahr.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_badi_besuch_jahr.yml) (manuell per `workflow_dispatch` oder per Schedule).
+
+
 ```mermaid
 flowchart TB
     Zeit>"Zeitsteuerung ⌛️"]

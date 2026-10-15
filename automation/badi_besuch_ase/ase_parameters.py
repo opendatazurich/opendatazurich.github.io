@@ -60,3 +60,18 @@ VALID_LOCATIONS = [
 
 # dieser Suffix wird später von den Locations entfernt
 SUFFIX_TO_REMOVE = " (Bis Mai 2026)"
+
+# --- Backfill: historischer Jahresdatensatz (eigene Ressource im gleichen CKAN-Datensatz) ---
+# Granularität für den Backfill (muss in GRANULARITY_RANGE vorhanden sein).
+BACKFILL_GRANULARITY = "FiveMinutes"
+# Standard: gesamtes Vorjahr erzeugen. Überschreibbar per Env-Var BACKFILL_YEAR (z.B. "2024").
+# Beliebiges Zeitfenster überschreiben (YYYYMMDD, z.B. 20250601 / 20250607).
+# Beide auf None lassen = Vorjahr/BACKFILL_YEAR-Logik. Überschreibt Jahr und Vorjahr.
+BACKFILL_START_DATE = None
+BACKFILL_END_DATE = None
+# Ausgabeformate: sowohl Parquet als auch CSV erzeugen (je eine abschaltbar).
+BACKFILL_WRITE_PARQUET = True
+BACKFILL_WRITE_CSV = True
+# Dateinamen der Ressourcen; {year} wird durch das Zieljahr ersetzt.
+BACKFILL_PARQUET_NAME = "Badi_Besuch_{year}.parquet"
+BACKFILL_CSV_NAME = "Badi_Besuch_{year}.csv"
