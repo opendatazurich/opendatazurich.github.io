@@ -77,26 +77,35 @@ def get_location_data_by_endpoint(
             print('url: ' + count_json['@odata.nextLink'])
             count_url = count_json['@odata.nextLink']
             response = requests.get(count_url, headers=headers, proxies=proxies, verify=verify)
-            count_json = response.json()
-            #print(count_json)
-            values = count_json#['value']
-            df = pd.DataFrame.from_dict(values, orient='columns')
-            # final_df = pd.concat([final_df, df], ignore_index=True)
-            # final_df = final_df._append(df, ignore_index=True)
+            # Leere Body / Non-JSON-Response (z.B. Throttling, 204 oder leerer Aggregat-Ergebnis) -> keine Records, Pagination beenden
+            if not response.ok or not response.content:
+                count_json = {}
+                continue
+            try:
+                count_json = response.json()
+            except Exception:
+                count_json = {}
+                continue
+            # Records liegen typischerweise unter ["value"]; bei einer reinen Liste wird die Liste direkt verwendet
+            records = count_json["value"] if isinstance(count_json, dict) and "value" in count_json else count_json
+            df = pd.DataFrame.from_dict(records, orient="columns") if records else pd.DataFrame()
             final_df = pd.concat([final_df, df], ignore_index=True, axis=0)
         # The result might contain multiple locationIds as each sensor/location can have multiple sub-locations/measureitems
-        final_df['LocationName'] = location_name
-        final_df['LocationId'] = location_id
+        final_df["LocationName"] = location_name
+        final_df["LocationId"] = location_id
         print("Number of rows and columns:", final_df.shape)
-        # count = count._append(final_df, ignore_index=True)
         count = pd.concat([count, final_df], ignore_index=True, axis=0)
 
-    count = count.sort_values(["LocationName", "DateId", "TimeId"])
-
-    count = format_timestamp(count)
-
-    print("Data from", count["Datetime"].min(), " to ", count["Datetime"].max())
-    print(count)
+    if not count.empty and {"DateId", "TimeId"}.issubset(count.columns):
+        count = count.sort_values(["LocationName", "DateId", "TimeId"])
+        count = format_timestamp(count)
+        print("Data from", count["Datetime"].min(), " to ", count["Datetime"].max())
+        print(count)
+    else:
+        # Kein Datenfenster fuer diesen Endpoint (z.B. leere Belegung): Frame mit Standard-Spalten, aber 0 Zeilen zurueck,
+        # damit die nachfolgenden Drops/Merges in download_and_merge_badi_counter_windowed nicht fehlschlagen.
+        count = pd.DataFrame(columns=["LocationId", "LocationName", "DateId", "TimeId", "Granularity"])
+        count["Datetime"] = pd.to_datetime([])
     return count
 
 def download_and_merge_badi_counter(url, location_df, start_date, end_date, granularity, headers, proxies, verify):
@@ -231,4 +240,173 @@ def replace_suffix(col: pd.Series, substring: str) -> pd.Series:
     print("Removing Suffix", substring ,"from", col.name, " if present")
     pattern = re.escape(substring) + r"$"
     return col.str.replace(pattern, "", regex=True)
+
+
+def export_result(badi_counter, parquet_path=None, csv_path=None, write_parquet=True, write_csv=True):
+    """
+    Export des Badi-Counter-Daten als Parquet und/oder CSV.
+
+    :param parquet_path: Pfad und Name der Parquet-Ausgabedatei
+    :param csv_path: Pfad und Name der CSV-Ausgabedatei
+    :param write_parquet: True -> Parquet schreiben
+    :param write_csv: True -> CSV schreiben
+    """
+    cols = ["LocationId", "LocationName", "Datetime", "InCount", "OutCount", "OccupancyMax"]
+    cols = [c for c in cols if c in badi_counter.columns]
+    result = badi_counter[cols]
+
+    if write_parquet and parquet_path:
+        result.to_parquet(parquet_path, index=False)
+        print("Exported Parquet to:", parquet_path)
+    if write_csv and csv_path:
+        result.to_csv(csv_path, index=False)
+        print("Exported CSV to:", csv_path)
+
+    if not (write_parquet and parquet_path) and not (write_csv and csv_path):
+        raise ValueError("Nichts zu exportieren: weder ein Pfad noch ein aktiviertes Flag gesetzt.")
+
+
+def download_and_merge_badi_counter_windowed(
+    url, location_df, windows, granularity, headers, proxies, verify
+):
+    """
+    Ladt Counter- und OccupancyMax-Daten fensterweise über mehrere Zeitfenster und
+    zusammen (analog zu download_and_merge_badi_counter, aber für einen längeren Zeitraum).
+
+    :param windows: Liste von (start_exkl, end_inkl) als ints im Format YYYYMMDD
+    :return: zusammengeführtes DataFrame mit den Spalten des Badi-Counter-Exports
+    """
+    all_merged = []
+    for window_start, window_end in windows:
+        print("-" * 60)
+        print(f"Backfill Fenster: {window_start} -> {window_end}")
+
+        counts = get_location_data_by_endpoint(
+            url,
+            headers,
+            proxies,
+            verify,
+            location_df,
+            "count",
+            window_start,
+            window_end,
+            granularity,
+            aggregation_string="&$apply=groupby((DateId,TimeId,Granularity ), aggregate(InCount with sum as InCount,OutCount with sum as OutCount))",
+        )
+
+        occ_max = get_location_data_by_endpoint(
+            url,
+            headers,
+            proxies,
+            verify,
+            location_df,
+            "OccupancyMax",
+            window_start,
+            window_end,
+            granularity,
+            aggregation_string="&$apply=groupby((DateId,TimeId,Granularity ), aggregate(Occupancy with sum as OccupancyMax))",
+        )
+
+        # Leere Endpoints (z.B. historische Belegung nicht verfuegbar) mit Standard-Spalten belegen,
+        # damit der Outer-Merge die fehlenden Spalten (InCount/OutCount/OccupancyMax) als NaN fuehrt.
+        if counts.empty:
+            counts = pd.DataFrame({
+                "LocationId": pd.Series(dtype="object"),
+                "LocationName": pd.Series(dtype="object"),
+                "Datetime": pd.Series(dtype="datetime64[ns]"),
+                "InCount": pd.Series(dtype="float"),
+                "OutCount": pd.Series(dtype="float"),
+            })
+        if occ_max.empty:
+            occ_max = pd.DataFrame({
+                "LocationId": pd.Series(dtype="object"),
+                "LocationName": pd.Series(dtype="object"),
+                "Datetime": pd.Series(dtype="datetime64[ns]"),
+                "OccupancyMax": pd.Series(dtype="float"),
+            })
+
+        merge = counts.drop(columns=["Granularity", "TimeId", "DateId"], errors="ignore").merge(
+            occ_max.drop(columns=["Granularity", "TimeId", "DateId"], errors="ignore"),
+            how='outer',
+            on=["LocationId", "LocationName", "Datetime"],
+        )
+        all_merged.append(merge)
+
+    result = pd.concat(all_merged, ignore_index=True, axis=0)
+    # Sicherheitsnetz: falls Fenster sich überschneiden, doppelte Zeitreihen-Einträge entfernen
+    result = result.drop_duplicates(subset=["LocationId", "LocationName", "Datetime"])
+    return result
+
+
+def compute_backfill_windows(start_date, end_date, granularity, granularity_range, max_window_days=None):
+    """
+    Teilt ein Intervall [start_date, end_date] in lückenlose, nicht überlappende Fenster auf.
+    Jedes Fenster ist höchstens max_window_days Tage groß (Default: Wert aus granularity_range
+    für die angegebene Granularität).
+
+    Die API-Abfrage nutzt den Filter "DateId gt start and DateId le end" (start exklusiv,
+    end inklusiv). Jedes Fenster wird daher als (start_exkl, end_inkl)-Tuple zurückgegeben,
+    sodass die Fenster zusammen genau das Intervall abdecken (keine Lücken, kein Doppel).
+
+    :param start_date: Startdatum YYYYMMDD (int|str)
+    :param end_date: Enddatum YYYYMMDD (int|str)
+    :param granularity: Schlüssel in granularity_range (z.B. "FiveMinutes")
+    :param granularity_range: Mapping Granularität -> abfragbare Tage
+    :param max_window_days: optionales maximales Fenstervolumen in Tagen
+    :return: Liste von (start_exkl, end_inkl) als ints im Format YYYYMMDD
+    """
+    start_dt = datetime.strptime(str(start_date).zfill(8), "%Y%m%d")
+    end_dt = datetime.strptime(str(end_date).zfill(8), "%Y%m%d")
+
+    if max_window_days is None:
+        max_window_days = granularity_range[granularity]
+
+    windows = []
+    cursor = start_dt
+    while cursor <= end_dt:
+        inclusive_end = min(cursor + timedelta(days=max_window_days - 1), end_dt)
+        # Start exkludieren: cursor - 1 Tag, damit die Fenster lückenlos und ohne
+        # Überlappung sind (auch wenn das letzte Fenster am Ende abgeschnitten wird).
+        start_exkl = cursor - timedelta(days=1)
+        windows.append(
+            (
+                int(start_exkl.strftime("%Y%m%d")),
+                int(inclusive_end.strftime("%Y%m%d")),
+            )
+        )
+        cursor = inclusive_end + timedelta(days=1)
+
+    return windows
+
+
+def get_target_backfill_range(year_override=None, start_override=None, end_override=None):
+    """
+    Berechnet das Zielintervall des Backfills im Format YYYYMMDD (int) inkl. Zieljahr.
+
+    Priorität:
+    - start_override + end_override gesetzt: genau dieser Zeitraum (YYYYMMDD, int|str).
+    - ansonsten year_override gesetzt (int|str, z.B. 2024): gesamtes Jahr.
+    - sonst: gesamtes Vorjahr (01.01. - 31.12. der vergangenen Kalenderjahr).
+
+    :param year_override: Zieljahr als int|str (z.B. 2024)
+    :param start_override: Startdatum YYYYMMDD als int|str (z.B. 20250601)
+    :param end_override: Enddatum YYYYMMDD als int|str (z.B. 20250607)
+    :return: Tuple (start_date, end_date, year) mit Datum im Format YYYYMMDD (int)
+    """
+    if start_override is not None and end_override is not None:
+        start_dt = datetime.strptime(str(start_override).zfill(8), "%Y%m%d")
+        end_dt = datetime.strptime(str(end_override).zfill(8), "%Y%m%d")
+        year = start_dt.year
+    elif year_override is not None and str(year_override).strip() != "":
+        year = int(str(year_override).strip())
+        start_dt = datetime(year, 1, 1)
+        end_dt = datetime(year, 12, 31)
+    else:
+        year = datetime.today().year - 1
+        start_dt = datetime(year, 1, 1)
+        end_dt = datetime(year, 12, 31)
+
+    start_date = int(start_dt.strftime("%Y%m%d"))
+    end_date = int(end_dt.strftime("%Y%m%d"))
+    return start_date, end_date, year
 
