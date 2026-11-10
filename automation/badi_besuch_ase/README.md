@@ -25,15 +25,24 @@ Das Skript [**`ase_api_call.py`**](ase_api_call.py) steuert den gesamten Ablauf:
 - `SUFFIX_TO_REMOVE`: Einige Bäder haben einen Suffix: " (Bis Mai 2026)". Das Sportamt ist sich nicht sicher, wieso der vorhanden ist und er soll entfernt werden.
 
 
-## Backfill: historischer Jahresdatensatz
+## Jahres-Akkumulator
 
-Zusätzlich zum Live-Feed (5-Tage-Fenster) kann ein historischer Datensatz für einen längeren Zeitraum (z.B. ein ganzes Jahr) erzeugt werden. Details zur Schnittstelle begrenzen den abfragbaren Lookback je nach Granularität (siehe `GRANULARITY_RANGE`). Um trotzdem ein ganzes Jahr in der gleichen Granularität (`FiveMinutes`) anbieten zu können, wird der Zeitraum in mehrere kleine Fenster zerlegt und nacheinander abgefragt ([`ase_year_backfill.py`](ase_year_backfill.py)).
+Zum Live-Feed (5-Tage-Fenster) steht ein **Jahres-Akkumulator** zur Verfügung: die Dateien mit dem laufenden Jahr werden regelmässig aktualisiert, indem die frischsten 5 Tage hintendran gehängt werden.
 
-- `BACKFILL_GRANULARITY`: Granularität des Backfills (Standard `FiveMinutes`).
-- Zielzeitraum: Beim direkten Skriptstart (`ase_year_backfill.py`) ist das Standard das gesamte **Vorjahr** (01.01. – 31.12.). Überschreibbar per Env-Var `BACKFILL_YEAR` (z.B. `2024`) für ein gesamtes Jahr, oder per `BACKFILL_START`/`BACKFILL_END` (YYYYMMDD, z.B. `20250601`/`20250607`) für ein beliebiges Zeitfenster. Lokal: auch per `BACKFILL_START_DATE`/`BACKFILL_END_DATE` in `ase_parameters.py` setzbar. Der Workflow (`update_badi_besuch_jahr.yml`) setzt `BACKFILL_YEAR` allerdings automatisch auf das **laufende Jahr** (überschreibbar über den `year`-Input), sodass der reguläre Ablauf einen Full-Snapshot 01.01. → heute erzeugt.
-- Ausgabe: In jedem Durchlauf werden **Parquet und CSV** des gleichen Dataframes geschrieben (`pyarrow` ist in `../automation-requirements.txt` vorhanden). Abschaltbar/steuerbar über `BACKFILL_WRITE_PARQUET`, `BACKFILL_WRITE_CSV` sowie `BACKFILL_PARQUET_NAME`, `BACKFILL_CSV_NAME` (jewils `Badi_Besuch_{jahr}.parquet`/`.csv`).
-- Der Datensatz wird als **zwei zusätzliche Ressourcen (Parquet + CSV) im gleichen CKAN-Datensatz** `ssd_spo_badi_besuch` hochgeladen (Struktur identisch, nur anderes Format).
-- Ausgelöst wird das über den Workflow [`update_badi_besuch_jahr.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_badi_besuch_jahr.yml). Der Workflow läuft automatisch **monatlich** (1. des Monats, 01:11 UTC) und erzeugt dabei standardmäßig einen Full-Snapshot des **laufenden Jahres**. Manuell per `workflow_dispatch` startbar, mit optionalem `year`-Override.
+- Der Ablauf ([`ase_ckan_year_accumulate.py`](ase_ckan_year_accumulate.py)) macht **keine Calls an die ASE-API**. Die frischen Daten werden aus der vom Live-Feed gepflegten 5-Tage-CSV im CKAN gezogen, der bisherige Akkumulator aus der Jahressource (Parquet).
+- Ablauf: beide Dateien aus CKAN laden → zusammenführen → Dubletten entfernen (`LocationId`, `LocationName`, `Datetime`) → auf das laufende Jahr filtern → als `Badi_Besuch_{jahr}.csv` + `Badi_Besuch_{jahr}.parquet` schreiben.
+- Ausgelöst wird das über den Workflow [`update_badi_besuch_jahr.yml`](https://github.com/opendatazurich/opendatazurich.github.io/blob/master/.github/workflows/update_badi_besuch_jahr.yml). Der Workflow läuft automatisch **täglich** (01:00 UTC) und hängt täglich ~1 neuen Tag an. Da stets 5 Tage im CKAN verfügbar sind, fallen ausgefallene Durchläufe nicht ins Gewicht.
+- Der Datensatz wird als **zwei zusätzliche Ressourcen (Parquet + CSV) im gleichen CKAN-Datensatz** `ssd_spo_badi_besuch` hochgeladen und dort überschrieben. Bei Jahreswechsel startet die neue Jahressource leer und wächst wieder von vorne; die alte bleibt als Archiv erhalten.
+- Manuell per `workflow_dispatch` startbar.
+
+
+## Backfill: direkter API-Zugriff (optional)
+
+Neben dem regulären Ablauf ist [**`ase_year_backfill.py`**](ase_year_backfill.py) als optionales Werkzeug **erhalten geblieben**. Es wird nicht über einen Workflow angestossen, kann aber manuell verwendet werden, wenn Daten **direkt aus der ASE-API** für einen bestimmten Zeitraum abgefragt werden sollen – z.B. für historische Lücken, die der Akkumulator nicht abdeckt, oder für beliebig wählbare Fenster.
+
+- Es holt die Datenfensterweise in der Granularität aus [`ase_parameters.py`](ase_parameters.py) (`GRANULARITY_RANGE`, Standard `FiveMinutes`) und schreibt Parquet + CSV.
+- Zielzeitraum steuerbar über Env-Variablen: `BACKFILL_YEAR` (gesamtes Jahr, z.B. `2024`), oder `BACKFILL_START`/`BACKFILL_END` (YYYYMMDD, z.B. `20250601`/`20250607`) für ein beliebiges Zeitfenster.
+- Ausgabe: `Badi_Besuch_{jahr}.csv` + `Badi_Besuch_{jahr}.parquet` neben dem Skript. Der Lauf macht API-Calls und ist deshalb nicht für die häufige, regelmässige Aktualisierung gedacht (dafür dient der [Jahres-Akkumulator](#jahres-akkumulator)).
 
 
 ```mermaid
