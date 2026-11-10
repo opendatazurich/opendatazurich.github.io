@@ -1,30 +1,14 @@
-name: Badi Besuch (ASE) — Jahres-Backfill
+name: Badi Besuch (ASE) — Jahres-Akkumulator
 
 on:
   schedule:
-    - cron: '11 0 1 * *' # 1. jedes Monats um 01:11 (UTC)
+    - cron: '6 1 * * *' # täglich um 01:06 (UTC)
   workflow_dispatch:
-    inputs:
-      year:
-        description: 'Zieljahr für den Backfill (leer = laufendes Jahr). Z.B. 2024'
-        required: false
-        default: ''
-        type: string
-      start:
-        description: 'Beliebiges Startdatum YYYYMMDD (z.B. 20250601). Leer = Vorjahr/Jahr'
-        required: false
-        default: ''
-        type: string
-      end:
-        description: 'Beliebiges Enddatum YYYYMMDD (z.B. 20250607). Leer = Vorjahr/Jahr'
-        required: false
-        default: ''
-        type: string
 
 jobs:
-  backfill_year:
+  accumulate_year:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 15
     environment: production
 
     steps:
@@ -43,23 +27,12 @@ jobs:
       env:
         UV_SYSTEM_PYTHON: 1
 
-    - name: Zieljahr bestimmen
-      id: yr
-      run: |
-        YEAR_INPUT="${{ github.event.inputs.year }}"
-        if [ -z "$YEAR_INPUT" ]; then
-          YEAR_INPUT=$(date +'%Y')
-        fi
-        echo "year=$YEAR_INPUT" >> "$GITHUB_OUTPUT"
-
-    - name: Backfill erzeugen
+    - name: Jahres-Akkumulator erzeugen (aus CKAN)
       env:
-        ASE_USERNAME: ${{ secrets.ASE_USERNAME }}
-        ASE_PASSWORD: ${{ secrets.ASE_PASSWORD }}
-        BACKFILL_YEAR: ${{ steps.yr.outputs.year }}
-        BACKFILL_START: ${{ github.event.inputs.start }}
-        BACKFILL_END: ${{ github.event.inputs.end }}
-      run: python automation/badi_besuch_ase/ase_year_backfill.py
+        CKAN_BASE_URL: ${{ secrets.CKAN_BASE_URL }}
+        CKAN_API_KEY: ${{ secrets.CKAN_API_KEY }}
+        SSL_VERIFY: ${{ secrets.SSL_VERIFY }}
+      run: python automation/badi_besuch_ase/ase_ckan_year_accumulate.py
 
     - name: Erzeugte Ressourcen bestimmen
       id: out
@@ -89,4 +62,4 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         format: markdown
         message: |
-          🔴 [Update Badi Besuch (ASE) Jahres-Backfill](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
+          🔴 [Update Badi Besuch (ASE) Jahres-Akkumulator](https://github.com/opendatazurich/opendatazurich.github.io/actions/runs/${{ github.run_id }}?check_suite_focus=true)
