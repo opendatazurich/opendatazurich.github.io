@@ -1,8 +1,9 @@
 name: Update Badi Aktuell (Crowd Monitor)
 
 on:
-  schedule:
-    - cron:  '3/5 * * * *' # every 5min
+  # deaktiviert, da scheduling hier über SSZ internes JS7 gemacht wird
+  # schedule:
+    # - cron:  '3/5 * * * *' # every 5min
   workflow_dispatch:
 
 
